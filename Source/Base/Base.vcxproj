@@ -10,6 +10,32 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\HashedString.cpp" />
+    <ClCompile Include="src\myString.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\BaseDefines.h" />
+    <ClInclude Include="Includes\Color.h" />
+    <ClInclude Include="Includes\HashedString.h" />
+    <ClInclude Include="Includes\Includes.h" />
+    <ClInclude Include="Includes\Macros.h" />
+    <ClInclude Include="Includes\MathIncludes.h" />
+    <ClInclude Include="Includes\myString.h" />
+    <ClInclude Include="Includes\NonCopyable.h" />
+    <ClInclude Include="Includes\Optional.h" />
+    <ClInclude Include="Includes\Structures.h" />
+    <ClInclude Include="Includes\typedef.h" />
+    <ClInclude Include="Includes\Vector2.h" />
+    <ClInclude Include="Includes\Vector3.h" />
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Includes\Vector2.inl" />
+    <None Include="Includes\Vector3.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{74220F22-9039-453B-81F0-44BEA935E6D9}</ProjectGuid>
     <RootNamespace>Base</RootNamespace>
@@ -97,33 +123,6 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Includes\BaseDefines.h" />
-    <ClInclude Include="Includes\Color.h" />
-    <ClInclude Include="Includes\HashedString.h" />
-    <ClInclude Include="Includes\Includes.h" />
-    <ClInclude Include="Includes\Macros.h" />
-    <ClInclude Include="Includes\MathIncludes.h" />
-    <ClInclude Include="Includes\myString.h" />
-    <ClInclude Include="Includes\NonCopyable.h" />
-    <ClInclude Include="Includes\Optional.h" />
-    <ClInclude Include="Includes\Singleton.h" />
-    <ClInclude Include="Includes\typedef.h" />
-    <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="Includes\Structures.h" />
-    <ClInclude Include="Includes\Vector2.h" />
-    <ClInclude Include="Includes\Vector3.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Color.cpp" />
-    <ClCompile Include="src\HashedString.cpp" />
-    <ClCompile Include="src\myString.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Includes\Vector2.inl" />
-    <None Include="Includes\Vector3.inl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
