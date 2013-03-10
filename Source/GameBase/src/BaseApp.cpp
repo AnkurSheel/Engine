@@ -44,7 +44,7 @@ cBaseApp::cBaseApp(const cString strName)
 void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 								 const cString & strOptionsFile)
 {
-	ILogger::GetInstance()->StartConsoleWin(80,60, "");
+	ILogger::GetInstance()->StartConsoleWin(80,60, "log.txt");
 	
 	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
 		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 

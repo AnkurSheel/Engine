@@ -85,7 +85,7 @@ shared_ptr<IResHandle> cResCache::Load(IResource & r)
 	int iSize = m_pFile->GetResourceSize(r);
 	if (iSize == 0)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find file in zip file");
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find file in zip file " + r.VGetFileName());
 		return shared_ptr<IResHandle>();
 	}
 	char * pBuffer = Allocate(iSize);

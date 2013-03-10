@@ -12,7 +12,7 @@
 
 #include "UtilitiesDefines.h"
 
-#define TEST
+//#define TEST
 
 //configure some basic precompilation defines
 //0 - no debugging wanted
