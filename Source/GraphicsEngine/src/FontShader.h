@@ -24,7 +24,7 @@ namespace Graphics
      ***********************************************/
 		struct PixelBufferType
 		{
-			D3DXVECTOR4 pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
+			XMFLOAT4 pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
 		};
 
 	public:
@@ -32,7 +32,7 @@ namespace Graphics
 
 	private:
 		~cFontShader();
-		void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
+		void VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
+			const XMFLOAT4X4 & inMatView, const XMFLOAT4X4 & inMatProjection);
 	};
 }

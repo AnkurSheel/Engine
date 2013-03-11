@@ -118,17 +118,12 @@ void cModel::VRender(const ICamera * const pCamera)
 void cModel::VRecalculateWorldMatrix(const cVector3 vPosition, const cVector3 vRotation,
 										const cVector3 vScale)
 {
-	D3DXMATRIX matRotation;
-	D3DXMatrixRotationYawPitchRoll(&matRotation, vRotation.y, vRotation.x,
-		vRotation.z);
+	XMMATRIX matRotation = XMMatrixRotationRollPitchYaw(vRotation.x, vRotation.y, vRotation.z);
+	XMMATRIX matScale = XMMatrixScaling(vScale.x, vScale.y, vScale.z);
+	XMMATRIX matPosition = XMMatrixTranslation(vPosition.x, vPosition.y, vPosition.z);
 
-	D3DXMATRIX matScale;
-	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
-
-	D3DXMATRIX matPosition;
-	D3DXMatrixTranslation(&matPosition, vPosition.x, vPosition.y, vPosition.z);
-
-	m_matWorld = matScale * matRotation * matPosition;
+	XMMATRIX matWorld = matScale * matRotation * matPosition;
+	XMStoreFloat4x4(&m_matWorld, matWorld);
 
 	if(m_pBoundingBox)
 		m_pBoundingBox->VTransform(m_matWorld);

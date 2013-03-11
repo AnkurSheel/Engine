@@ -54,8 +54,8 @@ bool cMyFont::VInitialize(const Base::cString & strFontDescFilename)
 }
 
 // *****************************************************************************
-void cMyFont::VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-					  const D3DXMATRIX & inMatProjection, const cColor & textColor)
+void cMyFont::VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+					  const XMFLOAT4X4 & inMatProjection, const cColor & textColor)
 {
 	if (m_pShader)
 	{

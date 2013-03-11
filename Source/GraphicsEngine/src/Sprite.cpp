@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Sprite   version:  1.0   Ankur Sheel  date: 05/09/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 
 #include "stdafx.h"
 #include "Sprite.h"
@@ -23,7 +23,7 @@ using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 
-// ***************************************************************
+// *****************************************************************************
 cSprite::cSprite()
 : m_pVertexBuffer(NULL)
 , m_pIndexBuffer(NULL)
@@ -35,13 +35,13 @@ cSprite::cSprite()
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 cSprite::~cSprite()
 {
 	VCleanup();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 {
 	m_pTexture = pTexture;
@@ -71,7 +71,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 {
 	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + strTextureFilename);
@@ -84,7 +84,7 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 	return VInitialize(m_pTexture);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cSprite::VRender(const ICamera * const pCamera)
 {
 	if (!m_pTexture)
@@ -111,8 +111,9 @@ void cSprite::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VTurnZBufferOff();
 	if (m_pShader)
 	{
-		D3DXMATRIX matView;
-		D3DXMatrixIdentity(&matView);
+		XMFLOAT4X4 matView;
+		XMStoreFloat4x4(&matView, XMMatrixIdentity());
+
 		m_pShader->VSetTexture(m_pTexture);
 		m_pShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
 			matView, IDXBase::GetInstance()->VGetOrthoMatrix());
@@ -120,40 +121,40 @@ void cSprite::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cSprite::VSetPosition( const Base::cVector2 & vPosition )
 {
 	m_vPosition = vPosition;
 	m_bIsDirty = true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cSprite::VSetSize( const Base::cVector2 & vSize )
 {
 	m_vSize = vSize;
 	m_bIsDirty = true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 cVector2 cSprite::VGetSize() const
 {
 	return m_vSize;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cSprite::VSetTexture(shared_ptr<ITexture> const pTexture)
 {
 	m_pTexture = pTexture;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cSprite::VCleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::CreateVertexBuffer()
 {
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
@@ -185,7 +186,7 @@ bool cSprite::CreateVertexBuffer()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::CreateIndexBuffer()
 {
 	unsigned long aIndices[] = {0,1,2,
@@ -218,7 +219,7 @@ bool cSprite::CreateIndexBuffer()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 {
 	//center of the screen is 0,0
@@ -261,14 +262,14 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cSprite::InitializeShader()
 {
 	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	return IShaderManager::GetInstance()->VGetShader(m_pShader, "Texture");
 }
 
-// ***************************************************************
+// *****************************************************************************
 shared_ptr<ISprite> ISprite::CreateSprite()
 {
 	return shared_ptr<ISprite> (DEBUG_NEW cSprite());

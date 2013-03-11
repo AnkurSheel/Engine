@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Camera   version:  1.0   Ankur Sheel  date: 2012/09/15
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Camera_h__
 #define Camera_h__
 #include "Camera.hxx"
@@ -29,7 +29,7 @@ namespace Graphics
 		void VUpdate();
 		Base::cVector3 VGetPosition() const;
 		void VSetPosition(const Base::cVector3 & vPosition);
-		const D3DXMATRIX & VGetViewMatrix() const;
+		const XMFLOAT4X4 & VGetViewMatrix() const;
 		void VSetRotation(const Base::cVector3 & vRotation);
 
 	private:
@@ -43,7 +43,7 @@ namespace Graphics
 	private:
 		Base::cVector3		m_vPosition;	/*!< The position of the camera */
 		Base::cVector3		m_vRotation;	/*!< The rotation of the camera */
-		D3DXMATRIX			m_matView;		/*!< The current view matrix */
+		XMFLOAT4X4			m_matView;		/*!< The current view matrix */
 		bool				m_bIsDirty;		/*!< True if the view matrix needs to be recalculated because of change in position or rotation*/
 	};
 }

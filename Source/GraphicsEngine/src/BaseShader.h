@@ -32,15 +32,15 @@ namespace Graphics
 		 ***********************************************/
 		struct MatrixBufferType
 		{
-			D3DXMATRIX world;			/*!< The world matrix. */
-			D3DXMATRIX view;			/*!< The view matrix. */
-			D3DXMATRIX projection;		/*!< The projection matrix. */
+			XMFLOAT4X4 world;			/*!< The world matrix. */
+			XMFLOAT4X4 view;			/*!< The view matrix. */
+			XMFLOAT4X4 projection;		/*!< The projection matrix. */
 		};
 
 	public:
 		void VSetTexture(shared_ptr<ITexture> pTexture);
-		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection);
+		void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+			const XMFLOAT4X4 & inMatProjection);
 
 	protected:
 		cBaseShader();
@@ -53,8 +53,8 @@ namespace Graphics
 		 *
 		 * Sets the world, view and projection matrix to be passed to the shader
 		 ***********************************************/
-		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
+		virtual void VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
+			const XMFLOAT4X4 & inMatView, const XMFLOAT4X4 & inMatProjection);
 		/********************************************//**
 		  *
 		  * Renders the shader

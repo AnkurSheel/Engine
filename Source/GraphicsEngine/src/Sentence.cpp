@@ -86,8 +86,10 @@ void cSentence::VRender(const ICamera * const pCamera)
 
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOff();
-	D3DXMATRIX matView;
-	D3DXMatrixIdentity(&matView);
+	
+	XMFLOAT4X4 matView;
+	XMStoreFloat4x4(&matView, XMMatrixIdentity());
+
 	m_pFont->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
 		matView, IDXBase::GetInstance()->VGetOrthoMatrix(), m_TextColor);
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);

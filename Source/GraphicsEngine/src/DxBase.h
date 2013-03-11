@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  DxBase   version:  1.0   Ankur Sheel  date: 04/29/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef DxBase_h__
 #define DxBase_h__
 
@@ -37,9 +37,9 @@ namespace Graphics
 		void VSetFullScreenMode(const bool bIsFullScreen);
 		ID3D11Device * VGetDevice() const;
 		ID3D11DeviceContext * VGetDeviceContext() const;
-		const D3DMATRIX & VGetWorldMatrix() const;
-		const D3DMATRIX & VGetProjectionMatrix() const;
-		const D3DMATRIX & VGetOrthoMatrix() const;
+		const XMFLOAT4X4 & VGetWorldMatrix() const;
+		const XMFLOAT4X4 & VGetProjectionMatrix() const;
+		const XMFLOAT4X4 & VGetOrthoMatrix() const;
 		int VGetScreenWidth() const;
 		int VGetScreenHeight() const;
 		/********************************************//**
@@ -152,9 +152,9 @@ namespace Graphics
 		ID3D11DepthStencilState *	m_p2DDepthStencilState;			/*!< The depth stencil state for 2D drawing */
 		ID3D11DepthStencilView *	m_pDepthStencilView;			/*!< The depth stencil view for the render target */
 		ID3D11RasterizerState *		m_pRasterState;					/*!< The rasterizer state give us control over how polygons are rendered. */
-		D3DXMATRIX					m_matProjection;				/*!< The projection matrix is used to translate the 3D scene into a 2D viewport space */
-		D3DXMATRIX					m_matWorld;						/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
-		D3DXMATRIX					m_matOrtho;						/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
+		XMFLOAT4X4					m_matProjection;				/*!< The projection matrix is used to translate the 3D scene into a 2D viewport space */
+		XMFLOAT4X4					m_matWorld;						/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
+		XMFLOAT4X4					m_matOrtho;						/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
 		float						m_afBackGroundcolor[4];			/*!< The components for the back */
 		int							m_iScreenWidth;					/*!< Screen width */
 		int							m_iScreenHeight;				/*!< Screen height */

@@ -41,8 +41,8 @@ namespace Graphics
 		 * Sets the shader parameters and then draws the model
 		 * using the HLSL shader
 		 ***********************************************/
-		virtual void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection) = 0;
+		virtual void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+			const XMFLOAT4X4 & inMatProjection) = 0;
 		/********************************************//**
  		 * @param[in] pTexture The texture to be used by the shader
 		 *

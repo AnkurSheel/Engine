@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  GraphicUtils   version:  1.0   Ankur Sheel  date: 2012/08/29
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "GraphicUtils.h"
 #include "DxBase.hxx"
@@ -17,18 +17,18 @@ using namespace Base;
 
 IGraphicUtils * cGraphicUtils::s_pGraphicUtils = NULL;
 
-// *****************************************************************************
+// *******************************************************************************************
 cGraphicUtils::cGraphicUtils()
 {
 
 }
-// *****************************************************************************
+// *******************************************************************************************
 cGraphicUtils::~cGraphicUtils()
 {
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 											const ICamera * const pCamera)
 {
@@ -38,15 +38,14 @@ cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	vViewSpace.y =  1 - ((2.0f * vScreenPos.y) / IDXBase::GetInstance()->VGetScreenHeight());
 	vViewSpace.z = 1.0f;
 
-	D3DXMATRIX matProjection = IDXBase::GetInstance()->VGetProjectionMatrix();
+	XMMATRIX matProjection = XMLoadFloat4x4(&(IDXBase::GetInstance()->VGetProjectionMatrix()));
 	vViewSpace.x = vViewSpace.x / matProjection._11;
 	vViewSpace.y = vViewSpace.y / matProjection._22;
 	vViewSpace.z = vViewSpace.z / matProjection._33;
 
 	// Get the inverse of the view matrix to get the world matrix.
-	D3DXMATRIX matView = pCamera->VGetViewMatrix();
-	D3DXMATRIX matWorld;
-	D3DXMatrixInverse(&matWorld, NULL, &matView);
+	XMMATRIX matView = XMLoadFloat4x4(&(pCamera->VGetViewMatrix()));
+	XMMATRIX matWorld = XMMatrixInverse(&XMMatrixDeterminant(matView), matView);
 
 	cVector3 vOrigin(matWorld._41, matWorld._42, matWorld._43);
 
@@ -59,7 +58,7 @@ cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 		+ (vViewSpace.z * matWorld._33);
 	direction.Normalize();
 
-	D3DXMATRIX matViewProjection = matView * matProjection;
+	XMMATRIX matViewProjection = matView * matProjection;
 
 	cVector3 vPlaneNormal(matViewProjection._13, matViewProjection._23, matViewProjection._33);
 	vPlaneNormal.Normalize();
@@ -76,7 +75,7 @@ cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	return cVector3::Zero();
 }
 
-// ***************************************************************
+// *****************************************************************************
 IGraphicUtils * IGraphicUtils::GetInstance()
 {
 	if(cGraphicUtils::s_pGraphicUtils == NULL)
@@ -84,7 +83,7 @@ IGraphicUtils * IGraphicUtils::GetInstance()
 	return cGraphicUtils::s_pGraphicUtils ;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void IGraphicUtils::Destroy()
 {
 	SAFE_DELETE(cGraphicUtils::s_pGraphicUtils);

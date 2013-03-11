@@ -87,10 +87,10 @@ bool cTextureShader::VInitialize(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-													const D3DXMATRIX & inMatView,
-													const D3DXMATRIX & inMatProjection)
-{
+void cTextureShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+											const XMFLOAT4X4 & inMatView,
+											const XMFLOAT4X4 & inMatProjection)
+	{
 	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	bool bHasTexture = false;
@@ -192,7 +192,7 @@ void cTextureShader::SetDiffuseColor(const Base::cColor colorDiffuse)
 {
 	float fRed, fBlue, fGreen, fAlpha;
 	colorDiffuse.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
-	m_DiffuseColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
+	m_DiffuseColor = XMFLOAT4(fRed, fBlue, fGreen, fAlpha);
 }
 
 // *****************************************************************************

@@ -41,7 +41,7 @@
 #include <dxgi.h>
 #include <d3dcommon.h>
 #include <d3d11.h>
-#include <d3dx10math.h>
+#include <xnamath.h>
 #include <DxErr.h>
 #include <D3DCompiler.h>
 #include "Logger.hxx"

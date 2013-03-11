@@ -1,12 +1,12 @@
-// *************************************************************************
+// *****************************************************************************
 //  BoundingBox   version:  1.0   Ankur Sheel  date: 2012/11/24
-//  ------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  ------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *************************************************************************
+// *****************************************************************************
 // 
-// *************************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "BoundingBox.h"
 #include "Vector2.h"
@@ -16,7 +16,7 @@
 using namespace Graphics;
 using namespace Base;
 
-// *************************************************************************
+// *****************************************************************************
 cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBound)
 : m_pAABB(NULL)
 {
@@ -32,13 +32,13 @@ cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBou
 	m_pAABB = DEBUG_NEW cAABB(vMinBound, vMaxBound);
 }
 
-// *************************************************************************
+// *****************************************************************************
 cBoundingBox::~cBoundingBox()
 {
 	SAFE_DELETE(m_pAABB);
 }
 
-// *****************************************************************************
+// *********************************************************************************
 const IAABB * const cBoundingBox::VGetAABB() const
 {
 	if(m_pAABB)
@@ -48,23 +48,28 @@ const IAABB * const cBoundingBox::VGetAABB() const
 	return NULL;
 }
 
-// *************************************************************************
-void cBoundingBox::VTransform(const D3DXMATRIX & matWorld)
+// *****************************************************************************
+void cBoundingBox::VTransform(const XMFLOAT4X4 & matWorld)
 {
-	D3DXVECTOR3 worldBounds[8];
-	D3DXVECTOR3 objectBounds[8];
+	XMVECTOR worldBounds[8];
+	XMVECTOR objectBounds[8];
+	XMFLOAT3 temp;
+
 	for( int i = 0; i < 8; i++ )
 	{
-		objectBounds[i] = D3DXVECTOR3(m_avObjectBounds[i].x, m_avObjectBounds[i].y,
-			m_avObjectBounds[i].z);
-		D3DXVec3TransformCoord( &worldBounds[i], &objectBounds[i], &matWorld );
-		m_avOBBBounds[i] = cVector3(worldBounds[i].x, worldBounds[i].y,
-			worldBounds[i].z);
-			}
+		temp = XMFLOAT3(m_avObjectBounds[i].x, m_avObjectBounds[i].y, m_avObjectBounds[i].z);
+		objectBounds[i] = XMLoadFloat3(&temp);
+	
+		worldBounds[i] = XMVector3TransformCoord(objectBounds[i], XMLoadFloat4x4(&matWorld));
+		XMStoreFloat3(&temp, worldBounds[i]);
+		
+		m_avOBBBounds[i] = cVector3(temp.x, temp.y, temp.z);
+	}
+
 	RecalculateAABBFromOBB();
 }
 
-// *************************************************************************
+// *****************************************************************************
 void cBoundingBox::RecalculateAABBFromOBB()
 {
 	cVector3 vMin = m_avOBBBounds[0];
@@ -85,7 +90,7 @@ void cBoundingBox::RecalculateAABBFromOBB()
 	m_pAABB->Calculate(vMin, vMax);
 }
 
-// *************************************************************************
+// *****************************************************************************
 IBoundingBox * IBoundingBox::CreateBoundingBox(const cVector3 & vMinBound,
 											   const cVector3 & vMaxBound)
 {

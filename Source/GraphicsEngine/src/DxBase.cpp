@@ -1,13 +1,12 @@
-
-// ***************************************************************
+// *****************************************************************************
 //  DxBase   version:  1.0   Ankur Sheel  date: 04/29/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "DxBase.h" 
 
@@ -17,7 +16,7 @@ using namespace Graphics;
 
 IDXBase * cDXBase::s_pDXBase = NULL;
 
-// ***************************************************************
+// *****************************************************************************
 Graphics::cDXBase::cDXBase()
 : m_bVsyncEnabled(false)
 , m_pSwapChain(NULL)
@@ -37,13 +36,13 @@ Graphics::cDXBase::cDXBase()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 Graphics::cDXBase::~cDXBase()
 {
 	Cleanup();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 										  const bool bFullScreen, const bool bVsyncEnabled,
 										  const int iWidth, const int iHeight,
@@ -69,12 +68,15 @@ void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkC
 	SetupViewPort(iWidth, iHeight);
 
 	SetupProjectionMatrix(iWidth, iHeight, fScreenNear, fScreenDepth);
-	D3DXMatrixIdentity(&m_matWorld);
-	D3DXMatrixOrthoLH(&m_matOrtho, (float)iWidth, (float)iHeight, fScreenNear, fScreenDepth);
+	XMStoreFloat4x4(&m_matWorld, XMMatrixIdentity());
+
+	XMMATRIX matOrtho = XMMatrixOrthographicLH((float)iWidth, (float)iHeight, fScreenNear, fScreenDepth);
+	XMStoreFloat4x4(&m_matOrtho, matOrtho);
+
 	VTurnOnAlphaBlending();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VBeginRender()
 {
 	// Clear the back buffer.
@@ -84,7 +86,7 @@ void Graphics::cDXBase::VBeginRender()
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VEndRender()
 {
 	// Present the back buffer to the screen since rendering is complete.
@@ -101,61 +103,61 @@ void Graphics::cDXBase::VEndRender()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 ID3D11Device * Graphics::cDXBase::VGetDevice() const
 {
 	return m_pDevice;
 }
 
-// ***************************************************************
+// *****************************************************************************
 ID3D11DeviceContext * Graphics::cDXBase::VGetDeviceContext() const
 {
 	return m_pDeviceContext;
 }
 
-// ***************************************************************
-const D3DMATRIX & Graphics::cDXBase::VGetWorldMatrix() const
+// *****************************************************************************
+const XMFLOAT4X4 & Graphics::cDXBase::VGetWorldMatrix() const
 {
 	return m_matWorld;
 }
 
-// ***************************************************************
-const D3DMATRIX & Graphics::cDXBase::VGetProjectionMatrix() const
+// *****************************************************************************
+const XMFLOAT4X4 & Graphics::cDXBase::VGetProjectionMatrix() const
 {
 	return m_matProjection;
 }
 
-// ***************************************************************
-const D3DMATRIX & Graphics::cDXBase::VGetOrthoMatrix() const
+// *****************************************************************************
+const XMFLOAT4X4 & Graphics::cDXBase::VGetOrthoMatrix() const
 {
 	return m_matOrtho;
 }
 
-// ***************************************************************
+// *****************************************************************************
 int Graphics::cDXBase::VGetScreenWidth() const
 {
 	return m_iScreenWidth;
 }
 
-// ***************************************************************
+// *****************************************************************************
 int Graphics::cDXBase::VGetScreenHeight() const
 {
 	return m_iScreenHeight;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VTurnZBufferOn()
 {
 	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VTurnZBufferOff()
 {
 	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VTurnOnAlphaBlending()
 {
 	float blendFactor[4];
@@ -169,7 +171,7 @@ void Graphics::cDXBase::VTurnOnAlphaBlending()
 	m_pDeviceContext->OMSetBlendState(m_pAlphaEnableBlendingState, blendFactor, 0xffffffff);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::VTurnOffAlphaBlending()
 {
 	float blendFactor[4];
@@ -183,7 +185,7 @@ void Graphics::cDXBase::VTurnOffAlphaBlending()
 	m_pDeviceContext->OMSetBlendState(m_pAlphaDisableBlendingState, blendFactor, 0xffffffff);
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void Graphics::cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
 {
 	if (m_pSwapChain)
@@ -192,7 +194,7 @@ void Graphics::cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
 										   const int iHeight, const HWND & hWnd,
 										   const bool bFullScreen )
@@ -220,7 +222,7 @@ bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 									 const HWND & hWnd, const bool bFullScreen )
 {
@@ -254,7 +256,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 
 	unsigned int iCreationFlags = 0;
 #ifdef _DEBUG
-	iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	//iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 	D3D_DRIVER_TYPE driverTypes[] =
@@ -276,7 +278,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 	}
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the  swap chain, Direct3D device, and Direct3D device context : ") 
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the swap chain, Direct3D device, and Direct3D device context : ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -288,7 +290,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
 {
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
@@ -327,7 +329,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
 {
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
@@ -366,7 +368,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::CreateDepthStencilView()
 {
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
@@ -386,7 +388,7 @@ bool Graphics::cDXBase::CreateDepthStencilView()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::CreateBlendStates()
 {
 	D3D11_BLEND_DESC blendStateDescription;
@@ -423,7 +425,7 @@ bool Graphics::cDXBase::CreateBlendStates()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::SetupRasterStates()
 {
 	D3D11_RASTERIZER_DESC rasterDesc;
@@ -451,7 +453,7 @@ bool Graphics::cDXBase::SetupRasterStates()
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 {
 	D3D11_VIEWPORT viewport;
@@ -467,7 +469,7 @@ void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 	m_pDeviceContext->RSSetViewports(1, &viewport);
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 {
 	HRESULT result;
@@ -545,7 +547,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 {
 	ID3D11Texture2D * pbackBufferTexture = NULL;
@@ -574,7 +576,7 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 	return bSuccess;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
 {
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
@@ -604,17 +606,18 @@ bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iH
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth )
 {
-	float fFieldOfView= (float)D3DX_PI / 4.0f;
+	float fFieldOfView= (float)Pi / 4.0f;
 	float fScreenAspect = (float)iWidth / (float)iHeight;
 
 	// Create the projection matrix for 3D rendering.
-	D3DXMatrixPerspectiveFovLH(&m_matProjection, fFieldOfView, fScreenAspect, fScreenNear, fScreenDepth);
+	XMMATRIX matProjection = XMMatrixPerspectiveFovLH(fFieldOfView, fScreenAspect, fScreenNear, fScreenDepth);
+	XMStoreFloat4x4(&m_matProjection, matProjection);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::cDXBase::Cleanup()
 {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
@@ -634,7 +637,7 @@ void Graphics::cDXBase::Cleanup()
 	SAFE_RELEASE(m_pSwapChain);
 }
 
-// ***************************************************************
+// *****************************************************************************
 Graphics::IDXBase * Graphics::IDXBase::GetInstance()
 {
 	if (cDXBase::s_pDXBase == NULL)
@@ -642,7 +645,7 @@ Graphics::IDXBase * Graphics::IDXBase::GetInstance()
 	return cDXBase::s_pDXBase ;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void Graphics::IDXBase::Destroy()
 {
 	SAFE_DELETE(cDXBase::s_pDXBase);

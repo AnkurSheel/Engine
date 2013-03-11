@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Camera   version:  1.0   Ankur Sheel  date: 2012/09/15
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Camera.h"
 #include "GraphicUtils.h"
@@ -14,7 +14,7 @@
 using namespace Graphics;
 using namespace Base;
 
-// ***************************************************************
+// *****************************************************************************
 cCamera::cCamera()
 : m_vPosition(cVector3::Zero())
 , m_vRotation(cVector3::Zero())
@@ -22,7 +22,7 @@ cCamera::cCamera()
 	CalculateViewMatrix();
 }
 
-// ***************************************************************
+// *****************************************************************************
 cCamera::~cCamera()
 {
 
@@ -38,13 +38,13 @@ void cCamera::VUpdate()
 	}
 }
 
-// *************************************************************************
+// *****************************************************************************
 cVector3 cCamera::VGetPosition() const
 {
 	return m_vPosition;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cCamera::VSetPosition( const cVector3 & vPosition )
 {
 	if (m_vPosition != vPosition)
@@ -54,7 +54,7 @@ void cCamera::VSetPosition( const cVector3 & vPosition )
 	}	
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cCamera::VSetRotation( const cVector3 & vRotation )
 {
 	if (m_vRotation != vRotation)
@@ -64,12 +64,13 @@ void cCamera::VSetRotation( const cVector3 & vRotation )
 	}	
 }
 
-const D3DXMATRIX & cCamera::VGetViewMatrix() const 
+// *****************************************************************************
+const XMFLOAT4X4 & cCamera::VGetViewMatrix() const 
 { 
 	return m_matView; 
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cCamera::CalculateViewMatrix()
 {
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
@@ -77,30 +78,27 @@ void cCamera::CalculateViewMatrix()
 	float fYaw   = DegtoRad(m_vRotation.y);
 	float fRoll  = DegtoRad(m_vRotation.z);
 
-	D3DXMATRIX matRotation;
+	XMMATRIX matRotation = XMMatrixRotationRollPitchYaw(fPitch, fYaw, fRoll);
 
-	D3DXMatrixRotationYawPitchRoll(&matRotation, fYaw, fPitch, fRoll);
+	XMFLOAT3 temp(0.0f, 0.0f, 1.0f);
+	XMVECTOR vLookAt = XMLoadFloat3(&temp);
 
-	D3DXVECTOR3 vLookAt;
-	vLookAt.x = 0.0f;
-	vLookAt.y = 0.0f;
-	vLookAt.z = 1.0f;
+	vLookAt = XMVector3TransformCoord(vLookAt, matRotation);
 
-	D3DXVec3TransformCoord(&vLookAt, &vLookAt, &matRotation);
+	temp = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	XMVECTOR up = XMLoadFloat3(&temp);
 
-	D3DXVECTOR3 up;
-	up.x = 0.0f;
-	up.y = 1.0f;
-	up.z = 0.0f;
-	D3DXVec3TransformCoord(&up, &up, &matRotation);
+	up = XMVector3TransformCoord(up, matRotation);
 
-	D3DXVECTOR3 vPosition(m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	temp = XMFLOAT3(m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	XMVECTOR vPosition = XMLoadFloat3(&temp);
 	vLookAt = vPosition + vLookAt;
 
 	// Finally create the view matrix from the three updated vectors.
-	D3DXMatrixLookAtLH(&m_matView, &vPosition, &vLookAt, &up);
+	XMMATRIX matView = XMMatrixLookAtLH(vPosition, vLookAt, up);
+	XMStoreFloat4x4(&m_matView , matView);
 }
-// ***************************************************************
+// *****************************************************************************
 ICamera * ICamera::CreateCamera()
 {
 	return DEBUG_NEW cCamera();

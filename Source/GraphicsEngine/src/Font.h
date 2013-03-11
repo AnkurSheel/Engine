@@ -39,8 +39,8 @@ namespace Graphics
 	private:
 		~cMyFont() ;
 		bool VInitialize(const Base::cString & strFontDescFilename);
-		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor);
+		void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+			const XMFLOAT4X4 & inMatProjection, const Base::cColor & textColor);
 		stVertexData VGetCharVertexData(const int iCharAsciiValue);
 		int VGetFontHeight() const ;
 		/********************************************//**

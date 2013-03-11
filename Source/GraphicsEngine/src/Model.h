@@ -79,7 +79,7 @@ namespace Graphics
 		UINT							m_iVertexSize;				/*!< The size of the vertex structure */
 		shared_ptr<cTextureShader>		m_pShader;					/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		std::vector<stObjectSubset>		m_vSubsets;					/*!< Vector of subsets of the model. */
-		D3DXMATRIX						m_matWorld;				/*!< The transform Matrix of the model */
+		XMFLOAT4X4						m_matWorld;				/*!< The transform Matrix of the model */
 		IBoundingBox *					m_pBoundingBox;				/*!< The bounding box of the model */
 		Base::cVector3					m_vBoundingSphereCentre;	/*!< The centre for bounding sphere of model */
 		float							m_fBoundingSphereRadius;	/*!< The radius of the bounding sphere of model */

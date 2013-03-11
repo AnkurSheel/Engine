@@ -70,9 +70,9 @@ bool cBaseShader::VInitialize(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
-									 const D3DXMATRIX & inMatView,
-									 const D3DXMATRIX & inMatProjection)
+void cBaseShader::VRender(const XMFLOAT4X4 & inMatWorld,
+							const XMFLOAT4X4 & inMatView,
+							const XMFLOAT4X4 & inMatProjection)
 {	
 	VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
 
@@ -137,17 +137,13 @@ bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-												 const D3DXMATRIX & inMatView,
-												 const D3DXMATRIX & inMatProjection)
+void cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+										const XMFLOAT4X4 & inMatView,
+										const XMFLOAT4X4 & inMatProjection)
 {
-	D3DXMATRIX matWorld;
-	D3DXMATRIX matView;
-	D3DXMATRIX matProjection;
-
-	D3DXMatrixTranspose(&matWorld, &inMatWorld);
-	D3DXMatrixTranspose(&matView, &inMatView);
-	D3DXMatrixTranspose(&matProjection, &inMatProjection);
+	XMMATRIX matWorld = XMMatrixTranspose(XMLoadFloat4x4(&inMatWorld));
+	XMMATRIX matView = XMMatrixTranspose(XMLoadFloat4x4(&inMatView));
+	XMMATRIX matProjection = XMMatrixTranspose(XMLoadFloat4x4(&inMatProjection));
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pMatrixBuffer,
@@ -163,9 +159,10 @@ void cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 	MatrixBufferType * pMatrixData = (MatrixBufferType*)mappedResource.pData;
 
 	// Copy the matrices into the constant buffer.
-	pMatrixData->world = matWorld;
-	pMatrixData->view = matView;
-	pMatrixData->projection = matProjection;
+	
+	XMStoreFloat4x4(&pMatrixData->world, matWorld);
+	XMStoreFloat4x4(&pMatrixData->view, matView);
+	XMStoreFloat4x4(&pMatrixData->projection, matProjection);
 
 	// Unlock the constant buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pMatrixBuffer, 0);

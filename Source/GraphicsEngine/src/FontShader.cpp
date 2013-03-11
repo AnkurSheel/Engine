@@ -28,9 +28,9 @@ cFontShader::~cFontShader()
 }
 
 // *****************************************************************************
-void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
-									   const D3DXMATRIX & inMatView,
-									   const D3DXMATRIX & inMatProjection)
+void cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+									   const XMFLOAT4X4 & inMatView,
+									   const XMFLOAT4X4 & inMatProjection)
 {
 	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
 	if(m_pTexture)

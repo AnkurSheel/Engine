@@ -83,8 +83,8 @@ namespace Graphics
 		 * Sets the shader parameters and then draws the model
 		 * using the HLSL shader
 		 ***********************************************/
-		virtual void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor) = 0;
+		virtual void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+			const XMFLOAT4X4 & inMatProjection, const Base::cColor & textColor) = 0;
 		/********************************************//**
  		 * @param[in] iCharAsciiValue The ascii value of the character
 		 * @return The vertex data
