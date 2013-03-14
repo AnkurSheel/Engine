@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\GameDirectories.cpp" />
+    <ClCompile Include="src\Checks.cpp" />
+    <ClCompile Include="src\RandomGenerator.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\FileInput.cpp">
+      <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileOutput.cpp">
+      <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParamLoader.cpp">
+      <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLFileIO.cpp">
+      <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ZipFile.cpp">
+      <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResCache.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timer.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logger.cpp">
+      <Filter>Debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Process.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProcessManager.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\GameDirectories.h" />
+    <ClInclude Include="src\Checks.h" />
+    <ClInclude Include="Includes\Checks.hxx" />
+    <ClInclude Include="src\RandomGenerator.h" />
+    <ClInclude Include="Includes\RandomGenerator.hxx" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="Includes\UtilitiesDefines.h" />
+    <ClInclude Include="Includes\FileOutput.hxx">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileInput.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\FileInput.hxx">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileOutput.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ParamLoaders.hxx">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParamLoader.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XMLFileIO.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\XMLFileIO.hxx">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ZipFile.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ZipFile.hxx">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Resources.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResCache.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ResCache.hxx">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManager.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ResourceManager.hxx">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Timer.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Timer.hxx">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Logger.hxx">
+      <Filter>Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Logger.h">
+      <Filter>Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ProcessManager.hxx">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Process.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProcessManager.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Checks.inl" />
+    <None Include="src\Zipfile.inl">
+      <Filter>FileIO</Filter>
+    </None>
+    <None Include="src\Timer.inl">
+      <Filter>Timer</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="FileIO">
+      <UniqueIdentifier>{96ee2d34-c0df-457a-8713-4735e8713afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{2cc841e8-fd8f-4936-b9bb-f18920e66dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{b45352e6-d8cf-43f5-be18-ec596d9813fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging">
+      <UniqueIdentifier>{e927f1dc-9913-4649-9901-eab379b00b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{e7122dcf-344c-455e-850c-d78e513824b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

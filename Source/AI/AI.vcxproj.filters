@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\FuzzyLogic\FuzzyModule.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyOperators.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyRule.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySet.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySetProxy.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySetTypes.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyTerm.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyVariable.cpp">
+      <Filter>FuzzyModule</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AIDefines.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\FuzzyLogic\FuzzyVariable.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyModule.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyOperators.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyRule.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySet.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySetProxy.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySetTypes.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyTerm.h">
+      <Filter>FuzzyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FSM\State.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FSM\StateMachine.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FSM\Telegram.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\FSM\Statemachine.inl">
+      <Filter>StateMachine</Filter>
+    </None>
+    <None Include="src\FSM\State.inl">
+      <Filter>StateMachine</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="FuzzyModule">
+      <UniqueIdentifier>{61a7b171-2fdc-4faa-a920-6dd2a769fb0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{7522c920-676a-4bb9-9a78-10fc719f7dbc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
