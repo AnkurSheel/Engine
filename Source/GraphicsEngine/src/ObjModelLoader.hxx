@@ -13,6 +13,7 @@
 namespace Graphics
 {
 	class IModel;
+	struct stModelDef;
 }
 
 namespace Graphics
@@ -26,11 +27,13 @@ namespace Graphics
 		virtual ~IObjModelLoader(){}
 		/********************************************//**
  		 * @param[in] strModelFile The path of the model file
-		 * @param[out] pModel The model
+		 * @return The model
 		 *
-		 * Parses the strModelFile and loads the model in pModel
+		 * Loads and creates the model definition if it has not been created already.
+		 * Adds the model definition to the map.
+		 * Returns a pointer to the modeldef
 		 ***********************************************/
-		virtual void VLoadModelFromFile(const Base::cString & strModelFile, IModel * pModel) = 0;
+		virtual shared_ptr<stModelDef> VGetModelDef(const Base::cString & strModelFile) = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

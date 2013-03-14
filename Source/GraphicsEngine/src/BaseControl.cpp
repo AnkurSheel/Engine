@@ -249,7 +249,9 @@ void cBaseControl::VSetText(const Base::cString & strText)
 bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(AllowMovingControl() && m_bIsLeftMouseDown)
+	{
 		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
+	}
 
 	m_bIsLeftMouseDown = false;
 	return true;

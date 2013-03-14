@@ -158,7 +158,6 @@
     <ClInclude Include="Includes\KeyboardHandler.hxx" />
     <ClInclude Include="Includes\Model.hxx" />
     <ClInclude Include="Includes\MouseHandler.hxx" />
-    <ClInclude Include="Includes\ObjModelLoader.hxx" />
     <ClInclude Include="Includes\ScreenElement.hxx" />
     <ClInclude Include="Includes\Sentence.hxx" />
     <ClInclude Include="Includes\Sprite.hxx" />
@@ -186,6 +185,7 @@
     <ClInclude Include="src\LabelControl.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ObjModelLoader.h" />
+    <ClInclude Include="src\ObjModelLoader.hxx" />
     <ClInclude Include="src\ScrollBarControl.h" />
     <ClInclude Include="src\Sentence.h" />
     <ClInclude Include="src\Shader.hxx" />

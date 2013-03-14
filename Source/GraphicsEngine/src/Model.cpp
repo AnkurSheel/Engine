@@ -43,33 +43,33 @@ cModel::~cModel()
 }
 
 // *****************************************************************************
-bool cModel::VOnInitialization(const stModelDef & def)
+bool cModel::OnInitialization(shared_ptr<const stModelDef> pModeldef)
 {
-	m_iVertexCount = def.iNumberOfVertices;
-	m_iIndexCount = def.iNumberOfIndices;
+	m_iVertexCount = pModeldef->iNumberOfVertices;
+	m_iIndexCount = pModeldef->iNumberOfIndices;
 	m_iVertexSize = sizeof(stTexVertex);
 
-	if(!CreateVertexBuffer(def.pVertices))
+	if(!CreateVertexBuffer(pModeldef->pVertices))
 		return false;
 
-	if(!CreateIndexBuffer(def.pIndices))
+	if(!CreateIndexBuffer(pModeldef->pIndices))
 		return false;
 
-	for (unsigned int i=0; i<def.vSubsetsDef.size(); i++)
+	for (unsigned int i=0; i<pModeldef->vSubsetsDef.size(); i++)
 	{
 		stObjectSubset subset;
-		subset.m_iIndexCountInSubset = def.vSubsetsDef[i].iNumberOfIndicesinSubset;
-		subset.m_diffuseColor = def.vSubsetsDef[i].diffuseColor;
-		subset.m_iStartIndexNo = def.vSubsetsDef[i].iStartIndexNo;
-		if(!def.vSubsetsDef[i].strDiffuseTextureFilename.IsEmpty())
+		subset.m_iIndexCountInSubset = pModeldef->vSubsetsDef[i].iNumberOfIndicesinSubset;
+		subset.m_diffuseColor = pModeldef->vSubsetsDef[i].diffuseColor;
+		subset.m_iStartIndexNo = pModeldef->vSubsetsDef[i].iStartIndexNo;
+		if(!pModeldef->vSubsetsDef[i].strDiffuseTextureFilename.IsEmpty())
 		{
-			subset.m_pTexture = ITextureManager::GetInstance()->VGetTexture(def.vSubsetsDef[i].strDiffuseTextureFilename);
+			subset.m_pTexture = ITextureManager::GetInstance()->VGetTexture(pModeldef->vSubsetsDef[i].strDiffuseTextureFilename);
 		}
 		
 		m_vSubsets.push_back(subset);
 	}
 
-	m_pBoundingBox = IBoundingBox::CreateBoundingBox(def.vBoundingBoxMinPos, def.vBoundingBoxMaxPos);
+	m_pBoundingBox = IBoundingBox::CreateBoundingBox(pModeldef->vBoundingBoxMinPos, pModeldef->vBoundingBoxMaxPos);
 	/*	float distX = (vMaxAABB.m_dX - m_vAABBMin.m_dX) / 2.0f;
 	float distY = (vMaxAABB.m_dY - m_vAABBMin.m_dY) / 2.0f;
 	float distZ = (vMaxAABB.m_dZ - m_vAABBMin.m_dZ) / 2.0f;
@@ -203,8 +203,10 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 }
 
 // *****************************************************************************
-IModel * IModel::CreateModel()
+IModel * IModel::CreateModel(const cString & strModelFile)
 {
-	IModel * pModel= DEBUG_NEW cModel();
+	shared_ptr<stModelDef> pModelDef(IObjModelLoader::GetInstance()->VGetModelDef(strModelFile));
+	cModel * pModel = DEBUG_NEW cModel();
+	pModel->OnInitialization(pModelDef);
 	return pModel;
 }

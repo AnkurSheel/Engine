@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DxBase.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\GraphicsClass.cpp" />
+    <ClCompile Include="src\GraphicUtils.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\ObjModelLoader.cpp" />
+    <ClCompile Include="src\Sentence.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\VertexStruct.cpp" />
+    <ClCompile Include="src\BaseControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AABB.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoundingBox.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ButtonControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CheckBoxControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionChecker.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ColorShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FontManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FontShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HScrollBar.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LabelControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScrollBarControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextBoxControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VScrollBar.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowControl.cpp">
+      <Filter>UiControls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\Camera.hxx" />
+    <ClInclude Include="Includes\GraphicEngineDefines.h" />
+    <ClInclude Include="Includes\GraphicsClass.hxx" />
+    <ClInclude Include="Includes\GraphicUtils.hxx" />
+    <ClInclude Include="Includes\KeyboardHandler.hxx" />
+    <ClInclude Include="Includes\Model.hxx" />
+    <ClInclude Include="Includes\MouseHandler.hxx" />
+    <ClInclude Include="Includes\ScreenElement.hxx" />
+    <ClInclude Include="Includes\Sentence.hxx" />
+    <ClInclude Include="Includes\Sprite.hxx" />
+    <ClInclude Include="Includes\vertexstruct.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\DxBase.h" />
+    <ClInclude Include="src\DxBase.hxx" />
+    <ClInclude Include="src\Font.h" />
+    <ClInclude Include="src\Font.hxx" />
+    <ClInclude Include="src\GraphicsClass.h" />
+    <ClInclude Include="src\GraphicUtils.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\ObjModelLoader.h" />
+    <ClInclude Include="src\Sentence.h" />
+    <ClInclude Include="src\Sprite.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Texture.hxx" />
+    <ClInclude Include="Includes\BaseControl.hxx">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingBox.hxx">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AABB.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\AABB.hxx">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingBox.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ButtonControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CheckBoxControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\CollisionChecker.hxx">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CollisionChecker.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ColorShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ControlStructures.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontManager.hxx">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HScrollBar.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LabelControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScrollBarControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.hxx">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderManager.hxx">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextBoxControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureManager.hxx">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VScrollBar.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowControl.h">
+      <Filter>UiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjModelLoader.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UiControls">
+      <UniqueIdentifier>{481fe567-9f3c-4b46-8d57-f4c19abb16cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{8f4fcfb2-e023-47f5-b0a1-6f476b5d2fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{16c78a92-daee-4f67-a311-bf7b63ed56a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{1b1d5dde-be6b-4124-a2a6-0493a27001cd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\WindowControl.inl">
+      <Filter>UiControls</Filter>
+    </None>
+  </ItemGroup>
+</Project>

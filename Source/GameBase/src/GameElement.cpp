@@ -9,7 +9,6 @@
 // *****************************************************************************
 #include "stdafx.h"
 #include "GameElement.h"
-#include "ObjModelLoader.hxx"
 #include "Model.hxx"
 #include "Vector3.h"
 #include "BaseApp.h"
@@ -41,8 +40,7 @@ void cGameElement::VInitialize(const cGameElementDef & def)
 {
 	if (!def.strModelName.IsEmpty())
 	{
-		m_pModel = IModel::CreateModel();
-		IObjModelLoader::GetInstance()->VLoadModelFromFile(def.strModelName, m_pModel);
+		m_pModel = IModel::CreateModel(def.strModelName);
 		SetPosition(def.vPosition);
 		SetScale(def.vScale);
 		SetRotation(def.vRotation);

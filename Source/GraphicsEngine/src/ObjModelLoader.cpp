@@ -28,16 +28,34 @@ IObjModelLoader * cObjModelLoader::s_pModelLoader = NULL;
 // *****************************************************************************
 cObjModelLoader::cObjModelLoader()
 {
-
 }
 
 // *****************************************************************************
 cObjModelLoader::~cObjModelLoader()
 {
+	Cleanup();
 }
 
 // *****************************************************************************
-void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * pModel)
+shared_ptr<stModelDef> cObjModelLoader::VGetModelDef(const Base::cString & strModelFile)
+{
+	unsigned long hash = cHashedString::CalculateHash(strModelFile);
+	shared_ptr<stModelDef> ptr = Find(hash);
+
+	if(ptr == NULL)
+	{
+		ptr = LoadModelDef(strModelFile);
+		m_pModelDefMap[hash] = ptr;
+	}
+	else
+	{
+		Log_Write_L2(ILogger::LT_COMMENT, "Model def already loaded: " + strModelFile);
+	}
+	return ptr;
+}
+
+// *****************************************************************************
+shared_ptr<stModelDef> cObjModelLoader::LoadModelDef(const cString & strModelFile)
 {
 	//shared_ptr<IFileInput> pObjFile = shared_ptr<IFileInput>(IFileInput::CreateInputFile());
 	
@@ -51,7 +69,7 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 	std::vector<cString>::const_iterator iter;
 
 	vector<cString> vtokens;
-	stModelDef def;
+	shared_ptr<stModelDef> pDef(DEBUG_NEW stModelDef());
 	int iCurrentVertexNo = 0;
 	int iCurrentIndexNo = 0;
 	int iCurrentSubsetNumber = -1;
@@ -68,76 +86,74 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 				// vertex Count
 				if (vtokens[0] == "VertexCount")
 				{
-					def.iNumberOfVertices = GetIntValue(vtokens[1]);
-					stTexVertex * pVertices = DEBUG_NEW stTexVertex[def.iNumberOfVertices];
-					def.pVertices = pVertices;
+					pDef->iNumberOfVertices = GetIntValue(vtokens[1]);
+					pDef->pVertices = DEBUG_NEW stTexVertex[pDef->iNumberOfVertices];
 				}
 				//vertex data
 				else if(vtokens[0] == "v")
 				{
-					def.pVertices[iCurrentVertexNo].m_fX = GetFloatValue(vtokens[1]);
-					def.pVertices[iCurrentVertexNo].m_fY = GetFloatValue(vtokens[2]);
-					def.pVertices[iCurrentVertexNo].m_fZ = GetFloatValue(vtokens[3]);
-					def.pVertices[iCurrentVertexNo].m_fTex0 = GetFloatValue(vtokens[4]);
-					def.pVertices[iCurrentVertexNo].m_fTex1 = GetFloatValue(vtokens[5]);
+					pDef->pVertices[iCurrentVertexNo].m_fX = GetFloatValue(vtokens[1]);
+					pDef->pVertices[iCurrentVertexNo].m_fY = GetFloatValue(vtokens[2]);
+					pDef->pVertices[iCurrentVertexNo].m_fZ = GetFloatValue(vtokens[3]);
+					pDef->pVertices[iCurrentVertexNo].m_fTex0 = GetFloatValue(vtokens[4]);
+					pDef->pVertices[iCurrentVertexNo].m_fTex1 = GetFloatValue(vtokens[5]);
 					iCurrentVertexNo++;
 				}
 				// total index Count
 				else if (vtokens[0] == "TotalIndexCount")
 				{
-					def.iNumberOfIndices = GetIntValue(vtokens[1]);
-					unsigned long * pIndices = DEBUG_NEW unsigned long[def.iNumberOfIndices];
-					def.pIndices = pIndices;
+					pDef->iNumberOfIndices = GetIntValue(vtokens[1]);
+					pDef->pIndices = DEBUG_NEW unsigned long[pDef->iNumberOfIndices];
 				}
 				// faces/triangles
 				else if (vtokens[0] == "t")
 				{
-					def.pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[1]);
-					def.pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[2]);
-					def.pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[3]);
+					pDef->pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[1]);
+					pDef->pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[2]);
+					pDef->pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[3]);
 				}
 				// min pos of Bounding Box
 				else if(vtokens[0] == "BBMin")
 				{
-					def.vBoundingBoxMinPos.x = GetFloatValue(vtokens[1]);
-					def.vBoundingBoxMinPos.y = GetFloatValue(vtokens[2]);
-					def.vBoundingBoxMinPos.z = GetFloatValue(vtokens[3]);
+					pDef->vBoundingBoxMinPos.x = GetFloatValue(vtokens[1]);
+					pDef->vBoundingBoxMinPos.y = GetFloatValue(vtokens[2]);
+					pDef->vBoundingBoxMinPos.z = GetFloatValue(vtokens[3]);
 				}
 				// max pos of Bounding Box
 				else if(vtokens[0] == "BBMax")
 				{
-					def.vBoundingBoxMaxPos.x = GetFloatValue(vtokens[1]);
-					def.vBoundingBoxMaxPos.y = GetFloatValue(vtokens[2]);
-					def.vBoundingBoxMaxPos.z = GetFloatValue(vtokens[3]);
+					pDef->vBoundingBoxMaxPos.x = GetFloatValue(vtokens[1]);
+					pDef->vBoundingBoxMaxPos.y = GetFloatValue(vtokens[2]);
+					pDef->vBoundingBoxMaxPos.z = GetFloatValue(vtokens[3]);
 				}
 				// new subset
 				else if(vtokens[0] == "Subset")
 				{
 					stModelDef::stSubsetDef subset;
-					def.vSubsetsDef.push_back(subset);
+					pDef->vSubsetsDef.push_back(subset);
 					iCurrentSubsetNumber++;
 				}
 				else if(vtokens[0] == "startindex")
 				{
-					def.vSubsetsDef[iCurrentSubsetNumber].iStartIndexNo = GetIntValue(vtokens[1]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].iStartIndexNo = GetIntValue(vtokens[1]);
 				}
 				else if(vtokens[0] == "indexcount")
 				{
-					def.vSubsetsDef[iCurrentSubsetNumber].iNumberOfIndicesinSubset = GetIntValue(vtokens[1]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].iNumberOfIndicesinSubset = GetIntValue(vtokens[1]);
 				}
 				// min pos of subset Bounding Box
 				else if(vtokens[0] == "SBBMin")
 				{
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.x = GetFloatValue(vtokens[1]);
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.y = GetFloatValue(vtokens[2]);
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.z = GetFloatValue(vtokens[3]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.x = GetFloatValue(vtokens[1]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.y = GetFloatValue(vtokens[2]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.z = GetFloatValue(vtokens[3]);
 				}
 				// max pos of subset Bounding Box
 				else if(vtokens[0] == "SBBMax")
 				{
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.x = GetFloatValue(vtokens[1]);
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.y = GetFloatValue(vtokens[2]);
-					def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.z = GetFloatValue(vtokens[3]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.x = GetFloatValue(vtokens[1]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.y = GetFloatValue(vtokens[2]);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.z = GetFloatValue(vtokens[3]);
 				}
 				else if(vtokens[0] == "diffusecolor")
 				{
@@ -145,20 +161,17 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 					int b = GetIntValue(vtokens[2]);
 					int g = GetIntValue(vtokens[3]);
 					int a = GetIntValue(vtokens[4]);
-					def.vSubsetsDef[iCurrentSubsetNumber].diffuseColor = cColor(r, g, b, a);
+					pDef->vSubsetsDef[iCurrentSubsetNumber].diffuseColor = cColor(r, g, b, a);
 				}
 				else if(vtokens[0] == "dTex")
 				{
-					def.vSubsetsDef[iCurrentSubsetNumber].strDiffuseTextureFilename = vtokens[1];
+					pDef->vSubsetsDef[iCurrentSubsetNumber].strDiffuseTextureFilename = vtokens[1];
 				}
 			}
 		}
 	}
-	pModel->VOnInitialization(def);
-
 	SAFE_DELETE(pResource);
-	SAFE_DELETE_ARRAY(def.pVertices);
-	SAFE_DELETE_ARRAY(def.pIndices);
+	return pDef;
 }
 
 // *****************************************************************************
@@ -183,6 +196,31 @@ int cObjModelLoader::GetIntValue(const Base::cString & strVal)
 	return 0;
 
 }
+
+// *************************************************************************
+shared_ptr<stModelDef> cObjModelLoader::Find(const unsigned long ulModelDefHash)
+{
+	ModelDefMap::const_iterator itr = m_pModelDefMap.find(ulModelDefHash);
+	if(itr == m_pModelDefMap.end())
+	{
+		return shared_ptr<stModelDef>(); 
+	}
+
+	return (*itr).second;
+}
+
+// *****************************************************************************
+void cObjModelLoader::Cleanup()
+{
+	ModelDefMap::iterator iter;
+	for(iter = m_pModelDefMap.begin(); iter != m_pModelDefMap.end(); iter++)
+	{
+		SAFE_DELETE_ARRAY((*iter).second->pVertices);
+		SAFE_DELETE_ARRAY((*iter).second->pIndices);
+	}
+	m_pModelDefMap.clear();
+}
+
 // *****************************************************************************
 IObjModelLoader * IObjModelLoader::GetInstance()
 {
