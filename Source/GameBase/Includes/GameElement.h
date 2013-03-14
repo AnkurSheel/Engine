@@ -59,7 +59,7 @@ namespace GameBase
 		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API virtual void VInitialize(const cGameElementDef & def);
 		GAMEBASE_API virtual void OnUpdate(float fElapsedTime);
-		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
+		GAMEBASE_API virtual void VOnRender(const Graphics::ICamera * const pCamera);
 		/********************************************//**
  		 * @param[in] vRadians The angle in radians along the X,Y,Z axis
 		 *
@@ -105,6 +105,7 @@ namespace GameBase
 	protected:
 		GAMEBASE_API virtual void OnRestart();
 		GAMEBASE_API static void SetApp(const GameBase::IBaseApp * const pApp);
+	
 	protected:
 		Base::cVector3			m_vRotation;	/*!< The rotation of the game element.*/
 		Base::cVector3			m_vPosition;	/*!< The position of the game element.*/
@@ -112,6 +113,7 @@ namespace GameBase
 		bool					m_bIsDirty;		/*!< Set to true if the position, scale or rotation is changed. */
 		bool					m_bActive;
 		float					m_fReactivateTime;
+		bool					m_bVisible;
 
 	private:
 		Base::cString			m_strFileName;

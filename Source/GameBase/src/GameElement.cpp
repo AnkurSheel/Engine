@@ -25,6 +25,7 @@ cGameElement::cGameElement()
 , m_bIsDirty(false)
 , m_bActive(true)
 , m_fReactivateTime(0.0f)
+, m_bVisible(true)
 {
 
 }
@@ -71,9 +72,9 @@ void cGameElement::OnUpdate(float fElapsedTime)
 }
 
 // *******************************************************************************************
-void cGameElement::Render(const ICamera * const pCamera)
+void cGameElement::VOnRender(const ICamera * const pCamera)
 {
-	if (m_bActive && m_pModel)
+	if (m_bActive && m_bVisible && m_pModel != NULL)
 	{
 		m_pModel->VRender(pCamera);
 	}
