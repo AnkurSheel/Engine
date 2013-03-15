@@ -57,10 +57,8 @@ void cHighScoreTable::Initialize()
 			VAddNewScore(pScore);
 		}
         VSave();
+		m_Scores.clear();
     }
- 
-    // Load high score table
-    VLoad();
 }
 
 // *****************************************************************************
@@ -88,6 +86,7 @@ void cHighScoreTable::VLoad()
 	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
 	if(pXml->VLoad(m_strScoreFile))
 	{
+		m_Scores.clear();
 		cString strPlayerName;
 		int iScore;
 		cString strElementName;
@@ -103,4 +102,13 @@ void cHighScoreTable::VLoad()
 		}
 	}
 	SAFE_DELETE(pXml);
+}
+
+cHighScoreTable::ScoreSet cHighScoreTable::GetScores()
+{
+	if(m_Scores.empty())
+	{
+		VLoad();
+	}
+	return m_Scores;
 }

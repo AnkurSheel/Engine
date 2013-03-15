@@ -28,8 +28,8 @@ namespace GameBase
 	class cHighScoreTable
 		: public Base::cNonCopyable
 	{
-	private:
-		typedef std::multiset<shared_ptr<cScore>, Base::sharedptr_compare<cScore, std::greater<cScore> > > ScoreSet;
+	public:
+	typedef std::multiset<shared_ptr<cScore>, Base::sharedptr_compare<cScore, std::greater<cScore> > > ScoreSet;
 
 	public:
 		GAMEBASE_API cHighScoreTable(const Base::cString & strPath, const int iNumberOfRecords);
@@ -38,6 +38,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VLoad();
 		GAMEBASE_API virtual void VAddNewScore(shared_ptr<cScore> pScore);
 		GAMEBASE_API void Initialize();
+		GAMEBASE_API ScoreSet GetScores();
 
 	protected:
 		Base::cString	m_strScoreFile;	///< The path for the score file
