@@ -11,6 +11,7 @@
 #include "HighScoreTable.h"
 #include "Score.h"
 #include "XMLFileio.hxx"
+#include "optional.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -71,10 +72,10 @@ void cHighScoreTable::VSave()
 	cString strElementName;
 	for(ScoreSet::iterator iter = m_Scores.begin(); iter != m_Scores.end(); iter++)
 	{
-		id++;
 		strElementName = pXml->VAddElement("HighScores", "HighScore", cString(20, "%d",id), "");
 		pXml->VAddAttribute(strElementName, "name", (*iter)->GetPlayerName());
 		pXml->VAddAttribute(strElementName, "score", (*iter)->GetScore());
+		id++;
 	}
 	pXml->VSave(m_strScoreFile);
 	SAFE_DELETE(pXml);
@@ -90,7 +91,7 @@ void cHighScoreTable::VLoad()
 		cString strPlayerName;
 		int iScore;
 		cString strElementName;
-		for(int i=1; i<=m_iNumScores;i++)
+		for(int i=0; i<=m_iNumScores;i++)
 		{
 			shared_ptr<cScore> pScore(DEBUG_NEW cScore());
 			strElementName = cString(100, "HighScore%d",i);
@@ -104,6 +105,7 @@ void cHighScoreTable::VLoad()
 	SAFE_DELETE(pXml);
 }
 
+// *****************************************************************************
 cHighScoreTable::ScoreSet cHighScoreTable::GetScores()
 {
 	if(m_Scores.empty())
@@ -111,4 +113,23 @@ cHighScoreTable::ScoreSet cHighScoreTable::GetScores()
 		VLoad();
 	}
 	return m_Scores;
+}
+
+// *****************************************************************************
+tOptional<int> cHighScoreTable::IsHighScore(const int iScore)
+{
+	if(m_Scores.empty())
+	{
+		VLoad();
+	}
+	int iPos = 0;
+	for(ScoreSet::iterator iter = m_Scores.begin(); iter != m_Scores.end(); iter++)
+	{
+		iPos++;
+		if(iScore > (*iter)->GetScore())
+		{
+			return iPos;
+		}
+	}
+	return tOptional<int>();
 }

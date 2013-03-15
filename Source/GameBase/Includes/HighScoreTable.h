@@ -39,6 +39,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VAddNewScore(shared_ptr<cScore> pScore);
 		GAMEBASE_API void Initialize();
 		GAMEBASE_API ScoreSet GetScores();
+		GAMEBASE_API Base::tOptional<int> IsHighScore(const int iScore);
 
 	protected:
 		Base::cString	m_strScoreFile;	///< The path for the score file
