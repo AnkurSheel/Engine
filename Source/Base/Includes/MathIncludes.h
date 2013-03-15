@@ -79,16 +79,6 @@ namespace Base
 	}
 
 	template <class T>
-	class ArrayDeleter
-	{
-	public:
-		void operator () (T* d) const
-		{ 
-			SAFE_DELETE_ARRAY(d);
-		}
-	};
-
-	template <class T>
 	inline T Clamp(T & val, const T min, const T max)
 	{
 		if(val < min)

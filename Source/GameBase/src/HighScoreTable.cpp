@@ -30,9 +30,9 @@ cHighScoreTable::~cHighScoreTable()
 }
 
 // *****************************************************************************
-void cHighScoreTable::VAddNewScore(const cScore * const pScore)
+void cHighScoreTable::VAddNewScore(shared_ptr<cScore> pScore)
 {
-	m_Scores.insert(*pScore);
+	m_Scores.insert(pScore);
 	if(m_Scores.size() > m_iNumScores)
 	{
 		ScoreSet::iterator iter = m_Scores.end();
@@ -49,15 +49,14 @@ void cHighScoreTable::Initialize()
     if (attr == INVALID_FILE_ATTRIBUTES)
     {
 		int iStep = (1000/m_iNumScores);
-		cScore * pScore = DEBUG_NEW cScore();
 		for (int i = 0, iScore = 1000; i < m_iNumScores; i++, iScore -= iStep)
 		{
+			shared_ptr<cScore> pScore(DEBUG_NEW cScore());
 			pScore->SetPlayerName("Speedrun");
 			pScore->SetScore(iScore);
 			VAddNewScore(pScore);
 		}
         VSave();
-		SAFE_DELETE(pScore);
     }
  
     // Load high score table
@@ -76,8 +75,8 @@ void cHighScoreTable::VSave()
 	{
 		id++;
 		strElementName = pXml->VAddElement("HighScores", "HighScore", cString(20, "%d",id), "");
-		pXml->VAddAttribute(strElementName, "name", (*iter).GetPlayerName());
-		pXml->VAddAttribute(strElementName, "score", (*iter).GetScore());
+		pXml->VAddAttribute(strElementName, "name", (*iter)->GetPlayerName());
+		pXml->VAddAttribute(strElementName, "score", (*iter)->GetScore());
 	}
 	pXml->VSave(m_strScoreFile);
 	SAFE_DELETE(pXml);
@@ -92,9 +91,9 @@ void cHighScoreTable::VLoad()
 		cString strPlayerName;
 		int iScore;
 		cString strElementName;
-		cScore * pScore = DEBUG_NEW cScore();
 		for(int i=1; i<=m_iNumScores;i++)
 		{
+			shared_ptr<cScore> pScore(DEBUG_NEW cScore());
 			strElementName = cString(100, "HighScore%d",i);
 			strPlayerName = pXml->VGetNodeAttribute(strElementName, "name");
 			iScore = pXml->VGetNodeAttributeAsInt(strElementName, "score");
@@ -102,7 +101,6 @@ void cHighScoreTable::VLoad()
 			pScore->SetScore(iScore);
 			VAddNewScore(pScore);
 		}
-		SAFE_DELETE(pScore);
 	}
 	SAFE_DELETE(pXml);
 }

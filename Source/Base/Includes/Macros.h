@@ -53,4 +53,38 @@ const int KEYBOARD_KEYS = 256;
 #define DEBUG_NEW new
 #endif 
 
+namespace Base
+{
+	template <class T>
+	class ArrayDeleter
+	{
+	public:
+		void operator () (T* d) const
+		{ 
+			SAFE_DELETE_ARRAY(d);
+		}
+	};
+
+	template <typename T, typename Pred = std::less<T> >
+	struct ptr_compare : Pred
+	{
+		ptr_compare(Pred const & p = Pred()) : Pred(p) { }
+
+		bool operator()(T const * p1, T const * p2) const
+		{
+			return Pred::operator()(*p1, *p2);
+		}
+	};
+
+	template <typename T, typename Pred = std::less<T> >
+	struct sharedptr_compare : Pred
+	{
+		sharedptr_compare(Pred const & p = Pred()) : Pred(p) { }
+
+		bool operator()(std::tr1::shared_ptr<T> p1, std::tr1::shared_ptr<T> p2) const
+		{
+			return Pred::operator()(*p1, *p2);
+		}
+	};
+}
 #endif // Macros_h__

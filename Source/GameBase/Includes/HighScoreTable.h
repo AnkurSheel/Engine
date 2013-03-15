@@ -29,14 +29,14 @@ namespace GameBase
 		: public Base::cNonCopyable
 	{
 	private:
-		typedef std::multiset<cScore, std::greater<cScore> > ScoreSet;
+		typedef std::multiset<shared_ptr<cScore>, Base::sharedptr_compare<cScore, std::greater<cScore> > > ScoreSet;
 
 	public:
 		GAMEBASE_API cHighScoreTable(const Base::cString & strPath, const int iNumberOfRecords);
 		GAMEBASE_API ~cHighScoreTable();
 		GAMEBASE_API virtual void VSave();
 		GAMEBASE_API virtual void VLoad();
-		GAMEBASE_API virtual void VAddNewScore(const cScore * const pScore);
+		GAMEBASE_API virtual void VAddNewScore(shared_ptr<cScore> pScore);
 		GAMEBASE_API void Initialize();
 
 	protected:

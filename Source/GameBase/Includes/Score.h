@@ -76,7 +76,7 @@ namespace GameBase
 		GAMEBASE_API void SetPlayerName(const Base::cString	& strPlayerName);
 
 	public:
-		GAMEBASE_API bool operator > (cScore const &s) const;
+		GAMEBASE_API bool operator> (cScore const &s) const;
 
 	protected:
 		Base::cString	m_strPlayerName;	///< The name of the player
