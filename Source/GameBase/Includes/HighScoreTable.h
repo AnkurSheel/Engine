@@ -12,7 +12,10 @@
 
 #include "GameBaseDefines.h"
 
-class cScore;
+namespace GameBase
+{
+	class cScore;
+}
 
 namespace GameBase
 {
@@ -25,17 +28,21 @@ namespace GameBase
 	class cHighScoreTable
 		: public Base::cNonCopyable
 	{
-	protected:
-		GAMEBASE_API cHighScoreTable();
+	private:
+		typedef std::multiset<cScore, std::greater<cScore> > ScoreSet;
+
+	public:
+		GAMEBASE_API cHighScoreTable(const Base::cString & strPath, const int iNumberOfRecords);
 		GAMEBASE_API ~cHighScoreTable();
 		GAMEBASE_API virtual void VSave();
 		GAMEBASE_API virtual void VLoad();
+		GAMEBASE_API virtual void VAddNewScore(const cScore * const pScore);
+		GAMEBASE_API void Initialize();
 
 	protected:
 		Base::cString	m_strScoreFile;	///< The path for the score file
 		int				m_iNumScores;	///< The number of Scores to store
-		std::multiset<shared_ptr<cScore>, std::greater<cScore> > m_Scores;
-
+		ScoreSet		m_Scores;
 	};
 }
 #endif

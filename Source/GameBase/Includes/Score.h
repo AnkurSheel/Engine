@@ -21,18 +21,23 @@ namespace GameBase
 	///
 	////////////////////////////////////////////////////////////////////////////
 	class cScore
-		: public Base::cNonCopyable
 	{
 	public:
+		GAMEBASE_API cScore();
 		////////////////////////////////////////////////////////////////////////
-		/// Increments the score with /ciDeltaValue. If /ciDeltaValue is negative
-		/// decrements the score
+		/// Constructor
 		///
-		/// @param[in] iDeltaValue The value by which the score needs to be 
-		/// modified. Can be negative.
+		/// @param[in] strPlayerName The name of the player.
+		/// @param[in] iScore The score of the player.
 		///
 		////////////////////////////////////////////////////////////////////////
-		GAMEBASE_API void UpdateScore(const int iDeltaValue);
+		GAMEBASE_API cScore(const Base::cString	& strPlayerName, const int iScore);
+		////////////////////////////////////////////////////////////////////////
+		/// Destructor
+		///
+		///
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API ~cScore();
 		////////////////////////////////////////////////////////////////////////
 		/// Returns the current score
 		///
@@ -40,11 +45,38 @@ namespace GameBase
 		///
 		////////////////////////////////////////////////////////////////////////
 		GAMEBASE_API int GetScore() const;
+		////////////////////////////////////////////////////////////////////////
+		/// Increments the score with /ciDeltaValue. If /ciDeltaValue is negative
+		/// decrements the score
+		///
+		/// @param[in] iDeltaValue The name of the player
+		///
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API void UpdateScore(const int iDeltaValue);
+		////////////////////////////////////////////////////////////////////////
+		/// Sets the score to /ciScore
+		///
+		/// @param[in] iScore The new value of the score
+		///
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API void SetScore(const int iScore);
+		////////////////////////////////////////////////////////////////////////
+		/// Returns the player name
+		///
+		/// @return The player name
+		///
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API Base::cString GetPlayerName() const;
+		////////////////////////////////////////////////////////////////////////
+		/// Sets the player name to /cstrPlayerName
+		///
+		/// @param[in] strPlayerName The name of the player.
+		///
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API void SetPlayerName(const Base::cString	& strPlayerName);
 
-	protected:
-		GAMEBASE_API cScore();
-		GAMEBASE_API ~cScore();
-		GAMEBASE_API bool operator>(cScore const &s) const;
+	public:
+		GAMEBASE_API bool operator > (cScore const &s) const;
 
 	protected:
 		Base::cString	m_strPlayerName;	///< The name of the player
