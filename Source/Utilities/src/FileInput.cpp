@@ -50,7 +50,7 @@ bool cFileInput::Open(const cString & strFileName, const std::ios_base::openmode
 
 bool cFileInput::Close()
 {
-	SAFE_DELETE_ARRAY(m_pBuffer);
+	SafeDeleteArray(&m_pBuffer);
 	if(m_inputFile.is_open())
 	{
 		m_inputFile.close();
@@ -82,7 +82,7 @@ const unsigned char * const cFileInput::Read(unsigned long ulSize)
 	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Error in reading file: " + m_strFileName);
-		SAFE_DELETE_ARRAY(m_pBuffer);
+		SafeDeleteArray(&m_pBuffer);
 	}
 	return m_pBuffer;
 }

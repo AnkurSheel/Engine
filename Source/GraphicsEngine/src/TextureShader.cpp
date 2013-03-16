@@ -61,10 +61,10 @@ bool cTextureShader::VCreateLayout(shared_ptr<IResHandle const> shaderHandle)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating Input Layout ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
-			SAFE_DELETE_ARRAY(pPolygonLayout);
+			SafeDeleteArray(&pPolygonLayout);
 		return false;
 	}
-	SAFE_DELETE_ARRAY(pPolygonLayout);
+	SafeDeleteArray(&pPolygonLayout);
 	return true;
 }
 
@@ -137,8 +137,8 @@ void cTextureShader::VRenderShader()
 // *****************************************************************************
 void cTextureShader::VCleanup()
 {
-	SAFE_RELEASE(m_pSampleState);
-	SAFE_RELEASE(m_pPixelBuffer);
+	SafeRelease(&m_pSampleState);
+	SafeRelease(&m_pPixelBuffer);
 	cBaseShader::VCleanup();
 }
 // ***************************************************************************************

@@ -113,7 +113,7 @@ bool cDirectSoundAudio::SetPrimaryBufferFormat(const unsigned short usPrimaryCha
 		return false;
 	}
 
-	SAFE_RELEASE(pDSBuffer);
+	SafeRelease(&pDSBuffer);
 
 	return true;
 }
@@ -122,7 +122,7 @@ bool cDirectSoundAudio::SetPrimaryBufferFormat(const unsigned short usPrimaryCha
 void cDirectSoundAudio::VCleanup()
 {
 	cAudio::VCleanup();
-	SAFE_RELEASE(m_pDS);
+	SafeRelease(&m_pDS);
 	m_bInitialized = false;
 }
 

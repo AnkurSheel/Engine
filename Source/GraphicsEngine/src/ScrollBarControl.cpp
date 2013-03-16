@@ -161,9 +161,9 @@ void cScrollBarControl::VCleanup()
 {
 	cBaseControl::VCleanup();
 	
-	SAFE_DELETE(m_pBtnDecrementArrow);
-	SAFE_DELETE(m_pBtnIncrementArrow);
-	SAFE_DELETE(m_pBtnThumb);
+	SafeDelete(&m_pBtnDecrementArrow);
+	SafeDelete(&m_pBtnIncrementArrow);
+	SafeDelete(&m_pBtnThumb);
 }
 // ****************************************************************************
 void cScrollBarControl::IncrementArrowPressed(const stUIEventCallbackParam & params)

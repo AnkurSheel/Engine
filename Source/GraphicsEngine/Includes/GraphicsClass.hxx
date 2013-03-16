@@ -81,7 +81,6 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
 
-	protected:
 		virtual ~IGraphicsClass(){}
 	};
 }

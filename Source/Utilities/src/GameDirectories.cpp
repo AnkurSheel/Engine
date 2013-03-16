@@ -43,6 +43,6 @@ void cGameDirectories::Initialize()
 	gameDirectories.strSoundMusicDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
 	gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
 
-	SAFE_DELETE(pResource);
-	SAFE_DELETE(pFile);
+	SafeDelete(&pResource);
+	SafeDelete(&pFile);
 }

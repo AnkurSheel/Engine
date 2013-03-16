@@ -30,7 +30,7 @@ cFuzzyVariable::~cFuzzyVariable()
 	MemberSets::iterator it;
 	for(it = m_MemberSets.begin();it!= m_MemberSets.end();it++)
 	{
-		SAFE_DELETE(it->second);
+		SafeDelete(&(it->second));
 	}
 }
 //----------------------------------------------------------------------------

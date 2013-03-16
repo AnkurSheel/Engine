@@ -72,5 +72,5 @@ ITextureManager * ITextureManager::GetInstance()
 // *************************************************************************
 void ITextureManager::Destroy()
 {
-	SAFE_DELETE(cTextureManager::s_pTexturemanager);
+	SafeDelete(&cTextureManager::s_pTexturemanager);
 }

@@ -159,11 +159,11 @@ void cBaseApp::VOnUpdate()
 // *****************************************************************************
 void cBaseApp::VCleanup()
 {
-	SAFE_DELETE(m_pGameTimer);
-	SAFE_DELETE(m_pParamLoader);
+	SafeDelete(&m_pGameTimer);
+	SafeDelete(&m_pParamLoader);
 
 	m_pHumanView->VOnDestroyDevice();
-	SAFE_DELETE(m_pHumanView);
+	SafeDelete(&m_pHumanView);
 
 	IEntityManager::Destroy();
 	IMessageDispatchManager::Destroy();

@@ -77,7 +77,7 @@ void cEntityManager::CreateEntityManager()
 // ***************************************************************
 void cEntityManager::Destroy()
 {
-	SAFE_DELETE(s_pEntityManager);
+	SafeDelete(&s_pEntityManager);
 }
 
 // ***************************************************************

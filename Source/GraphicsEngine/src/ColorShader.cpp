@@ -58,10 +58,10 @@ bool cColorShader::VCreateLayout(shared_ptr<IResHandle const> shaderHandle)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating Input Layout ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
-		SAFE_DELETE_ARRAY(pPolygonLayout);
+		SafeDeleteArray(&pPolygonLayout);
 		return false;
 	}
-	SAFE_DELETE_ARRAY(pPolygonLayout);
+	SafeDeleteArray(&pPolygonLayout);
 	return true;
 }
 

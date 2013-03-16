@@ -85,7 +85,7 @@ void cLabelControl::VSetText(const Base::cString & strText)
 // *************************************************************************
 void cLabelControl::VCleanup()
 {
-	SAFE_DELETE(m_pSentence);
+	SafeDelete(&m_pSentence);
 	cBaseControl::VCleanup();
 }
 

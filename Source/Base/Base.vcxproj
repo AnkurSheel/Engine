@@ -28,6 +28,7 @@
     <ClInclude Include="Includes\Optional.h" />
     <ClInclude Include="Includes\Structures.h" />
     <ClInclude Include="Includes\typedef.h" />
+    <ClInclude Include="Includes\BaseUtilities.h" />
     <ClInclude Include="Includes\Vector2.h" />
     <ClInclude Include="Includes\Vector3.h" />
     <ClInclude Include="src\stdafx.h" />

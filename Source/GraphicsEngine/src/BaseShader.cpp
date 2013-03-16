@@ -109,7 +109,7 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 			return false;
 	}
 	bool bSuccess = VCreateLayout(shaderHandle);
-	SAFE_DELETE(pResource);
+	SafeDelete(&pResource);
 	return bSuccess;
 }
 
@@ -125,7 +125,7 @@ bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreatePixelShader(pData, 
 		shaderHandle->GetSize(), NULL, &m_pPixelShader);
 
-	SAFE_DELETE(pResource);
+	SafeDelete(&pResource);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating pixel shader ")
@@ -187,8 +187,8 @@ void cBaseShader::VRenderShader()
 // *****************************************************************************
 void cBaseShader::VCleanup()
 {
-	SAFE_RELEASE(m_pMatrixBuffer);
-	SAFE_RELEASE(m_pLayout);
-	SAFE_RELEASE(m_pPixelShader);
-	SAFE_RELEASE(m_pVertexShader);
+	SafeRelease(&m_pMatrixBuffer);
+	SafeRelease(&m_pLayout);
+	SafeRelease(&m_pPixelShader);
+	SafeRelease(&m_pVertexShader);
 }

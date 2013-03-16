@@ -64,7 +64,7 @@ cSoundResHandle::cSoundResHandle(Utilities::cResource & resource,
 // *****************************************************************************
 cSoundResHandle::~cSoundResHandle()
 {
-	SAFE_DELETE_ARRAY(m_pPCMBuffer);
+	SafeDeleteArray(&m_pPCMBuffer);
 }
 
 // *****************************************************************************
@@ -254,7 +254,7 @@ bool cSoundResHandle::ParseOgg(const char * const pOggStream,
 
 	ov_clear(&vf);
 
-	SAFE_DELETE(pVorbisMemoryFile);
+	SafeDelete(&pVorbisMemoryFile);
 	return true;
 }
 

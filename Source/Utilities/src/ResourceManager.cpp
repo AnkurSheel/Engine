@@ -26,7 +26,7 @@ cResourceManager::cResourceManager()
 // ****************************************************************************
 cResourceManager::~cResourceManager()
 {
-	SAFE_DELETE(m_pResourceCache);
+	SafeDelete(&m_pResourceCache);
 }
 
 // ****************************************************************************
@@ -63,5 +63,5 @@ IResourceManager * IResourceManager::GetInstance()
 // ****************************************************************************
 void IResourceManager::Destroy()
 {
-	SAFE_DELETE(cResourceManager::s_pResourceManager);
+	SafeDelete(&cResourceManager::s_pResourceManager);
 }

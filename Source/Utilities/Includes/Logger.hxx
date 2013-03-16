@@ -88,6 +88,7 @@ namespace Utilities
 			LT_GAME_MESSAGE,
 			LT_TOTAL
 		};
+
 	public:
 		virtual ~ILogger(){}
 		UTILITIES_API virtual void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName) = 0;

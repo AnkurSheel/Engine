@@ -32,7 +32,7 @@ cMessageDispatchManager::cMessageDispatchManager()
 // ***************************************************************
 cMessageDispatchManager::~cMessageDispatchManager()
 {
-	SAFE_DELETE(m_pTimer);
+	SafeDelete(&m_pTimer);
 }
 
 // ***************************************************************
@@ -96,7 +96,7 @@ void cMessageDispatchManager::CreateMessageDispatchManager()
 // ***************************************************************
 void cMessageDispatchManager::Destroy()
 {
-	SAFE_DELETE(s_pMessageDispatchManager);
+	SafeDelete(&s_pMessageDispatchManager);
 }
 
 // ***************************************************************

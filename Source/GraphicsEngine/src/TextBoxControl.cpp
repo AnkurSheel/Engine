@@ -190,8 +190,8 @@ void cTextBoxControl::VOnFocusChanged()
 void cTextBoxControl::VCleanup()
 {
 	cBaseControl::VCleanup();
-	SAFE_DELETE(m_pSentence);
-	SAFE_DELETE(m_pTimer);
+	SafeDelete(&m_pSentence);
+	SafeDelete(&m_pTimer);
 }
 
 // ***************************************************************

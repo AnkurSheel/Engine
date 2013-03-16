@@ -67,7 +67,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	m_vSize.x = static_cast<float>(desc.Width);
 	m_vSize.y = static_cast<float>(desc.Height);
 	m_bIsDirty = true;
-	SAFE_RELEASE(resource);
+	SafeRelease(&resource);
 	return true;
 }
 
@@ -150,8 +150,8 @@ void cSprite::VSetTexture(shared_ptr<ITexture> const pTexture)
 // *****************************************************************************
 void cSprite::VCleanup()
 {
-	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pIndexBuffer);
+	SafeRelease(&m_pVertexBuffer);
+	SafeRelease(&m_pIndexBuffer);
 }
 
 // *****************************************************************************
@@ -175,7 +175,7 @@ bool cSprite::CreateVertexBuffer()
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&vertexBufferDesc,
 		&vertexData, &m_pVertexBuffer);
 
-	SAFE_DELETE_ARRAY(pVertices);
+	SafeDeleteArray(&pVertices);
 
 	if(FAILED(result))
 	{
@@ -243,7 +243,7 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		
-		SAFE_DELETE_ARRAY(pVertices);
+		SafeDeleteArray(&pVertices);
 		return false;
 	}
 
@@ -255,10 +255,8 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 
 	// Unlock the vertex buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
-	SAFE_DELETE_ARRAY(pVertices);
-	return true;
 
-	SAFE_DELETE_ARRAY(pVertices);
+	SafeDeleteArray(&pVertices);
 	return true;
 }
 

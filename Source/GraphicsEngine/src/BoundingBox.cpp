@@ -35,7 +35,7 @@ cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBou
 // *****************************************************************************
 cBoundingBox::~cBoundingBox()
 {
-	SAFE_DELETE(m_pAABB);
+	SafeDelete(&m_pAABB);
 }
 
 // *********************************************************************************

@@ -13,6 +13,7 @@
 #include "AudioBuffer.hxx"
 
 using namespace Sound;
+using namespace Base;
 
 IAudio * cAudio::s_pAudio = NULL;
 
@@ -91,5 +92,5 @@ IAudio * IAudio::GetInstance()
 // *****************************************************************************
 void IAudio::Destroy()
 {
-	SAFE_DELETE(cAudio::s_pAudio);
+	SafeDelete(&cAudio::s_pAudio);
 }

@@ -34,7 +34,7 @@ cTexture::~cTexture()
 // ***************************************************************
 bool Graphics::cTexture::Initialize( const Base::cString & strTexturePath )
 {
-	SAFE_RELEASE(m_pTexture);	
+	SafeRelease(&m_pTexture);	
 	shared_ptr<IResource> pResource = shared_ptr<IResource>(IResource::CreateResource(strTexturePath));
 	shared_ptr<IResHandle> texture = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 
@@ -71,7 +71,7 @@ ID3D11ShaderResourceView* Graphics::cTexture::VGetTexture() const
 // ***************************************************************
 void Graphics::cTexture::Cleanup()
 {
-	SAFE_RELEASE(m_pTexture);
+	SafeRelease(&m_pTexture);
 }
 
 // ***************************************************************

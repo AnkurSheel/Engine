@@ -115,9 +115,9 @@ void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 // *****************************************************************************
 void cHumanView::VOnDestroyDevice()
 {
-	SAFE_DELETE(m_pAppWindowControl);
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pProcessManager);
+	SafeDelete(&m_pAppWindowControl);
+	SafeDelete(&m_pCamera);
+	SafeDelete(&m_pProcessManager);
 	IAudio::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }

@@ -97,5 +97,5 @@ IGraphicsClass * IGraphicsClass::GetInstance()
 // ***************************************************************
 void IGraphicsClass::Destroy()
 {
-	SAFE_DELETE(cGraphicsClass::s_pGraphic);
+	SafeDelete(&cGraphicsClass::s_pGraphic);
 }

@@ -220,7 +220,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 			Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
 				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 
-			SAFE_DELETE_ARRAY(pVertices);
+			SafeDeleteArray(&pVertices);
 			return false;
 		}
 
@@ -234,7 +234,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 		IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
 	}
 
-	SAFE_DELETE_ARRAY(pVertices);
+	SafeDeleteArray(&pVertices);
 	return true;
 }
 
@@ -299,7 +299,7 @@ bool cSentence::CreateVertexBuffer()
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&vertexBufferDesc,
 		&vertexData, &m_pVertexBuffer);
 
-	SAFE_DELETE_ARRAY(pVertices);
+	SafeDeleteArray(&pVertices);
 
 	if(FAILED(result))
 	{
@@ -354,15 +354,15 @@ bool cSentence::CreateIndexBuffer()
 		bSuccess = true;
 	}
 
-	SAFE_DELETE_ARRAY(pIndices);
+	SafeDeleteArray(&pIndices);
 	return bSuccess;
 }
 
 // ***************************************************************
 void cSentence::Cleanup()
 {
-	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pIndexBuffer);
+	SafeRelease(&m_pVertexBuffer);
+	SafeRelease(&m_pIndexBuffer);
 }
 
 // ***************************************************************

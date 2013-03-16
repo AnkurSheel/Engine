@@ -24,7 +24,7 @@ cXMLFileIO::cXMLFileIO()
 // *****************************************************************************
 cXMLFileIO::~cXMLFileIO()
 {
-	SAFE_DELETE(m_pDoc);
+	SafeDelete(&m_pDoc);
 	m_ElementMap.clear();
 }
 
@@ -32,7 +32,7 @@ cXMLFileIO::~cXMLFileIO()
 void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName, 
 									const Base::cString & strStyleSheetPath)
 {
-	SAFE_DELETE(m_pDoc);
+	SafeDelete(&m_pDoc);
 	m_pDoc = DEBUG_NEW XMLDocument();
 
 	m_pDoc->InsertEndChild(m_pDoc->NewDeclaration(NULL));
@@ -59,7 +59,7 @@ void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
 bool cXMLFileIO::VLoad( const cString & strFilePath)
 {
 	Log_Write_L1(ILogger::LT_DEBUG, "loading XML file " + strFilePath);
-	SAFE_DELETE(m_pDoc);
+	SafeDelete(&m_pDoc);
 	m_pDoc = DEBUG_NEW XMLDocument();
 	if (m_pDoc->LoadFile(strFilePath.GetData()) != XML_NO_ERROR)
 	{
@@ -78,7 +78,7 @@ bool cXMLFileIO::VLoad( const cString & strFilePath)
 void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 {
 	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
-	SAFE_DELETE(m_pDoc);
+	SafeDelete(&m_pDoc);
 	m_pDoc = DEBUG_NEW XMLDocument();
 	
 	if (m_pDoc->Parse(strXML.GetData(), size) != XML_NO_ERROR)

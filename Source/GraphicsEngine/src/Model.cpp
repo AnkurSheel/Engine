@@ -142,9 +142,9 @@ const IAABB * const cModel::VGetAABB() const
 // *****************************************************************************
 void cModel::VCleanup()
 {
-	SAFE_DELETE(m_pBoundingBox);
-	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pIndexBuffer);
+	SafeDelete(&m_pBoundingBox);
+	SafeRelease(&m_pVertexBuffer);
+	SafeRelease(&m_pIndexBuffer);
 	m_vSubsets.clear();
 }
 

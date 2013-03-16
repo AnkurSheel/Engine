@@ -165,7 +165,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 		if (fh.sig != TZipDirFileHeader::SIGNATURE)
 		{
 			Log_Write_L1(ILogger::LT_ERROR, "Dir File Header Signature did not match for file: " + m_strFileName);
-			SAFE_DELETE_ARRAY(m_pDirData);
+			SafeDeleteArray(&m_pDirData);
 			return false;
 		}
 		else
@@ -216,7 +216,7 @@ tOptional<int> cZipFile::Find(const Base::cString & strPath) const
 void cZipFile::End()
 {
 	m_ZipContentsMap.empty();
-	SAFE_DELETE_ARRAY(m_pDirData);
+	SafeDeleteArray(&m_pDirData);
 	m_nEntries = 0;
 }
 
@@ -324,7 +324,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	if (err != Z_OK)
 		ret = false;
 
-	SAFE_DELETE_ARRAY(pcData);
+	SafeDeleteArray(&pcData);
 	return ret;
 }
 
@@ -416,7 +416,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	if (err != Z_OK)
 		ret = false;
 
-	SAFE_DELETE_ARRAY(pcData);
+	SafeDeleteArray(&pcData);
 	return ret;
 }
 

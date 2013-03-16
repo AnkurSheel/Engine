@@ -14,6 +14,8 @@
 #include "FuzzySet.h"
 #include <math.h>
 
+using namespace Base;
+
 //----------------------------------------------------------------------------
 // Construction and Destruction
 //----------------------------------------------------------------------------
@@ -142,7 +144,7 @@ cFuzzyOperatorAnd::~cFuzzyOperatorAnd()
 	std::vector<cFuzzyTerm*>::iterator curTerm;
 	for(curTerm = m_Terms.begin(); curTerm != m_Terms.end(); curTerm++)
 	{
-		SAFE_DELETE(*curTerm);
+		SafeDelete(&(*curTerm));
 	}
 }
 //----------------------------------------------------------------------------
@@ -247,7 +249,7 @@ cFuzzyOperatorOr::~cFuzzyOperatorOr()
 	std::vector<cFuzzyTerm*>::iterator curTerm;
 	for(curTerm = m_Terms.begin(); curTerm != m_Terms.end(); curTerm++)
 	{
-		SAFE_DELETE(*curTerm);
+		SafeDelete(&(*curTerm));
 	}
 }
 //----------------------------------------------------------------------------

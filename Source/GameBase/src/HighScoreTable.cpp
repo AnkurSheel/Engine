@@ -78,7 +78,7 @@ void cHighScoreTable::VSave()
 		id++;
 	}
 	pXml->VSave(m_strScoreFile);
-	SAFE_DELETE(pXml);
+	SafeDelete(&pXml);
 }
 
 // *****************************************************************************
@@ -102,7 +102,7 @@ void cHighScoreTable::VLoad()
 			VAddNewScore(pScore);
 		}
 	}
-	SAFE_DELETE(pXml);
+	SafeDelete(&pXml);
 }
 
 // *****************************************************************************

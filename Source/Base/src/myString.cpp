@@ -44,7 +44,7 @@ cString::cString(const int iMaxSize, const char * const  lpFmt, ...)
 	va_end(argptr);
 	
 	m_str += szBuffer;
-	SAFE_DELETE_ARRAY(szBuffer);
+	SafeDeleteArray(&szBuffer);
 }
 
 // ****************************************************************************

@@ -200,7 +200,7 @@ void cCollisionChecker::CreateCollisionChecker()
 // *****************************************************************************
 void cCollisionChecker::Destroy()
 {
-	SAFE_DELETE(s_pCollisionChecker);
+	SafeDelete(&s_pCollisionChecker);
 }
 
 // *****************************************************************************

@@ -47,7 +47,7 @@ void cGameOptions::InitializeGameOptions(const cString & strPlayerOptionsFile)
 		gameOptions.bPlaySfx = pXml->VGetNodeAttributeAsBool("Sound", "PlaySFX");
 		gameOptions.iSFXVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
 	}
-	SAFE_DELETE(pXml);
+	SafeDelete(&pXml);
 }
 
 // *****************************************************************************
@@ -68,5 +68,5 @@ GAMEBASE_API void cGameOptions::SaveGameOptions(const cString & strPlayerOptions
 	pXml->VAddAttribute("Sound", "sfxVolume", gameOptions.iSFXVolume);
 
 	pXml->VSave(strPlayerOptionsFile);
-	SAFE_DELETE(pXml);
+	SafeDelete(&pXml);
 }

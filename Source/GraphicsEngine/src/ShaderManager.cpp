@@ -74,5 +74,5 @@ IShaderManager * IShaderManager::GetInstance()
 // *****************************************************************************
 void IShaderManager::Destroy()
 {
-	SAFE_DELETE(cShaderManager::s_pShadermanager);
+	SafeDelete(&cShaderManager::s_pShadermanager);
 }

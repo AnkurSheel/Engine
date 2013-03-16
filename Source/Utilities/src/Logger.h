@@ -29,14 +29,14 @@ namespace Utilities
 		: public ILogger
 		, public Base::cNonCopyable
 	{
-	private:
-		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
-		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
-		void CreateHeader();
+	public:
+		~cLogger();
 
 	private:
 		cLogger();
-		~cLogger();
+		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
+		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
+		void CreateHeader();
 		void Close();
 		void LogTypeToString(const LogType eLogEntryType, Base::cString & str );
 		void Log(const LogType eLogEntryType, const Base::cString & str);

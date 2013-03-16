@@ -31,14 +31,14 @@ cFuzzyModule::~cFuzzyModule()
 	VarMap::iterator curVar = m_Variables.begin();
 	for(curVar; curVar!=m_Variables.end();curVar++)
 	{
-		SAFE_DELETE(curVar->second);
+		SafeDelete(&(curVar->second));
 	}
 
 	//free rules
 	std::vector<cFuzzyRule*>::iterator curRule = m_Rules.begin();
 	for(curRule;curRule!=m_Rules.end();curRule++)
 	{
-		SAFE_DELETE(*curRule);
+		SafeDelete(&(*curRule));
 	}
 }
 //----------------------------------------------------------------------------

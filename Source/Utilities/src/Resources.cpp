@@ -50,7 +50,7 @@ cResHandle::cResHandle(cResource & resource, char * pBuffer, unsigned int iSize,
 // *****************************************************************************
 cResHandle::~cResHandle()
 {
-	SAFE_DELETE(m_pBuffer);
+	SafeDelete(&m_pBuffer);
 	m_pResCache->MemoryHasBeenFreed(m_iBufferSize);
 }
 

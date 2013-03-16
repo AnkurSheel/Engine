@@ -31,8 +31,6 @@ namespace Graphics
 		GRAPHIC_API static void Destroy();
 		virtual Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
 			const Graphics::ICamera * const pCamera) = 0;
-
-	protected:
 		virtual ~IGraphicUtils(){}
 	};
 }

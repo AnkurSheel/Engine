@@ -72,5 +72,5 @@ IFontManager * IFontManager::GetInstance()
 // *************************************************************************
 void IFontManager::Destroy()
 {
-	SAFE_DELETE(cFontManager::s_pFontManager);
+	SafeDelete(&cFontManager::s_pFontManager);
 }

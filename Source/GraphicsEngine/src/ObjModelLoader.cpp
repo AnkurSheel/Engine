@@ -170,7 +170,7 @@ shared_ptr<stModelDef> cObjModelLoader::LoadModelDef(const cString & strModelFil
 			}
 		}
 	}
-	SAFE_DELETE(pResource);
+	SafeDelete(&pResource);
 	return pDef;
 }
 
@@ -215,8 +215,8 @@ void cObjModelLoader::Cleanup()
 	ModelDefMap::iterator iter;
 	for(iter = m_pModelDefMap.begin(); iter != m_pModelDefMap.end(); iter++)
 	{
-		SAFE_DELETE_ARRAY((*iter).second->pVertices);
-		SAFE_DELETE_ARRAY((*iter).second->pIndices);
+		SafeDeleteArray(&(*iter).second->pVertices);
+		SafeDeleteArray(&(*iter).second->pIndices);
 	}
 	m_pModelDefMap.clear();
 }
@@ -232,5 +232,5 @@ IObjModelLoader * IObjModelLoader::GetInstance()
 // *********************************************************************************
 void IObjModelLoader::Destroy()
 {
-	SAFE_DELETE(cObjModelLoader::s_pModelLoader);
+	SafeDelete(&cObjModelLoader::s_pModelLoader);
 }

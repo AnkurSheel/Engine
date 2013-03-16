@@ -33,7 +33,7 @@ cLogger::cLogger()
 cLogger::~cLogger()
 {
 	Close();
-	SAFE_DELETE(m_fXml);
+	SafeDelete(&m_fXml);
 }
 // ***************************************************************
 
@@ -238,5 +238,5 @@ ILogger * ILogger::GetInstance()
 
 void ILogger::Destroy()
 {
-	SAFE_DELETE(cLogger::s_pLogger);
+	SafeDelete(&cLogger::s_pLogger);
 }

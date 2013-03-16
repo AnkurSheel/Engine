@@ -86,5 +86,5 @@ IGraphicUtils * IGraphicUtils::GetInstance()
 // *****************************************************************************
 void IGraphicUtils::Destroy()
 {
-	SAFE_DELETE(cGraphicUtils::s_pGraphicUtils);
+	SafeDelete(&cGraphicUtils::s_pGraphicUtils);
 }

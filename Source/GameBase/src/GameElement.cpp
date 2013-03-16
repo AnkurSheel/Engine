@@ -178,5 +178,5 @@ void cGameElement::SetApp(const IBaseApp * const pApp)
 // *******************************************************************************************
 void cGameElement::Cleanup()
 {
-	SAFE_DELETE(m_pModel);
+	SafeDelete(&m_pModel);
 }

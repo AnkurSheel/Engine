@@ -539,10 +539,10 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 		}
 	}
 
-	SAFE_DELETE(pDisplayModeList);
-	SAFE_RELEASE(pAdapterOutput);
-	SAFE_RELEASE(pAdapter);
-	SAFE_RELEASE(pFactory);
+	SafeDelete(&pDisplayModeList);
+	SafeRelease(&pAdapterOutput);
+	SafeRelease(&pAdapter);
+	SafeRelease(&pFactory);
 
 	return true;
 }
@@ -572,7 +572,7 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 			bSuccess = false;
 		}
 	}
-	SAFE_RELEASE(pbackBufferTexture);
+	SafeRelease(&pbackBufferTexture);
 	return bSuccess;
 }
 
@@ -623,18 +623,18 @@ void Graphics::cDXBase::Cleanup()
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
 	VSetFullScreenMode(false);
 
-	SAFE_RELEASE(m_pRasterState);
-	SAFE_RELEASE(m_pDepthStencilView);
-	SAFE_RELEASE(m_p3DDepthStencilState);
-	SAFE_RELEASE(m_p2DDepthStencilState);
-	SAFE_RELEASE(m_pDepthStencilBuffer);
-	SAFE_RELEASE(m_pRenderTargetView);
-	SAFE_RELEASE(m_pAlphaEnableBlendingState);
-	SAFE_RELEASE(m_pAlphaDisableBlendingState);
+	SafeRelease(&m_pRasterState);
+	SafeRelease(&m_pDepthStencilView);
+	SafeRelease(&m_p3DDepthStencilState);
+	SafeRelease(&m_p2DDepthStencilState);
+	SafeRelease(&m_pDepthStencilBuffer);
+	SafeRelease(&m_pRenderTargetView);
+	SafeRelease(&m_pAlphaEnableBlendingState);
+	SafeRelease(&m_pAlphaDisableBlendingState);
 
-	SAFE_RELEASE(m_pDeviceContext);
-	SAFE_RELEASE(m_pDevice);
-	SAFE_RELEASE(m_pSwapChain);
+	SafeRelease(&m_pDeviceContext);
+	SafeRelease(&m_pDevice);
+	SafeRelease(&m_pSwapChain);
 }
 
 // *****************************************************************************
@@ -648,5 +648,5 @@ Graphics::IDXBase * Graphics::IDXBase::GetInstance()
 // *****************************************************************************
 void Graphics::IDXBase::Destroy()
 {
-	SAFE_DELETE(cDXBase::s_pDXBase);
+	SafeDelete(&cDXBase::s_pDXBase);
 }

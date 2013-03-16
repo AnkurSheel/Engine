@@ -188,7 +188,7 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 	char * buff = DEBUG_NEW char[virtualRAMNeeded]; 
 	if (buff) 
 	{
-		SAFE_DELETE_ARRAY(buff);
+		SafeDeleteArray(&buff);
 	}
 	else 
 	{ 
@@ -396,7 +396,7 @@ void  cResourceChecker::CreateResourceChecker()
 
 void  cResourceChecker::Destroy()
 {
-	SAFE_DELETE(s_pResourceChecker);
+	SafeDelete(&s_pResourceChecker);
 }
 
 IResourceChecker * IResourceChecker::GetInstance()

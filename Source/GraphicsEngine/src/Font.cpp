@@ -131,8 +131,8 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 		
 		m_CharDescriptorMap.insert(std::make_pair(ch.id, ch));
 	}
-	SAFE_DELETE(pFile);
-	SAFE_DELETE(pResource);
+	SafeDelete(&pFile);
+	SafeDelete(&pResource);
 
 }
 

@@ -29,7 +29,7 @@ cResCache::~cResCache()
 	{
 		FreeOneResource();
 	}
-	SAFE_DELETE(m_pFile);
+	SafeDelete(&m_pFile);
 }
 
 bool cResCache::Init()
@@ -179,7 +179,7 @@ cResourceZipFile::cResourceZipFile(const Base::cString & resFileName)
 
 cResourceZipFile::~cResourceZipFile()
 {
-	SAFE_DELETE(m_pZipFile);
+	SafeDelete(&m_pZipFile);
 }
 
 bool cResourceZipFile::Open()

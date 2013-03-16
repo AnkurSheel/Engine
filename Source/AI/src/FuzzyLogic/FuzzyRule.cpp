@@ -12,6 +12,7 @@
 #include "AIDefines.h"
 #include "FuzzyTerm.h"
 
+using namespace Base;
 //----------------------------------------------------------------------------
 // Construction and Destruction
 //----------------------------------------------------------------------------
@@ -24,8 +25,8 @@ cFuzzyRule::cFuzzyRule()
 
 cFuzzyRule::~cFuzzyRule()
 {
-	SAFE_DELETE(m_pAntecedent);
-	SAFE_DELETE(m_pConsequence);
+	SafeDelete(&m_pAntecedent);
+	SafeDelete(&m_pConsequence);
 }
 //----------------------------------------------------------------------------
 
