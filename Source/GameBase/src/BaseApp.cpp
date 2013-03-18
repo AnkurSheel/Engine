@@ -151,7 +151,6 @@ void cBaseApp::VRun()
 void cBaseApp::VOnUpdate()
 {
 	m_pGameTimer->VOnUpdate();
-	m_pHumanView->VOnUpdate(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 }
 
 // *****************************************************************************
