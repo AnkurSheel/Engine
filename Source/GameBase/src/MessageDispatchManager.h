@@ -34,7 +34,9 @@ namespace GameBase
 		, public Base::cNonCopyable
 	{
 	public:
-		void VDispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );
+		void VDispatchMessage(const double dDelay, const int iSender,
+			const int iReciever, const unsigned iMsg,
+			shared_ptr<void> pExtraInfo);
 		void VOnUpdate();
 		static void CreateMessageDispatchManager();
 		static void Destroy();

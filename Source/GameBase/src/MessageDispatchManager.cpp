@@ -36,7 +36,9 @@ cMessageDispatchManager::~cMessageDispatchManager()
 }
 
 // ***************************************************************
-void cMessageDispatchManager::VDispatchMessage( const double dDelay, const int iSender, const int iReciever, const unsigned int iMsg, void * const pExtraInfo )
+void cMessageDispatchManager::VDispatchMessage(const double dDelay,
+	const int iSender, const int iReciever, const unsigned iMsg,
+	shared_ptr<void> pExtraInfo)
 {
 	IBaseEntity	* pReciever = IEntityManager::GetInstance()->VGetEntityFromID(iReciever);
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);

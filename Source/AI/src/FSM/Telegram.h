@@ -20,35 +20,29 @@ namespace AI
 		unsigned int Receiver;
 		unsigned int Msg;
 		double DispatchTime;
-		void *ExtraInfo;
+		std::tr1::shared_ptr<void> pExtraInfo;
 
 		Telegram()
 		: Sender(0)
 		, Receiver(0)
 		, Msg(0) 
 		, DispatchTime(-1)
-		, ExtraInfo(NULL)
+		, pExtraInfo(NULL)
 		{
 		}
 		
-		Telegram(unsigned int sender, unsigned int Receiver, 
-						unsigned int msg, double dispatchTime, void * const extraInfo)
+		Telegram(unsigned int sender, unsigned int Receiver, unsigned int msg,
+			double dispatchTime, shared_ptr<void> extraInfo)
 		: Sender(sender)
 		, Receiver(Receiver)
 		, Msg(msg)
 		, DispatchTime(dispatchTime)
-		, ExtraInfo(extraInfo)
+		, pExtraInfo(extraInfo)
 		{
 		}
 	};
 
 	const double SmallestDelay = 0.25;
-
-	template <class T>
-	inline T DereferenceToType(void* p)
-	{
-		return *(T*)(p);
-	}
 
 	inline bool operator==(const Telegram &t1, const Telegram &t2)
 	{

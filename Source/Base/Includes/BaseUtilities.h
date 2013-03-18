@@ -78,6 +78,18 @@ namespace Base
 			return Pred::operator()(*p1, *p2);
 		}
 	};
+
+	template <class T>
+	inline T DereferenceToType(void* p)
+	{
+		return *(T*)(p);
+	}
+
+	template <class T>
+	inline T DereferenceToType(std::tr1::shared_ptr<void> p)
+	{
+		return *(T*)(p).get();
+	}
 }
 
 #endif // Utilities_h__

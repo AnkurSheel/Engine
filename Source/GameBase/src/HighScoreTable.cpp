@@ -125,11 +125,11 @@ tOptional<int> cHighScoreTable::IsHighScore(const int iScore)
 	int iPos = 0;
 	for(ScoreSet::iterator iter = m_Scores.begin(); iter != m_Scores.end(); iter++)
 	{
-		iPos++;
 		if(iScore > (*iter)->GetScore())
 		{
 			return iPos;
 		}
+		iPos++;
 	}
 	return tOptional<int>();
 }

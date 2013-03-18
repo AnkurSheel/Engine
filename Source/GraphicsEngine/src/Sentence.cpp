@@ -162,11 +162,6 @@ void cSentence::VSetHeight(const float fTextHeight)
 bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 {
 	int istrLength = m_strText.GetLength();
-	if (istrLength == 0)
-	{
-		return true;
-	}
-
 	int iPos = 0;
 	float fWidth = 0;
 	float fHeight = m_fScale * m_pFont->VGetFontHeight();
