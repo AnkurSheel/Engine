@@ -20,7 +20,7 @@ using namespace Base;
 // *****************************************************************************
 cHighScoreTable::cHighScoreTable(const Base::cString & strPath, const int iNumberOfRecords)
 : m_strScoreFile(strPath + ".xml")
-, m_iNumScores(iNumberOfRecords)
+, m_uiNumScores(iNumberOfRecords)
 {
 
 }
@@ -34,7 +34,7 @@ cHighScoreTable::~cHighScoreTable()
 void cHighScoreTable::VAddNewScore(shared_ptr<cScore> pScore)
 {
 	m_Scores.insert(pScore);
-	if(m_Scores.size() > m_iNumScores)
+	if(m_Scores.size() > m_uiNumScores)
 	{
 		ScoreSet::iterator iter = m_Scores.end();
 		iter--;
@@ -49,8 +49,8 @@ void cHighScoreTable::Initialize()
 	DWORD attr = GetFileAttributes(m_strScoreFile.GetData());
     if (attr == INVALID_FILE_ATTRIBUTES)
     {
-		int iStep = (1000/m_iNumScores);
-		for (int i = 0, iScore = 1000; i < m_iNumScores; i++, iScore -= iStep)
+		int iStep = (1000/m_uiNumScores);
+		for (unsigned int i = 0, iScore = 1000; i < m_uiNumScores; i++, iScore -= iStep)
 		{
 			shared_ptr<cScore> pScore(DEBUG_NEW cScore());
 			pScore->SetPlayerName("Speedrun");
@@ -91,7 +91,7 @@ void cHighScoreTable::VLoad()
 		cString strPlayerName;
 		int iScore;
 		cString strElementName;
-		for(int i=0; i<=m_iNumScores;i++)
+		for(unsigned int i=0; i<=m_uiNumScores; i++)
 		{
 			shared_ptr<cScore> pScore(DEBUG_NEW cScore());
 			strElementName = cString(100, "HighScore%d",i);

@@ -101,6 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameControls.cpp" />
     <ClCompile Include="src\HighScoreTable.cpp" />
     <ClCompile Include="src\Score.cpp" />
     <ClCompile Include="src\GameElement.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Includes\GameControls.h" />
     <ClInclude Include="Includes\HighScoreTable.h" />
     <ClInclude Include="Includes\Score.h" />
     <ClInclude Include="Includes\GameElement.h" />

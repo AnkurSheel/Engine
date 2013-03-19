@@ -6,8 +6,6 @@
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\GraphicsClass.cpp" />
     <ClCompile Include="src\GraphicUtils.cpp" />
-    <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\ObjModelLoader.cpp" />
     <ClCompile Include="src\Sentence.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
@@ -70,6 +68,12 @@
     <ClCompile Include="src\TextureShader.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\ObjModelLoader.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\Camera.hxx" />
@@ -77,7 +81,6 @@
     <ClInclude Include="Includes\GraphicsClass.hxx" />
     <ClInclude Include="Includes\GraphicUtils.hxx" />
     <ClInclude Include="Includes\KeyboardHandler.hxx" />
-    <ClInclude Include="Includes\Model.hxx" />
     <ClInclude Include="Includes\MouseHandler.hxx" />
     <ClInclude Include="Includes\ScreenElement.hxx" />
     <ClInclude Include="Includes\Sentence.hxx" />
@@ -90,8 +93,6 @@
     <ClInclude Include="src\Font.hxx" />
     <ClInclude Include="src\GraphicsClass.h" />
     <ClInclude Include="src\GraphicUtils.h" />
-    <ClInclude Include="src\Model.h" />
-    <ClInclude Include="src\ObjModelLoader.h" />
     <ClInclude Include="src\Sentence.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\stdafx.h" />
@@ -181,7 +182,18 @@
     <ClInclude Include="src\TextureShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="src\ObjModelLoader.hxx" />
+    <ClInclude Include="src\ObjModelLoader.hxx">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjModelLoader.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Model.hxx">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UiControls">
@@ -195,6 +207,9 @@
     </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{1b1d5dde-be6b-4124-a2a6-0493a27001cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{8b989d62-0a0d-430f-8da9-a2eda8a7c1b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

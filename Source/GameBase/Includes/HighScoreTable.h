@@ -43,7 +43,7 @@ namespace GameBase
 
 	protected:
 		Base::cString	m_strScoreFile;	///< The path for the score file
-		int				m_iNumScores;	///< The number of Scores to store
+		unsigned int	m_uiNumScores;	///< The number of Scores to store
 		ScoreSet		m_Scores;
 	};
 }

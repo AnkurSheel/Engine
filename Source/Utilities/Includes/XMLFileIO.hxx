@@ -51,7 +51,7 @@ namespace Utilities
 		virtual void VLoad(const Base::cString & strFilePath, Base::cString & strRootName) = 0;
 		/********************************************//**
 		 * @param[in] strXML The xml string
-		 * @param[out] size the size of the the string
+		 * @param[in] size the size of the the string
 		 *
 		 * Parses an XML file from a character string
 		 ***********************************************/
