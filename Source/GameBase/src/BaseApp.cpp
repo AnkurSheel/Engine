@@ -32,6 +32,8 @@ cBaseApp::cBaseApp(const cString strName)
 , m_pGameTimer(NULL)
 , m_pHumanView(NULL)
 , m_pParamLoader(NULL)
+, m_pHighScoreTable(NULL)
+, m_pGameControls(NULL)
 {
 	// make sure our memory leak checker is working
 #if _DEBUG
@@ -223,4 +225,10 @@ cHumanView * const cBaseApp::VGetHumanView() const
 Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 {
 	return m_pParamLoader;
+}
+
+// *****************************************************************************
+cGameControls * GameBase::cBaseApp::GetGameControls() const
+{
+	return m_pGameControls;
 }

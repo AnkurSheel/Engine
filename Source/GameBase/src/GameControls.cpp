@@ -17,25 +17,13 @@ using namespace Utilities;
 
 // *****************************************************************************
 cGameControls::cGameControls(const cString & strPath)
-: m_strKeysFile(strPath + ".dat")
+: m_strKeysFile(strPath + "controls.dat")
 {
 }
 
 // *****************************************************************************
 cGameControls::~cGameControls()
 {
-}
-
-// *****************************************************************************
-void cGameControls::Initialize()
-{
-	// Make a default score table if none exists
-	DWORD attr = GetFileAttributes(m_strKeysFile.GetData());
-    if (attr == INVALID_FILE_ATTRIBUTES)
-    {
-		VSetDefaults();
-		Save();
-    }
 }
 
 // *****************************************************************************
@@ -110,24 +98,39 @@ void cGameControls::Save()
 // *****************************************************************************
 void cGameControls::Load()
 {
-	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
-	if(pXml->VLoad(m_strKeysFile))
+	DWORD attr = GetFileAttributes(m_strKeysFile.GetData());
+	if (attr == INVALID_FILE_ATTRIBUTES)
 	{
-		m_keyMap.clear();
-		std::vector<cString> vKeyIDs;
-		pXml->VGetAllChildrenNames("Keys", vKeyIDs);
-		int iNoOfKeys= vKeyIDs.size();
-		stGameControl gameControl;
-		std::vector<cString>::iterator iter;
-		for(iter = vKeyIDs.begin(); iter != vKeyIDs.end(); iter++)
-		{
-			cString strKeyID = (*iter);
-			int iKeyIndex = pXml->VGetNodeAttributeAsInt(strKeyID, "id");
-			gameControl.m_strDisplayName = pXml->VGetNodeAttribute(strKeyID, "name");
-			gameControl.m_uiKeyCode = pXml->VGetNodeAttributeAsInt(strKeyID, "code");
-		
-			m_keyMap.insert(std::make_pair(iKeyIndex, gameControl));
-		}
+		VSetDefaults();
+		Save();
 	}
-	SafeDelete(&pXml);
+	else
+	{
+		IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
+		if(pXml->VLoad(m_strKeysFile))
+		{
+			m_keyMap.clear();
+			std::vector<cString> vKeyIDs;
+			pXml->VGetAllChildrenNames("Keys", vKeyIDs);
+			int iNoOfKeys= vKeyIDs.size();
+			stGameControl gameControl;
+			std::vector<cString>::iterator iter;
+			for(iter = vKeyIDs.begin(); iter != vKeyIDs.end(); iter++)
+			{
+				cString strKeyID = (*iter);
+				int iKeyIndex = pXml->VGetNodeAttributeAsInt(strKeyID, "id");
+				gameControl.m_strDisplayName = pXml->VGetNodeAttribute(strKeyID, "name");
+				gameControl.m_uiKeyCode = pXml->VGetNodeAttributeAsInt(strKeyID, "code");
+
+				m_keyMap.insert(std::make_pair(iKeyIndex, gameControl));
+			}
+		}
+		SafeDelete(&pXml);
+	}
+}
+
+// *****************************************************************************
+unsigned int cGameControls::operator[](unsigned int i)
+{
+	return m_keyMap[i].m_uiKeyCode;
 }

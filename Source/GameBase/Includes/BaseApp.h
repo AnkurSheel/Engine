@@ -24,6 +24,8 @@ namespace Utilities
 namespace GameBase
 {
 	class cHumanView;
+	class cHighScoreTable;
+	class cGameControls;
 }
 
 namespace GameBase
@@ -37,6 +39,7 @@ namespace GameBase
 		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
 		TICK GetRunningTicks() const;
 		GAMEBASE_API float GetRunningTime() const;
+		GAMEBASE_API cGameControls * GetGameControls() const;
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);
@@ -54,9 +57,11 @@ namespace GameBase
 		GAMEBASE_API float VGetFPS() const;
 
 	protected:
-		Utilities::ITimer *					m_pGameTimer;
-		cHumanView *						m_pHumanView;
-		Utilities::IParamLoader *			m_pParamLoader;
+		Utilities::ITimer *			m_pGameTimer;
+		cHumanView *				m_pHumanView;
+		Utilities::IParamLoader *	m_pParamLoader;
+		cHighScoreTable *			m_pHighScoreTable;
+		cGameControls *				m_pGameControls;
 	};
 }
 
