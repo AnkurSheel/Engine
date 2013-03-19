@@ -266,7 +266,6 @@ bool cTextBoxControl::SetCaratPosition(const unsigned int iPos )
 		SetCaratAbsolutePosition();
 		return true;
 	}
-	Log_Write_L2(ILogger::LT_ERROR, "Pos is < 0 or pos > strlen");
 	return false;
 }
 
