@@ -42,13 +42,13 @@ namespace Base
 		///
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API cHashedString(const cHashedString & str);
+		BASE_API cHashedString(const cHashedString & other);
 		///////////////////////////////////////////////////////////////////////
 		/// Assignment Operator
 		///
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API cHashedString operator =(const cHashedString & str);
+		BASE_API cHashedString operator =(const cHashedString & other);
 		///////////////////////////////////////////////////////////////////////
 		/// Returns the hash
 		///
@@ -63,7 +63,7 @@ namespace Base
 		/// @return True if the chcksums are equal. False otherwise
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API bool operator==(cHashedString const & o) const;
+		BASE_API bool operator==(cHashedString const & other) const;
 		///////////////////////////////////////////////////////////////////////
 		/// Constructor which takes in string as a parameter and stores the
 		/// hash for it 
@@ -74,8 +74,9 @@ namespace Base
 		BASE_API static unsigned long CalculateHash(const cString & strIdent);
 
 	private:
-		class cImpl;
-		std::tr1::shared_ptr<cImpl> m_pImpl;
+		unsigned long	m_lChecksum;	///< The hash associated with this string.
+		cString			m_strIdent;	///< The string
+
 	};
 }
 #endif // HashedString_h__

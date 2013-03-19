@@ -12,101 +12,38 @@
 
 using namespace Base;
 
-///////////////////////////////////////////////////////////////////////////////
-/// @brief Implementation of cHashedString 
-///
-/// 
-///////////////////////////////////////////////////////////////////////////////
-class cHashedString::cImpl
-{
-private:
-	cImpl();
-	cImpl(const cString & string);
-	cImpl(const cImpl & other);
-	cImpl & operator =(const cImpl & other);
-	static unsigned long CalculateHash(const cString & strIdent);
-	bool operator==(cImpl const & o) const;
-
-private:
-	unsigned long	m_lChecksum;	///< The hash associated with this string.
-	cString			m_strIdent;	///< The string
-
-	friend class cHashedString;
-};
 
 // ****************************************************************************
 cHashedString::cHashedString()
-: m_pImpl(DEBUG_NEW cImpl())
-{
-}
-
-// ****************************************************************************
-cHashedString::cHashedString(const cString & string)
-: m_pImpl(DEBUG_NEW cImpl(string))
-{
-}
-
-// *****************************************************************************
-cHashedString::cHashedString(const cHashedString & str)
-	: m_pImpl(DEBUG_NEW cImpl(*(str.m_pImpl)))
-{
-}
-
-// *****************************************************************************
-cHashedString cHashedString::operator=( const cHashedString & str)
-{
-	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(*(str.m_pImpl)));
-	return *this;
-}
-
-// ****************************************************************************
-unsigned long cHashedString::CalculateHash(const cString & strIdent)
-{
-	return cImpl::CalculateHash(strIdent);
-}
-
-// *****************************************************************************
-unsigned long cHashedString::GetHash() const
-{
-	return m_pImpl->m_lChecksum;
-}
-
-// ****************************************************************************
-bool cHashedString::operator==(cHashedString const & o) const
-{
-	return m_pImpl == o.m_pImpl;
-}
-
-// ****************************************************************************
-cHashedString::cImpl::cImpl()
 : m_lChecksum(0)
 {
 }
 
 // ****************************************************************************
-cHashedString::cImpl::cImpl(const cString & string)
+cHashedString::cHashedString(const cString & string)
 : m_strIdent(string)
 , m_lChecksum(CalculateHash(string))
 {
 }
 
-// ****************************************************************************
-cHashedString::cImpl::cImpl(const cHashedString::cImpl & other)
+// *****************************************************************************
+cHashedString::cHashedString(const cHashedString & other)
 : m_lChecksum(other.m_lChecksum)
 , m_strIdent(other.m_strIdent)
 {
 }
 
-// ****************************************************************************
-cHashedString::cImpl & cHashedString::cImpl::operator =(const cHashedString::cImpl & other)
+// *****************************************************************************
+cHashedString cHashedString::operator= (const cHashedString & other)
 {
 	m_strIdent = other.m_strIdent;
 	m_lChecksum = other.m_lChecksum;
 	return *this;
+
 }
 
 // ****************************************************************************
-unsigned long cHashedString::cImpl::CalculateHash(const cString & strIdent)
+unsigned long cHashedString::CalculateHash(const cString & strIdent)
 {
 	if(strIdent.IsEmpty())
 	{
@@ -138,12 +75,18 @@ unsigned long cHashedString::cImpl::CalculateHash(const cString & strIdent)
 	return ((s2 << 16) | s1);
 }
 
+// *****************************************************************************
+unsigned long cHashedString::GetHash() const
+{
+	return m_lChecksum;
+}
+
 // ****************************************************************************
-bool cHashedString::cImpl::operator==(cImpl const & o) const
+bool cHashedString::operator==(cHashedString const & other) const
 {
 	if(m_lChecksum != 0)
 	{
-		bool r = (m_lChecksum == o.m_lChecksum);
+		bool r = (m_lChecksum == other.m_lChecksum);
 		return r;
 	}
 	return false;
