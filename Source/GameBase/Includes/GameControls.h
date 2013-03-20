@@ -40,16 +40,16 @@ namespace GameBase
 
 		GAMEBASE_API cGameControls(const Base::cString & strPath);
 		GAMEBASE_API virtual ~cGameControls();
-		virtual void VSetDefaults() = 0;
-		void Save();
+		GAMEBASE_API void Save();
 		GAMEBASE_API void Load();
 		GAMEBASE_API unsigned int operator[](unsigned int i);
 		GAMEBASE_API KeyMapping GetKeyMap() const;
 		GAMEBASE_API Base::cString GetKeyName(const unsigned int uiKey);	
+		GAMEBASE_API void SetKey(const int iKeyIndex, const unsigned int uiKey);
+		virtual void VSetDefaults() = 0;
 
 	protected:
 		KeyMapping	m_keyMap;
-		void SetKey(const int iKeyIndex, const unsigned int uiKey);
 
 	private:
 		Base::cString	m_strKeysFile;

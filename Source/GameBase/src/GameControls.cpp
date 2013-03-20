@@ -24,6 +24,7 @@ cGameControls::cGameControls(const cString & strPath)
 // *****************************************************************************
 cGameControls::~cGameControls()
 {
+	m_keyMap.clear();
 }
 
 // *****************************************************************************
@@ -42,8 +43,7 @@ void cGameControls::SetKey(const int iKeyIndex, const unsigned int uiKey)
 
 	// If any other action already had the key, reassign it to prevent
 	// unwanted behavior becuase of clashes
-	KeyMapping::iterator iter;
-	for(iter == m_keyMap.begin(); iter != m_keyMap.end(); iter++)
+	for(KeyMapping::iterator iter = m_keyMap.begin(); iter != m_keyMap.end(); iter++)
 	{
 		if(iter->second.m_uiKeyCode == uiKey && iter->first != iKeyIndex)
 		{
