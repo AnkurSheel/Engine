@@ -27,7 +27,8 @@ namespace Graphics
 		UIET_BTNPRESSED,	/*!< Button was pressed */ 
 		UIET_BTNRELEASED,	/*!< Button was released */ 
 		UIET_SCBCHANGED,	/*!< The value of the Scrollbar was changed */ 
-		UIET_TBCHANGED,		/*!< The value of the Textbox was changed */ 
+		UIET_FOCUSLOST,		/*!< The UI control lost focus */ 
+		UIET_ONKEYDOWN,		/*!< A key was pressed */ 
 	};
 
 	/********************************************//**
@@ -37,10 +38,12 @@ namespace Graphics
 	{
 		bool			bChecked;	/*!< Will be set/unset for checkboxes */ 
 		int				iThumbPos;	/*!< The position of the thumb for scrollbars */ 
+		unsigned int	uiCharId;	/*!< The ascii code of the key pressed/released */ 
 		Base::cString	strText;	/*!< The text for textboxes */ 
 
 		stUIEventCallbackParam()
 			: bChecked(false)
+			, iThumbPos(0)
 		{
 		}
 	};

@@ -289,6 +289,12 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 // *****************************************************************************
 bool cBaseControl::VOnKeyDown(const unsigned int iCharID)
 {
+	if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_ONKEYDOWN))
+	{
+		stUIEventCallbackParam param;
+		param.uiCharId = iCharID;
+		(*pFn)(param);
+	}
 	return false;
 }
 
