@@ -132,6 +132,16 @@ void cButtonControl::VSetAbsolutePosition()
 	}
 }
 
+// *****************************************************************************
+void cButtonControl::VSetText(const Base::cString & strText)
+{
+	if(m_pLabel)
+	{
+		m_pLabel->VSetText(strText);
+		VSetAbsolutePosition();
+	}
+}
+
 // ***************************************************************
 IBaseControl * IBaseControl::CreateButtonControl(const cButtonControlDef & def)
 {

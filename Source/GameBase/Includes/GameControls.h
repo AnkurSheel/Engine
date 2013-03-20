@@ -36,19 +36,20 @@ namespace GameBase
 		: public Base::cNonCopyable
 	{
 	public:
+		typedef std::unordered_map<unsigned int, stGameControl> KeyMapping;
+
 		GAMEBASE_API cGameControls(const Base::cString & strPath);
 		GAMEBASE_API virtual ~cGameControls();
 		virtual void VSetDefaults() = 0;
 		void Save();
 		GAMEBASE_API void Load();
 		GAMEBASE_API unsigned int operator[](unsigned int i);
+		GAMEBASE_API KeyMapping GetKeyMap() const;
+		GAMEBASE_API Base::cString GetKeyName(const unsigned int uiKey);	
 
 	protected:
-		typedef std::unordered_map<unsigned int, stGameControl> KeyMapping;
-
 		KeyMapping	m_keyMap;
 		void SetKey(const int iKeyIndex, const unsigned int uiKey);
-		Base::cString GetKeyName(const unsigned int uiKey);
 
 	private:
 		Base::cString	m_strKeysFile;

@@ -79,6 +79,7 @@ void cLabelControl::VSetText(const Base::cString & strText)
 	if(m_pSentence != NULL)
 	{
 		m_pSentence->VSetText(strText);
+		VSetSize(cVector2(m_pSentence->VGetWidth(strText), m_pSentence->VGetHeight()));
 	}
 }
 

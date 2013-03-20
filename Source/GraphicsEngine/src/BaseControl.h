@@ -105,6 +105,7 @@ namespace Graphics
 			UIEventCallBackFn fnCallback);
 		void VUnregisterCallBack(const UIEVENTTYPE eventType);
 		void VMoveToFront(const IBaseControl * const pControl);
+		Base::cString VGetControlName() const;
 		/********************************************//**
 		 * @return True if the user can move the controls using the mouse.
 		 * False otherwise

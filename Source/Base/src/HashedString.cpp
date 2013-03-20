@@ -81,7 +81,13 @@ unsigned long cHashedString::GetHash() const
 	return m_lChecksum;
 }
 
-// ****************************************************************************
+// *****************************************************************************
+Base::cString cHashedString::GetString() const
+{
+	return m_strIdent;
+}
+
+// *****************************************************************************
 bool cHashedString::operator==(cHashedString const & other) const
 {
 	if(m_lChecksum != 0)

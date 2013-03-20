@@ -250,7 +250,7 @@ bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(AllowMovingControl() && m_bIsLeftMouseDown)
 	{
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
+		Log_Write_L2(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
 	}
 
 	m_bIsLeftMouseDown = false;
@@ -368,6 +368,12 @@ float cBaseControl::VGetHeight() const
 float cBaseControl::VGetWidth() const
 {
 	return m_vSize.x;
+}
+
+// *****************************************************************************
+Base::cString cBaseControl::VGetControlName() const
+{
+	return m_strControlName.GetString();
 }
 
 // *****************************************************************************

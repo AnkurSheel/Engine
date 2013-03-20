@@ -147,6 +147,12 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetText(const Base::cString & strText) = 0;
 		/********************************************//**
+ 		 * @return The name of the control
+		 *
+		 * Returns the name of the control
+		 ***********************************************/
+		virtual Base::cString VGetControlName() const = 0;
+		/********************************************//**
 		 * @param[in] def The params to create the window control  
 		 * @return Pointer to a window control object
 		 *

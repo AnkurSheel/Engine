@@ -27,6 +27,12 @@ cGameControls::~cGameControls()
 }
 
 // *****************************************************************************
+cGameControls::KeyMapping cGameControls::GetKeyMap() const
+{
+	return m_keyMap;
+}
+
+// *****************************************************************************
 void cGameControls::SetKey(const int iKeyIndex, const unsigned int uiKey)
 {
 	unsigned int uiPrevKey = m_keyMap[iKeyIndex].m_uiKeyCode;

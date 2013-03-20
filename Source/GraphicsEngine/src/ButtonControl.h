@@ -42,7 +42,7 @@ namespace Graphics
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		void VSetAbsolutePosition();
-
+		void VSetText(const Base::cString & strText);
 	private:
 		shared_ptr<ITexture>		m_pDefaultTexture;	/*!< The texture to be used when the button is in default state. */ 
 		shared_ptr<ITexture>		m_pPressedTexture;	/*!< The texture to be used when the button is in pressed state. */ 
