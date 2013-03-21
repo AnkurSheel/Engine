@@ -61,7 +61,7 @@ bool cBaseShader::VInitialize(const Base::cString & strShaderName)
 		NULL, &m_pMatrixBuffer);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating matrix buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Error creating matrix buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 			return false;
 	}
@@ -104,7 +104,7 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating Vertex Shader ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Error creating Vertex Shader ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 			return false;
 	}
@@ -128,7 +128,7 @@ bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 	SafeDelete(&pResource);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating pixel shader ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Error creating pixel shader ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 			return false;
 	}
@@ -150,7 +150,7 @@ void cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 		0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the Matrix Buffer to update with the matrices data: ") 
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the Matrix Buffer to update with the matrices data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return ;
 	}

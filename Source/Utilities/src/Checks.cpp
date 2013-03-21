@@ -53,7 +53,7 @@ bool cResourceChecker::IsOnlyInstance(const cString & gameTitle)
 			SetFocus(hWnd); 
 			SetForegroundWindow(hWnd); 
 			SetActiveWindow(hWnd);
-			Log_Write_L1(ILogger::LT_ERROR, "An instance is already running");
+			Log_Write(ILogger::LT_ERROR, 1, "An instance is already running");
 			return false; 
 		} 
 	} 
@@ -154,7 +154,7 @@ bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded)
 	m_AvailableHardDiskSpace = (unsigned int)((float)diskfree.avail_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
 	if (m_AvailableHardDiskSpace < diskSpaceNeeded) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace));
 		return false; 
 	} 
 	return true;
@@ -174,13 +174,13 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 
 	if (m_AvailablePhysicalMemory < (physicalRAMNeeded)) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory));
 		return false; 
 	} 
 	// Check for enough free memory. 
 	if (status.ullAvailVirtual < virtualRAMNeeded) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory));
 		// Tell the player to shut down the copy of Visual Studio running in the 
 		// background, or whatever seems to be sucking the memory dry. 
 		return false; 
@@ -192,7 +192,7 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 	}
 	else 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, "Not Enough Virtual Memory");
+		Log_Write(ILogger::LT_ERROR, 1, "Not Enough Virtual Memory");
 		// The system lied to you. When you attempted to grab a block as big 
 		// as you need the system failed to do so. Something else is eating 
 		// memory in the background; tell them to shut down all other apps 
@@ -383,7 +383,7 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 	m_CPUSpeed = CalcCPUSpeed(); 
 	if(m_CPUSpeed < uMinSpeedReq)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString( 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed));
+		Log_Write(ILogger::LT_ERROR, 1, cString( 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed));
 		return false;
 	}
 	return true; 

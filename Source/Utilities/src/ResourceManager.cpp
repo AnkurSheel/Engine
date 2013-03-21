@@ -34,13 +34,13 @@ void cResourceManager::VInitialize(const cString strPath)
 {
 	if (strPath.IsEmpty())
 	{	
-		Log_Write_L1(ILogger::LT_ERROR, "Empty Assets Path");
+		Log_Write(ILogger::LT_ERROR, 1, "Empty Assets Path");
 	}
 
 	m_pResourceCache = IResCache::CreateResourceCache(30, strPath);
 	if(!m_pResourceCache->Init())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Could not create Resource Cache.\n"));
 		PostQuitMessage(0);
 		return;
 	}

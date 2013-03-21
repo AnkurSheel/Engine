@@ -113,7 +113,7 @@ void cMainWindow::RegisterWin()
 	wc.lpszClassName = "Window" ;
 	if(!RegisterClassEx(&wc))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Window Registration Failed");
+		Log_Write(ILogger::LT_ERROR, 1, "Window Registration Failed");
 		exit(0) ;
 	}
 }
@@ -161,7 +161,7 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 
 	if(m_Hwnd == NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Window Creation Failed");
+		Log_Write(ILogger::LT_ERROR, 1, "Window Creation Failed");
 		PostQuitMessage(0);
 	}
 
@@ -284,7 +284,7 @@ void cMainWindow::SetDisplayResolution()
 		SecureZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
 		if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings))
 		{
-			Log_Write_L2(ILogger::LT_DEBUG, "Could not get current display Settings");
+			Log_Write(ILogger::LT_DEBUG, 1, "Could not get current display Settings");
 			return;
 		}
 
@@ -299,11 +299,11 @@ void cMainWindow::SetDisplayResolution()
 		    // Set the requested graphics mode.
 			if(ChangeDisplaySettings(&dmScreenSettings, 0) == DISP_CHANGE_SUCCESSFUL)
 			{
-				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
+				Log_Write(ILogger::LT_COMMENT, 1, cString(100, "Resolution set to width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
 				return;
 			}
 		}
-		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
+		Log_Write(ILogger::LT_DEBUG, 1, cString(100, "Could not set resolution with width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
 	}
 
 	// return to the default mode
@@ -343,5 +343,5 @@ void IMainWindow::Destroy()
 	if(s_pWindow != NULL)
 		s_pWindow->VCleanup();
 	SafeDelete(&s_pWindow);
-	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
+	Log_Write(ILogger::LT_COMMENT, 2, cString(100, "Window destroyed"));
 }

@@ -45,7 +45,7 @@ bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 	}
 	else
 	{
-		Log_Write_L2(ILogger::LT_COMMENT,  "Shader already loaded " + strShaderName);
+		Log_Write(ILogger::LT_COMMENT, 3, "Shader already loaded " + strShaderName);
 		pShader = ptr;
 	}
 	return bSuccess;

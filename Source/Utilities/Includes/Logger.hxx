@@ -12,61 +12,17 @@
 
 #include "UtilitiesDefines.h"
 
-//#define TEST
-
-//configure some basic precompilation defines
-//0 - no debugging wanted
-//1 - very basic debug output
-//2 - comprehensive debug output
-//3 - all output, and a transcript of all messages
-#ifdef TEST
-#define SYSTEM_DEBUG_LEVEL 3
-#else
-#ifdef _DEBUG
-//Set the output level for 'DEBUG' builds
-#define SYSTEM_DEBUG_LEVEL 2
-#else
-//Set the output level for 'RELEASE' builds
-#define SYSTEM_DEBUG_LEVEL 1
-#endif
-
-#endif
-
-#define Log_Write( linetype, linetext )  \
+#define Log_Write( linetype, priority, linetext )  \
 	if(ILogger::Instance()) \
 	{ \
 		ILogger::Instance()->VWriteLogEntry( \
       (linetype), \
+	  (priority), \
       __FILE__, \
       __FUNCSIG__, \
       __LINE__, \
       (linetext) ); \
 	} 
-
-#if SYSTEM_DEBUG_LEVEL == 3
-  //enable all macros
-  #define Log_Write_L1( linetype, linetext ) Log_Write( linetype, linetext )
-  #define Log_Write_L2( linetype, linetext ) Log_Write( linetype, linetext )
-  #define Log_Write_L3( linetype, linetext ) Log_Write( linetype, linetext )
-      
-#elif SYSTEM_DEBUG_LEVEL == 2
-  //enable levels 1..2 macros
-  #define Log_Write_L1( linetype, linetext ) Log_Write( linetype, linetext )
-  #define Log_Write_L2( linetype, linetext ) Log_Write( linetype, linetext )
-  #define Log_Write_L3( linetype, linetext )
-      
-#elif SYSTEM_DEBUG_LEVEL == 1
-  //enable level 1 macros
-  #define Log_Write_L1( linetype, linetext )  Log_Write( linetype, linetext )
-  #define Log_Write_L2( linetype, linetext )
-  #define Log_Write_L3( linetype, linetext )
-      
-#else
-  //disable macros
-  #define Log_Write_L1( linetype, linetext )
-  #define Log_Write_L2( linetype, linetext )
-  #define Log_Write_L3( linetype, linetext )
-#endif
 
 namespace Base
 {
@@ -120,6 +76,9 @@ namespace Utilities
 		/// used directly. Instead the macro should be used
 		///
 		/// @param[in] eLogEntryType The log Type
+		/// @param[in] uiPriorityLevel The priority of this log message.
+		/// If this is higher than the logfile prioroity set earlier, then this
+		/// message will not be logged
 		/// @param[in] strSourceFile The FIle in which this log originated
 		/// @param[in] strFunction The Function in which this log originated
 		/// @param[in] iSourceLine The line number at which this log originated
@@ -127,8 +86,9 @@ namespace Utilities
 		///
 		////////////////////////////////////////////////////////////////////////
 		UTILITIES_API virtual void VWriteLogEntry(const LogType eLogEntryType,
-			const Base::cString & strSourceFile, const Base::cString & strFunction,
-			int iSourceLine, const Base::cString & strMessage) = 0;
+			const unsigned int uiPriorityLevel, const Base::cString & strSourceFile,
+			const Base::cString & strFunction, const int iSourceLine,
+			const Base::cString & strMessage) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Creates and returns a pointer to a singleton object of this interface
 		///

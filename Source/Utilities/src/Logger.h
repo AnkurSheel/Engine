@@ -35,7 +35,7 @@ namespace Utilities
 		: public ILogger
 		, public Base::cNonCopyable
 	{
-	public:
+	public :
 		~cLogger();
 
 	private:
@@ -44,8 +44,9 @@ namespace Utilities
 		void VSetLogOptions(const bool bShowConsole, const bool bLogToText,
 			const bool bLogToXML, const unsigned int uiPriorityLevel);
 		void VWriteLogEntry(LogType eLogEntryType,
-			const Base::cString & strSourceFile, const Base::cString & strFunction,
-			int iSourceLine, const Base::cString & strMessage);
+			const unsigned int uiPriorityLevel, const Base::cString & strSourceFile,
+			const Base::cString & strFunction, const int iSourceLine,
+			const Base::cString & strMessage);
 		void CreateHeader();
 		void Close();
 		void LogTypeToString(const LogType eLogEntryType, Base::cString & str );

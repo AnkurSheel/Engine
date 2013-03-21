@@ -39,7 +39,7 @@ cMyFont::~cMyFont()
 bool cMyFont::VInitialize(const Base::cString & strFontDescFilename)
 {		
 	ParseFontDesc(strFontDescFilename);
-	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + m_strFontTexPath);
+	Log_Write(ILogger::LT_EVENT, 3, "Loading Sprite : " + m_strFontTexPath);
 
 	if (m_pTexture == NULL)
 	{
@@ -82,7 +82,7 @@ IMyFont::stVertexData cMyFont::VGetCharVertexData(const int iCharAsciiValue)
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not find char descriptor for ascii value : %d", iCharAsciiValue));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Could not find char descriptor for ascii value : %d", iCharAsciiValue));
 	}
 	return vertexData;
 }

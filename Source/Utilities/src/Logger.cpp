@@ -26,7 +26,7 @@ cLogger::cLogger()
 : m_pTextLogFile(NULL)
 , m_hStdOut(NULL) 
 , m_pXmlLogFile(NULL)
-, m_uiPriorityLevel(0)
+, m_uiPriorityLevel(1)
 {
 }
 
@@ -43,7 +43,6 @@ void cLogger::VInitialize()
 	m_pTextLogFile = IFileOutput::CreateOutputFile();
 	if(!(m_pTextLogFile->Open("log.txt", ios_base::out)))
 	{
-		Log_Write(ILogger::LT_ERROR, "Could not open: log.txt");
 		SafeDelete(&m_pTextLogFile);
 	}
 }
@@ -84,15 +83,7 @@ void cLogger::VSetLogOptions(const bool bShowConsole, const bool bLogToText,
 // *****************************************************************************
 void cLogger::CreateHeader()
 {
-#if SYSTEM_DEBUG_LEVEL == 3
-	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Extra Comprehensive debugging information (Level 3)");
-#elif SYSTEM_DEBUG_LEVEL == 2
-	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Comprehensive debugging information (Level 2)");
-#elif SYSTEM_DEBUG_LEVEL == 1
-	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Retail debugging information (Level 1)");
-#else
-	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "No debugging information (Level 0)");
-#endif
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", cString(20, "Level %d", m_uiPriorityLevel));
 	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", cString(50, "%d", m_uiPriorityLevel));
 	m_pXmlLogFile->VAddElement("LogHeader", "Session", "", "");
 	m_pXmlLogFile->VAddElement("Session", "Configuration", "", "");
@@ -155,9 +146,13 @@ void cLogger::Close()
 
 // *****************************************************************************
 void cLogger::VWriteLogEntry(const LogType eLogEntryType,
-			const Base::cString & strSourceFile, const Base::cString & strFunction,
-			int iSourceLine, const Base::cString & strMessage)
+	const unsigned int uiPriorityLevel, const Base::cString & strSourceFile,
+	const Base::cString & strFunction, const int iSourceLine,
+	const Base::cString & strMessage)
 {
+	if(uiPriorityLevel > m_uiPriorityLevel)
+		return;
+
 	Log(eLogEntryType, strMessage);
 	if(!m_pXmlLogFile)
 		return;

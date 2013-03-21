@@ -28,7 +28,7 @@ Utilities::cTimer::cTimer()
     // Check how many times per second the system counter fires
 	if(!QueryPerformanceFrequency( (LARGE_INTEGER *)&m_iTicksPerSecond ))
 	{
-		Log_Write_L2(ILogger::LT_ERROR, "No support for the high performance counter");
+		Log_Write(ILogger::LT_ERROR, 1, "No support for the high performance counter");
 	    PostQuitMessage(0);
 	}
 

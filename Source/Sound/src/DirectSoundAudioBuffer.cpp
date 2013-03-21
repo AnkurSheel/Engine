@@ -112,7 +112,7 @@ void cDirectSoundAudioBuffer::VSetVolume(const unsigned int uiVolume)
 {
 	if (uiVolume <0 || uiVolume > 100)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Volume must be between 0 and 100");
+		Log_Write(ILogger::LT_ERROR, 1, "Volume must be between 0 and 100");
 		return;
 	}
 
@@ -202,7 +202,7 @@ bool cDirectSoundAudioBuffer::FillBufferWithSound()
 		NULL, NULL, NULL);
 	if (FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock sound buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock sound buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}

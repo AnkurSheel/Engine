@@ -180,13 +180,13 @@ void cScrollBarControl::DecrementArrowPressed(const stUIEventCallbackParam & par
 // ****************************************************************************
 void cScrollBarControl::ThumbPressed(const stUIEventCallbackParam & params)
 {
-	Log_Write_L3(ILogger::LT_ERROR, "Drag Mode set");
+	Log_Write(ILogger::LT_ERROR, 3, "Drag Mode set");
 	m_bDragMode = true;
 }
 
 // ****************************************************************************
 void cScrollBarControl::ThumbReleased(const stUIEventCallbackParam & params)
 {
-	Log_Write_L3(ILogger::LT_ERROR, "Drag Mode unset");
+	Log_Write(ILogger::LT_ERROR, 3, "Drag Mode unset");
 	m_bDragMode = false;
 }

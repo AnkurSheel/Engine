@@ -134,7 +134,7 @@ void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 		pos.y += m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
-	Log_Write_L3(ILogger::LT_DEBUG, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
+	Log_Write(ILogger::LT_DEBUG, 3, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
 }
 
 // ***************************************************************

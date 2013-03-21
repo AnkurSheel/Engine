@@ -28,10 +28,10 @@ bool cFileOutput::Open(const cString & strFileName, const std::ios_base::openmod
 
 	if(!m_OutputFile)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not open file " + m_strFileName + " : " + strerror(errno));
+		Log_Write(ILogger::LT_ERROR, 1, "Could not open file " + m_strFileName + " : " + strerror(errno));
 		return false;
 	}
-	Log_Write_L2(ILogger::LT_COMMENT, "Opened file: " + m_strFileName);
+	Log_Write(ILogger::LT_COMMENT, 2, "Opened file: " + m_strFileName);
 	return true;
 }
 

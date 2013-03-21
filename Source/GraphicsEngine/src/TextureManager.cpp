@@ -43,7 +43,7 @@ shared_ptr<ITexture> cTextureManager::VGetTexture(const cString & strTexturePath
 	}
 	else
 	{
-		Log_Write_L2(ILogger::LT_COMMENT,  "Texture already loaded " + 
+		Log_Write(ILogger::LT_COMMENT, 3, "Texture already loaded " + 
 			strTexturePath);
 	}
 	return ptr;

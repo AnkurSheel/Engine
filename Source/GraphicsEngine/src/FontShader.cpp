@@ -46,7 +46,7 @@ void cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 		0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the pixel Buffer to update with the matrices data: ") 
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the pixel Buffer to update with the matrices data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return ;
 	}

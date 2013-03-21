@@ -37,14 +37,14 @@ bool cFileInput::Open(const cString & strFileName, const std::ios_base::openmode
 
 	if(!m_inputFile)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not open file " + m_strFileName + " : " + strerror(errno));
+		Log_Write(ILogger::LT_ERROR, 1, "Could not open file " + m_strFileName + " : " + strerror(errno));
 		return false;
 	}
-	Log_Write_L2(ILogger::LT_COMMENT, "Opened file: " + m_strFileName);
+	Log_Write(ILogger::LT_COMMENT, 3, "Opened file: " + m_strFileName);
 	m_inputFile.seekg(0, std::ios::end);
 	m_iFileSize = static_cast<unsigned long>(m_inputFile.tellg());
 	m_inputFile.seekg(0, std::ios::beg);
-	Log_Write_L2(ILogger::LT_DEBUG, "Size of File " + m_strFileName + cString(20, " : %d bytes", m_iFileSize));
+	Log_Write(ILogger::LT_DEBUG, 3, "Size of File " + m_strFileName + cString(20, " : %d bytes", m_iFileSize));
 	return true;
 }
 
@@ -63,7 +63,7 @@ const unsigned char * const cFileInput::ReadAll()
 {
 	if(!m_inputFile)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "File not found : " + m_strFileName);
+		Log_Write(ILogger::LT_ERROR, 1, "File not found : " + m_strFileName);
 		return NULL;
 	}
 	return Read(m_iFileSize);
@@ -73,7 +73,7 @@ const unsigned char * const cFileInput::Read(unsigned long ulSize)
 {
 	if(!m_inputFile)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "File not found : " + m_strFileName);
+		Log_Write(ILogger::LT_ERROR, 1, "File not found : " + m_strFileName);
 		return NULL;
 	}
 
@@ -81,7 +81,7 @@ const unsigned char * const cFileInput::Read(unsigned long ulSize)
 	m_inputFile.read((char *)m_pBuffer, ulSize);
 	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in reading file: " + m_strFileName);
+		Log_Write(ILogger::LT_ERROR, 1, "Error in reading file: " + m_strFileName);
 		SafeDeleteArray(&m_pBuffer);
 	}
 	return m_pBuffer;

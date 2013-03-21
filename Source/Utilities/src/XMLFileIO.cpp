@@ -58,12 +58,12 @@ void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
 // *****************************************************************************
 bool cXMLFileIO::VLoad( const cString & strFilePath)
 {
-	Log_Write_L1(ILogger::LT_DEBUG, "loading XML file " + strFilePath);
+	Log_Write(ILogger::LT_DEBUG, 3, "loading XML file " + strFilePath);
 	SafeDelete(&m_pDoc);
 	m_pDoc = DEBUG_NEW XMLDocument();
 	if (m_pDoc->LoadFile(strFilePath.GetData()) != XML_NO_ERROR)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not load XML file " + strFilePath);
+		Log_Write(ILogger::LT_ERROR, 1, "Could not load XML file " + strFilePath);
 		return false;
 	}
 
@@ -77,13 +77,13 @@ bool cXMLFileIO::VLoad( const cString & strFilePath)
 // *****************************************************************************
 void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 {
-	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
+	Log_Write(ILogger::LT_DEBUG, 3, "Parsing XML file ");
 	SafeDelete(&m_pDoc);
 	m_pDoc = DEBUG_NEW XMLDocument();
 	
 	if (m_pDoc->Parse(strXML.GetData(), size) != XML_NO_ERROR)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not parse XML file");
+		Log_Write(ILogger::LT_ERROR, 1, "Could not parse XML file");
 		return;
 	}
 
@@ -186,7 +186,7 @@ cString cXMLFileIO::VGetNodeValue(const cString & strElementID)
 	ElementMap::const_iterator curr = m_ElementMap.find(strElementID);
 	if (curr == m_ElementMap.end())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "could not find element " + strElementID) ;
+		Log_Write(ILogger::LT_ERROR, 1, "could not find element " + strElementID) ;
 		return "";
 	}
 	XMLElement * pElem = const_cast<XMLElement*> (curr->second);
@@ -204,7 +204,7 @@ cString cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find attribute" + strAttributeName + " for " + strElementID);
+		Log_Write(ILogger::LT_ERROR, 1, "Could not find attribute" + strAttributeName + " for " + strElementID);
 	}
 	return "";
 }
@@ -217,7 +217,7 @@ int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 	tOptional<int> val = strAttributeValue.ToInt();
 	if(val.IsInvalid())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		Log_Write(ILogger::LT_ERROR, 1, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
 		return 0;
 	}
 	return *val;
@@ -231,7 +231,7 @@ bool cXMLFileIO::VGetNodeAttributeAsBool(const Base::cString & strElementID,
 	tOptional<bool> val = strAttributeValue.ToBool();
 	if(val.IsInvalid())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		Log_Write(ILogger::LT_ERROR, 1, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
 		return false;
 	}
 	return *val;
@@ -268,7 +268,7 @@ void cXMLFileIO::AddChildElements(XMLElement * const pParent)
 		itr = m_ElementMap.insert(std::make_pair(strName, pElement));
 		if(itr == m_ElementMap.end())
 		{
-			Log_Write_L1(ILogger::LT_ERROR, "Duplicate element name " + strName)
+			Log_Write(ILogger::LT_ERROR, 1, "Duplicate element name " + strName)
 		}
 		AddChildElements(pElement);
 		pElement = pElement->NextSiblingElement();

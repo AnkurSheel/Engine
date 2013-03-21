@@ -117,7 +117,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 
 	if(!Open(resFileName, std::ios_base::in | std::ios_base::binary))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not open:" + resFileName)
+		Log_Write(ILogger::LT_ERROR, 1, "Could not open:" + resFileName)
 		return false;
 	}
 
@@ -131,15 +131,15 @@ bool cZipFile::Init(const Base::cString & resFileName)
 	// Check
 	if (dh.sig != TZipDirHeader::SIGNATURE)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Dir Header Signature did not match for file: " + m_strFileName);
+		Log_Write(ILogger::LT_ERROR, 1, "Dir Header Signature did not match for file: " + m_strFileName);
 		return false;
 	}
 
 	//Set the file position to the beginning of the array of TZipDirFileHeader structures
 	m_inputFile.seekg(dhOffset - dh.dirSize, std::ios_base::beg);
 
-	Log_Write_L2(ILogger::LT_DEBUG, m_strFileName + cString(100, "Dir Size : %d", dh.dirSize));
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "No. of Entries : %d in file ", dh.nDirEntries) + m_strFileName);
+	Log_Write(ILogger::LT_DEBUG, 3, m_strFileName + cString(100, "Dir Size : %d", dh.dirSize));
+	Log_Write(ILogger::LT_DEBUG, 3, cString(100, "No. of Entries : %d in file ", dh.nDirEntries) + m_strFileName);
 
 	// Allocate the data buffer, and read the whole thing.
 	m_pDirData = DEBUG_NEW char[dh.dirSize + dh.nDirEntries*sizeof(*m_papDir)];
@@ -164,7 +164,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 		// Check the directory entry integrity.
 		if (fh.sig != TZipDirFileHeader::SIGNATURE)
 		{
-			Log_Write_L1(ILogger::LT_ERROR, "Dir File Header Signature did not match for file: " + m_strFileName);
+			Log_Write(ILogger::LT_ERROR, 1, "Dir File Header Signature did not match for file: " + m_strFileName);
 			SafeDeleteArray(&m_pDirData);
 			return false;
 		}
@@ -224,7 +224,7 @@ cString cZipFile::GetFilename(int i)  const
 {
 	if (i < 0 || i >= m_nEntries)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
 		return "";
 	}
 	else
@@ -240,7 +240,7 @@ int cZipFile::GetFileLen(int i) const
 {
 	if (i < 0 || i >= m_nEntries)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
 		return -1;
 	}
 	else
@@ -258,7 +258,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 {
 	if (pBuf == NULL || i < 0 || i >= m_nEntries)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
 		return false;
 	}
 
@@ -270,7 +270,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	m_inputFile.read((char *)(&h), sizeof(h));
 	if (h.sig != TZipLocalHeader::SIGNATURE)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Corrupt ZipFile: %s. Local Header Signature did not match", m_strFileName.GetData()));
+		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Corrupt ZipFile: %s. Local Header Signature did not match", m_strFileName.GetData()));
 		return false;
 	}
 
@@ -279,7 +279,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 
 	if (h.compression == Z_NO_COMPRESSION)
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, "No Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
+		Log_Write(ILogger::LT_COMMENT, 3, "No Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
 		// Simply read in raw stored data.
 		m_inputFile.read((char *)(pBuf), h.cSize);
 
@@ -287,7 +287,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	}
 	else if (h.compression != Z_DEFLATED)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Unknown Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
+		Log_Write(ILogger::LT_ERROR, 1, "Unknown Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
 		return false;
 	}
 	// Alloc compressed data buffer and read the whole stream

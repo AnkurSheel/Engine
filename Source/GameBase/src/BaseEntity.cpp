@@ -46,7 +46,7 @@ void cBaseEntity::SetID(const int iID)
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(30, "%d is less than valid id. Setting ID to %d", m_iID, m_siNextValidID));
+		Log_Write(ILogger::LT_ERROR, 2, cString(30, "%d is less than valid id. Setting ID to %d", m_iID, m_siNextValidID));
 		m_iID = m_siNextValidID;
 	}
 	m_siNextValidID = m_iID + 1;

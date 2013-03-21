@@ -46,7 +46,7 @@ bool cDirectSoundAudio::VInitialize(const HWND & hwnd)
 	result = DirectSoundCreate8(NULL, &m_pDS, NULL);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create direct sound")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create direct sound")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}
@@ -54,7 +54,7 @@ bool cDirectSoundAudio::VInitialize(const HWND & hwnd)
 	result = m_pDS->SetCooperativeLevel(hwnd, DSSCL_PRIORITY);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not set direct sound cooperative level")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not set direct sound cooperative level")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}
@@ -91,7 +91,7 @@ bool cDirectSoundAudio::SetPrimaryBufferFormat(const unsigned short usPrimaryCha
 	result = m_pDS->CreateSoundBuffer(&bufferDesc, &pDSBuffer, NULL);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create sound buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create sound buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}
@@ -108,7 +108,7 @@ bool cDirectSoundAudio::SetPrimaryBufferFormat(const unsigned short usPrimaryCha
 	result = pDSBuffer->SetFormat(&wfx);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not set format for sound buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not set format for sound buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}
@@ -147,7 +147,7 @@ IAudioBuffer * cDirectSoundAudio::VInitializeAudioBuffer(shared_ptr<ISoundResHan
 	result = m_pDS->CreateSoundBuffer(&bufferDesc, &pDSBuffer, NULL);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create sound buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create sound buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return NULL;
 	}

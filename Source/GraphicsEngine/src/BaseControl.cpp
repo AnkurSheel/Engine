@@ -152,7 +152,7 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 	}
 	if(iter == m_pChildControl.end())
 	{
-		Log_Write_L2(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
+		Log_Write(ILogger::LT_ERROR, 2, "Could not find Child control " + strControlName + " in Base Control");
 	}
 	else
 	{
@@ -177,7 +177,7 @@ IBaseControl * const cBaseControl::VFindChildControl(const Base::cString & strCo
 	}
 	if(iter == m_pChildControl.end())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
+		Log_Write(ILogger::LT_ERROR, 2, "Could not find Child control " + strControlName + " in Base Control");
 		return NULL;
 	}
 	else
@@ -242,7 +242,7 @@ void cBaseControl::VMoveToFront(const IBaseControl * const pControl )
 // *****************************************************************************
 void cBaseControl::VSetText(const Base::cString & strText)
 {
-	Log_Write_L1(ILogger::LT_ERROR, "This function should be implemented in a child class.")
+	Log_Write(ILogger::LT_COMMENT, 1, "This function should be implemented in a child class.")
 }
 
 // *****************************************************************************
@@ -250,7 +250,7 @@ bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(AllowMovingControl() && m_bIsLeftMouseDown)
 	{
-		Log_Write_L2(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
+		Log_Write(ILogger::LT_COMMENT, 2, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
 	}
 
 	m_bIsLeftMouseDown = false;
@@ -490,7 +490,7 @@ cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(
 	}
 	if(iter == m_pChildControl.end())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control in Base Control");
+		Log_Write(ILogger::LT_ERROR, 2, "Could not find Child control in Base Control");
 	}
 	return iter;
 }

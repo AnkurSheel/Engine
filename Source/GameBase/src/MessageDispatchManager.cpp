@@ -44,12 +44,12 @@ void cMessageDispatchManager::VDispatchMessage(const double dDelay,
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately from %s to %s", iMsg, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
+		Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Sending msg %d immediately from %s to %s", iMsg, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
 		Discharge(pReciever, telegram);
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds from %s to %s", iMsg, dDelay, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
+		Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Sending msg %d with delay of %0.2f seconds from %s to %s", iMsg, dDelay, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
 		double dCurrentTime = m_pTimer->VGetRunningTime();
 		telegram.DispatchTime = dCurrentTime + dDelay;
 		m_PriorityQueue.insert(telegram);
@@ -81,11 +81,11 @@ void cMessageDispatchManager::Discharge( IBaseEntity * const pReceiver, const AI
 {
 	if(pReceiver->VOnHandleMessage(msg))
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Message %d Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
+		Log_Write(ILogger::LT_COMMENT, 2, cString(100, "Message %d Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
 	}
 	else
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Message %d Not Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
+		Log_Write(ILogger::LT_COMMENT, 2, cString(100, "Message %d Not Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
 	}
 }
 

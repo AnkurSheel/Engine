@@ -166,7 +166,7 @@ tOptional<cString> cParamLoader::VGetParameterValueAsString(const cString & strP
 			iter++;
 			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
 			{
-				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write(ILogger::LT_ERROR, 1, "No value associated with  " + strParameter + " in " + m_strFileName);
 				val.clear();
 				break;
 			}
@@ -247,7 +247,7 @@ void cParamLoader::VGetParameterValueAsStringList(const cString & strParameter,
 			iter++;
 			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
 			{
-				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write(ILogger::LT_ERROR, 1, "No value associated with  " + strParameter + " in " + m_strFileName);
 				vValue.clear();
 				break;
 			}
@@ -282,7 +282,7 @@ tOptional<int> cParamLoader::GetNextParameterAsInt()
 	tOptional<int> val =  m_strBuffer.ToInt();
 	if(val.IsInvalid())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting int parameter");
+		Log_Write(ILogger::LT_ERROR, 1, "Error in getting int parameter");
 	}
 	return val;
 }
@@ -293,7 +293,7 @@ tOptional<float> cParamLoader::GetNextParameterAsFloat()
 	tOptional<float> val =  m_strBuffer.ToFloat();
 	if(val.IsInvalid())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting float parameter");
+		Log_Write(ILogger::LT_ERROR, 1, "Error in getting float parameter");
 	}
 	return val;
 }
@@ -304,7 +304,7 @@ tOptional<bool> cParamLoader::GetNextParameterAsBool()
 	tOptional<bool> val =  m_strBuffer.ToBool();
 	if(val.IsInvalid())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting bool parameter");
+		Log_Write(ILogger::LT_ERROR, 1, "Error in getting bool parameter");
 	}
 	return val;
 }

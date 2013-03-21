@@ -167,7 +167,7 @@ bool cModel::CreateVertexBuffer( const stTexVertex * const pVertices )
 		&vertexData, &m_pVertexBuffer);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Vertex Buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create Vertex Buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
@@ -195,7 +195,7 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 		&indexData, &m_pIndexBuffer);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create Index Buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}

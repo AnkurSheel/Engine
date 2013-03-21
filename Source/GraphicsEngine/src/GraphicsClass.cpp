@@ -48,7 +48,7 @@ void Graphics::cGraphicsClass::VInitialize( const HWND & hWnd,
 {
 	if (IDXBase::GetInstance() == NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, " Could not create DXBase");
+		Log_Write(ILogger::LT_ERROR, 1, "Could not create DXBase");
 		PostQuitMessage(0);
 		return;
 	}

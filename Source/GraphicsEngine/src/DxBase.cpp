@@ -278,7 +278,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 	}
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the swap chain, Direct3D device, and Direct3D device context : ") 
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the swap chain, Direct3D device, and Direct3D device context : ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -320,7 +320,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
 	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_p3DDepthStencilState);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil state")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the depth stencil state")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -359,7 +359,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
 	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_p2DDepthStencilState);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil state for 2D drawing")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the depth stencil state for 2D drawing")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -380,7 +380,7 @@ bool Graphics::cDXBase::CreateDepthStencilView()
 	HRESULT result = m_pDevice->CreateDepthStencilView(m_pDepthStencilBuffer, &depthStencilViewDesc, &m_pDepthStencilView);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil view")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the depth stencil view")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -407,7 +407,7 @@ bool Graphics::cDXBase::CreateBlendStates()
 	HRESULT result = m_pDevice->CreateBlendState(&blendStateDescription, &m_pAlphaEnableBlendingState);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the blend State")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the blend State")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
@@ -418,7 +418,7 @@ bool Graphics::cDXBase::CreateBlendStates()
 		&m_pAlphaDisableBlendingState);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the blend State")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the blend State")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
@@ -443,7 +443,7 @@ bool Graphics::cDXBase::SetupRasterStates()
 	HRESULT result = m_pDevice->CreateRasterizerState(&rasterDesc, &m_pRasterState);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create raster State")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create raster State")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -478,7 +478,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pFactory);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create IDXGIFactory factory")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create IDXGIFactory factory")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -488,7 +488,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 	result = pFactory->EnumAdapters(0, &pAdapter);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create  an adapter for the video card")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create  an adapter for the video card")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -498,7 +498,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 	result = pAdapter->EnumOutputs(0, &pAdapterOutput);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not Enumerate the monitor")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not Enumerate the monitor")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -509,7 +509,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 		DXGI_ENUM_MODES_INTERLACED, &iNumModes, NULL);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the number of modes for the monitor with DXGI_FORMAT_R8G8B8A8_UNORM display format.")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not get the number of modes for the monitor with DXGI_FORMAT_R8G8B8A8_UNORM display format.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -520,7 +520,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 		DXGI_ENUM_MODES_INTERLACED, &iNumModes, pDisplayModeList);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the display modes for this monitor/video card combination.")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not get the display modes for this monitor/video card combination.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
@@ -556,7 +556,7 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 		(LPVOID*)&pbackBufferTexture);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get a pointer to the back buffer.")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not get a pointer to the back buffer.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		bSuccess = false;
@@ -566,7 +566,7 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 		result = m_pDevice->CreateRenderTargetView(pbackBufferTexture, NULL, &m_pRenderTargetView);
 		if(FAILED(result))
 		{
-			Log_Write_L1(ILogger::LT_ERROR, cString("Could not create a render target view with the back buffer pointer.")
+			Log_Write(ILogger::LT_ERROR, 1, cString("Could not create a render target view with the back buffer pointer.")
 				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 			PostQuitMessage(0);
 			bSuccess = false;
@@ -598,7 +598,7 @@ bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iH
 	HRESULT result = m_pDevice->CreateTexture2D(&depthBufferDesc, NULL, &m_pDepthStencilBuffer);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the 2D texture for the depth buffer")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create the 2D texture for the depth buffer")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;

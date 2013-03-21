@@ -44,7 +44,7 @@ shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontName)
 	}
 	else
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, "Font already loaded: " + strFontName);
+		Log_Write(ILogger::LT_COMMENT, 3, "Font already loaded: " + strFontName);
 	}
 	return ptr;
 }

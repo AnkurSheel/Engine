@@ -212,7 +212,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 		HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 		if(FAILED(result))
 		{
-			Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
+			Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
 				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 
 			SafeDeleteArray(&pVertices);
@@ -298,7 +298,7 @@ bool cSentence::CreateVertexBuffer()
 
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Vertex Buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create Vertex Buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
@@ -340,7 +340,7 @@ bool cSentence::CreateIndexBuffer()
 	bool bSuccess;
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
+		Log_Write(ILogger::LT_ERROR, 1, cString("Could not create Index Buffer ")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		bSuccess = false;
 	}

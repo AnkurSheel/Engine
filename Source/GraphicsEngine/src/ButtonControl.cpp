@@ -87,7 +87,7 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(m_bIsLeftMouseDown)
 	{
-		Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
+		Log_Write(ILogger::LT_COMMENT, 3, "cButtonControl :Button Released");
 		m_bPressed = false;
 		if(m_pDefaultTexture)
 		{
@@ -106,7 +106,7 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 // ***************************************************************
 bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
+	Log_Write(ILogger::LT_COMMENT, 3, "cButtonControl: Button Pressed");
 	m_bPressed = true;
 	if (m_pPressedTexture)
 	{

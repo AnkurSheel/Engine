@@ -83,7 +83,7 @@ bool cSoundResHandle::VInitialize()
 		}
 		else
 		{
-			Log_Write_L1(ILogger::LT_ERROR, "We do not support " + strExt + " at this time");
+			Log_Write(ILogger::LT_ERROR, 1, "We do not support " + strExt + " at this time");
 		}
 		m_bInitialized = true;
 	}
@@ -143,7 +143,7 @@ bool cSoundResHandle::ParseWave(const char * const pWavStream,
 		switch(uiType)
 		{ 
 		case mmioFOURCC('f', 'a', 'c', 't'):
-				Log_Write_L1(ILogger::LT_ERROR, "This wav file is compressed. We don't handle compressed wav at this time");
+				Log_Write(ILogger::LT_ERROR, 1, "This wav file is compressed. We don't handle compressed wav at this time");
 				break; 
 
 		case mmioFOURCC('f', 'm', 't', ' '):
@@ -173,7 +173,7 @@ bool cSoundResHandle::ParseWave(const char * const pWavStream,
 			++uiFile;
 		}
 	}
-	Log_Write_L1(ILogger::LT_ERROR, "This wav file didnt contain all the right pieces");
+	Log_Write(ILogger::LT_ERROR, 1, "This wav file didnt contain all the right pieces");
 	return false;
 }
 
@@ -215,7 +215,7 @@ bool cSoundResHandle::ParseOgg(const char * const pOggStream,
 	int ov_ret = ov_open_callbacks(pVorbisMemoryFile, &vf, NULL, 0, oggCallbacks);
 	if(ov_ret < 0)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error while setting vorbis callbacks" );
+		Log_Write(ILogger::LT_ERROR, 1, "Error while setting vorbis callbacks" );
 		return false;
 	}
 
@@ -326,7 +326,7 @@ int VorbisSeek(void * data_src, ogg_int64_t offset, int origin)
 		break;
 
 	default:
-		Log_Write_L1(ILogger::LT_ERROR, "Bad parameter for 'origin', requires same as fseek.");
+		Log_Write(ILogger::LT_ERROR, 1, "Bad parameter for 'origin', requires same as fseek.");
 		break;
 	};
 

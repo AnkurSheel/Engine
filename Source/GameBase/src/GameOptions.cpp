@@ -34,13 +34,13 @@ void cGameOptions::InitializeGameOptions(const cString & strPlayerOptionsFile)
 		if (gameOptions.iWidth < 800) 
 		{
 			gameOptions.iWidth = 800;
-			Log_Write_L1(ILogger::LT_ERROR, "Default width of 800 applied");
+			Log_Write(ILogger::LT_ERROR, 1, "Default width of 800 applied");
 		}
 		gameOptions.iHeight = pXml->VGetNodeAttributeAsInt("Graphics", "height");
 		if (gameOptions.iHeight < 600) 
 		{
 			gameOptions.iWidth = 600;
-			Log_Write_L1(ILogger::LT_ERROR, "Default height of 600 applied");
+			Log_Write(ILogger::LT_ERROR, 1, "Default height of 600 applied");
 		}
 		gameOptions.bPlayMusic = pXml->VGetNodeAttributeAsBool("Sound", "PlayMusic");
 		gameOptions.iMusicVolume = pXml->VGetNodeAttributeAsInt("Sound", "musicVolume");

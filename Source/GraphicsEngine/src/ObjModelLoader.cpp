@@ -49,7 +49,7 @@ shared_ptr<stModelDef> cObjModelLoader::VGetModelDef(const Base::cString & strMo
 	}
 	else
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, "Model def already loaded: " + strModelFile);
+		Log_Write(ILogger::LT_COMMENT, 3, "Model def already loaded: " + strModelFile);
 	}
 	return ptr;
 }

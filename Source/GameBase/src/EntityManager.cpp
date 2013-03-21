@@ -33,7 +33,7 @@ cEntityManager::~cEntityManager()
 // ***************************************************************
 void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
+	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
 	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
 }
 
