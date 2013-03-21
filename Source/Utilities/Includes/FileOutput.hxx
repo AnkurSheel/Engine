@@ -26,6 +26,7 @@ namespace Utilities
 		UTILITIES_API virtual bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode) = 0;
 		UTILITIES_API virtual bool Close() = 0;
 		UTILITIES_API virtual void WriteLine(const Base::cString & strLine) = 0;
+		UTILITIES_API virtual void Flush() = 0;
 		
 		UTILITIES_API static  IFileOutput * CreateOutputFile();
 	};

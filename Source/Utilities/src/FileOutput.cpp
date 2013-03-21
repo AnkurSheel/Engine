@@ -41,6 +41,11 @@ void cFileOutput::WriteLine(const Base::cString & strLine)
 	m_OutputFile<<strLine.GetData();
 }
 
+void cFileOutput::Flush()
+{
+	m_OutputFile.flush();
+}
+
 // *************************************************************************
 bool cFileOutput::Close()
 {

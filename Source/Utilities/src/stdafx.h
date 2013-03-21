@@ -27,7 +27,6 @@
 // Windows Header Files:
 
 // TODO: reference additional headers your program requires here
-#include <stdio.h>
 #include "Logger.hxx"
 #include "Optional.h"
 

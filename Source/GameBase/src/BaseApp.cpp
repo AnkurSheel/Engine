@@ -46,7 +46,7 @@ cBaseApp::cBaseApp(const cString strName)
 void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 								 const cString & strOptionsFile)
 {
-	ILogger::GetInstance()->StartConsoleWin(80,60, "log.txt");
+	ILogger::Instance()->VInitialize();
 	
 	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
 		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
@@ -55,15 +55,20 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		PostQuitMessage(0);
 	}
 	
-	ILogger::GetInstance()->CreateHeader();
-
-	IResourceChecker::Destroy();
-
 	if(m_pParamLoader == NULL)
 	{
 		m_pParamLoader = IParamLoader::CreateParamLoader();
 		m_pParamLoader->VLoadParametersFromFile(strOptionsFile);
 	}
+
+	bool bShowConsoleLog = m_pParamLoader->VGetParameterValueAsBool("-showconsolelog", false);
+	bool bLogToText = m_pParamLoader->VGetParameterValueAsBool("-logtotext", false);
+	bool bLogToXML = m_pParamLoader->VGetParameterValueAsBool("-logtoxml", false);
+	unsigned int uiPriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 0);
+	ILogger::Instance()->VSetLogOptions(bShowConsoleLog, bLogToText, bLogToXML, uiPriorityLevel);
+
+	IResourceChecker::Destroy();
+
 	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
 	m_strName = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
 	if (bMultipleInstances)

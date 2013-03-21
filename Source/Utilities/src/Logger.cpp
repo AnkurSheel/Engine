@@ -1,17 +1,18 @@
-// ***************************************************************
+// *****************************************************************************
 //  Logger   version:  1.0   Ankur Sheel  date: 2011/01/04
-//  -------------------------------------------------------------
-// 2011/01/04 : based on 
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
+//
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Logger.h"
 #include <time.h>
 #include "XMLFileIO.hxx"
 #include "Checks.hxx"
+#include "FileOutput.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -20,153 +21,167 @@ using namespace std;
 int cLogger::m_iCurrentId = 1;
 cLogger * Utilities::cLogger::s_pLogger = NULL;
 
-// ***************************************************************
-// Constructor
-// ***************************************************************
+// *****************************************************************************
 cLogger::cLogger()
-: m_fStdOut(NULL)
+: m_pTextLogFile(NULL)
 , m_hStdOut(NULL) 
-, m_fXml(NULL)
+, m_pXmlLogFile(NULL)
+, m_uiPriorityLevel(0)
 {
 }
 
+// *****************************************************************************
 cLogger::~cLogger()
 {
 	Close();
-	SafeDelete(&m_fXml);
+	SafeDelete(&m_pXmlLogFile);
 }
-// ***************************************************************
 
-// ***************************************************************
-// creates the console Window
-// ***************************************************************
-void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cString & cfName /*= NULL*/ )
+// *****************************************************************************
+void cLogger::VInitialize()
 {
-#ifdef _DEBUG
-	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	if(m_hStdOut == NULL && AllocConsole() != 0)
+	m_pTextLogFile = IFileOutput::CreateOutputFile();
+	if(!(m_pTextLogFile->Open("log.txt", ios_base::out)))
 	{
-		SetConsoleTitle("Console Logger");
-		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-		FILE *fp;
-		freopen_s(&fp, "CONOUT$", "w", stdout);
+		Log_Write(ILogger::LT_ERROR, "Could not open: log.txt");
+		SafeDelete(&m_pTextLogFile);
 	}
-	COORD co = {ciWidth, ciHeight};
-	SetConsoleScreenBufferSize(m_hStdOut, co);
-
-	SMALL_RECT windowSize = {0, 0, ciWidth-1, ciHeight-1};
-	SetConsoleWindowInfo( m_hStdOut, TRUE, &windowSize);
-#endif
-	if (!cfName.IsEmpty())
-	{
-		fopen_s(&m_fStdOut, cfName.GetData(), "w");
-	}
-	m_fXml = IXMLFileIO::CreateXMLFile();
-	m_fXml->VInitializeForSave("RunTimeLog", "BasicXSLT.xsl");
-	m_fXml->VAddElement("RunTimeLog", "LogHeader", "", "");
-	m_fXml->VAddElement("RunTimeLog", "LogEvents", "", "");
-
 }
+
+// *****************************************************************************
+void cLogger::VSetLogOptions(const bool bShowConsole, const bool bLogToText,
+	const bool bLogToXML, const unsigned int uiLevel)
+{
+	m_uiPriorityLevel = uiLevel;
+
+	if(bShowConsole)
+	{
+		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		if(m_hStdOut == NULL && AllocConsole() != 0)
+		{
+			SetConsoleTitle("Logger");
+			m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			FILE *fp;
+			freopen_s(&fp, "CONOUT$", "w", stdout);
+		}
+	}
+
+	if(!bLogToText && m_pTextLogFile)
+	{
+		SafeDelete(&m_pTextLogFile);
+	}
+
+	if(bLogToXML)
+	{
+		m_pXmlLogFile = IXMLFileIO::CreateXMLFile();
+		m_pXmlLogFile->VInitializeForSave("RunTimeLog", "BasicXSLT.xsl");
+		m_pXmlLogFile->VAddElement("RunTimeLog", "LogHeader", "", "");
+		m_pXmlLogFile->VAddElement("RunTimeLog", "LogEvents", "", "");
+		CreateHeader();
+	}
+}
+
+// *****************************************************************************
 void cLogger::CreateHeader()
 {
-	if(!m_fXml)
-		return;
 #if SYSTEM_DEBUG_LEVEL == 3
-	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Extra Comprehensive debugging information (Level 3)");
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Extra Comprehensive debugging information (Level 3)");
 #elif SYSTEM_DEBUG_LEVEL == 2
-	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Comprehensive debugging information (Level 2)");
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Comprehensive debugging information (Level 2)");
 #elif SYSTEM_DEBUG_LEVEL == 1
-	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Retail debugging information (Level 1)");
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "Retail debugging information (Level 1)");
 #else
-	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "No debugging information (Level 0)");
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", "No debugging information (Level 0)");
 #endif
-	m_fXml->VAddElement("LogHeader", "Session", "", "");
-	m_fXml->VAddElement("Session", "Configuration", "", "");
-	m_fXml->VAddElement("Configuration", "Memory", "", "");
-	m_fXml->VAddElement("Memory", "AvailablePhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
+	m_pXmlLogFile->VAddElement("LogHeader", "OutputLevel", "", cString(50, "%d", m_uiPriorityLevel));
+	m_pXmlLogFile->VAddElement("LogHeader", "Session", "", "");
+	m_pXmlLogFile->VAddElement("Session", "Configuration", "", "");
+	m_pXmlLogFile->VAddElement("Configuration", "Memory", "", "");
+	m_pXmlLogFile->VAddElement("Memory", "AvailablePhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
 
-	m_fXml->VAddElement("Memory", "TotalPhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalPhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
 
-	m_fXml->VAddElement("Memory", "AvailableVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "AvailableVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
 
-	m_fXml->VAddElement("Memory", "TotalVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
 
-	m_fXml->VAddElement("Memory", "AvailableHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
+	m_pXmlLogFile->VAddElement("Memory", "AvailableHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
 
-	m_fXml->VAddElement("Memory", "TotalHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
 
-	m_fXml->VAddElement("Configuration", "Processor", "", "");
-	m_fXml->VAddElement("Processor", "ClockSpeed", "", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
+	m_pXmlLogFile->VAddElement("Configuration", "Processor", "", "");
+	m_pXmlLogFile->VAddElement("Processor", "ClockSpeed", "", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
 
-	m_fXml->VAddElement("Processor", "Family", "", IResourceChecker::GetInstance()->GetCPUBrand());
+	m_pXmlLogFile->VAddElement("Processor", "Family", "", IResourceChecker::GetInstance()->GetCPUBrand());
 
-	m_fXml->VAddElement("Session", "Started", "", "");
+	m_pXmlLogFile->VAddElement("Session", "Started", "", "");
 
 	time_t currentTime;
-	time(&currentTime );
-	m_fXml->VAddElement("Started", "Time", "", cString::TimeToString(currentTime));
+	time(&currentTime);
+	m_pXmlLogFile->VAddElement("Started", "Time", "", cString::TimeToString(currentTime));
 
-	m_fXml->VAddElement("Configuration", "Environment", "", IResourceChecker::GetInstance()->GetOSVersion());
+	m_pXmlLogFile->VAddElement("Configuration", "Environment", "", IResourceChecker::GetInstance()->GetOSVersion());
 }
 
+// *****************************************************************************
 void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
 {
-	char strtime[100];
 	time_t currentTime;
-	time(&currentTime );
-	ctime_s(strtime, 100, &currentTime);
-	strtime[24] = ' ';
+	time(&currentTime);
+	cString strTime = cString::TimeToString(currentTime);
 
-#ifdef _DEBUG
-	SetConsoleTextColor(eLogEntryType);
-	cout << strtime << str << "\n";
-#endif
-	if (m_fStdOut)
+	if(m_hStdOut)
 	{
-		fprintf(m_fStdOut, strtime);
-		fprintf(m_fStdOut, str.GetData());
-		fprintf(m_fStdOut, "\n");
-		fflush(m_fStdOut); 
+		SetConsoleTextColor(eLogEntryType);
+		cout << strTime.GetData() << str << "\n";
+	}
+
+	if (m_pTextLogFile)
+	{
+		m_pTextLogFile->WriteLine(strTime + str + "\n");
+		m_pTextLogFile->Flush();
 	}
 }
-// ***************************************************************
 
+// *****************************************************************************
 void cLogger::Close()
 {
-	m_fXml->VSave("log.xml");
-	if (m_fStdOut)
+	m_pXmlLogFile->VSave("log.xml");
+	if (m_pTextLogFile)
 	{
-		fclose(m_fStdOut);
+		m_pTextLogFile->Close();
 	}
 }
-// ***************************************************************
 
-void cLogger::WriteLogEntry(const LogType eLogEntryType, const cString & strSourceFile, const cString & strFunction, int iSourceLine, const cString & strMessage )
+// *****************************************************************************
+void cLogger::VWriteLogEntry(const LogType eLogEntryType,
+			const Base::cString & strSourceFile, const Base::cString & strFunction,
+			int iSourceLine, const Base::cString & strMessage)
 {
 	Log(eLogEntryType, strMessage);
-	if(!m_fXml)
+	if(!m_pXmlLogFile)
 		return;
 
-	cString strEvent = m_fXml->VAddElement("LogEvents", "LogEvent", cString(20, "%d", m_iCurrentId), "");
+	cString strEvent = m_pXmlLogFile->VAddElement("LogEvents", "LogEvent", cString(20, "%d", m_iCurrentId), "");
 
 	cString str;
 	LogTypeToString(eLogEntryType, str);
-	m_fXml->VAddElement(strEvent, "Type", "", str);
+	m_pXmlLogFile->VAddElement(strEvent, "Type", "", str);
 
 	time_t currentTime;
 	time(&currentTime );
 
-	m_fXml->VAddElement(strEvent, "TimeIndex", "", cString::TimeToString(currentTime));
+	m_pXmlLogFile->VAddElement(strEvent, "TimeIndex", "", cString::TimeToString(currentTime));
 
-	m_fXml->VAddElement(strEvent, "File", "", strSourceFile);
-	m_fXml->VAddElement(strEvent, "Function", "", strFunction);
+	m_pXmlLogFile->VAddElement(strEvent, "File", "", strSourceFile);
+	m_pXmlLogFile->VAddElement(strEvent, "Function", "", strFunction);
 
-	m_fXml->VAddElement(strEvent, "LineNumber", "", cString(20, "%d", iSourceLine));
-	m_fXml->VAddElement(strEvent, "Message", "", strMessage);
+	m_pXmlLogFile->VAddElement(strEvent, "LineNumber", "", cString(20, "%d", iSourceLine));
+	m_pXmlLogFile->VAddElement(strEvent, "Message", "", strMessage);
 	m_iCurrentId++;
 }
-// ***************************************************************
 
+// *****************************************************************************
 void cLogger::SetConsoleTextColor(const LogType eLogEntryType)
 {
 	switch(eLogEntryType)
@@ -196,9 +211,9 @@ void cLogger::SetConsoleTextColor(const LogType eLogEntryType)
 		break;
 	}
 }
-// ***************************************************************
 
-void cLogger::LogTypeToString( LogType eLogEntryType, cString & str )
+// *****************************************************************************
+void cLogger::LogTypeToString(LogType eLogEntryType, cString & str)
 {
 	switch(eLogEntryType)
 	{
@@ -227,15 +242,16 @@ void cLogger::LogTypeToString( LogType eLogEntryType, cString & str )
 	}
 }
 
-ILogger * ILogger::GetInstance()
+// *****************************************************************************
+ILogger * ILogger::Instance()
 {
 	if(cLogger::s_pLogger == NULL)
 		cLogger::s_pLogger = DEBUG_NEW cLogger();
 	return cLogger::s_pLogger;
 
 }
-// ***************************************************************
 
+// *****************************************************************************
 void ILogger::Destroy()
 {
 	SafeDelete(&cLogger::s_pLogger);

@@ -19,6 +19,7 @@ namespace Utilities
 		bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode);
 		bool Close();
 		void WriteLine(const Base::cString & strLine);
+		void Flush();
 
 	protected:
 		std::ofstream	m_OutputFile;
