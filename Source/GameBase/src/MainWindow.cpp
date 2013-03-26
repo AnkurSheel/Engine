@@ -13,6 +13,7 @@
 #include "BaseApp.hxx"
 #include "Structures.h"
 #include "GameOptions.h"
+#include "optional.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -26,7 +27,6 @@ cMainWindow::cMainWindow()
 : m_Hwnd(NULL)
 , m_hInstance(NULL)
 , m_pGame(NULL)
-, m_kdwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
 , m_kdwWindowedStyle(WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION)
 {
 }
@@ -56,6 +56,7 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 
 	//Bring the window into the foreground and activates the window
 	SetForegroundWindow(m_Hwnd);
+	
 	//Set the keyboard focus
 	SetFocus(m_Hwnd);
 
@@ -63,35 +64,22 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 }
 
 // *****************************************************************************
-void cMainWindow::VToggleFullScreen()
+void cMainWindow::VOnWindowResized()
 {
-	cGameOptions::GameOptions().bFullScreen = !(cGameOptions::GameOptions().bFullScreen);
-
-	if (cGameOptions::GameOptions().bFullScreen)
+	tOptional<bool> bFullScreen = IGraphicsClass::GetInstance()->VOnWindowResized();
+	if(bFullScreen.IsValid())
 	{
-		//Set style for Full Screen mode
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
-
-		// hide the window
-		ShowWindow(m_Hwnd, SW_HIDE);
+		cGameOptions::GameOptions().bFullScreen = *bFullScreen;
 	}
-	else
+	if(!cGameOptions::GameOptions().bFullScreen)
 	{
-	    //Set style for Windowed mode
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwWindowedStyle);
-		
-		CalculateWindowRect();
-		SetWindowPos(m_Hwnd, HWND_NOTOPMOST,0,0,
+		int x = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth) / 2;
+		int y = (GetSystemMetrics(SM_CYSCREEN) - cGameOptions::GameOptions().iHeight) / 2;
+
+		SetWindowPos(m_Hwnd, HWND_NOTOPMOST, x, y, 
 			m_windowRect.right - m_windowRect.left,
- 			m_windowRect.bottom - m_windowRect.top, 0);
+			m_windowRect.bottom - m_windowRect.top, 0);
 	}
-	SetDisplayResolution();
-
-	if (!IsWindowVisible(m_Hwnd))
-	{
-		ShowWindow(m_Hwnd, SW_SHOW);
-	}
-	IGraphicsClass::GetInstance()->VSetFullScreenMode(cGameOptions::GameOptions().bFullScreen);
 }
 
 // *****************************************************************************
@@ -121,35 +109,19 @@ void cMainWindow::RegisterWin()
 // *****************************************************************************
 void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
-	DWORD dwStyle;
 	
 	CalculateWindowRect();
 
-	int x, y, height, width;
-	if(cGameOptions::GameOptions().bFullScreen)
-	{
-		dwStyle = m_kdwFullScreenStyle;
-		x = 0;
-		y = 0;
-		width = cGameOptions::GameOptions().iWidth;
-		height = cGameOptions::GameOptions().iHeight;
-
-	}
-	else
-	{
-		dwStyle = m_kdwWindowedStyle;
-		x = m_windowRect.left;
-		y = m_windowRect.top;
-		width = m_windowRect.right - m_windowRect.left;
-		height = m_windowRect.bottom - m_windowRect.top;
-	}
-
+	int x = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth)  / 2;
+	int y = (GetSystemMetrics(SM_CYSCREEN) - cGameOptions::GameOptions().iHeight) / 2;
+	int width = m_windowRect.right - m_windowRect.left;
+	int height = m_windowRect.bottom - m_windowRect.top;
 
 	m_Hwnd = CreateWindowEx(
 		WS_EX_APPWINDOW,
 		"Window",
 		lpWindowTitle.GetData(),
-		dwStyle,
+		m_kdwWindowedStyle,
 		x,
 		y,
 		width,
@@ -212,6 +184,10 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 	case WM_DESTROY:
 		OnWindowDestroyed();
 		return 0 ;
+
+	case WM_SIZE:
+		VOnWindowResized();
+		return 0;
 
 	case WM_ACTIVATE:
 	{
@@ -314,10 +290,10 @@ void cMainWindow::SetDisplayResolution()
 // *****************************************************************************
 void cMainWindow::CalculateWindowRect()
 {
-	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth)  / 2;
-	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - cGameOptions::GameOptions().iHeight) / 2;
-	m_windowRect.right =  m_windowRect.left + cGameOptions::GameOptions().iWidth;
-	m_windowRect.bottom = m_windowRect.top + cGameOptions::GameOptions().iHeight;
+	m_windowRect.left = 0;
+	m_windowRect.top = 0;
+	m_windowRect.right =  cGameOptions::GameOptions().iWidth;
+	m_windowRect.bottom = cGameOptions::GameOptions().iHeight;
 
 	//get the required size of the window rectangle, based on the desired size of the client rectangle
 	AdjustWindowRectEx(&m_windowRect, m_kdwWindowedStyle, false, 0);

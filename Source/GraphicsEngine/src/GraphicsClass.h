@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  GraphicsClass   version:  1.0   Ankur Sheel  date: 2012/09/13
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef GraphicsClass_h__
 #define GraphicsClass_h__
 
@@ -19,10 +19,11 @@ namespace Graphics
 
 namespace Graphics
 {
-	/********************************************//**
-     * @brief Class Declaration for \c IGraphicsClass
-     * interface
-     ***********************************************/
+	////////////////////////////////////////////////////////////////////////////
+	/// @brief Class Declaration for \c IGraphicsClass interface
+	///
+	///
+	////////////////////////////////////////////////////////////////////////////
 	class cGraphicsClass
 		: public IGraphicsClass
 		, public Base::cNonCopyable
@@ -34,6 +35,7 @@ namespace Graphics
 		void VBeginRender();
 		void VEndRender();
 		void VSetFullScreenMode(const bool bIsFullScreen);
+		Base::tOptional<bool> VOnWindowResized();
 		/********************************************//**
 		 *
 		 * Releases all the resources
@@ -45,7 +47,7 @@ namespace Graphics
 		~cGraphicsClass();
 
 	private:
-		static IGraphicsClass * s_pGraphic;		/*!< static object of this class */
+		static IGraphicsClass * s_pGraphic;	///< static object of this class
 
 	private:
 		friend static IGraphicsClass * IGraphicsClass::GetInstance();

@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  GraphicsClass   version:  1.0   Ankur Sheel  date: 2012/09/13
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "GraphicsClass.h"
 #include "DxBase.hxx"
@@ -17,6 +17,7 @@
 #include "FontManager.hxx"
 #include "ObjModelLoader.hxx"
 #include "CollisionChecker.hxx"
+#include "Optional.h"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -24,20 +25,20 @@ using namespace Base;
 
 IGraphicsClass * cGraphicsClass::s_pGraphic= NULL;
 
-// ***************************************************************
-Graphics::cGraphicsClass::cGraphicsClass()
+// *****************************************************************************
+cGraphicsClass::cGraphicsClass()
 {
 
 }
 
-// ***************************************************************
-Graphics::cGraphicsClass::~cGraphicsClass()
+// *****************************************************************************
+cGraphicsClass::~cGraphicsClass()
 {
 	Cleanup();
 }
 
-// ***************************************************************
-void Graphics::cGraphicsClass::VInitialize( const HWND & hWnd,
+// *****************************************************************************
+void cGraphicsClass::VInitialize( const HWND & hWnd,
 										   const Base::cColor & bkColor, 
 										   const bool bFullScreen, 
 										   const bool bVsyncEnabled,
@@ -56,14 +57,20 @@ void Graphics::cGraphicsClass::VInitialize( const HWND & hWnd,
 		iHeight, fScreenDepth, fScreenNear);
 }
 
-// *************************************************************************
-void Graphics::cGraphicsClass::VSetFullScreenMode(const bool bIsFullScreen)
+// *****************************************************************************
+tOptional<bool> cGraphicsClass::VOnWindowResized()
 {
-	IDXBase::GetInstance()->VSetFullScreenMode(bIsFullScreen);
+	return IDXBase::GetInstance()->VOnWindowResized();
 }
 
-// ***************************************************************
-void Graphics::cGraphicsClass::Cleanup()
+// *****************************************************************************
+void cGraphicsClass::VSetFullScreenMode(const bool bIsFullScreen)
+{
+	return IDXBase::GetInstance()->VSetFullScreenMode(bIsFullScreen);
+}
+
+// *****************************************************************************
+void cGraphicsClass::Cleanup()
 {
 	IFontManager::Destroy();
 	IShaderManager::Destroy();
@@ -74,19 +81,19 @@ void Graphics::cGraphicsClass::Cleanup()
 	IDXBase::Destroy();
 }
 
-// ***************************************************************
-void Graphics::cGraphicsClass::VBeginRender()
+// *****************************************************************************
+void cGraphicsClass::VBeginRender()
 {
 	IDXBase::GetInstance()->VBeginRender();
 }
 
-// ***************************************************************
-void Graphics::cGraphicsClass::VEndRender()
+// *****************************************************************************
+void cGraphicsClass::VEndRender()
 {
 	IDXBase::GetInstance()->VEndRender();
 }
 
-// ***************************************************************
+// *****************************************************************************
 IGraphicsClass * IGraphicsClass::GetInstance()
 {
 	if(cGraphicsClass::s_pGraphic == NULL)
@@ -94,7 +101,7 @@ IGraphicsClass * IGraphicsClass::GetInstance()
 	return cGraphicsClass::s_pGraphic ;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void IGraphicsClass::Destroy()
 {
 	SafeDelete(&cGraphicsClass::s_pGraphic);

@@ -19,14 +19,16 @@ namespace GameBase
 
 namespace GameBase
 {
-////////////////////////////////////////////////////////////////////////////////
-/// @brief Interface to Create the Window.
-///
-/// Singleton class.\n
-/// Usage :
-/// \li Call \c GetInstance() to use this class.
-/// \li Call \c Destroy() when the application quits
-////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	/// @brief Interface to Create the Window.
+	///
+	/// Singleton class.\n
+	/// Usage :
+	/// \li Call \c GetInstance() to use this class.
+	/// \li Call \c Destroy() when the application quits
+	///
+	///
+	////////////////////////////////////////////////////////////////////////////
 	class IMainWindow
 	{
 	public:
@@ -41,14 +43,15 @@ namespace GameBase
 		/// @return Handle to the created window
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual HWND VOnInitialization( const HINSTANCE & hInstance,
-										const int & nCmdShow,
-										IBaseApp* const pGame) = 0;
+		virtual HWND VOnInitialization(const HINSTANCE & hInstance,
+			const int & nCmdShow, IBaseApp* const pGame) = 0;
 		////////////////////////////////////////////////////////////////////////
-		/// Toggles between full screen and windowed mode
+		/// Handler for when the window is resized i.e WM_SIZE message is 
+		/// recieved
+		///
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VToggleFullScreen() = 0;
+		virtual void VOnWindowResized() = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Destroys the Window
 		///

@@ -9,6 +9,7 @@
 // *****************************************************************************
 #include "stdafx.h"
 #include "DxBase.h" 
+#include "optional.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -17,7 +18,7 @@ using namespace Graphics;
 IDXBase * cDXBase::s_pDXBase = NULL;
 
 // *****************************************************************************
-Graphics::cDXBase::cDXBase()
+cDXBase::cDXBase()
 : m_bVsyncEnabled(false)
 , m_pSwapChain(NULL)
 , m_pDevice(NULL)
@@ -37,18 +38,17 @@ Graphics::cDXBase::cDXBase()
 }
 
 // *****************************************************************************
-Graphics::cDXBase::~cDXBase()
+cDXBase::~cDXBase()
 {
 	Cleanup();
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
+void cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 										  const bool bFullScreen, const bool bVsyncEnabled,
 										  const int iWidth, const int iHeight,
 										  const float fScreenDepth, const float fScreenNear )
 {
-
 	m_bVsyncEnabled = bVsyncEnabled;
 	m_iScreenWidth = iWidth;
 	m_iScreenHeight = iHeight;
@@ -74,10 +74,12 @@ void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkC
 	XMStoreFloat4x4(&m_matOrtho, matOrtho);
 
 	VTurnOnAlphaBlending();
+
+	VSetFullScreenMode(bFullScreen);
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VBeginRender()
+void cDXBase::VBeginRender()
 {
 	// Clear the back buffer.
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, m_afBackGroundcolor);
@@ -87,7 +89,7 @@ void Graphics::cDXBase::VBeginRender()
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VEndRender()
+void cDXBase::VEndRender()
 {
 	// Present the back buffer to the screen since rendering is complete.
 	if(m_bVsyncEnabled)
@@ -104,61 +106,61 @@ void Graphics::cDXBase::VEndRender()
 }
 
 // *****************************************************************************
-ID3D11Device * Graphics::cDXBase::VGetDevice() const
+ID3D11Device * cDXBase::VGetDevice() const
 {
 	return m_pDevice;
 }
 
 // *****************************************************************************
-ID3D11DeviceContext * Graphics::cDXBase::VGetDeviceContext() const
+ID3D11DeviceContext * cDXBase::VGetDeviceContext() const
 {
 	return m_pDeviceContext;
 }
 
 // *****************************************************************************
-const XMFLOAT4X4 & Graphics::cDXBase::VGetWorldMatrix() const
+const XMFLOAT4X4 & cDXBase::VGetWorldMatrix() const
 {
 	return m_matWorld;
 }
 
 // *****************************************************************************
-const XMFLOAT4X4 & Graphics::cDXBase::VGetProjectionMatrix() const
+const XMFLOAT4X4 & cDXBase::VGetProjectionMatrix() const
 {
 	return m_matProjection;
 }
 
 // *****************************************************************************
-const XMFLOAT4X4 & Graphics::cDXBase::VGetOrthoMatrix() const
+const XMFLOAT4X4 & cDXBase::VGetOrthoMatrix() const
 {
 	return m_matOrtho;
 }
 
 // *****************************************************************************
-int Graphics::cDXBase::VGetScreenWidth() const
+int cDXBase::VGetScreenWidth() const
 {
 	return m_iScreenWidth;
 }
 
 // *****************************************************************************
-int Graphics::cDXBase::VGetScreenHeight() const
+int cDXBase::VGetScreenHeight() const
 {
 	return m_iScreenHeight;
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VTurnZBufferOn()
+void cDXBase::VTurnZBufferOn()
 {
 	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VTurnZBufferOff()
+void cDXBase::VTurnZBufferOff()
 {
 	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VTurnOnAlphaBlending()
+void cDXBase::VTurnOnAlphaBlending()
 {
 	float blendFactor[4];
 
@@ -172,7 +174,7 @@ void Graphics::cDXBase::VTurnOnAlphaBlending()
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::VTurnOffAlphaBlending()
+void cDXBase::VTurnOffAlphaBlending()
 {
 	float blendFactor[4];
 
@@ -186,20 +188,56 @@ void Graphics::cDXBase::VTurnOffAlphaBlending()
 }
 
 // ***************************************************************************************
-void Graphics::cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
+void cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
 {
 	if (m_pSwapChain)
 	{
-		m_pSwapChain->SetFullscreenState(bIsFullScreen, NULL);
+		SafeRelease(&m_pRenderTargetView);
+		SafeRelease(&m_pDepthStencilView);
+		DXGI_SWAP_CHAIN_DESC scd;
+		m_pSwapChain->GetDesc(&scd);
+
+		if(bIsFullScreen)
+		{
+			m_pSwapChain->ResizeTarget(&scd.BufferDesc);
+			m_pSwapChain->SetFullscreenState(true, NULL);
+			ZeroMemory(&scd.BufferDesc.RefreshRate, sizeof(scd.BufferDesc.RefreshRate));
+			m_pSwapChain->ResizeTarget(&scd.BufferDesc);
+		}
+		else
+		{
+			m_pSwapChain->ResizeTarget(&scd.BufferDesc);
+			m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+			m_pSwapChain->SetFullscreenState(false, NULL);
+		}
+
+		AttachBackBufferToSwapChain();
+		CreateDepthStencilView();
+		m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 	}
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
-										   const int iHeight, const HWND & hWnd,
-										   const bool bFullScreen )
+tOptional<bool> cDXBase::VOnWindowResized()
 {
-	if(!SetupSwapChain(iWidth, iHeight, hWnd, bFullScreen))
+	if (m_pSwapChain)
+	{
+		BOOL bFullScreen;
+		m_pSwapChain->GetFullscreenState(&bFullScreen, NULL);
+
+		VSetFullScreenMode(bFullScreen);
+
+		return bFullScreen;
+	}
+	return tOptional<bool>();
+}
+
+// *****************************************************************************
+bool cDXBase::SetupRenderTargets(const int iWidth,
+								 const int iHeight, const HWND & hWnd,
+								 const bool bFullScreen )
+{
+	if(!SetupSwapChain(iWidth, iHeight, hWnd))
 		return false;
 
 	if(!CreateDepthStencilBuffer(iWidth, iHeight))
@@ -219,18 +257,29 @@ bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
+	IDXGIDevice * pDXGIDevice;
+	m_pDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+
+	IDXGIAdapter * pDXGIAdapter;
+	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void **)&pDXGIAdapter);
+
+	IDXGIFactory * pIDXGIFactory;
+	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&pIDXGIFactory);
+
+	pIDXGIFactory->MakeWindowAssociation(hWnd, 0);
 	return true;
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
-									 const HWND & hWnd, const bool bFullScreen )
+bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
+							 const HWND & hWnd)
 {
 	if(!GetDisplayMode(iWidth, iHeight))
 		return false;
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
+
 	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Width = iWidth;
 	swapChainDesc.BufferDesc.Height = iHeight;
@@ -252,9 +301,9 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 
-	swapChainDesc.Windowed = !bFullScreen;
+	swapChainDesc.Windowed = true;
 
-	unsigned int iCreationFlags = 0;
+	unsigned int iCreationFlags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 #ifdef _DEBUG
 	//iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
@@ -291,7 +340,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
+bool cDXBase::SetupDepthStencilStateFor3D()
 {
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	// Initialize the description of the stencil state.
@@ -330,7 +379,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
+bool cDXBase::SetupDepthStencilStateFor2D()
 {
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	// Initialize the description of the stencil state.
@@ -369,7 +418,7 @@ bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::CreateDepthStencilView()
+bool cDXBase::CreateDepthStencilView()
 {
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
@@ -389,7 +438,7 @@ bool Graphics::cDXBase::CreateDepthStencilView()
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::CreateBlendStates()
+bool cDXBase::CreateBlendStates()
 {
 	D3D11_BLEND_DESC blendStateDescription;
 	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
@@ -426,7 +475,7 @@ bool Graphics::cDXBase::CreateBlendStates()
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::SetupRasterStates()
+bool cDXBase::SetupRasterStates()
 {
 	D3D11_RASTERIZER_DESC rasterDesc;
 	rasterDesc.AntialiasedLineEnable = false;
@@ -454,7 +503,7 @@ bool Graphics::cDXBase::SetupRasterStates()
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
+void cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 {
 	D3D11_VIEWPORT viewport;
 	// Setup the viewport for rendering.
@@ -470,7 +519,7 @@ void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
+bool cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 {
 	HRESULT result;
 
@@ -548,7 +597,7 @@ bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::AttachBackBufferToSwapChain()
+bool cDXBase::AttachBackBufferToSwapChain()
 {
 	ID3D11Texture2D * pbackBufferTexture = NULL;
 	bool bSuccess = true;
@@ -577,7 +626,7 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 }
 
 // *****************************************************************************
-bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
+bool cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
 {
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
@@ -607,7 +656,7 @@ bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iH
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth )
+void cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth )
 {
 	float fFieldOfView= (float)Pi / 4.0f;
 	float fScreenAspect = (float)iWidth / (float)iHeight;
@@ -618,7 +667,7 @@ void Graphics::cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeig
 }
 
 // *****************************************************************************
-void Graphics::cDXBase::Cleanup()
+void cDXBase::Cleanup()
 {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
 	VSetFullScreenMode(false);
@@ -638,7 +687,7 @@ void Graphics::cDXBase::Cleanup()
 }
 
 // *****************************************************************************
-Graphics::IDXBase * Graphics::IDXBase::GetInstance()
+IDXBase * IDXBase::GetInstance()
 {
 	if (cDXBase::s_pDXBase == NULL)
 		cDXBase::s_pDXBase = DEBUG_NEW cDXBase();
@@ -646,7 +695,7 @@ Graphics::IDXBase * Graphics::IDXBase::GetInstance()
 }
 
 // *****************************************************************************
-void Graphics::IDXBase::Destroy()
+void IDXBase::Destroy()
 {
 	SafeDelete(&cDXBase::s_pDXBase);
 }

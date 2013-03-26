@@ -28,7 +28,7 @@ namespace GameBase
 		~cMainWindow();
 		HWND VOnInitialization(const HINSTANCE & hInstance, const int& nCmdShow,
 			IBaseApp * const pGame);
-		void VToggleFullScreen();
+		void VOnWindowResized();
 		void VCleanup();
 		////////////////////////////////////////////////////////////////////////
 		/// Event handler. Routes messages to appropriate instance.
@@ -89,8 +89,7 @@ namespace GameBase
 		void CalculateWindowRect();
 
 	private:
-		const DWORD			m_kdwFullScreenStyle;   ///< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE
-		const DWORD			m_kdwWindowedStyle;     ///< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION
+		const DWORD			m_kdwWindowedStyle;     ///< The style when viewing in windowed mode
 		HWND				m_Hwnd;					///< Window handle
 		HINSTANCE			m_hInstance;			///< Application instance
 		IBaseApp*			m_pGame;				///< Pointer to the App
