@@ -34,7 +34,6 @@ cLogger::cLogger()
 cLogger::~cLogger()
 {
 	Close();
-	SafeDelete(&m_pXmlLogFile);
 }
 
 // *****************************************************************************
@@ -137,11 +136,17 @@ void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
 // *****************************************************************************
 void cLogger::Close()
 {
-	m_pXmlLogFile->VSave("log.xml");
+	if(m_pXmlLogFile)
+	{
+		m_pXmlLogFile->VSave("log.xml");
+	}
 	if (m_pTextLogFile)
 	{
 		m_pTextLogFile->Close();
 	}
+	SafeDelete(&m_pTextLogFile);
+	SafeDelete(&m_pXmlLogFile);
+
 }
 
 // *****************************************************************************

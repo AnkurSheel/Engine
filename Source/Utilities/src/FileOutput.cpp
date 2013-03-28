@@ -60,6 +60,6 @@ bool cFileOutput::Close()
 // *************************************************************************
 IFileOutput * IFileOutput::CreateOutputFile()
 {
-	IFileOutput * pFile = new cFileOutput();
+	IFileOutput * pFile = DEBUG_NEW cFileOutput();
 	return pFile;
 }
