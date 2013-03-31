@@ -317,6 +317,6 @@ void cHumanView::SfxCheckBoxPressed(const stUIEventCallbackParam & params)
 // *******************************************************************************************
 void cHumanView::FullScreenCheckBoxPressed(const stUIEventCallbackParam & params)
 {
-	//IMainWindow::GetInstance()->VToggleFullScreen();
 	cGameOptions::GameOptions().bFullScreen = !(cGameOptions::GameOptions().bFullScreen);
+	IGraphicsClass::GetInstance()->VSetFullScreenMode(cGameOptions::GameOptions().bFullScreen);
 }

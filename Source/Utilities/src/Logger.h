@@ -43,7 +43,7 @@ namespace Utilities
 		void VInitialize();
 		void VSetLogOptions(const bool bShowConsole, const bool bLogToText,
 			const bool bLogToXML, const unsigned int uiPriorityLevel);
-		void VWriteLogEntry(LogType eLogEntryType,
+		void VWriteLogEntry(const LogType eLogEntryType,
 			const unsigned int uiPriorityLevel, const Base::cString & strSourceFile,
 			const Base::cString & strFunction, const int iSourceLine,
 			const Base::cString & strMessage);
