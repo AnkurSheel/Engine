@@ -55,6 +55,8 @@ namespace GameBase
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
+		GAMEBASE_API Base::cString VGetGameTitle() const;
+
 
 	protected:
 		Utilities::ITimer *			m_pGameTimer;

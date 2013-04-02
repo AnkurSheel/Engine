@@ -115,6 +115,9 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		cGameOptions::GameOptions().iWidth, 
 		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear);
 
+	// make sure the entity manager is created
+	IEntityManager::GetInstance();
+
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);
 }
@@ -158,6 +161,8 @@ void cBaseApp::VRun()
 void cBaseApp::VOnUpdate()
 {
 	m_pGameTimer->VOnUpdate();
+	IMessageDispatchManager::GetInstance()->VOnUpdate();
+
 }
 
 // *****************************************************************************
@@ -236,4 +241,10 @@ Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 cGameControls * GameBase::cBaseApp::GetGameControls() const
 {
 	return m_pGameControls;
+}
+
+// *****************************************************************************
+cString cBaseApp::VGetGameTitle() const
+{
+	return VGetName();
 }
