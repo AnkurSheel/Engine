@@ -14,16 +14,6 @@
 #include "GameView.hxx"
 #include "Structures.h"
 
-namespace Utilities
-{
-	class IProcessManager;
-}
-
-namespace Base
-{
-	class cString;
-}
-
 namespace GameBase
 {
 	class cBaseApp;
@@ -85,7 +75,6 @@ namespace GameBase
 
 	private:
 		GameViewId						m_idView;
-		Utilities::IProcessManager *	m_pProcessManager;
 		TICK							m_tickCurrent;
 		TICK							m_tickLastDraw;
 		bool							m_bRunFullSpeed;

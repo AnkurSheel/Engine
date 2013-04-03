@@ -21,6 +21,7 @@ namespace Base
 namespace Utilities
 {
 	class IParamLoader;
+	class IProcessManager;
 }
 
 namespace GameBase
@@ -32,6 +33,7 @@ namespace GameBase
 		virtual void VOnInitialization(const HINSTANCE & hInstance,
 			const int nCmdShow, const Base::cString & strOptionsFile) = 0;
 		virtual Base::cString VGetGameTitle() const = 0; 
+		virtual Utilities::IProcessManager * VGetProcessManager() const = 0;
 		virtual bool VOnMsgProc(const Base::AppMsg & msg) = 0;
 		virtual void VRun() = 0;
 		virtual float VGetFPS() const = 0;

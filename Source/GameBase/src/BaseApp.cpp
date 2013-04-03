@@ -19,6 +19,7 @@
 #include "MessageDispatchManager.hxx"
 #include "ResourceManager.hxx"
 #include "GraphicsClass.hxx"
+#include "ProcessManager.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -35,6 +36,7 @@ cBaseApp::cBaseApp(const cString strName)
 , m_pHighScoreTable(NULL)
 , m_pGameControls(NULL)
 , m_bQuitting(false)
+, m_pProcessManager(NULL)
 {
 	// make sure our memory leak checker is working
 #if _DEBUG
@@ -48,7 +50,6 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 								 const cString & strOptionsFile)
 {
 	ILogger::Instance()->VInitialize();
-	
 	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
 		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
 		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
@@ -123,8 +124,10 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		cGameOptions::GameOptions().iWidth, 
 		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear);
 
-	// make sure the entity manager is created
-	IEntityManager::GetInstance();
+	cBaseEntity::VInitialize();
+	IEntityManager::GetInstance()->VRegisterEntity(this);
+
+	m_pProcessManager = IProcessManager::CreateProcessManager();
 
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);
@@ -175,6 +178,11 @@ void cBaseApp::VOnUpdate()
 	m_pGameTimer->VOnUpdate();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 
+	if(m_pProcessManager)
+	{
+		m_pProcessManager->UpdateProcesses(m_pGameTimer->VGetRunningTicks());
+	}
+
 }
 
 // *****************************************************************************
@@ -182,9 +190,10 @@ void cBaseApp::VOnUpdate()
 // *****************************************************************************
 void cBaseApp::VCleanup()
 {
+	cBaseEntity::VCleanup();
 	SafeDelete(&m_pGameTimer);
 	SafeDelete(&m_pParamLoader);
-
+	SafeDelete(&m_pProcessManager);
 	SafeDelete(&m_pHumanView);
 
 	IEntityManager::Destroy();
@@ -252,6 +261,12 @@ Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 cGameControls * GameBase::cBaseApp::GetGameControls() const
 {
 	return m_pGameControls;
+}
+
+// *****************************************************************************
+IProcessManager * cBaseApp::VGetProcessManager() const
+{
+	return m_pProcessManager;
 }
 
 // *****************************************************************************

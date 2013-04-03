@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "HumanView.h"
 #include "GraphicsClass.hxx"
-#include "ProcessManager.hxx"
 #include "BaseApp.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
@@ -20,6 +19,7 @@
 #include "SoundProcess.hxx"
 #include "GameOptions.h"
 #include "GameDirectories.h"
+#include "ProcessManager.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -30,7 +30,6 @@ using namespace Sound;
 // *****************************************************************************
 cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
-, m_pProcessManager(NULL)
 , m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
 , m_bDisplayFPS(false)
@@ -51,7 +50,6 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 								 const HWND & hWnd)
 {
 	m_pGame = pGame;
-	m_pProcessManager = IProcessManager::CreateProcessManager();
 	if(m_pGame->VGetParamLoader() != NULL)
 	{
 		m_bDisplayFPS = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-DisplayFPS", false);
@@ -90,10 +88,6 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 // *****************************************************************************
 void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
-	if(m_pProcessManager)
-	{
-		m_pProcessManager->UpdateProcesses(tickCurrent);
-	}
 	if (m_pCamera)
 	{
 		m_pCamera->VUpdate();
@@ -117,7 +111,6 @@ void cHumanView::VOnDestroyDevice()
 {
 	SafeDelete(&m_pAppWindowControl);
 	SafeDelete(&m_pCamera);
-	SafeDelete(&m_pProcessManager);
 	IAudio::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }
@@ -260,7 +253,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
 			cGameDirectories::GameDirectories().strSoundSFXDirectory + strSoundFile,
 			cGameOptions::GameOptions().iSFXVolume, false));
-		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
+		m_pGame->VGetProcessManager()->VAttachProcess(pSFXChannelProcess);
 	}
 }
 
@@ -270,15 +263,15 @@ void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
 		cGameDirectories::GameDirectories().strSoundMusicDirectory + strMusicFile, 
 		cGameOptions::GameOptions().iMusicVolume, bLooping);
-	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
+	m_pGame->VGetProcessManager()->VAttachProcess(pMusicChannelProcess);
+	m_pGame->VGetProcessManager()->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::SetMusicVolume()
 {
 	ProcessList pProcessList;
-	m_pProcessManager->VGetProcesses(m_hashMusicChannel, pProcessList);
+	m_pGame->VGetProcessManager()->VGetProcesses(m_hashMusicChannel, pProcessList);
 	ProcessList::iterator curProcess;
 	for (curProcess = pProcessList.begin(); curProcess != pProcessList.end(); curProcess++)
 	{
@@ -291,7 +284,7 @@ void cHumanView::SetMusicVolume()
 void cHumanView::SetSFXVolume()
 {
 	ProcessList pProcessList;
-	m_pProcessManager->VGetProcesses(m_hashSFXChannel, pProcessList);
+	m_pGame->VGetProcessManager()->VGetProcesses(m_hashSFXChannel, pProcessList);
 	ProcessList::iterator curProcess;
 	for (curProcess = pProcessList.begin(); curProcess != pProcessList.end(); curProcess++)
 	{
@@ -304,14 +297,14 @@ void cHumanView::SetSFXVolume()
 void cHumanView::MusicCheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	cGameOptions::GameOptions().bPlayMusic = params.bChecked;
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
+	m_pGame->VGetProcessManager()->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	cGameOptions::GameOptions().bPlaySfx = params.bChecked;
-	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, cGameOptions::GameOptions().bPlaySfx);
+	m_pGame->VGetProcessManager()->VSetProcessesActive(m_hashSFXChannel, cGameOptions::GameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************

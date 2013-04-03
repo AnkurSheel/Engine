@@ -116,8 +116,7 @@ namespace GameBase
 		bool					m_bVisible;
 
 	private:
-		Base::cString			m_strFileName;
-		Graphics::IModel *		m_pModel;	
+		//Graphics::IModel *		m_pModel;	
 		static const cBaseApp *	m_pBaseApp;
 	};
 }

@@ -11,11 +11,7 @@
 #define Model_hxx__
 
 #include "GraphicEngineDefines.h"
-
-namespace Base
-{
-	class cString;
-}
+#include "Vector3.h"
 
 namespace Graphics
 {

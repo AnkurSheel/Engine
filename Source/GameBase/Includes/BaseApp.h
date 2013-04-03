@@ -19,6 +19,7 @@ namespace Utilities
 {
 	class ITimer;
 	class IParamLoader;
+	class IProcessManager;
 }
 
 namespace GameBase
@@ -46,6 +47,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE & hInstance,
 			const int nCmdShow, const Base::cString & strOptionsFile);
 		GAMEBASE_API virtual void VCreateHumanView();
+		GAMEBASE_API Utilities::IProcessManager * VGetProcessManager() const;
 		GAMEBASE_API virtual void VRun();
 		GAMEBASE_API virtual void VOnUpdate();
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
@@ -57,14 +59,15 @@ namespace GameBase
 		GAMEBASE_API float VGetFPS() const;
 		GAMEBASE_API Base::cString VGetGameTitle() const;
 
-
 	protected:
-		Utilities::ITimer *			m_pGameTimer;
-		cHumanView *				m_pHumanView;
-		Utilities::IParamLoader *	m_pParamLoader;
-		cHighScoreTable *			m_pHighScoreTable;
-		cGameControls *				m_pGameControls;
-		bool						m_bQuitting;
+		Utilities::ITimer *				m_pGameTimer;
+		cHumanView *					m_pHumanView;
+		Utilities::IParamLoader *		m_pParamLoader;
+		cHighScoreTable *				m_pHighScoreTable;
+		cGameControls *					m_pGameControls;
+		bool							m_bQuitting;
+		Utilities::IProcessManager *	m_pProcessManager;
+
 	};
 }
 

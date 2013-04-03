@@ -21,6 +21,15 @@
       <Filter>Scores</Filter>
     </ClCompile>
     <ClCompile Include="src\GameControls.cpp" />
+    <ClCompile Include="src\BaseComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModelComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -55,6 +64,18 @@
       <Filter>Scores</Filter>
     </ClInclude>
     <ClInclude Include="Includes\GameControls.h" />
+    <ClInclude Include="src\TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">
@@ -62,6 +83,12 @@
     </Filter>
     <Filter Include="Scores">
       <UniqueIdentifier>{a86f3ee1-e8b8-490f-b018-a22a669608d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{9566cdef-a68c-479c-b19b-163400644686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{61e73550-f0d4-41d2-b494-a01308c8e633}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

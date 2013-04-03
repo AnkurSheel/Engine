@@ -21,8 +21,8 @@ const cBaseApp * cGameElement::m_pBaseApp = NULL;
 
 // *******************************************************************************************
 cGameElement::cGameElement()
-: m_pModel(NULL)
-, m_bIsDirty(false)
+//: m_pModel(NULL)
+: m_bIsDirty(false)
 , m_bActive(true)
 , m_fReactivateTime(0.0f)
 , m_bVisible(true)
@@ -39,17 +39,17 @@ cGameElement::~cGameElement()
 // *******************************************************************************************
 void cGameElement::VInitialize(const cGameElementDef & def)
 {
-	if (!def.strModelName.IsEmpty())
-	{
-		m_pModel = IModel::CreateModel(def.strModelName);
-		SetPosition(def.vPosition);
-		SetScale(def.vScale);
-		SetRotation(def.vRotation);
-		if(m_pModel)
-		{
-			m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
-		}
-	}
+	SetPosition(def.vPosition);
+	SetScale(def.vScale);
+	SetRotation(def.vRotation);
+	//if (!def.strModelName.IsEmpty())
+	//{
+	//	m_pModel = IModel::CreateModel(def.strModelName);
+	//	if(m_pModel)
+	//	{
+	//		m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
+	//	}
+	//}
 }
 
 // *******************************************************************************************
@@ -64,20 +64,20 @@ void cGameElement::OnUpdate(float fElapsedTime)
 			OnRestart();
 		}
 	}
-	if(m_bIsDirty)
-	{
-		m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
-		m_bIsDirty = false;
-	}
+	//if(m_bIsDirty)
+	//{
+	//	m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
+	//	m_bIsDirty = false;
+	//}
 }
 
 // *******************************************************************************************
 void cGameElement::VOnRender(const ICamera * const pCamera)
 {
-	if (m_bActive && m_bVisible && m_pModel != NULL)
-	{
-		m_pModel->VRender(pCamera);
-	}
+	//if (m_bActive && m_bVisible && m_pModel != NULL)
+	//{
+	//	m_pModel->VRender(pCamera);
+	//}
 }
 
 // *******************************************************************************************
@@ -133,10 +133,10 @@ cVector3 cGameElement::GetScale() const
 // *******************************************************************************************
 const IAABB * const cGameElement::GetAABB() const
 {
-	if(m_pModel)
-	{
-		return m_pModel->VGetAABB();
-	}
+	//if(m_pModel)
+	//{
+	//	return m_pModel->VGetAABB();
+	//}
 	return NULL;
 }
 
@@ -178,5 +178,5 @@ void cGameElement::SetApp(const IBaseApp * const pApp)
 // *******************************************************************************************
 void cGameElement::Cleanup()
 {
-	SafeDelete(&m_pModel);
+	//SafeDelete(&m_pModel);
 }
