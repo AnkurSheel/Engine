@@ -64,6 +64,7 @@ namespace GameBase
 		Utilities::IParamLoader *	m_pParamLoader;
 		cHighScoreTable *			m_pHighScoreTable;
 		cGameControls *				m_pGameControls;
+		bool						m_bQuitting;
 	};
 }
 

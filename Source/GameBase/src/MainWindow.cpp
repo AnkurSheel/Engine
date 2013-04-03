@@ -52,7 +52,10 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 		strGameTitle = pGame->VGetGameTitle() ;
 	}
 
-	CreateMyWindow(nCmdShow, strGameTitle) ;
+	if(!CreateMyWindow(nCmdShow, strGameTitle))
+	{
+		return NULL;
+	}
 
 	//Bring the window into the foreground and activates the window
 	SetForegroundWindow(m_Hwnd);
@@ -107,7 +110,7 @@ void cMainWindow::RegisterWin()
 }
 
 // *****************************************************************************
-void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
+bool cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
 	
 	CalculateWindowRect();
@@ -135,9 +138,11 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Window Creation Failed");
 		PostQuitMessage(0);
+		return false;
 	}
 
 	ShowWindow(m_Hwnd, nCmdShow) ;
+	return true;
 }
 
 // *****************************************************************************

@@ -52,9 +52,10 @@ namespace GameBase
 		///
 		/// @param[in] nCmdShow Controls how the window is to be shown
 		/// @param[in] lpWindowTitle Controls how the window is to be shown
+		/// @return True if Successful. False Otherwise
 		///
 		////////////////////////////////////////////////////////////////////////
-		void CreateMyWindow(const int& nCmdShow,
+		bool CreateMyWindow(const int& nCmdShow,
 							const Base::cString& lpWindowTitle);
 		////////////////////////////////////////////////////////////////////////
 		/// Window procedure to handle the window messages.

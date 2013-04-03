@@ -34,6 +34,7 @@ cBaseApp::cBaseApp(const cString strName)
 , m_pParamLoader(NULL)
 , m_pHighScoreTable(NULL)
 , m_pGameControls(NULL)
+, m_bQuitting(false)
 {
 	// make sure our memory leak checker is working
 #if _DEBUG
@@ -53,6 +54,8 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
 	{
 		PostQuitMessage(0);
+		m_bQuitting = true;
+		return;
 	}
 	
 	if(m_pParamLoader == NULL)
@@ -76,12 +79,17 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		if (!IResourceChecker::GetInstance()->IsOnlyInstance(m_strName))
 		{
 			PostQuitMessage(0);
+			m_bQuitting = true;
 			return;
 		}
 	}
 	// initialize resource manager
 	cString strAssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
-	IResourceManager::GetInstance()->VInitialize(strAssetsPath);
+	if(!IResourceManager::GetInstance()->VInitialize(strAssetsPath))
+	{
+		m_bQuitting = true;
+		return;
+	}
 
 	cGameDirectories::Initialize();
 	cGameOptions::InitializeGameOptions(cGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
@@ -95,7 +103,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 
 	if(hwnd == NULL)
 	{
-		PostQuitMessage(0) ;
+		m_bQuitting = true;
 		return;
 	}
 
@@ -160,6 +168,10 @@ void cBaseApp::VRun()
 
 void cBaseApp::VOnUpdate()
 {
+	if(m_bQuitting)
+	{
+		return;
+	}
 	m_pGameTimer->VOnUpdate();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 
@@ -173,7 +185,6 @@ void cBaseApp::VCleanup()
 	SafeDelete(&m_pGameTimer);
 	SafeDelete(&m_pParamLoader);
 
-	m_pHumanView->VOnDestroyDevice();
 	SafeDelete(&m_pHumanView);
 
 	IEntityManager::Destroy();

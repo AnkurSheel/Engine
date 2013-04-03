@@ -40,10 +40,11 @@ namespace Utilities
 		/********************************************//**
  		 * @param[in] strPath The path of the zip file 
 		 * containing the assets
+		 * @return True if successful. False otherwise 
 		 *
-		 * Creates and Initilizes the resource cache
+		 * Creates and Initializes the resource cache
 		 ***********************************************/
-		virtual void VInitialize(const Base::cString strPath) = 0;
+		virtual bool VInitialize(const Base::cString & strPath) = 0;
 		/********************************************//**
  		 * @return A pointer to the resource cache
 		 *
