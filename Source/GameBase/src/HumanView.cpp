@@ -71,17 +71,6 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
-	cLabelControlDef fpsLabelDef;
-	fpsLabelDef.strControlName = "FPSLabel";
-	fpsLabelDef.strFont= "arial"; 
-	fpsLabelDef.textColor = cColor::WHITE;
-	fpsLabelDef.fTextHeight = 30;
-	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);
-	fpsLabelDef.bAutoSize = false;
-	fpsLabelDef.vSize = cVector2(150, 30);
-	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
-	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
-
 	IAudio::GetInstance()->VInitialize(hWnd);
 }
 
@@ -312,4 +301,11 @@ void cHumanView::FullScreenCheckBoxPressed(const stUIEventCallbackParam & params
 {
 	cGameOptions::GameOptions().bFullScreen = !(cGameOptions::GameOptions().bFullScreen);
 	IGraphicsClass::GetInstance()->VSetFullScreenMode(cGameOptions::GameOptions().bFullScreen);
+}
+
+// *****************************************************************************
+void cHumanView::CreateFPSLabel(const cLabelControlDef & def)
+{
+	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def));
+	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
 }

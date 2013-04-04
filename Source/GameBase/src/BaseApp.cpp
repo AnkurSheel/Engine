@@ -119,10 +119,14 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	float fScreenFar = m_pParamLoader->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
 	float fScreenNear = m_pParamLoader->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
 
-	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor,
+	if(!IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor,
 		cGameOptions::GameOptions().bFullScreen, bVSyncEnabled,
 		cGameOptions::GameOptions().iWidth, 
-		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear);
+		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear))
+	{
+		m_bQuitting = true;
+		return;
+	}
 
 	cBaseEntity::VInitialize();
 	IEntityManager::GetInstance()->VRegisterEntity(this);

@@ -44,7 +44,7 @@ cDXBase::~cDXBase()
 }
 
 // *****************************************************************************
-void cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
+bool cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 										  const bool bFullScreen, const bool bVsyncEnabled,
 										  const int iWidth, const int iHeight,
 										  const float fScreenDepth, const float fScreenNear )
@@ -57,13 +57,13 @@ void cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 		m_afBackGroundcolor[2], m_afBackGroundcolor[3]);
 
 	if(!SetupRenderTargets(iWidth, iHeight, hWnd, bFullScreen))
-		return;
+		return false;
 
 	if(!SetupRasterStates())
-		return;
+		return false;
 
 	if(!CreateBlendStates())
-		return;
+		return false;
 
 	SetupViewPort(iWidth, iHeight);
 
@@ -76,6 +76,8 @@ void cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 	VTurnOnAlphaBlending();
 
 	VSetFullScreenMode(bFullScreen);
+	
+	return true;
 }
 
 // *****************************************************************************

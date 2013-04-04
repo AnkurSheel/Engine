@@ -18,6 +18,25 @@ using namespace Utilities;
 static cGameOptions gameOptions;
 
 // *****************************************************************************
+cGameOptions::cGameOptions()
+	: bFullScreen(false)
+	, iWidth(800)
+	, iHeight(600)
+	, bPlaySfx(false)
+	, bPlayMusic(false)
+	, iSFXVolume(100)
+	, iMusicVolume(100)
+{
+
+}
+
+// *****************************************************************************
+cGameOptions::~cGameOptions()
+{
+
+}
+
+// *****************************************************************************
 cGameOptions & cGameOptions::GameOptions()
 {
 	return gameOptions;

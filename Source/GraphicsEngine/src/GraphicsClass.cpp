@@ -38,7 +38,7 @@ cGraphicsClass::~cGraphicsClass()
 }
 
 // *****************************************************************************
-void cGraphicsClass::VInitialize( const HWND & hWnd,
+bool cGraphicsClass::VInitialize( const HWND & hWnd,
 										   const Base::cColor & bkColor, 
 										   const bool bFullScreen, 
 										   const bool bVsyncEnabled,
@@ -51,10 +51,10 @@ void cGraphicsClass::VInitialize( const HWND & hWnd,
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Could not create DXBase");
 		PostQuitMessage(0);
-		return;
+		return false;
 	}
-	IDXBase::GetInstance()->VInitialize(hWnd, bkColor, bFullScreen, bVsyncEnabled, iWidth,
-		iHeight, fScreenDepth, fScreenNear);
+	return IDXBase::GetInstance()->VInitialize(hWnd, bkColor, bFullScreen, 
+		bVsyncEnabled, iWidth, iHeight, fScreenDepth, fScreenNear);
 }
 
 // *****************************************************************************

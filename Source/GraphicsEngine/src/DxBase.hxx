@@ -51,10 +51,11 @@ namespace Graphics
 		/// @param[in] iWidth Width of the window
 		/// @param[in] iHeight Height of the window
 		/// @param[in] fScreenDepth Far Depth setting for the 3D environment
-		/// @param[in] fScreenNear Near Depth setting for the 3D environment
+		/// @param[in] fScreenNear Near Depth setting for the 3D environment.
+		/// @return True if Successful. False otherwise.
         ///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VInitialize(const HWND & hWnd, 
+		virtual bool VInitialize(const HWND & hWnd, 
 			const Base::cColor & bkColor, const bool bFullScreen, 
 			const bool bVsyncEnabled, const int iWidth, const int iHeight,
 			const float fScreenDepth, const float fScreenNear) = 0;

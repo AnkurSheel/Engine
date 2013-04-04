@@ -13,14 +13,16 @@ namespace GameBase
 	class cGameOptions
 	{
 	public:
+		cGameOptions();
+		~cGameOptions();
 		GAMEBASE_API static cGameOptions & GameOptions();
 		static void InitializeGameOptions(const Base::cString & strPlayerOptionsFile);
 		GAMEBASE_API static void SaveGameOptions(const Base::cString & strPlayerOptionsFile);
 
 	public:
-		bool	bFullScreen;	/*!< True if in fullscreen mode */
-		int		iWidth;			/*!< Window/Fullscreen width */
-		int		iHeight;		/*!< Window/Fullscreen height */
+		bool	bFullScreen;	///< True if in fullscreen mode
+		int		iWidth;			///< Screen width
+		int		iHeight;		///< Screen height
 
 		bool	bPlaySfx;
 		bool	bPlayMusic;

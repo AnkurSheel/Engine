@@ -45,6 +45,11 @@ cModel::~cModel()
 // *****************************************************************************
 bool cModel::OnInitialization(shared_ptr<const stModelDef> pModeldef)
 {
+	if(pModeldef == NULL)
+	{	
+		return false;
+	}
+
 	m_iVertexCount = pModeldef->iNumberOfVertices;
 	m_iIndexCount = pModeldef->iNumberOfIndices;
 	m_iVertexSize = sizeof(stTexVertex);

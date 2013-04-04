@@ -25,6 +25,7 @@ namespace Graphics
 	class IBaseControl;
 	class ICamera;
 	struct stUIEventCallbackParam;
+	class cLabelControlDef;
 }
 namespace Sound
 {
@@ -67,7 +68,8 @@ namespace GameBase
 		GAMEBASE_API HRESULT OnBeginRender(TICK tickCurrent);
 		GAMEBASE_API void OnEndRender(const HRESULT hr);
 		GAMEBASE_API void VOnAttach(GameViewId id);
-		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
+		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName);
+		GAMEBASE_API void CreateFPSLabel(const Graphics::cLabelControlDef & def);
 
 	protected:
 		Graphics::ICamera *					m_pCamera;

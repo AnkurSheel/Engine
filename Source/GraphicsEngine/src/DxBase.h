@@ -26,7 +26,7 @@ namespace Graphics
 	private:
 		cDXBase() ;
 		~cDXBase() ;
-		void VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
+		bool VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
 		void VBeginRender();
