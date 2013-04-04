@@ -8,7 +8,6 @@
 #include "FSM/StateMachine.h"
 #include "BaseComponent.h"
 #include "EntityManager.hxx"
-#include "ComponentCreator.h"
 
 using namespace AI;
 using namespace Utilities;
@@ -75,12 +74,10 @@ void cBaseEntity::VInitialize()
 }
 
 // *****************************************************************************
-IBaseComponent *  cBaseEntity::AddComponent(const Base::cString & strComponentName)
+void cBaseEntity::AddComponent(IBaseComponent * pComponent)
 {
-	IBaseComponent * pComponent = cComponentCreator::GetInstance()->CreateComponent(strComponentName);
 	pComponent->VSetOwner(this);
 	m_Components.insert(std::make_pair(pComponent->VGetID(), pComponent));
-	return pComponent;
 }
 
 // *****************************************************************************
@@ -125,4 +122,15 @@ void cBaseEntity::VCleanup()
 		SafeDelete(&(iter->second));
 	}
 	m_Components.clear();
+}
+
+// *****************************************************************************
+void cBaseEntity::VGetAllComponents(ComponentList & components)
+{
+	components.clear();
+	ComponentMap::iterator iter;
+	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
+	{
+		components.push_back(iter->second);
+	}
 }

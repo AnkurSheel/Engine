@@ -22,7 +22,7 @@ cBaseComponent::~cBaseComponent()
 }
 
 // *****************************************************************************
-cString cBaseComponent::GetName() const
+cString cBaseComponent::VGetName() const
 {
 	return m_strComponentName.GetString();
 }

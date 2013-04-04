@@ -8,9 +8,6 @@
     <ClCompile Include="src\HumanView.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\BaseEntity.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="src\EntityManager.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -30,8 +27,8 @@
     <ClCompile Include="src\ModelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\ComponentCreator.cpp">
-      <Filter>Components</Filter>
+    <ClCompile Include="src\BaseEntity.cpp">
+      <Filter>Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,19 +67,16 @@
     <ClInclude Include="src\TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\BaseComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ModelComponent.h">
+    <ClInclude Include="Includes\ModelComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\BaseComponent.hxx">
+    <ClInclude Include="Includes\BaseComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ComponentCreator.h">
+    <ClInclude Include="Includes\BaseComponent.hxx">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

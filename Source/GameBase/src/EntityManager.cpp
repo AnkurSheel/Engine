@@ -10,7 +10,6 @@
 #include "StdAfx.h"
 #include "EntityManager.h"
 #include "BaseEntity.h"
-#include "ComponentCreator.h"
 #include "BaseComponent.hxx"
 
 using namespace Utilities;
@@ -36,12 +35,26 @@ void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
 	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
 	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
+	IBaseEntity::ComponentList components;
+	pNewEntity->VGetAllComponents(components);
+	IBaseEntity::ComponentList::iterator iter;
+	for (iter = components.begin(); iter != components.end(); iter++)
+	{
+		VAddComponent(pNewEntity, *iter);
+	}
 }
 
 // *****************************************************************************
 void cEntityManager::VUnRegisterEntity( IBaseEntity * const pNewEntity )
 {
 	m_EntityMap.erase(pNewEntity->VGetID());
+	IBaseEntity::ComponentList components;
+	pNewEntity->VGetAllComponents(components);
+	IBaseEntity::ComponentList::iterator iter;
+	for (iter = components.begin(); iter != components.end(); iter++)
+	{
+		VRemoveComponent(pNewEntity, (*iter)->VGetName());
+	}
 }
 
 // *****************************************************************************
@@ -74,18 +87,14 @@ IBaseComponent * cEntityManager::VGetComponent(IBaseEntity * pEntity,
 }
 
 // *****************************************************************************
-void cEntityManager::VAddComponent(IBaseEntity * pEntity,
-	const Base::cString & strComponentName)
+void cEntityManager::VAddComponent(IBaseEntity * pEntity, 
+	IBaseComponent * pComponent)
 {
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
-	IBaseComponent * pComponent = NULL;
-	if(pEnt != NULL)
+	pComponent->VInitialize();
+	if(pEnt != NULL && pComponent != NULL)
 	{
-		pComponent = pEnt->AddComponent(strComponentName);
-	}
-
-	if(pComponent != NULL)
-	{
+		pEnt->AddComponent(pComponent);
 		EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
 		if(iter == m_ComponentMap.end())
 		{
@@ -144,6 +153,7 @@ void cEntityManager::VGetEntities(const Base::cString & strComponentName,
 	}
 }
 
+// *****************************************************************************
 void cEntityManager::Cleanup()
 {
 	m_EntityMap.clear();
@@ -152,7 +162,6 @@ void cEntityManager::Cleanup()
 		iter->second.clear();
 	}
 	m_ComponentMap.clear();
-	cComponentCreator::Destroy();
 }
 
 // *****************************************************************************

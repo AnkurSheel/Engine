@@ -27,7 +27,7 @@ namespace GameBase
 		GAMEBASE_API cBaseEntity(const int iID, const Base::cString & strName);
 		GAMEBASE_API cBaseEntity(const Base::cString & strName);
 		GAMEBASE_API virtual ~cBaseEntity();
-		GAMEBASE_API IBaseComponent * AddComponent(const Base::cString & strComponentName);
+		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
 		GAMEBASE_API unsigned long RemoveComponent(const Base::cString & strComponentName);
 		
 	private:
@@ -41,6 +41,7 @@ namespace GameBase
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API Base::cString VGetName() const;
 		GAMEBASE_API int VGetID() const;
+		GAMEBASE_API void VGetAllComponents(ComponentList & components);
 
 	protected:
 		Base::cString	m_strName;

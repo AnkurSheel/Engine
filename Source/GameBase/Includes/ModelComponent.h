@@ -7,6 +7,7 @@
 #define ModelComponent_h__
 
 #include "BaseComponent.h"
+#include "GameBaseDefines.h"
 
 namespace Graphics
 {
@@ -19,14 +20,16 @@ namespace GameBase
 		: public cBaseComponent
 	{
 	public:
-		cModelComponent();
-		~cModelComponent();
+		GAMEBASE_API cModelComponent();
+		GAMEBASE_API ~cModelComponent();
 		void VInitialize();
 		void VCleanup();
 
+	public:
+		Base::cString		m_strModelName;	///< The model file name
+
 	private:
 		Graphics::IModel *	m_pModel;	///< The 3D model
-		Base::cString		m_strModelName;	///< The model file name
 	};
 }
 #endif // ModelComponent_h__

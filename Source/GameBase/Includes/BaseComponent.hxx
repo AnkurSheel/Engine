@@ -21,8 +21,7 @@ namespace GameBase
 		virtual void VCleanup() = 0;
 		virtual void VSetOwner(const IBaseEntity * const pNewOwner) = 0;
 		virtual unsigned long VGetID() const = 0;
-
-
+		virtual Base::cString VGetName() const = 0;
 	};
 }
 #endif //BaseComponent_hxx__

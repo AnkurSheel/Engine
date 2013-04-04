@@ -31,10 +31,14 @@ namespace GameBase
 		virtual void VUnRegisterEntity(IBaseEntity * const pNewEntity) = 0;
 		virtual IBaseEntity * const VGetEntityFromID(const int iID) = 0;
 		virtual Base::cString const VGetEntityNameFromID(const int iID) = 0;
-		virtual IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cString & strComponentName) = 0;
-		virtual void VGetEntities(const Base::cString & strComponentName, EntityList & entities) = 0;
-		virtual void VAddComponent(IBaseEntity * pEntity, const Base::cString & strComponentName) = 0;
-		virtual void VRemoveComponent(IBaseEntity * pEntity, const Base::cString & strComponentName) = 0;
+		virtual IBaseComponent * VGetComponent(IBaseEntity * pEntity,
+			const Base::cString & strComponentName) = 0;
+		virtual void VGetEntities(const Base::cString & strComponentName,
+			EntityList & entities) = 0;
+		virtual void VAddComponent(IBaseEntity * pEntity,
+			IBaseComponent * pComponent) = 0;
+		virtual void VRemoveComponent(IBaseEntity * pEntity,
+			const Base::cString & strComponentName) = 0;
 
 		GAMEBASE_API static IEntityManager * GetInstance();
 		GAMEBASE_API static void Destroy();

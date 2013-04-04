@@ -25,7 +25,7 @@ namespace GameBase
 		virtual void VCleanup();
 		unsigned long VGetID() const;
 		void VSetOwner(const IBaseEntity * const pNewOwner);
-		Base::cString GetName() const;
+		Base::cString VGetName() const;
 
 	private:
 		Base::cHashedString		m_strComponentName;

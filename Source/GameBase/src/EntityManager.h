@@ -37,7 +37,7 @@ namespace GameBase
 	private:
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
-		void VAddComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+		void VAddComponent(IBaseEntity * pEntity, IBaseComponent * pComponent);
 		void VRemoveComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
 		void VGetEntities(const Base::cString & strComponentName, EntityList & entities);
 
