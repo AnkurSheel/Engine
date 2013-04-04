@@ -33,16 +33,18 @@ void cGameDirectories::Initialize()
 	IResource * pResource = IResource::CreateResource("directories.xml");
 	shared_ptr<IResHandle> directoriesXML = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	
-	pFile->VParse(directoriesXML->GetBuffer(), directoriesXML->GetSize());
-	gameDirectories.strMediaDirectory = pFile->VGetNodeValue("MediaDirectory");
-	gameDirectories.strFontDirectory = pFile->VGetNodeValue("FontDirectory");
-	gameDirectories.strShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
-	gameDirectories.strSpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
-	cString strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
-	gameDirectories.strSoundSFXDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
-	gameDirectories.strSoundMusicDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
-	gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
-
+	if(directoriesXML != NULL)
+	{
+		pFile->VParse(directoriesXML->GetBuffer(), directoriesXML->GetSize());
+		gameDirectories.strMediaDirectory = pFile->VGetNodeValue("MediaDirectory");
+		gameDirectories.strFontDirectory = pFile->VGetNodeValue("FontDirectory");
+		gameDirectories.strShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
+		gameDirectories.strSpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
+		cString strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
+		gameDirectories.strSoundSFXDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
+		gameDirectories.strSoundMusicDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
+		gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
+	}
 	SafeDelete(&pResource);
 	SafeDelete(&pFile);
 }

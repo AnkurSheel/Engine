@@ -7,6 +7,8 @@
 #include "BaseEntity.h"
 #include "FSM/StateMachine.h"
 #include "BaseComponent.h"
+#include "EntityManager.hxx"
+#include "ComponentCreator.h"
 
 using namespace AI;
 using namespace Utilities;
@@ -16,14 +18,14 @@ using namespace GameBase;
 int cBaseEntity::m_siNextValidID = 0;
 
 // *****************************************************************************
-cBaseEntity::cBaseEntity(const int iID, const Base::cString strName)
+cBaseEntity::cBaseEntity(const int iID, const Base::cString & strName)
 : m_strName(strName)
 {
 	SetID(iID);
 }
 
 // *****************************************************************************
-cBaseEntity::cBaseEntity(const Base::cString strName)
+cBaseEntity::cBaseEntity(const Base::cString & strName)
 : m_strName(strName)
 {
 	SetID(m_siNextValidID);
@@ -73,40 +75,44 @@ void cBaseEntity::VInitialize()
 }
 
 // *****************************************************************************
-void cBaseEntity::AddComponent(cBaseComponent * pComponent)
+IBaseComponent *  cBaseEntity::AddComponent(const Base::cString & strComponentName)
 {
-	pComponent->SetOwner(this);
-	m_Components.insert(std::make_pair(pComponent->GetHashedID(), pComponent));
-}
-
-// *****************************************************************************
-void cBaseEntity::RemoveComponent(cBaseComponent * pComponent)
-{
-	ComponentMap::iterator iter;
-	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
-	{
-		if(pComponent->GetHashedID() == iter->second->GetHashedID())
-		{
-			m_Components.erase(iter);
-		}
-	}
-}
-
-// *****************************************************************************
-cBaseComponent * cBaseEntity::GetComponent(const cString & strComponentName)
-{
-	cBaseComponent * pComponent = NULL;
-	unsigned long hash = cHashedString::CalculateHash(strComponentName);
-	ComponentMap::iterator iter;
-	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
-	{
-		if(hash == iter->second->GetHashedID())
-		{
-			pComponent = iter->second;
-			break;
-		}
-	}
+	IBaseComponent * pComponent = cComponentCreator::GetInstance()->CreateComponent(strComponentName);
+	pComponent->VSetOwner(this);
+	m_Components.insert(std::make_pair(pComponent->VGetID(), pComponent));
 	return pComponent;
+}
+
+// *****************************************************************************
+unsigned long cBaseEntity::RemoveComponent(const Base::cString & strComponentName)
+{
+	unsigned long ulID = 0; 
+	IBaseComponent * pComponent = VGetComponent(strComponentName);
+	if(pComponent != NULL)
+	{
+		ulID = pComponent->VGetID();
+		m_Components.erase(ulID);
+		SafeDelete(&pComponent);
+	}
+	return ulID;
+}
+
+// *****************************************************************************
+IBaseComponent * cBaseEntity::VGetComponent(const Base::cString & strComponentName)
+{
+	unsigned long hash = cHashedString::CalculateHash(strComponentName);
+	ComponentMap::iterator iter = m_Components.find(hash);
+	if(iter == m_Components.end())
+	{
+		return NULL;
+	}
+	return iter->second;
+}
+
+// *****************************************************************************
+bool cBaseEntity::VOnHandleMessage(const AI::Telegram & telegram)
+{
+	return false;
 }
 
 // *****************************************************************************

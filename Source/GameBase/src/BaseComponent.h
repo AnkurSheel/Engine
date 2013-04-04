@@ -6,6 +6,8 @@
 #ifndef BaseComponent_h__
 #define BaseComponent_h__
 
+#include "BaseComponent.hxx"
+
 namespace GameBase
 {
 	class IBaseEntity;
@@ -14,15 +16,16 @@ namespace GameBase
 namespace GameBase
 {
 	class cBaseComponent
+		: public IBaseComponent
 	{
 	public:
 		cBaseComponent(const Base::cString & strComponentName);
 		virtual ~cBaseComponent();
 		virtual void VInitialize();
 		virtual void VCleanup();
+		unsigned long VGetID() const;
+		void VSetOwner(const IBaseEntity * const pNewOwner);
 		Base::cString GetName() const;
-		unsigned long GetHashedID() const;
-		void SetOwner(const IBaseEntity * const pNewOwner);
 
 	private:
 		Base::cHashedString		m_strComponentName;

@@ -12,9 +12,9 @@ using namespace GameBase;
 using namespace Base;
 
 // *****************************************************************************
-cModelComponent::cModelComponent(const Base::cString & strModelName)
+cModelComponent::cModelComponent()
 	: cBaseComponent("Model Component")
-	, m_strModelName(strModelName)
+	, m_strModelName("")
 	, m_pModel(NULL)
 {
 }

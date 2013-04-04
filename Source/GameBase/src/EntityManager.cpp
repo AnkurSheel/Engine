@@ -1,57 +1,61 @@
-// ***************************************************************
+// *****************************************************************************
 //  EnityManager   version:  1.0   Ankur Sheel  date: 2012/07/27
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "StdAfx.h"
 #include "EntityManager.h"
 #include "BaseEntity.h"
+#include "ComponentCreator.h"
+#include "BaseComponent.hxx"
 
 using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
 
-
 IEntityManager * GameBase::cEntityManager::s_pEntityManager = NULL;
 
-// ***************************************************************
+// *****************************************************************************
 cEntityManager::cEntityManager()
 {
 	m_EntityMap.clear();
 }
 
-// ***************************************************************
+// *****************************************************************************
 cEntityManager::~cEntityManager()
 {
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
 	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
 	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
 }
 
-// ***************************************************************
-IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
+// *****************************************************************************
+void cEntityManager::VUnRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	//find the entity
-	EntityMap::const_iterator ent = m_EntityMap.find(iID);
-
-	//assert that the entity is a member of the map
-	if (ent !=  m_EntityMap.end())
-	{
-		return ent->second;
-	}
-	return NULL;
+	m_EntityMap.erase(pNewEntity->VGetID());
 }
 
-// ***************************************************************
+// *****************************************************************************
+IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
+{
+	EntityMap::iterator iter = m_EntityMap.find(iID);
+	if(iter == m_EntityMap.end())
+	{
+		return NULL;
+	}
+	return iter->second;
+}
+
+// *****************************************************************************
 cString const cEntityManager::VGetEntityNameFromID( const int iID )
 {
 	IBaseEntity * pEntity = VGetEntityFromID(iID);
@@ -62,35 +66,105 @@ cString const cEntityManager::VGetEntityNameFromID( const int iID )
 	return "";
 }
 
-// ***************************************************************
-void cEntityManager::UnRegisterEntity( IBaseEntity * const pNewEntity )
+// *****************************************************************************
+IBaseComponent * cEntityManager::VGetComponent(IBaseEntity * pEntity,
+	const Base::cString & strComponentName)
 {
-	m_EntityMap.erase(m_EntityMap.find(pNewEntity->VGetID()));
+	return pEntity->VGetComponent(strComponentName);
 }
 
-// ***************************************************************
-void cEntityManager::CreateEntityManager()
+// *****************************************************************************
+void cEntityManager::VAddComponent(IBaseEntity * pEntity,
+	const Base::cString & strComponentName)
 {
-	s_pEntityManager = DEBUG_NEW cEntityManager();
+	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
+	IBaseComponent * pComponent = NULL;
+	if(pEnt != NULL)
+	{
+		pComponent = pEnt->AddComponent(strComponentName);
+	}
+
+	if(pComponent != NULL)
+	{
+		EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
+		if(iter == m_ComponentMap.end())
+		{
+			EntityList list;
+			list.push_back(pEntity);
+			m_ComponentMap.insert(std::make_pair(pComponent->VGetID(), list));
+		}
+		else
+		{
+			EntityList & list = iter->second;
+			list.push_back(pEntity);
+		}
+	}
 }
 
-// ***************************************************************
-void cEntityManager::Destroy()
+// *****************************************************************************
+void cEntityManager::VRemoveComponent(IBaseEntity * pEntity,
+	const Base::cString & strComponentName)
 {
-	SafeDelete(&s_pEntityManager);
+	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
+	unsigned long ulComponentID = 0; 
+	if(pEnt != NULL)
+	{
+		ulComponentID = pEnt->RemoveComponent(strComponentName);
+	}
+
+	EntityComponentMap::iterator iter = m_ComponentMap.find(ulComponentID);
+	if(iter == m_ComponentMap.end())
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Trying to remove non existent component");
+	}
+	else
+	{
+		EntityList & list = iter->second;
+		list.remove(pEntity);
+		if(list.empty())
+		{
+			m_ComponentMap.erase(ulComponentID);
+		}
+	}
 }
 
-// ***************************************************************
+// *****************************************************************************
+void cEntityManager::VGetEntities(const Base::cString & strComponentName,
+	EntityList & entities)
+{
+	unsigned long hash = cHashedString::CalculateHash(strComponentName);
+	EntityComponentMap::iterator iter = m_ComponentMap.find(hash);
+	if(iter == m_ComponentMap.end())
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Trying to access non existent component");
+	}
+	else
+	{
+		entities = iter->second;
+	}
+}
+
+void cEntityManager::Cleanup()
+{
+	m_EntityMap.clear();
+	for(EntityComponentMap::iterator iter = m_ComponentMap.begin(); iter != m_ComponentMap.end(); iter++)
+	{
+		iter->second.clear();
+	}
+	m_ComponentMap.clear();
+	cComponentCreator::Destroy();
+}
+
+// *****************************************************************************
 IEntityManager * IEntityManager::GetInstance()
 {
 	if(cEntityManager::s_pEntityManager == NULL)
-		cEntityManager::CreateEntityManager();
+		cEntityManager::s_pEntityManager = DEBUG_NEW cEntityManager();
 	return cEntityManager::s_pEntityManager;
-
 }
 
-// ***************************************************************
+// *****************************************************************************
 void IEntityManager::Destroy()
 {
-	cEntityManager::Destroy();
+	SafeDelete(&cEntityManager::s_pEntityManager);
 }

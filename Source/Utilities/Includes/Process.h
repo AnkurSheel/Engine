@@ -22,7 +22,8 @@ namespace Utilities
 	public:
 		UTILITIES_API cProcess(const Base::cString & strType);
 		UTILITIES_API virtual ~cProcess();
-		
+
+		UTILITIES_API virtual void VInitialize();
 		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
 		UTILITIES_API virtual void VKill();
 		UTILITIES_API virtual void VTogglePause();
@@ -36,9 +37,7 @@ namespace Utilities
 		bool IsInitialized() const;
 		shared_ptr<cProcess> const GetNext() const;
 		void SetNext(shared_ptr<cProcess> pNext);
-		
-		virtual void VInitialize(){}
-		
+
 	protected:
 		bool					m_bKill;
 		bool					m_bActive;

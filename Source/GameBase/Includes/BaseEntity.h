@@ -11,7 +11,7 @@
 
 namespace GameBase
 {
-	class cBaseComponent;
+	class IBaseComponent;
 }
 
 namespace GameBase
@@ -21,24 +21,26 @@ namespace GameBase
 		, public Base::cNonCopyable
 	{
 	private :
-		typedef std::map<unsigned long, cBaseComponent *> ComponentMap;
+		typedef std::map<unsigned long, IBaseComponent *> ComponentMap;
 
 	public:
-		GAMEBASE_API cBaseEntity(const int iID, const Base::cString strName);
-		GAMEBASE_API cBaseEntity(const Base::cString strName);
+		GAMEBASE_API cBaseEntity(const int iID, const Base::cString & strName);
+		GAMEBASE_API cBaseEntity(const Base::cString & strName);
 		GAMEBASE_API virtual ~cBaseEntity();
-		GAMEBASE_API virtual void VInitialize();
-		GAMEBASE_API virtual void VCleanup();
-		GAMEBASE_API int VGetID() const;
-		GAMEBASE_API Base::cString VGetName() const;
+		GAMEBASE_API IBaseComponent * AddComponent(const Base::cString & strComponentName);
+		GAMEBASE_API unsigned long RemoveComponent(const Base::cString & strComponentName);
 		
-
 	private:
+		GAMEBASE_API IBaseComponent * VGetComponent(const Base::cString & strComponentName);
+		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
+
 		void SetID(const int iID);
-		
-		void AddComponent(cBaseComponent * pComponent);
-		void RemoveComponent(cBaseComponent * pComponent);
-		cBaseComponent * GetComponent(const Base::cString & strComponentName);
+
+	protected:
+		GAMEBASE_API void VInitialize();
+		GAMEBASE_API void VCleanup();
+		GAMEBASE_API Base::cString VGetName() const;
+		GAMEBASE_API int VGetID() const;
 
 	protected:
 		Base::cString	m_strName;

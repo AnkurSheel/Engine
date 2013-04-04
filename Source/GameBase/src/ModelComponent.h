@@ -19,7 +19,7 @@ namespace GameBase
 		: public cBaseComponent
 	{
 	public:
-		cModelComponent(const Base::cString & strModelName);
+		cModelComponent();
 		~cModelComponent();
 		void VInitialize();
 		void VCleanup();

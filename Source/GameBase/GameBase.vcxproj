@@ -102,6 +102,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseComponent.cpp" />
+    <ClCompile Include="src\ComponentCreator.cpp" />
     <ClCompile Include="src\GameControls.cpp" />
     <ClCompile Include="src\HighScoreTable.cpp" />
     <ClCompile Include="src\ModelComponent.cpp" />
@@ -127,6 +128,8 @@
     <ClInclude Include="Includes\GameOptions.h" />
     <ClInclude Include="Includes\HumanView.h" />
     <ClInclude Include="src\BaseComponent.h" />
+    <ClInclude Include="src\BaseComponent.hxx" />
+    <ClInclude Include="src\ComponentCreator.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
     <ClInclude Include="src\MessageDispatchManager.h" />

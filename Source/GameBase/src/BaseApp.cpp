@@ -66,9 +66,9 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	}
 
 	bool bShowConsoleLog = m_pParamLoader->VGetParameterValueAsBool("-showconsolelog", false);
-	bool bLogToText = m_pParamLoader->VGetParameterValueAsBool("-logtotext", false);
+	bool bLogToText = m_pParamLoader->VGetParameterValueAsBool("-logtotext", true);
 	bool bLogToXML = m_pParamLoader->VGetParameterValueAsBool("-logtoxml", false);
-	unsigned int uiPriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 0);
+	unsigned int uiPriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 1);
 	ILogger::Instance()->VSetLogOptions(bShowConsoleLog, bLogToText, bLogToXML, uiPriorityLevel);
 
 	IResourceChecker::Destroy();

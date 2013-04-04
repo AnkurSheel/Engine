@@ -38,9 +38,14 @@ void cProcess::SetAttached(const bool bAttached)
 	}
 }
 
+void cProcess::VInitialize()
+{
+	m_bInitialUpdate = false;
+}
+
 void cProcess::VUpdate(const int iDeltaMilliSeconds)
 {
-	if ( m_bInitialUpdate ) 
+	if(m_bInitialUpdate) 
 	{ 
 		VInitialize(); 
 		m_bInitialUpdate = false; 

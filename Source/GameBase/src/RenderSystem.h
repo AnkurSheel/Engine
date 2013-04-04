@@ -12,7 +12,11 @@ namespace GameBase
 	class cRenderSystem
 		: public Utilities::cProcess
 	{
-
+	public:
+		cRenderSystem();
+		~cRenderSystem();
+		void VInitialize();
+		void VUpdate(const int iDeltaMilliSeconds);
 	};
 }
 #endif // RenderSystem_h__

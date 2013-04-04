@@ -40,13 +40,13 @@ void cBaseComponent::VCleanup()
 }
 
 // *****************************************************************************
-unsigned long cBaseComponent::GetHashedID() const
+unsigned long cBaseComponent::VGetID() const
 {
 	return m_strComponentName.GetHash();
 }
 
 // *****************************************************************************
-void cBaseComponent::SetOwner(const IBaseEntity * const pNewOwner)
+void cBaseComponent::VSetOwner(const IBaseEntity * const pNewOwner)
 {
 	m_pOwner = pNewOwner;
 }

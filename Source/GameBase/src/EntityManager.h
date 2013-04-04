@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  EnityManager   version:  1.0   Ankur Sheel  date: 2012/07/27
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 
 #ifndef EntityManager_h__
 #define EntityManager_h__
@@ -15,7 +15,8 @@
 
 namespace GameBase
 {
-	class cBaseEntity;
+	class IBaseEntity;
+	class IBaseComponent;
 }
 
 namespace GameBase
@@ -26,24 +27,34 @@ namespace GameBase
 	{
 	private:
 		typedef std::map<int, IBaseEntity * const > EntityMap;
+		typedef std::map<unsigned long, EntityList> EntityComponentMap;
 
 	public:
-		void VRegisterEntity(IBaseEntity * const pNewEntity);
-		void UnRegisterEntity(IBaseEntity * const pNewEntity);
 		IBaseEntity * const VGetEntityFromID(const int iID);
 		Base::cString const VGetEntityNameFromID(const int iID);
-		static IEntityManager * GetInstance();
-		static void CreateEntityManager();
-		static void Destroy();
+		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+
 	private:
+		void VRegisterEntity(IBaseEntity * const pNewEntity);
+		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
+		void VAddComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+		void VRemoveComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+		void VGetEntities(const Base::cString & strComponentName, EntityList & entities);
+
+		void Cleanup();
+
 		cEntityManager();
 		~cEntityManager();
 
 	private:
-		EntityMap		m_EntityMap;
-	
-	public:
+		EntityMap			m_EntityMap;
+		EntityComponentMap	m_ComponentMap;
 		static IEntityManager * s_pEntityManager;
+
+		private:
+			friend static IEntityManager * IEntityManager::GetInstance();
+			friend static void IEntityManager::Destroy();
+
 	};
 
 }
