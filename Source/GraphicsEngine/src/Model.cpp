@@ -111,12 +111,13 @@ void cModel::VRender(const ICamera * const pCamera)
 		{
 			m_pShader->SetDiffuseColor(m_vSubsets[i].m_diffuseColor);
 			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
-			m_pShader->VRender(m_matWorld, pCamera->VGetViewMatrix(), 
-				IDXBase::GetInstance()->VGetProjectionMatrix());
+			if(m_pShader->VRender(m_matWorld, pCamera->VGetViewMatrix(), 
+				IDXBase::GetInstance()->VGetProjectionMatrix()))
+			{
+				IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCountInSubset,
+					m_vSubsets[i].m_iStartIndexNo, 0);
+			}
 		}
-
-		IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCountInSubset,
-			m_vSubsets[i].m_iStartIndexNo, 0);
 	}
 }
 

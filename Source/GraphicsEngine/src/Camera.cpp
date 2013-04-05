@@ -98,6 +98,7 @@ void cCamera::CalculateViewMatrix()
 	XMMATRIX matView = XMMatrixLookAtLH(vPosition, vLookAt, up);
 	XMStoreFloat4x4(&m_matView , matView);
 }
+
 // *****************************************************************************
 ICamera * ICamera::CreateCamera()
 {

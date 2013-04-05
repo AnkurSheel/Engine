@@ -38,6 +38,7 @@ namespace GameBase
 	public:
 		virtual ~cBaseApp(){}
 		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
+		GAMEBASE_API Utilities::IProcessManager * VGetProcessManager() const;
 		TICK GetRunningTicks() const;
 		GAMEBASE_API float GetRunningTime() const;
 		GAMEBASE_API cGameControls * GetGameControls() const;
@@ -47,7 +48,6 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE & hInstance,
 			const int nCmdShow, const Base::cString & strOptionsFile);
 		GAMEBASE_API virtual void VCreateHumanView();
-		GAMEBASE_API Utilities::IProcessManager * VGetProcessManager() const;
 		GAMEBASE_API virtual void VRun();
 		GAMEBASE_API virtual void VOnUpdate();
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);

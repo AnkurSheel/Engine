@@ -45,7 +45,7 @@ namespace Graphics
 	protected:
 		virtual bool VInitialize(const Base::cString & strShaderName);
 		bool VCreateLayout(shared_ptr<Utilities::IResHandle const> shaderHandle);
-		virtual void VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
+		virtual bool VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
 			const XMFLOAT4X4 & inMatView, const XMFLOAT4X4 & inMatProjection);
 		virtual void VRenderShader();
 		virtual void VCleanup();

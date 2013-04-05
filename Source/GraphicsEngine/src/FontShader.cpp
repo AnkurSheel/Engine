@@ -28,11 +28,14 @@ cFontShader::~cFontShader()
 }
 
 // *****************************************************************************
-void cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+bool cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 									   const XMFLOAT4X4 & inMatView,
 									   const XMFLOAT4X4 & inMatProjection)
 {
-	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
+	if(!cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection))
+	{
+		return false;
+	}
 	if(m_pTexture)
 	{
 		ID3D11ShaderResourceView * pTex = m_pTexture->VGetTexture();
@@ -48,7 +51,7 @@ void cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 	{
 		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the pixel Buffer to update with the matrices data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return ;
+		return false;
 	}
 
 	PixelBufferType * pPixelData = (PixelBufferType*)mappedResource.pData;
@@ -64,6 +67,7 @@ void cFontShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 
 	// Now set the pixel constant buffer in the pixel shader with the updated value.
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetConstantBuffers(iBufferNumber, 1, &m_pPixelBuffer);
+	return true;
 }
 
 // *****************************************************************************

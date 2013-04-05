@@ -39,7 +39,7 @@ namespace Graphics
 
 	public:
 		void VSetTexture(shared_ptr<ITexture> pTexture);
-		void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+		bool VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
 			const XMFLOAT4X4 & inMatProjection);
 
 	protected:
@@ -50,10 +50,11 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
+		 * @return True if Successful. False Otherwise
 		 *
 		 * Sets the world, view and projection matrix to be passed to the shader
 		 ***********************************************/
-		virtual void VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
+		virtual bool VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
 			const XMFLOAT4X4 & inMatView, const XMFLOAT4X4 & inMatProjection);
 		/********************************************//**
 		  *

@@ -87,11 +87,15 @@ bool cTextureShader::VInitialize(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cTextureShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+bool cTextureShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 											const XMFLOAT4X4 & inMatView,
 											const XMFLOAT4X4 & inMatProjection)
+{
+	if(!cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection))
 	{
-	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
+		return false;
+	}
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	bool bHasTexture = false;
 	if(m_pTexture)
@@ -108,7 +112,7 @@ void cTextureShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 	{
 		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the pixel Buffer to update with the data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return ;
+		return false;
 	}
 
 	stPixelBufferData * pPixelData = (stPixelBufferData*)mappedResource.pData;
@@ -124,6 +128,7 @@ void cTextureShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 
 	// Now set the pixel constant buffer in the pixel shader with the updated value.
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetConstantBuffers(iBufferNumber, 1, &m_pPixelBuffer);
+	return true;
 }
 
 // *****************************************************************************

@@ -32,7 +32,7 @@ namespace Graphics
 
 	private:
 		~cFontShader();
-		void VSetShaderParameters( const XMFLOAT4X4 & inMatWorld,
+		bool VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 			const XMFLOAT4X4 & inMatView, const XMFLOAT4X4 & inMatProjection);
 	};
 }

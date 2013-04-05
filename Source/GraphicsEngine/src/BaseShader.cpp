@@ -70,14 +70,16 @@ bool cBaseShader::VInitialize(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cBaseShader::VRender(const XMFLOAT4X4 & inMatWorld,
+bool cBaseShader::VRender(const XMFLOAT4X4 & inMatWorld,
 							const XMFLOAT4X4 & inMatView,
 							const XMFLOAT4X4 & inMatProjection)
 {	
-	VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
-
+	if(!VSetShaderParameters(inMatWorld, inMatView, inMatProjection))
+	{
+		return false;
+	}
 	VRenderShader();
-
+	return true;
 }
 
 // ***************************************************************************************
@@ -95,9 +97,12 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 	//	return false;
 
 	cString strVertexShaderPath = cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".vsho";
-	IResource * pResource = IResource::CreateResource(strVertexShaderPath);
+	shared_ptr<IResource> pResource = shared_ptr<IResource>(IResource::CreateResource(strVertexShaderPath));
 	shared_ptr<IResHandle> shaderHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
-	
+	if(shaderHandle == NULL)
+	{
+		return false;
+	}
 	const void * pData = shaderHandle->GetBuffer();
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateVertexShader(pData, 
 		shaderHandle->GetSize(), NULL, &m_pVertexShader);
@@ -109,7 +114,6 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 			return false;
 	}
 	bool bSuccess = VCreateLayout(shaderHandle);
-	SafeDelete(&pResource);
 	return bSuccess;
 }
 
@@ -137,10 +141,14 @@ bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 }
 
 // *****************************************************************************
-void cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
+bool cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 										const XMFLOAT4X4 & inMatView,
 										const XMFLOAT4X4 & inMatProjection)
 {
+	if(m_pMatrixBuffer == NULL)
+	{
+		return false;
+	}
 	XMMATRIX matWorld = XMMatrixTranspose(XMLoadFloat4x4(&inMatWorld));
 	XMMATRIX matView = XMMatrixTranspose(XMLoadFloat4x4(&inMatView));
 	XMMATRIX matProjection = XMMatrixTranspose(XMLoadFloat4x4(&inMatProjection));
@@ -152,7 +160,7 @@ void cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 	{
 		Log_Write(ILogger::LT_ERROR, 1, cString("Could not lock the Matrix Buffer to update with the matrices data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return ;
+		return false;
 	}
 
 	// Get a pointer to the data in the constant buffer.
@@ -172,6 +180,8 @@ void cBaseShader::VSetShaderParameters(const XMFLOAT4X4 & inMatWorld,
 
 	IDXBase::GetInstance()->VGetDeviceContext()->VSSetConstantBuffers(iBufferNumber,
 		1, &m_pMatrixBuffer);
+
+	return true;
 }
 
 // *****************************************************************************

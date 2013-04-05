@@ -16,6 +16,7 @@ cModelComponent::cModelComponent()
 	: cBaseComponent("Model Component")
 	, m_strModelName("")
 	, m_pModel(NULL)
+	, m_pTransform(NULL)
 {
 }
 
@@ -27,9 +28,12 @@ cModelComponent::~cModelComponent()
 // *****************************************************************************
 void cModelComponent::VInitialize()
 {
+	m_pTransform = DEBUG_NEW cTransformComponent();
 	if (!m_strModelName.IsEmpty())
 	{
 		m_pModel = IModel::CreateModel(m_strModelName);
+		m_pModel->VRecalculateWorldMatrix(m_pTransform->m_vPosition,
+					m_pTransform->m_vRotation, m_pTransform->m_vScale);
 	}
 }
 
@@ -37,4 +41,34 @@ void cModelComponent::VInitialize()
 void cModelComponent::VCleanup()
 {
 	SafeDelete(&m_pModel);
+	SafeDelete(&m_pTransform);
+}
+
+// *****************************************************************************
+void cModelComponent::UpdateTransform(const cTransformComponent * const pTransform)
+{
+	if(m_pTransform != NULL)
+	{
+		if(m_pTransform->m_vPosition != pTransform->m_vPosition
+			|| m_pTransform->m_vRotation != pTransform->m_vRotation
+			|| m_pTransform->m_vScale != pTransform->m_vScale)
+		{
+			*(m_pTransform) = *(pTransform);
+			if(m_pModel != NULL)
+			{
+				m_pModel->VRecalculateWorldMatrix(m_pTransform->m_vPosition,
+					m_pTransform->m_vRotation, m_pTransform->m_vScale);
+			}
+		}
+	}
+}
+
+// *****************************************************************************
+void cModelComponent::Render(const ICamera * const pCamera)
+{
+	if(m_pModel != NULL)
+	{
+		m_pModel->VRender(pCamera);
+	}
+
 }

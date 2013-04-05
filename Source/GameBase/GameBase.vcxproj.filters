@@ -30,6 +30,9 @@
     <ClCompile Include="src\BaseEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -64,12 +67,6 @@
       <Filter>Scores</Filter>
     </ClInclude>
     <ClInclude Include="Includes\GameControls.h" />
-    <ClInclude Include="src\TransformComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RenderSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\ModelComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -78,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="Includes\BaseComponent.hxx">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\RenderSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -116,6 +116,7 @@
     <ClCompile Include="src\HumanView.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\BaseComponent.h" />
@@ -123,12 +124,14 @@
     <ClInclude Include="Includes\GameControls.h" />
     <ClInclude Include="Includes\HighScoreTable.h" />
     <ClInclude Include="Includes\ModelComponent.h" />
+    <ClInclude Include="Includes\RenderSystem.h" />
     <ClInclude Include="Includes\Score.h" />
     <ClInclude Include="Includes\GameElement.h" />
     <ClInclude Include="Includes\BaseEntity.h" />
     <ClInclude Include="Includes\BaseEntity.hxx" />
     <ClInclude Include="Includes\GameOptions.h" />
     <ClInclude Include="Includes\HumanView.h" />
+    <ClInclude Include="Includes\TransformComponent.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
     <ClInclude Include="src\MessageDispatchManager.h" />
@@ -140,8 +143,6 @@
     <ClInclude Include="Includes\GameView.hxx" />
     <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="Includes\MainWindow.hxx" />
-    <ClInclude Include="src\RenderSystem.h" />
-    <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

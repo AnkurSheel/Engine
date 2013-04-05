@@ -21,7 +21,6 @@ const cBaseApp * cGameElement::m_pBaseApp = NULL;
 
 // *******************************************************************************************
 cGameElement::cGameElement()
-//: m_pModel(NULL)
 : m_bIsDirty(false)
 , m_bActive(true)
 , m_fReactivateTime(0.0f)
@@ -42,14 +41,6 @@ void cGameElement::VInitialize(const cGameElementDef & def)
 	SetPosition(def.vPosition);
 	SetScale(def.vScale);
 	SetRotation(def.vRotation);
-	//if (!def.strModelName.IsEmpty())
-	//{
-	//	m_pModel = IModel::CreateModel(def.strModelName);
-	//	if(m_pModel)
-	//	{
-	//		m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
-	//	}
-	//}
 }
 
 // *******************************************************************************************
@@ -64,11 +55,6 @@ void cGameElement::OnUpdate(float fElapsedTime)
 			OnRestart();
 		}
 	}
-	//if(m_bIsDirty)
-	//{
-	//	m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
-	//	m_bIsDirty = false;
-	//}
 }
 
 // *******************************************************************************************

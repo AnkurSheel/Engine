@@ -37,11 +37,12 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
+		 * @return False if there is any error
 		 *
 		 * Sets the shader parameters and then draws the model
 		 * using the HLSL shader
 		 ***********************************************/
-		virtual void VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
+		virtual bool VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatView,
 			const XMFLOAT4X4 & inMatProjection) = 0;
 		/********************************************//**
  		 * @param[in] pTexture The texture to be used by the shader

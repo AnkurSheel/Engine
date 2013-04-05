@@ -16,6 +16,11 @@ namespace Graphics
 {
 	class ICamera;
 }
+namespace Base
+{
+	class cVector3;
+	class cVector2;
+}
 
 namespace Graphics
 {
