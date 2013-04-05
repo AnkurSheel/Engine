@@ -35,7 +35,7 @@ namespace Graphics
 		void VBeginRender();
 		void VEndRender();
 		void VSetFullScreenMode(const bool bIsFullScreen);
-		Base::tOptional<bool> VOnWindowResized();
+		Base::tOptional<bool> VOnWindowResized(const int iNewWidth, const int iNewHeight);
 		/********************************************//**
 		 *
 		 * Releases all the resources

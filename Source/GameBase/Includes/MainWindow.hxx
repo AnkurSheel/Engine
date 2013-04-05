@@ -49,9 +49,11 @@ namespace GameBase
 		/// Handler for when the window is resized i.e WM_SIZE message is 
 		/// recieved
 		///
+		/// @param[in] iNewWidth The new width of the window
+		/// @param[in] iNewHeight The new height of the window
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VOnWindowResized() = 0;
+		virtual void VOnWindowResized(const int iNewWidth, const int iNewHeight) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Destroys the Window
 		///

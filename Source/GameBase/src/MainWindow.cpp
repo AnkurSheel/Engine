@@ -67,9 +67,9 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 }
 
 // *****************************************************************************
-void cMainWindow::VOnWindowResized()
+void cMainWindow::VOnWindowResized(const int iNewWidth, const int iNewHeight)
 {
-	tOptional<bool> bFullScreen = IGraphicsClass::GetInstance()->VOnWindowResized();
+	tOptional<bool> bFullScreen = IGraphicsClass::GetInstance()->VOnWindowResized(iNewWidth, iNewHeight);
 	if(bFullScreen.IsValid())
 	{
 		cGameOptions::GameOptions().bFullScreen = *bFullScreen;
@@ -191,7 +191,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 		return 0 ;
 
 	case WM_SIZE:
-		VOnWindowResized();
+		VOnWindowResized(LOWORD(lParam), HIWORD(lParam));
 		return 0;
 
 	case WM_ACTIVATE:

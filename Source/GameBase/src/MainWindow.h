@@ -28,7 +28,7 @@ namespace GameBase
 		~cMainWindow();
 		HWND VOnInitialization(const HINSTANCE & hInstance, const int& nCmdShow,
 			IBaseApp * const pGame);
-		void VOnWindowResized();
+		void VOnWindowResized(const int iNewWidth, const int iNewHeight);
 		void VCleanup();
 		////////////////////////////////////////////////////////////////////////
 		/// Event handler. Routes messages to appropriate instance.

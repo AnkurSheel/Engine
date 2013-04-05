@@ -35,6 +35,8 @@ namespace Graphics
 		void VTurnZBufferOff();
 		void VTurnOnAlphaBlending();
 		void VTurnOffAlphaBlending();
+		void VSetFullScreenMode(const bool bIsFullScreen, const int iNewWidth,
+			const int iNewHeight);
 		void VSetFullScreenMode(const bool bIsFullScreen);
 		ID3D11Device * VGetDevice() const;
 		ID3D11DeviceContext * VGetDeviceContext() const;
@@ -43,7 +45,7 @@ namespace Graphics
 		const XMFLOAT4X4 & VGetOrthoMatrix() const;
 		int VGetScreenWidth() const;
 		int VGetScreenHeight() const;
-		Base::tOptional<bool> VOnWindowResized();
+		Base::tOptional<bool> VOnWindowResized(const int iNewWidth, const int iNewHeight);
 		////////////////////////////////////////////////////////////////////////
 		/// Sets up the device, swap chain, depth buffer, depth stencil state. 
 		/// Bind the render target view and the depth stencil buffer to the 

@@ -58,9 +58,9 @@ bool cGraphicsClass::VInitialize( const HWND & hWnd,
 }
 
 // *****************************************************************************
-tOptional<bool> cGraphicsClass::VOnWindowResized()
+tOptional<bool> cGraphicsClass::VOnWindowResized(const int iNewWidth, const int iNewHeight)
 {
-	return IDXBase::GetInstance()->VOnWindowResized();
+	return IDXBase::GetInstance()->VOnWindowResized(iNewWidth, iNewHeight);
 }
 
 // *****************************************************************************

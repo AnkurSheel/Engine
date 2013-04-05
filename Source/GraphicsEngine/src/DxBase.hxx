@@ -147,17 +147,29 @@ namespace Graphics
 		////////////////////////////////////////////////////////////////////////
 		/// Sets the full screen/windowed mode for the DirectX engine
 		///
-		/// @param[in] True if fullscreen. False otherwise
+		/// @param[in] iNewWidth The new width of the window
+		/// @param[in] iNewHeight The new height of the window
+		/// @return True if fullscreen. False otherwise
+        ///
+		////////////////////////////////////////////////////////////////////////
+		virtual void VSetFullScreenMode(const bool bIsFullScreen, const int iNewWidth,
+			const int iNewHeight) = 0;
+		////////////////////////////////////////////////////////////////////////
+		/// Sets the full screen/windowed mode for the DirectX engine
+		///
+		/// @return True if fullscreen. False otherwise
         ///
 		////////////////////////////////////////////////////////////////////////
 		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Callback for when the window is resized
 		///
+		/// @param[in] iNewWidth The new width of the window
+		/// @param[in] iNewHeight The new height of the window
 		/// @return True if we are in full screen mode. False otherwise
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual Base::tOptional<bool> VOnWindowResized() = 0;
+		virtual Base::tOptional<bool> VOnWindowResized(const int iNewWidth, const int iNewHeight) = 0;
 	};
 }
 #endif // DxBase_h__

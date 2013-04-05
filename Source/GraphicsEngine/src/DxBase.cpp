@@ -75,7 +75,7 @@ bool cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 
 	VTurnOnAlphaBlending();
 
-	VSetFullScreenMode(bFullScreen);
+	VSetFullScreenMode(bFullScreen, iWidth, iHeight);
 	
 	return true;
 }
@@ -192,13 +192,23 @@ void cDXBase::VTurnOffAlphaBlending()
 // ***************************************************************************************
 void cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
 {
+	VSetFullScreenMode(bIsFullScreen, m_iScreenWidth, m_iScreenHeight);
+}
+
+// ***************************************************************************************
+void cDXBase::VSetFullScreenMode(const bool bIsFullScreen, const int iNewWidth, const int iNewHeight)
+{
+	if(iNewWidth == 0 || iNewHeight == 0)
+	{
+		return;
+	}
 	if (m_pSwapChain)
 	{
+		m_pDeviceContext->OMSetRenderTargets(0, 0, 0);
 		SafeRelease(&m_pRenderTargetView);
 		SafeRelease(&m_pDepthStencilView);
 		DXGI_SWAP_CHAIN_DESC scd;
 		m_pSwapChain->GetDesc(&scd);
-
 		if(bIsFullScreen)
 		{
 			m_pSwapChain->ResizeTarget(&scd.BufferDesc);
@@ -208,26 +218,29 @@ void cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
 		}
 		else
 		{
-			m_pSwapChain->ResizeTarget(&scd.BufferDesc);
+			//m_pSwapChain->ResizeTarget(&scd.BufferDesc);
 			m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-			m_pSwapChain->SetFullscreenState(false, NULL);
+			if(!scd.Windowed)
+			{
+				m_pSwapChain->SetFullscreenState(false, NULL);
+			}
 		}
 
 		AttachBackBufferToSwapChain();
 		CreateDepthStencilView();
 		m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
+		SetupViewPort(iNewWidth, iNewHeight);
 	}
 }
 
 // *****************************************************************************
-tOptional<bool> cDXBase::VOnWindowResized()
+tOptional<bool> cDXBase::VOnWindowResized(const int iNewWidth, const int iNewHeight)
 {
 	if (m_pSwapChain)
 	{
 		BOOL bFullScreen;
 		m_pSwapChain->GetFullscreenState(&bFullScreen, NULL);
-
-		VSetFullScreenMode(bFullScreen);
+		VSetFullScreenMode(bFullScreen, iNewWidth, iNewHeight);
 
 		return bFullScreen;
 	}
@@ -672,7 +685,7 @@ void cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const 
 void cDXBase::Cleanup()
 {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
-	VSetFullScreenMode(false);
+	VSetFullScreenMode(false, m_iScreenWidth, m_iScreenHeight);
 
 	SafeRelease(&m_pRasterState);
 	SafeRelease(&m_pDepthStencilView);
