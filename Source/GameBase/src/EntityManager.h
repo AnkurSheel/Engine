@@ -29,18 +29,19 @@ namespace GameBase
 		typedef std::map<int, IBaseEntity * const > EntityMap;
 		typedef std::map<unsigned long, EntityList> EntityComponentMap;
 
-	public:
-		IBaseEntity * const VGetEntityFromID(const int iID);
-		Base::cString const VGetEntityNameFromID(const int iID);
-		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
-
 	private:
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
-		void VAddComponent(IBaseEntity * pEntity, IBaseComponent * pComponent);
-		void VRemoveComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
-		void VGetEntities(const Base::cString & strComponentName, EntityList & entities);
-
+		void VAddComponent(IBaseEntity * const pEntity, IBaseComponent * pComponent);
+		void VRemoveComponent(IBaseEntity * const pEntity,
+			const Base::cString & strComponentName);
+		void VGetEntities(const Base::cString & strComponentName,
+			EntityList & entities);
+		IBaseEntity * const VGetEntityFromID(const int iID) const;
+		Base::cString VGetEntityNameFromID(const int iID) const;
+		Base::cString VGetEntityName(const IBaseEntity * const pEntity) const;
+		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+		int VGetEntityID(const IBaseEntity * const pEntity) const;
 		void Cleanup();
 
 		cEntityManager();

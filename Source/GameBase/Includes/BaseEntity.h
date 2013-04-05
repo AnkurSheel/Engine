@@ -29,9 +29,12 @@ namespace GameBase
 		GAMEBASE_API virtual ~cBaseEntity();
 		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
 		GAMEBASE_API unsigned long RemoveComponent(const Base::cString & strComponentName);
-		
+		GAMEBASE_API void GetAllComponents(ComponentList & components) const;
+		GAMEBASE_API IBaseComponent * GetComponent(const Base::cString & strComponentName);
+		GAMEBASE_API Base::cString GetName() const;
+		GAMEBASE_API int GetID() const;
+
 	private:
-		GAMEBASE_API IBaseComponent * VGetComponent(const Base::cString & strComponentName);
 		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
 
 		void SetID(const int iID);
@@ -39,9 +42,6 @@ namespace GameBase
 	protected:
 		GAMEBASE_API void VInitialize();
 		GAMEBASE_API void VCleanup();
-		GAMEBASE_API Base::cString VGetName() const;
-		GAMEBASE_API int VGetID() const;
-		GAMEBASE_API void VGetAllComponents(ComponentList & components);
 
 	protected:
 		Base::cString	m_strName;

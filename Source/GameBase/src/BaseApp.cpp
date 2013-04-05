@@ -276,5 +276,5 @@ IProcessManager * cBaseApp::VGetProcessManager() const
 // *****************************************************************************
 cString cBaseApp::VGetGameTitle() const
 {
-	return VGetName();
+	return GetName();
 }

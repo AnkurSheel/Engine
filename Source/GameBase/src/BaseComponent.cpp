@@ -28,18 +28,6 @@ cString cBaseComponent::VGetName() const
 }
 
 // *****************************************************************************
-void cBaseComponent::VInitialize()
-{
-
-}
-
-// *****************************************************************************
-void cBaseComponent::VCleanup()
-{
-
-}
-
-// *****************************************************************************
 unsigned long cBaseComponent::VGetID() const
 {
 	return m_strComponentName.GetHash();

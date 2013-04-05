@@ -21,8 +21,6 @@ namespace GameBase
 	public:
 		cBaseComponent(const Base::cString & strComponentName);
 		virtual ~cBaseComponent();
-		virtual void VInitialize();
-		virtual void VCleanup();
 		unsigned long VGetID() const;
 		void VSetOwner(const IBaseEntity * const pNewOwner);
 		Base::cString VGetName() const;

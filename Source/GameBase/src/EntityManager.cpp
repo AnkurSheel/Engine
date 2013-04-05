@@ -27,40 +27,68 @@ cEntityManager::cEntityManager()
 // *****************************************************************************
 cEntityManager::~cEntityManager()
 {
-
+	Cleanup();
 }
 
 // *****************************************************************************
-void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
+void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
 {
-	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
-	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
-	IBaseEntity::ComponentList components;
-	pNewEntity->VGetAllComponents(components);
-	IBaseEntity::ComponentList::iterator iter;
-	for (iter = components.begin(); iter != components.end(); iter++)
+	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
+	if (pEntity != NULL)
 	{
-		VAddComponent(pNewEntity, *iter);
+		m_EntityMap.insert(std::make_pair(pEntity->GetID(), pNewEntity));
+		IBaseEntity::ComponentList components;
+
+		Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
+			+ pEntity->GetName());
+		IBaseEntity::ComponentList::iterator iter;
+		for (iter = components.begin(); iter != components.end(); iter++)
+		{
+			VAddComponent(pNewEntity, *iter);
+		}
 	}
 }
 
 // *****************************************************************************
 void cEntityManager::VUnRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	m_EntityMap.erase(pNewEntity->VGetID());
-	IBaseEntity::ComponentList components;
-	pNewEntity->VGetAllComponents(components);
-	IBaseEntity::ComponentList::iterator iter;
-	for (iter = components.begin(); iter != components.end(); iter++)
+	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
+	if (pEntity != NULL)
 	{
-		VRemoveComponent(pNewEntity, (*iter)->VGetName());
+		EntityMap::iterator Entityiter = m_EntityMap.find(pEntity->GetID());
+		if(Entityiter == m_EntityMap.end())
+		{
+			return;
+		}
+		IBaseEntity::ComponentList components;
+
+		pEntity->GetAllComponents(components);
+
+		IBaseEntity::ComponentList::iterator iter;
+		for (iter = components.begin(); iter != components.end(); iter++)
+		{
+			VRemoveComponent(pNewEntity, (*iter)->VGetName());
+		}
+		m_EntityMap.erase(pEntity->GetID());
 	}
 }
 
 // *****************************************************************************
-IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
+int cEntityManager::VGetEntityID(const IBaseEntity * const pEntity) const
 {
-	EntityMap::iterator iter = m_EntityMap.find(iID);
+	const cBaseEntity * const pEnt = dynamic_cast<const cBaseEntity * const>(pEntity);
+
+	if (pEnt != NULL)
+	{
+		return pEnt->GetID();
+	}
+	return 0;
+}
+
+// *****************************************************************************
+IBaseEntity * const cEntityManager::VGetEntityFromID(const int iID) const
+{
+	EntityMap::const_iterator iter = m_EntityMap.find(iID);
 	if(iter == m_EntityMap.end())
 	{
 		return NULL;
@@ -69,12 +97,20 @@ IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
 }
 
 // *****************************************************************************
-cString const cEntityManager::VGetEntityNameFromID( const int iID )
+cString cEntityManager::VGetEntityNameFromID(const int iID) const
 {
 	IBaseEntity * pEntity = VGetEntityFromID(iID);
-	if (pEntity != NULL)
+	return VGetEntityName(pEntity);
+}
+
+// *****************************************************************************
+cString cEntityManager::VGetEntityName(const IBaseEntity * const pEntity) const
+{
+	const cBaseEntity * const pEnt = dynamic_cast<const cBaseEntity * const>(pEntity);
+
+	if (pEnt != NULL)
 	{
-		return pEntity->VGetName();
+		return pEnt->GetName();
 	}
 	return "";
 }
@@ -83,51 +119,70 @@ cString const cEntityManager::VGetEntityNameFromID( const int iID )
 IBaseComponent * cEntityManager::VGetComponent(IBaseEntity * pEntity,
 	const Base::cString & strComponentName)
 {
-	return pEntity->VGetComponent(strComponentName);
+	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
+	if (pEnt != NULL)
+	{
+		return pEnt->GetComponent(strComponentName);
+	}
+	return NULL;
+	
 }
 
 // *****************************************************************************
-void cEntityManager::VAddComponent(IBaseEntity * pEntity, 
-	IBaseComponent * pComponent)
+void cEntityManager::VAddComponent(IBaseEntity * const pEntity, IBaseComponent * pComponent)
 {
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
-	pComponent->VInitialize();
-	if(pEnt != NULL && pComponent != NULL)
+	if (pEnt != NULL)
 	{
-		pEnt->AddComponent(pComponent);
-		EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
-		if(iter == m_ComponentMap.end())
+		EntityMap::iterator iter = m_EntityMap.find(pEnt->GetID());
+		if(iter == m_EntityMap.end())
 		{
-			EntityList list;
-			list.push_back(pEntity);
-			m_ComponentMap.insert(std::make_pair(pComponent->VGetID(), list));
+			Log_Write(ILogger::LT_ERROR, 1, "Adding component to unregistered entity");
+			return;
 		}
-		else
+		if(pComponent != NULL)
 		{
-			EntityList & list = iter->second;
-			list.push_back(pEntity);
+			pComponent->VInitialize();
+			pEnt->AddComponent(pComponent);
+			EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
+			if(iter == m_ComponentMap.end())
+			{
+				EntityList list;
+				list.push_back(pEntity);
+				m_ComponentMap.insert(std::make_pair(pComponent->VGetID(), list));
+			}
+			else
+			{
+				EntityList & list = iter->second;
+				list.push_back(pEntity);
+			}
 		}
 	}
 }
 
 // *****************************************************************************
-void cEntityManager::VRemoveComponent(IBaseEntity * pEntity,
+void cEntityManager::VRemoveComponent(IBaseEntity * const pEntity,
 	const Base::cString & strComponentName)
 {
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
-	unsigned long ulComponentID = 0; 
-	if(pEnt != NULL)
+	if (pEnt != NULL)
 	{
-		ulComponentID = pEnt->RemoveComponent(strComponentName);
-	}
+		EntityMap::iterator Entityiter = m_EntityMap.find(pEnt->GetID());
+		if(Entityiter == m_EntityMap.end())
+		{
+			Log_Write(ILogger::LT_ERROR, 1, "Removing component from unregistered entity");
+			return;
+		}
 
-	EntityComponentMap::iterator iter = m_ComponentMap.find(ulComponentID);
-	if(iter == m_ComponentMap.end())
-	{
-		Log_Write(ILogger::LT_ERROR, 1, "Trying to remove non existent component");
-	}
-	else
-	{
+		unsigned long ulComponentID = pEnt->RemoveComponent(strComponentName);
+
+		EntityComponentMap::iterator iter = m_ComponentMap.find(ulComponentID);
+		if(iter == m_ComponentMap.end())
+		{
+			Log_Write(ILogger::LT_ERROR, 1, "Trying to remove non existent component");
+			return;
+		}
+		
 		EntityList & list = iter->second;
 		list.remove(pEntity);
 		if(list.empty())
@@ -156,6 +211,15 @@ void cEntityManager::VGetEntities(const Base::cString & strComponentName,
 // *****************************************************************************
 void cEntityManager::Cleanup()
 {
+	EntityMap::iterator iter = m_EntityMap.begin();
+	while(iter != m_EntityMap.end())
+	{
+		IBaseEntity * pEntity = iter->second;
+		iter++;
+		SafeDelete(&pEntity);
+		
+	}
+
 	m_EntityMap.clear();
 	for(EntityComponentMap::iterator iter = m_ComponentMap.begin(); iter != m_ComponentMap.end(); iter++)
 	{

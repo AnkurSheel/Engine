@@ -67,7 +67,6 @@ namespace GameBase
 		cGameControls *					m_pGameControls;
 		bool							m_bQuitting;
 		Utilities::IProcessManager *	m_pProcessManager;
-
 	};
 }
 

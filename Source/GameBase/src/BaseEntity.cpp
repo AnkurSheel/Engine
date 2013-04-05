@@ -33,7 +33,6 @@ cBaseEntity::cBaseEntity(const Base::cString & strName)
 // *****************************************************************************
 cBaseEntity::~cBaseEntity()
 {
-	VCleanup();
 }
 
 // *****************************************************************************
@@ -52,13 +51,13 @@ void cBaseEntity::SetID(const int iID)
 }
 
 // *****************************************************************************
-int cBaseEntity::VGetID() const
+int cBaseEntity::GetID() const
 {
 	return m_iID;
 }
 
 // *****************************************************************************
-cString cBaseEntity::VGetName() const
+cString cBaseEntity::GetName() const
 {
 	return m_strName;
 }
@@ -84,7 +83,7 @@ void cBaseEntity::AddComponent(IBaseComponent * pComponent)
 unsigned long cBaseEntity::RemoveComponent(const Base::cString & strComponentName)
 {
 	unsigned long ulID = 0; 
-	IBaseComponent * pComponent = VGetComponent(strComponentName);
+	IBaseComponent * pComponent = GetComponent(strComponentName);
 	if(pComponent != NULL)
 	{
 		ulID = pComponent->VGetID();
@@ -95,7 +94,7 @@ unsigned long cBaseEntity::RemoveComponent(const Base::cString & strComponentNam
 }
 
 // *****************************************************************************
-IBaseComponent * cBaseEntity::VGetComponent(const Base::cString & strComponentName)
+IBaseComponent * cBaseEntity::GetComponent(const Base::cString & strComponentName)
 {
 	unsigned long hash = cHashedString::CalculateHash(strComponentName);
 	ComponentMap::iterator iter = m_Components.find(hash);
@@ -115,20 +114,21 @@ bool cBaseEntity::VOnHandleMessage(const AI::Telegram & telegram)
 // *****************************************************************************
 void cBaseEntity::VCleanup()
 {
-	ComponentMap::iterator iter;
+	/*ComponentMap::iterator iter;
 	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		iter->second->VCleanup();
 		SafeDelete(&(iter->second));
 	}
-	m_Components.clear();
+	m_Components.clear();*/
+	IEntityManager::GetInstance()->VUnRegisterEntity(this);
 }
 
 // *****************************************************************************
-void cBaseEntity::VGetAllComponents(ComponentList & components)
+void cBaseEntity::GetAllComponents(ComponentList & components) const
 {
 	components.clear();
-	ComponentMap::iterator iter;
+	ComponentMap::const_iterator iter;
 	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		components.push_back(iter->second);

@@ -21,6 +21,7 @@ cModelComponent::cModelComponent()
 
 cModelComponent::~cModelComponent()
 {
+	VCleanup();
 }
 
 // *****************************************************************************
