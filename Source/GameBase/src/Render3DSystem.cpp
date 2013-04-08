@@ -1,10 +1,10 @@
 // *****************************************************************************
-//  RenderSystem version:  1.0   Ankur Sheel  date: 2013/04/02
+//  Render3DSystem version:  1.0   Ankur Sheel  date: 2013/04/02
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
 #include "stdafx.h"
-#include "RenderSystem.h"
+#include "Render3DSystem.h"
 #include "EntityManager.hxx"
 #include "TransformComponent.h"
 #include "ModelComponent.h"
@@ -15,20 +15,20 @@ using namespace Utilities;
 using namespace Graphics;
 
 // *****************************************************************************
-cRenderSystem::cRenderSystem()
-	:cProcess("Render System")
+cRender3DSystem::cRender3DSystem()
+	:cProcess("Render3DSystem")
 {
 
 }
 
 // *****************************************************************************
-cRenderSystem::~cRenderSystem()
+cRender3DSystem::~cRender3DSystem()
 {
 
 }
 
 // *****************************************************************************
-void cRenderSystem::VUpdate(const int iDeltaMilliSeconds)
+void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
 {
 	cProcess::VUpdate(iDeltaMilliSeconds);
 
@@ -49,7 +49,7 @@ void cRenderSystem::VUpdate(const int iDeltaMilliSeconds)
 
 
 // *****************************************************************************
-void cRenderSystem::Render(const ICamera * const pCamera)
+void cRender3DSystem::Render(const ICamera * const pCamera)
 {
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities("Model Component", entityList);

@@ -21,9 +21,6 @@
     <ClCompile Include="src\BaseComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="src\ModelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -32,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render3DSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +79,7 @@
     <ClInclude Include="Includes\TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\RenderSystem.h">
+    <ClInclude Include="Includes\Render3DSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
