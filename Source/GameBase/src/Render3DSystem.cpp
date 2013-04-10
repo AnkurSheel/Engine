@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "Render3DSystem.h"
 #include "EntityManager.hxx"
-#include "TransformComponent.h"
+#include "Transform3DComponent.h"
 #include "ModelComponent.h"
 #include "Camera.hxx"
 
@@ -33,13 +33,13 @@ void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
 	cProcess::VUpdate(iDeltaMilliSeconds);
 
 	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities("Model Component", entityList);
+	IEntityManager::GetInstance()->VGetEntities("ModelComponent", entityList);
 	IEntityManager::EntityList::iterator enityIter;
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cTransformComponent * pTransform = dynamic_cast<cTransformComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "Transform Component"));
-		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "Model Component"));
+		cTransform3DComponent * pTransform = dynamic_cast<cTransform3DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "Transform3DComponent"));
+		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "ModelComponent"));
 		if(pTransform != NULL)
 		{
 			pModel->UpdateTransform(pTransform);
@@ -52,12 +52,12 @@ void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
 void cRender3DSystem::Render(const ICamera * const pCamera)
 {
 	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities("Model Component", entityList);
+	IEntityManager::GetInstance()->VGetEntities("ModelComponent", entityList);
 	IEntityManager::EntityList::iterator enityIter;
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "Model Component"));
+		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "ModelComponent"));
 		pModel->Render(pCamera);
 	}
 

@@ -1,13 +1,8 @@
 // *****************************************************************************
 //  Sprite   version:  1.0   Ankur Sheel  date: 05/09/2008
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
 // *****************************************************************************
-// 
+//  purpose:	
 // *****************************************************************************
-
 #include "stdafx.h"
 #include "Sprite.h"
 #include "DxBase.hxx"
@@ -27,7 +22,7 @@ using namespace Base;
 cSprite::cSprite()
 : m_pVertexBuffer(NULL)
 , m_pIndexBuffer(NULL)
-, m_vSize(cVector2::Zero())
+, m_vScale(1.0f, 1.0f)
 , m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
 , m_iIndexCount(0)
@@ -66,6 +61,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	
 	m_vSize.x = static_cast<float>(desc.Width);
 	m_vSize.y = static_cast<float>(desc.Height);
+	m_vScaledSize = m_vSize;
 	m_bIsDirty = true;
 	SafeRelease(&resource);
 	return true;
@@ -76,18 +72,19 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 {
 	Log_Write(ILogger::LT_EVENT, 2, "Loading Sprite : " + strTextureFilename);
 
-	if (m_pTexture == NULL)
-	{
-		m_pTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + strTextureFilename);
-	}
+	m_pTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + strTextureFilename);
 	
-	return VInitialize(m_pTexture);
+	if (m_pTexture != NULL)
+	{
+		return VInitialize(m_pTexture);
+	}
+	return false;
 }
 
 // *****************************************************************************
 void cSprite::VRender(const ICamera * const pCamera)
 {
-	if (!m_pTexture)
+	if (!m_pTexture || m_vScaledSize == cVector2::Zero())
 	{
 		return;
 	}
@@ -124,21 +121,44 @@ void cSprite::VRender(const ICamera * const pCamera)
 // *****************************************************************************
 void cSprite::VSetPosition( const Base::cVector2 & vPosition )
 {
-	m_vPosition = vPosition;
-	m_bIsDirty = true;
+	if(m_vPosition != vPosition)
+	{
+		m_vPosition = vPosition;
+		m_bIsDirty = true;
+	}
 }
 
 // *****************************************************************************
-void cSprite::VSetSize( const Base::cVector2 & vSize )
+void cSprite::VSetSize( const Base::cVector2 & vSize)
 {
-	m_vSize = vSize;
-	m_bIsDirty = true;
+	if(m_vScaledSize != vSize)
+	{
+		if(vSize == cVector2::Zero())
+		{
+			Log_Write(ILogger::LT_ERROR, 1, "Setting sprite size to 0");
+		}
+		m_vScaledSize = vSize;
+		m_vScale.x = m_vScaledSize.x / vSize.x;
+		m_vScale.y = m_vScaledSize.y / vSize.y;
+		m_bIsDirty = true;
+	}
 }
 
 // *****************************************************************************
-cVector2 cSprite::VGetSize() const
+cVector2 cSprite::VGetScaledSize() const
 {
-	return m_vSize;
+	return m_vScaledSize;
+}
+
+// *****************************************************************************
+void cSprite::VSetScale(const Base::cVector2 & vScale)
+{
+	if(m_vScale != vScale)
+	{
+		m_vScale = vScale;
+		m_vScaledSize = m_vSize * m_vScale;
+		m_bIsDirty = true;
+	}
 }
 
 // ***************************************************************************************
@@ -224,9 +244,9 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 {
 	//center of the screen is 0,0
 	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.x;
-	float right = left + m_vSize.x;
+	float right = left + m_vScaledSize.x;
 	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.y;
-	float bottom = top - m_vSize.y;
+	float bottom = top - m_vScaledSize.y;
 
 	float z = 1.0f;
 	// Create the vertex array.

@@ -1,34 +1,34 @@
 // *****************************************************************************
-//  TransformComponent version:  1.0   Ankur Sheel  date: 2013/04/02
+//  Transform3DComponent version:  1.0   Ankur Sheel  date: 2013/04/02
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
 
 #include "stdafx.h"
-#include "TransformComponent.h"
+#include "Transform3DComponent.h"
 
 using namespace GameBase;
 using namespace Base;
 
 // *****************************************************************************
-cTransformComponent::cTransformComponent()
-	: cBaseComponent("Transform Component")
+cTransform3DComponent::cTransform3DComponent()
+	: cBaseComponent("Transform3DComponent")
 	, m_vScale(1.0f, 1.0f, 1.0f)
 {
 }
 
 // *****************************************************************************
-cTransformComponent::~cTransformComponent()
+cTransform3DComponent::~cTransform3DComponent()
 {
 }
 
 // *****************************************************************************
-void cTransformComponent::VInitialize()
+void cTransform3DComponent::VInitialize()
 {
 }
 
 // *****************************************************************************
-void cTransformComponent::VCleanup()
+void cTransform3DComponent::VCleanup()
 {
 
 }

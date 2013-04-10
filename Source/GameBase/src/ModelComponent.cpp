@@ -13,8 +13,7 @@ using namespace Base;
 
 // *****************************************************************************
 cModelComponent::cModelComponent()
-	: cBaseComponent("Model Component")
-	, m_strModelName("")
+	: cBaseComponent("ModelComponent")
 	, m_pModel(NULL)
 	, m_pTransform(NULL)
 {
@@ -28,7 +27,7 @@ cModelComponent::~cModelComponent()
 // *****************************************************************************
 void cModelComponent::VInitialize()
 {
-	m_pTransform = DEBUG_NEW cTransformComponent();
+	m_pTransform = DEBUG_NEW cTransform3DComponent();
 	if (!m_strModelName.IsEmpty())
 	{
 		m_pModel = IModel::CreateModel(m_strModelName);
@@ -45,7 +44,7 @@ void cModelComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cModelComponent::UpdateTransform(const cTransformComponent * const pTransform)
+void cModelComponent::UpdateTransform(const cTransform3DComponent * const pTransform)
 {
 	if(m_pTransform != NULL)
 	{

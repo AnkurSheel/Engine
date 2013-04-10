@@ -1,10 +1,10 @@
 // *****************************************************************************
-//  TransformComponent version:  1.0   Ankur Sheel  date: 2013/04/02
+//  Transform3DComponent version:  1.0   Ankur Sheel  date: 2013/04/02
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
-#ifndef TransformComponent_h__
-#define TransformComponent_h__
+#ifndef Transform3DComponent_h__
+#define Transform3DComponent_h__
 
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
@@ -12,12 +12,12 @@
 
 namespace GameBase
 {
-	class cTransformComponent
+	class cTransform3DComponent
 		: public cBaseComponent
 	{
 	public:
-		GAMEBASE_API cTransformComponent();
-		GAMEBASE_API ~cTransformComponent();
+		GAMEBASE_API cTransform3DComponent();
+		GAMEBASE_API ~cTransform3DComponent();
 		void VInitialize();
 		void VCleanup();
 
@@ -27,4 +27,4 @@ namespace GameBase
 		Base::cVector3	m_vScale;		///< The scale of the game element.
 	};
 }
-#endif // TransformComponent_h__
+#endif // Transform3DComponent_h__
