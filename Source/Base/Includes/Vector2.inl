@@ -1,50 +1,43 @@
 // *****************************************************************************
-template<class T>
-inline cVector2<T>::cVector2()
+inline cVector2::cVector2()
 : x(0)
 , y(0)
 {
 }
 
 // *****************************************************************************
-template<class T>
-inline cVector2<T>::cVector2(const T X, const T Y)
-: x(X)
-, y(Y)
+inline cVector2::cVector2( const float fX, const float fY )
+: x(fX)
+, y(fY)
 {
 }
 
 // *****************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::Zero()
+inline Base::cVector2 cVector2::Zero()
 {
 	return cVector2(0.0f, 0.0f);
 }
 
 // *****************************************************************************
-template<class T>
-inline bool cVector2<T>::IsZero() const
+inline bool cVector2::IsZero() const
 {
 	return LengthSquared() < EpsilonFloat;
 }
 
 // *****************************************************************************
-template<class T>
-inline float cVector2<T>::Length() const
+inline float cVector2::Length() const
 {
 	return sqrt(LengthSquared());
 }
 
 // *****************************************************************************
-template<class T>
-inline float cVector2<T>::LengthSquared() const
+inline float cVector2::LengthSquared() const
 {
 	return (x * x + y * y);
 }
 
 // *****************************************************************************
-template<class T>
-inline void cVector2<T>::Normalize()
+inline void cVector2::Normalize()
 {
 	float fLength = Length();
 
@@ -56,36 +49,31 @@ inline void cVector2<T>::Normalize()
 }
 
 // *****************************************************************************
-template<class T>
-inline float cVector2<T>::Dot(const cVector2 & inVec) const
+inline float cVector2::Dot( const cVector2 & inVec ) const
 {
 	return x * inVec.x + y * inVec.y;
 }
 
 // *****************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::PerpendicularAboutXAxis() const
+inline Base::cVector2 cVector2::PerpendicularAboutXAxis() const
 {
 	return cVector2(y, -x);
 }
 
 // *****************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::PerpendicularAboutYAxis() const
+inline Base::cVector2 cVector2::PerpendicularAboutYAxis() const
 {
 	return cVector2(-y, x);
 }
 
 // *****************************************************************************
-template<class T>
-inline float cVector2<T>::Distance(const cVector2 & inVec) const
+inline float cVector2::Distance( const cVector2 & inVec ) const
 {
 	return sqrt(DistanceSquared(inVec));
 }
 
 // *****************************************************************************
-template<class T>
-inline float cVector2<T>::DistanceSquared(const cVector2 & inVec) const
+inline float cVector2::DistanceSquared( const cVector2 & inVec ) const
 {
 	float ySeparation = inVec.y - y;
 	float xSeparation = inVec.x - x;
@@ -94,76 +82,69 @@ inline float cVector2<T>::DistanceSquared(const cVector2 & inVec) const
 }
 
 // *****************************************************************************
-template<class T>
-inline void cVector2<T>::Reflect(const cVector2 & norm)
+inline void cVector2::Reflect( const cVector2 & norm )
 {
 	*this += 2.0f * this->Dot(norm) * norm.GetReverse();
 }
 
 // *****************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::GetReverse() const
+inline Base::cVector2 cVector2::GetReverse() const
 {
 	return cVector2(-x, -y);
 }
 
 // ******************************************************************************
-template<class T>
-inline void cVector2<T>::AbsTo() 
+inline void cVector2::AbsTo() 
 {
 	x = abs(x);
 	y = abs(y);
 }
 
 // *******************************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::MajorAxis() const
+inline cVector2 cVector2::MajorAxis() const
 {
-	T absX = abs(x);
-	T absY = abs(y);
+	float absX = abs(x);
+	float absY = abs(y);
 	
 	if(absX > absY)
 	{
-		T signX = static_cast<T>(Sign(x));
+		float signX = static_cast<float>(Sign(x));
 		return cVector2(signX, 0);
 	}
 	else
 	{
-		T signY = static_cast<T>(Sign(y));
+		float signY = static_cast<float>(Sign(y));
 		return cVector2(0, signY);
 	}
 }
 
 // *******************************************************************************************
-template<class T>
-inline cVector2<T> cVector2<T>::MinorAxis() const
+inline cVector2 cVector2::MinorAxis() const
 {
-	T absX = abs(x);
-	T absY = abs(y);
+	float absX = abs(x);
+	float absY = abs(y);
 	
 	if(absX < absY)
 	{
-		T signX = static_cast<T>(Sign(x));
+		float signX = static_cast<float>(Sign(x));
 		return cVector2(signX, 0);
 	}
 	else
 	{
-		T signY = static_cast<T>(Sign(y));
+		float signY = static_cast<float>(Sign(y));
 		return cVector2(0, signY);
 	}
 }
 
 // *******************************************************************************************
-template<class T>
-inline void cVector2<T>::NegTo() 
+inline void cVector2::NegTo() 
 {
 	x = -x;
 	y = -y;
 }
 
 // ******************************************************************************
-template<class T>
-inline const cVector2<T> & cVector2<T>::operator+=(const cVector2 & inVec)
+inline const cVector2 & cVector2::operator+=( const cVector2 & inVec )
 {
 	x += inVec.x;
 	y += inVec.y;
@@ -172,8 +153,7 @@ inline const cVector2<T> & cVector2<T>::operator+=(const cVector2 & inVec)
 }
 
 // *****************************************************************************
-template<class T>
-inline const cVector2<T> & cVector2<T>::operator-=(const cVector2 & inVec)
+inline const cVector2 & cVector2::operator-=( const cVector2 & inVec )
 {
 	x -= inVec.x;
 	y -= inVec.y;
@@ -182,8 +162,7 @@ inline const cVector2<T> & cVector2<T>::operator-=(const cVector2 & inVec)
 }
 
 // *****************************************************************************
-template<class T>
-inline const cVector2<T> & cVector2<T>::operator*=(const cVector2 & inVec)
+inline const cVector2 & cVector2::operator*=(const cVector2 & inVec)
 {
 	x *= inVec.x;
 	y *= inVec.y;
@@ -192,65 +171,49 @@ inline const cVector2<T> & cVector2<T>::operator*=(const cVector2 & inVec)
 }
 
 // *****************************************************************************
-template<class T>
-inline const cVector2<T> & cVector2<T>::operator*=(const T Val)
+inline const cVector2 & cVector2::operator*=( const float fVal )
 {
-	x *= Val;
-	y *= Val;
+	x *= fVal;
+	y *= fVal;
 
 	return *this;
 }
 
 // *****************************************************************************
-template<class T>
-inline const cVector2<T> & cVector2<T>::operator/=(const T Val)
+inline const cVector2 & cVector2::operator/=( const float fVal )
 {
-	x /= Val;
-	y /= Val;
+	x /= fVal;
+	y /= fVal;
 
 	return *this;
 }
 
 // *****************************************************************************
-template<class T>
-inline bool cVector2<T>::operator==(const cVector2 & inVec) const
+inline bool cVector2::operator==( const cVector2 & inVec ) const
 {
-	return (isEqual(x, inVec.x) && isEqual(y,inVec.y));
+	return (isEqual(x, inVec.x) && isEqual(y,inVec.y) );
 }
 
 // *****************************************************************************
-template<class T>
-inline bool cVector2<T>::operator!=(const cVector2 & inVec) const
+inline bool cVector2::operator!=( const cVector2 & inVec ) const
 {
-	return (!isEqual(x, inVec.x) || !isEqual(y,inVec.y));
+	return (!isEqual(x, inVec.x) || !isEqual(y,inVec.y) );
 }
 
 // *****************************************************************************
-template<class T>
-inline T & cVector2<T>::operator[](const unsigned int i)
+inline float & cVector2::operator[](const unsigned int i)
 {
 	return *((&x) + i);
 }
 
 // *****************************************************************************
-template<class T>
-inline const T cVector2<T>::operator[](const unsigned int i) const
+inline const float cVector2::operator[](const unsigned int i) const
 {
 	return *((&x) + i);
 }
 
 // *****************************************************************************
-template<class T>
-cVector2<T> operator*(const cVector2<T> & inVec1, const T Val)
-{
-	cVector2 result(inVec1);
-	result *= Val;
-	return result;
-}
-
-// *****************************************************************************
-template<class T>
-cVector2<T> operator*(const T Val, const cVector2<T> & inVec1)
+Base::cVector2 operator*( const cVector2 & inVec1, const float fVal )
 {
 	cVector2 result(inVec1);
 	result *= fVal;
@@ -258,17 +221,23 @@ cVector2<T> operator*(const T Val, const cVector2<T> & inVec1)
 }
 
 // *****************************************************************************
-template<class T>
-cVector2<T> operator/(const cVector2<T> & inVec1, const T Val )
+Base::cVector2 operator*( const float fVal, const cVector2 & inVec1 )
 {
 	cVector2 result(inVec1);
-	result /= Val;
+	result *= fVal;
 	return result;
 }
 
 // *****************************************************************************
-template<class T>
-cVector2<T> operator-(const cVector2<T> & inVec1, const cVector2<T> & inVec2)
+Base::cVector2 operator/( const cVector2 & inVec1, const float fVal )
+{
+	cVector2 result(inVec1);
+	result /= fVal;
+	return result;
+}
+
+// *****************************************************************************
+Base::cVector2 operator-( const cVector2 & inVec1, const cVector2 & inVec2 )
 {
 	cVector2 result(inVec1);
 	result -= inVec2;
@@ -276,8 +245,7 @@ cVector2<T> operator-(const cVector2<T> & inVec1, const cVector2<T> & inVec2)
 }
 
 // *****************************************************************************
-template<class T>
-cVector2<T> operator+(const cVector2<T> & inVec1, const cVector2<T> & inVec2)
+Base::cVector2 operator+( const cVector2 & inVec1, const cVector2 & inVec2 )
 {
 	cVector2 result(inVec1);
 	result += inVec2;
@@ -285,10 +253,9 @@ cVector2<T> operator+(const cVector2<T> & inVec1, const cVector2<T> & inVec2)
 }
 
 // *****************************************************************************
-template<class T>
-cVector2<T> operator*(const cVector2<T> & inVec1, const cVector2<T> & inVec2)
+Base::cVector2 operator*(const cVector2 & inVec1, const cVector2 & inVec2)
 {
-	cVector2<T> result(inVec1);
+	cVector2 result(inVec1);
 	result *= inVec2;
 	return result;
 }

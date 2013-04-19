@@ -23,7 +23,7 @@ cSprite::cSprite()
 : m_pVertexBuffer(NULL)
 , m_pIndexBuffer(NULL)
 , m_vScale(1.0f, 1.0f)
-, m_vPosition(cVector2<float>::Zero())
+, m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
 , m_iIndexCount(0)
 , m_iVertexCount(0)
@@ -50,7 +50,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	if(!InitializeShader())
 		return false;
 
-	m_vPosition = cVector2<float>(-1.0f, -1.0f);
+	m_vPosition = cVector2(-1.0f, -1.0f);
 	
 	ID3D11Resource* resource;
 	ID3D11Texture2D * texResource;
@@ -84,7 +84,7 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 // *****************************************************************************
 void cSprite::VRender(const ICamera * const pCamera)
 {
-	if (!m_pTexture || m_vScaledSize == cVector2<float>::Zero())
+	if (!m_pTexture || m_vScaledSize == cVector2::Zero())
 	{
 		return;
 	}
@@ -119,7 +119,7 @@ void cSprite::VRender(const ICamera * const pCamera)
 }
 
 // *****************************************************************************
-void cSprite::VSetPosition(const Base::cVector2<float> & vPosition)
+void cSprite::VSetPosition( const Base::cVector2 & vPosition )
 {
 	if(m_vPosition != vPosition)
 	{
@@ -129,11 +129,11 @@ void cSprite::VSetPosition(const Base::cVector2<float> & vPosition)
 }
 
 // *****************************************************************************
-void cSprite::VSetSize(const Base::cVector2<float> & vSize)
+void cSprite::VSetSize( const Base::cVector2 & vSize)
 {
 	if(m_vScaledSize != vSize)
 	{
-		if(vSize == cVector2<float>::Zero())
+		if(vSize == cVector2::Zero())
 		{
 			Log_Write(ILogger::LT_ERROR, 1, "Setting sprite size to 0");
 		}
@@ -145,13 +145,13 @@ void cSprite::VSetSize(const Base::cVector2<float> & vSize)
 }
 
 // *****************************************************************************
-cVector2<float> cSprite::VGetScaledSize() const
+cVector2 cSprite::VGetScaledSize() const
 {
 	return m_vScaledSize;
 }
 
 // *****************************************************************************
-void cSprite::VSetScale(const Base::cVector2<float> & vScale)
+void cSprite::VSetScale(const Base::cVector2 & vScale)
 {
 	if(m_vScale != vScale)
 	{

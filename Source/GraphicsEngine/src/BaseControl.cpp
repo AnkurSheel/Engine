@@ -21,7 +21,7 @@ using namespace std;
 cBaseControl::cBaseControl()
 : m_bVisible(true)
 , m_pParentControl(NULL) 
-, m_vPosition(cVector2<float>(-1.0f, -1.0f))
+, m_vPosition(cVector2(-1.0f, -1.0f))
 , m_bFocus(false)
 , m_pFocusControl(NULL)
 , m_bIsLeftMouseDown(false)
@@ -187,7 +187,7 @@ IBaseControl * const cBaseControl::VFindChildControl(const Base::cString & strCo
 }
 
 // *****************************************************************************
-void cBaseControl::VSetPosition(const cVector2<float> & vPosition)
+void cBaseControl::VSetPosition( const cVector2 & vPosition )
 {
 	if(m_vPosition != vPosition)
 	{
@@ -197,13 +197,13 @@ void cBaseControl::VSetPosition(const cVector2<float> & vPosition)
 }
 
 // *****************************************************************************
-const cVector2<float> cBaseControl::VGetSize() const
+const cVector2 cBaseControl::VGetSize() const
 {
 	return m_vSize;
 }
 
 // *****************************************************************************
-void cBaseControl::VSetSize(const cVector2<float> & vSize)
+void cBaseControl::VSetSize( const cVector2 & vSize)
 {
 	if (m_vSize != vSize)
 	{
@@ -319,7 +319,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 		float y = m_vPosition.y + (Y - (int)m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
 
 		ConstrainChildControl(x, y);
-		VSetPosition(cVector2<float>(x, y));
+		VSetPosition(cVector2(x, y));
 		return true;
 	}
 	return false;

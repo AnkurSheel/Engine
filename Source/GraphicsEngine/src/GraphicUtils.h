@@ -14,6 +14,7 @@
 
 namespace Base
 {
+	class cVector2;
 	class cVector3;
 }
 
@@ -31,7 +32,7 @@ namespace Graphics
 	private:
 		cGraphicUtils();
 		~cGraphicUtils();
-		Base::cVector3 ScreenToWorldSpace(const Base::cVector2<float> & vPos,
+		Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
 			const Graphics::ICamera * const pCamera);
 
 	private:

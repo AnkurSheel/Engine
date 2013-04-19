@@ -15,6 +15,7 @@
 namespace Base
 {
 	class cColor;
+	class cVector2;
 	class cVector3;
 }
 

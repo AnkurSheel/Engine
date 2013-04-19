@@ -22,9 +22,9 @@ namespace GameBase
 		void VCleanup();
 
 	public:
-		Base::cVector2<float>	m_vPosition;	///< The position of the game element.
-		Base::cVector2<float>	m_vRotation;	///< The rotation of the game element.
-		Base::cVector2<float>	m_vSize;		///< The size of the game element.
+		Base::cVector2	m_vPosition;	///< The position of the game element.
+		Base::cVector2	m_vRotation;	///< The rotation of the game element.
+		Base::cVector2	m_vSize;		///< The size of the game element.
 	};
 }
 #endif // Transform2DComponent_h__

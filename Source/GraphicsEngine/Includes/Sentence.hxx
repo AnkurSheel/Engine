@@ -56,7 +56,7 @@ namespace Graphics
 		 *
 		 * Sets the position of the text
 		 ***********************************************/
-		virtual void VSetPosition(const Base::cVector2<float> & vPosition) = 0;
+		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
 		/********************************************//**
  		 * @param[in] strText The text that needs to be displayed
 		 *

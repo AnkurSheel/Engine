@@ -55,7 +55,7 @@ void cTextBoxControl::Initialize(const cTextBoxControlDef & def)
 	{
 		m_pCaretSprite = ISprite::CreateSprite();
 		m_pCaretSprite->VInitialize(def.strCaretImage);
-		m_pCaretSprite->VSetSize(cVector2<float>(static_cast<float>(def.iCaretWidth), def.fTextHeight));
+		m_pCaretSprite->VSetSize(cVector2(static_cast<float>(def.iCaretWidth), def.fTextHeight));
 	}
 	m_fCaretUpdateTime = def.fCaretUpdateTime;
 	m_pTimer = ITimer::CreateTimer();
@@ -274,7 +274,7 @@ void cTextBoxControl::SetCaratAbsolutePosition()
 {
 	if (m_pCaretSprite)
 	{
-		cVector2<float> vec = m_vControlAbsolutePosition;
+		cVector2 vec = m_vControlAbsolutePosition;
 		vec.x += m_fCaretPosInTextBox;
 		m_pCaretSprite->VSetPosition(vec);
 	}

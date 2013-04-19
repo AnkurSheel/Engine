@@ -42,8 +42,8 @@ void cSpriteComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cSpriteComponent::UpdateTransform(const Base::cVector2<float> & vPosition,
-	const Base::cVector2<float> & vRotation, const Base::cVector2<float> & vSize)
+void cSpriteComponent::UpdateTransform(const Base::cVector2 & vPosition,
+	const Base::cVector2 & vRotation, const Base::cVector2 & vSize)
 {
 	if(m_pSprite != NULL)
 	{

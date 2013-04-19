@@ -46,7 +46,7 @@ void cLabelControl::Initialize(const cLabelControlDef & def)
 	cBaseControl::Initialize(def);
 	if(def.bAutoSize && m_pSentence != NULL)
 	{
-		VSetSize(cVector2<float>(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
+		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 	}
 }
 
@@ -79,7 +79,7 @@ void cLabelControl::VSetText(const Base::cString & strText)
 	if(m_pSentence != NULL)
 	{
 		m_pSentence->VSetText(strText);
-		VSetSize(cVector2<float>(m_pSentence->VGetWidth(strText), m_pSentence->VGetHeight()));
+		VSetSize(cVector2(m_pSentence->VGetWidth(strText), m_pSentence->VGetHeight()));
 	}
 }
 

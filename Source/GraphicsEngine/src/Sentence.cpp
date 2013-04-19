@@ -27,7 +27,7 @@ cSentence::cSentence()
 , m_TextColor(1.0f, 1.0f, 1.0f, 1.0f)
 , m_iVertexCount(0)
 , m_iIndexCount(0)
-, m_vPosition(cVector2<float>::Zero())
+, m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
 , m_fWidth(0.0f)
 , m_fHeight(0.0f)
@@ -56,7 +56,7 @@ bool cSentence::VInitialize(const Base::cString & strFont,
 	if(!CreateIndexBuffer())
 		return false;
 
-	m_vPosition = cVector2<float>(-1.0f, -1.0f);
+	m_vPosition = cVector2(-1.0f, -1.0f);
 	VSetText(strText);
 	VSetTextColor(textColor);
 	ReInitializeVertexBuffer(NULL);
@@ -97,7 +97,7 @@ void cSentence::VRender(const ICamera * const pCamera)
 }
 
 // ***************************************************************
-void cSentence::VSetPosition(const Base::cVector2<float> & vPosition)
+void cSentence::VSetPosition(const Base::cVector2 & vPosition)
 {
 	m_vPosition = vPosition;
 	m_bIsDirty = true;
@@ -165,7 +165,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 	int iPos = 0;
 	float fWidth = 0;
 	float fHeight = m_fScale * m_pFont->VGetFontHeight();
-	cVector2<float> vPos = m_vPosition;
+	cVector2 vPos = m_vPosition;
 
 	m_fWidth = 0.0f;
 	m_fHeight = 0.0f;
@@ -236,7 +236,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 // *********************************************************************************
 void cSentence::InitializesVertexData(stTexVertex * const pVertices,
 											const int iLineLength, const int iStartPos,
-											const cVector2<float> & vPos, float & fWidth)
+											const cVector2 & vPos, float & fWidth)
 {
 	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + vPos.x;
 	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - vPos.y;

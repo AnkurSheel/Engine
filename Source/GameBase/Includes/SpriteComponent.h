@@ -8,12 +8,16 @@
 
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
-#include "Vector2.h"
 
 namespace Graphics
 {
 	class ISprite;
 	class ICamera;
+}
+
+namespace Base
+{
+	class cVector2;
 }
 
 namespace GameBase
@@ -26,8 +30,8 @@ namespace GameBase
 		GAMEBASE_API ~cSpriteComponent();
 		void VInitialize();
 		void VCleanup();
-		void UpdateTransform(const Base::cVector2<float> & vPosition,
-			const Base::cVector2<float> & vRotation, const Base::cVector2<float> & vSize);
+		void UpdateTransform(const Base::cVector2 & vPosition,
+			const Base::cVector2 & vRotation, const Base::cVector2 & vSize);
 		void Render(const Graphics::ICamera * const pCamera);
 
 	public:

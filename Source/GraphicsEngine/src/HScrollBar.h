@@ -34,7 +34,7 @@ namespace Graphics
 		~cHScrollBar();
 		bool VOnMouseMove(const int X, const int Y);
 		void VSetAbsolutePosition();
-		void VSetSize(const Base::cVector2<float> & vSize);
+		void VSetSize(const Base::cVector2 & vSize);
 		void VSetThumbPosition(const int iNewPosition);
 		/********************************************//**
 		 *
