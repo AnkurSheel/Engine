@@ -57,7 +57,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";
-	def.vSize = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth), static_cast<float>(cGameOptions::GameOptions().iHeight));
+	def.vSize = cVector2<float>(static_cast<float>(cGameOptions::GameOptions().iWidth), static_cast<float>(cGameOptions::GameOptions().iHeight));
 	if(m_pGame->VGetParamLoader() != NULL)
 	{
 		def.bAllowMovingControls = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);

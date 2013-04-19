@@ -78,7 +78,7 @@ bool cVScrollBar::VOnMouseMove( const int X, const int Y )
 void cVScrollBar::VSetAbsolutePosition()
 {
 	cScrollBarControl::VSetAbsolutePosition();
-	cVector2 pos = m_vControlAbsolutePosition;
+	cVector2<float> pos = m_vControlAbsolutePosition;
 	if (m_pBtnDecrementArrow)
 	{
 		m_pBtnDecrementArrow->VSetPosition(pos);
@@ -97,24 +97,24 @@ void cVScrollBar::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-void cVScrollBar::VSetSize(const cVector2 & vSize)
+void cVScrollBar::VSetSize(const cVector2<float> & vSize)
 {
 	cBaseControl::VSetSize(vSize);
 	float fBackGroundHeight = VGetHeight();
 	float fWidth = VGetWidth();
 	if (m_pBtnDecrementArrow)
 	{
-		m_pBtnDecrementArrow->VSetSize(cVector2(fWidth, fWidth));
+		m_pBtnDecrementArrow->VSetSize(cVector2<float>(fWidth, fWidth));
 		fBackGroundHeight -=fWidth;
 	}
 	if (m_pBtnIncrementArrow)
 	{
-		m_pBtnIncrementArrow->VSetSize(cVector2(fWidth, fWidth));
+		m_pBtnIncrementArrow->VSetSize(cVector2<float>(fWidth, fWidth));
 		fBackGroundHeight -= fWidth;
 	}
 	if(m_pBGSprite)
 	{
-		m_pBGSprite->VSetSize(cVector2(VGetWidth(), fBackGroundHeight));
+		m_pBGSprite->VSetSize(cVector2<float>(VGetWidth(), fBackGroundHeight));
 	}
 	if (m_pBtnThumb)
 	{
@@ -130,7 +130,7 @@ void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 	
 	if (m_pBtnThumb)
 	{
-		cVector2 pos = m_vControlAbsolutePosition;
+		cVector2<float> pos = m_vControlAbsolutePosition;
 		pos.y += m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
@@ -142,7 +142,7 @@ void cVScrollBar::AutoSizeThumb()
 {
 	float fThumbRange = VGetHeight() - m_pBtnIncrementArrow->VGetHeight() - m_pBtnDecrementArrow->VGetHeight();
 	float fNewThumbHeight = fThumbRange / m_iNoOfIncrements ;
-	m_pBtnThumb->VSetSize(cVector2(VGetWidth(), fNewThumbHeight));
+	m_pBtnThumb->VSetSize(cVector2<float>(VGetWidth(), fNewThumbHeight));
 }
 
 // ***************************************************************

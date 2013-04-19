@@ -29,7 +29,7 @@ cGraphicUtils::~cGraphicUtils()
 }
 
 // *****************************************************************************
-cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
+cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2<float> & vScreenPos,
 											const ICamera * const pCamera)
 {
 	cVector3 vViewSpace;

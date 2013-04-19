@@ -18,7 +18,6 @@
 namespace Base
 {
 	class cString;
-	class cVector2;
 	class cColor;
 	struct AppMsg;
 }
@@ -95,19 +94,19 @@ namespace Graphics
 		 *
 		 * Sets the position of the control
 		 ***********************************************/
-		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
+		virtual void VSetPosition(const Base::cVector2<float> & vPosition) = 0;
 		/********************************************//**
  		 * @return vSize The size of the control
 		 *
 		 * Returns the size of the control
 		 ***********************************************/
-		virtual const Base::cVector2 VGetSize() const = 0;
+		virtual const Base::cVector2<float> VGetSize() const = 0;
 		/********************************************//**
  		 * @param[in] vSize The new size of the control
 		 *
 		 * Sets the size of the control
 		 ***********************************************/
-		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
+		virtual void VSetSize(const Base::cVector2<float> & vSize) = 0;
 		/********************************************//**
 		 * @param[in] eventType The type of the event for the call back.
  		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a stUIEventCallbackParam and returns void

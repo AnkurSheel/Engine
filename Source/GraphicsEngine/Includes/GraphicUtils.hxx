@@ -19,7 +19,6 @@ namespace Graphics
 namespace Base
 {
 	class cVector3;
-	class cVector2;
 }
 
 namespace Graphics
@@ -34,7 +33,7 @@ namespace Graphics
 		 ***********************************************/
 		GRAPHIC_API static IGraphicUtils * GetInstance();
 		GRAPHIC_API static void Destroy();
-		virtual Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
+		virtual Base::cVector3 ScreenToWorldSpace(const Base::cVector2<float> & vPos,
 			const Graphics::ICamera * const pCamera) = 0;
 		virtual ~IGraphicUtils(){}
 	};

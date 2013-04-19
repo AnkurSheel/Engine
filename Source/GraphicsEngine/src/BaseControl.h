@@ -47,8 +47,8 @@ namespace Graphics
 		bool VOnKeyDown(const unsigned int iCharID);
 		bool VOnCharPress(const unsigned int iCharID);
 		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
-		const Base::cVector2 VGetSize() const;
-		void VSetSize(const Base::cVector2 & vSize);
+		const Base::cVector2<float> VGetSize() const;
+		void VSetSize(const Base::cVector2<float> & vSize);
 		float VGetWidth() const;
 		float VGetHeight() const;
 		/********************************************//**
@@ -100,7 +100,7 @@ namespace Graphics
 		void VRemoveChildControl(const Base::cString & strControlName);
 		Graphics::IBaseControl * const VFindChildControl(const Base::cString & strControlName);
 		void VSetText(const Base::cString & strText);
-		void VSetPosition(const Base::cVector2 & vPosition);
+		void VSetPosition(const Base::cVector2<float> & vPosition);
 		void VRegisterCallBack(const UIEVENTTYPE eventType,
 			UIEventCallBackFn fnCallback);
 		void VUnregisterCallBack(const UIEVENTTYPE eventType);
@@ -153,11 +153,11 @@ namespace Graphics
 		
 	protected:
 		shared_ptr<ISprite>		m_pBGSprite;				/*!< The background sprite associated with this control. */
-		Base::cVector2			m_vControlAbsolutePosition;	/*!< The absolute position of the control on the screen. */
-		Base::cVector2			m_vSize;					/*!< The size of the control. */
+		Base::cVector2<float>	m_vControlAbsolutePosition;	/*!< The absolute position of the control on the screen. */
+		Base::cVector2<float>	m_vSize;					/*!< The size of the control. */
 		bool					m_bFocus;					/*!< True if the control or any of its child controls has focus. False otherwise */
 		bool					m_bAllowMovingControls;		/*!< True if the user can move the controls using the mouse. False otherwise. */
-		Base::cVector2			m_vPosition;				/*!< The position of the control w.r.t to its parent control. */
+		Base::cVector2<float>	m_vPosition;				/*!< The position of the control w.r.t to its parent control. */
 		bool					m_bIsLeftMouseDown;			/*!< True if the left mouse button is pressed. */
 		UIEventCallBackMap		m_CallbackMap;				/*!< The map containing all the callback functions with the event type as the key */
 		ControlList				m_pChildControl;			/*!< List of child controls. */

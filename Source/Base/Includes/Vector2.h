@@ -16,6 +16,7 @@ namespace Base
 	/// @brief Encapsulates a 2D vector with X and Y components .
 	///
 	///////////////////////////////////////////////////////////////////////////
+	template<class T>
 	class cVector2
 	{
 	public:
@@ -32,7 +33,7 @@ namespace Base
 		/// @param[in] Y The Y component of the vector
 		///
 		///////////////////////////////////////////////////////////////////////
-		cVector2(const float X, const float Y);
+		cVector2(const T X, const T Y);
 		///////////////////////////////////////////////////////////////////////
 		/// Returns true if the vector is 0
 		/// 
@@ -148,12 +149,12 @@ namespace Base
 		const cVector2 & operator+=(const cVector2 & inVec);
 		const cVector2 & operator-=(const cVector2 & inVec);
 		const cVector2 & operator*=(const cVector2 & inVec);
-		const cVector2 & operator*=(const float fVal);
-		const cVector2 & operator/=(const float fVal);
+		const cVector2 & operator*=(const T Val);
+		const cVector2 & operator/=(const T Val);
 		bool operator==(const cVector2 & inVec) const;
 		bool operator!=(const cVector2 & inVec) const;
-		float & operator[](const unsigned int i);
-		const float operator[](const unsigned int i) const;
+		T & operator[](const unsigned int i);
+		const T operator[](const unsigned int i) const;
 
 		static cVector2 Zero();
 
@@ -162,12 +163,18 @@ namespace Base
 		float	y;	/*!< Y component of Vector2 */
 	};
 
-	inline cVector2 operator*(const cVector2 & inVec1, const float fVal);
-	inline cVector2 operator*(const float fVal, const cVector2 & inVec1);
-	inline cVector2 operator/(const cVector2 & inVec1, const float fVal);
-	inline cVector2 operator-(const cVector2 & inVec1, const cVector2 & inVec2);
-	inline cVector2 operator+(const cVector2 & inVec1, const cVector2 & inVec2);
-	inline cVector2 operator*(const cVector2 & inVec1, const cVector2 & inVec2);
+	template<class T>
+	inline cVector2<T> operator*(const cVector2<T> & inVec1, const T Val);
+	template<class T>
+	inline cVector2<T> operator*(const T fVal, const cVector2<T> & inVec1);
+	template<class T>
+	inline cVector2<T> operator/(const cVector2<T> & inVec1, const T Val);
+	template<class T>
+	inline cVector2<T> operator-(const cVector2<T> & inVec1, const cVector2<T> & inVec2);
+	template<class T>
+	inline cVector2<T> operator+(const cVector2<T> & inVec1, const cVector2<T> & inVec2);
+	template<class T>
+	inline cVector2<T> operator*(const cVector2<T> & inVec1, const cVector2<T> & inVec2);
 
 	#include "Vector2.inl"
 }

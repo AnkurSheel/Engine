@@ -35,11 +35,11 @@ void cCheckBoxControl::Initialize(const cCheckBoxControlDef & def)
 	
 	IBaseControl * pLabel = IBaseControl::CreateLabelControl(def.labelControlDef);
 	VAddChildControl(shared_ptr<IBaseControl>(pLabel));
-	VSetSize(cVector2(m_pTickBox->VGetWidth() + def.iSpaceCaption + pLabel->VGetWidth(),
+	VSetSize(cVector2<float>(m_pTickBox->VGetWidth() + def.iSpaceCaption + pLabel->VGetWidth(),
 		max(m_pTickBox->VGetHeight(), pLabel->VGetHeight())));
 	float fX = m_pTickBox->VGetWidth() + def.iSpaceCaption;
 	float fY = VGetHeight()/2.0f - pLabel->VGetHeight()/2.0f;
-	pLabel->VSetPosition(cVector2(fX, fY));
+	pLabel->VSetPosition(cVector2<float>(fX, fY));
 
 	m_bChecked = def.bChecked;
 	if (m_bChecked)

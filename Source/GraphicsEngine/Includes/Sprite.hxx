@@ -11,7 +11,6 @@
 namespace Base
 {
 	class cString;
-	class cVector2;
 }
 
 namespace Graphics
@@ -69,28 +68,28 @@ namespace Graphics
 		/// @param[in] vPosition The new position at which the sprite should be shown
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
+		virtual void VSetPosition(const Base::cVector2<float> & vPosition) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Sets the size(scale in pixels) of the sprite
  		///
 		/// @param[in] vSize The new size of the sprite
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
+		virtual void VSetSize(const Base::cVector2<float> & vSize) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Gets the Scaled size(scale in pixels) of the sprite
  		///
 		/// @return The scaled size of the sprite
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual Base::cVector2 VGetScaledSize() const = 0;
+		virtual Base::cVector2<float> VGetScaledSize() const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Sets the scale of the sprite
 		///
 		/// @param[in] vScale The new scale of the sprite
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VSetScale(const Base::cVector2 & vScale) = 0;
+		virtual void VSetScale(const Base::cVector2<float> & vScale) = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// Sets the texture of the sprite
 		///

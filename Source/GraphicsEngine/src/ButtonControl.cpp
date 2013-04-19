@@ -64,7 +64,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 
 	if(def.bAutoSize)
 	{
-		VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
+		VSetSize(cVector2<float>(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
 	}
 
 }
@@ -128,7 +128,7 @@ void cButtonControl::VSetAbsolutePosition()
 	{
 		float fcenterX = m_vControlAbsolutePosition.x + VGetWidth()/2.0f - m_pLabel->VGetWidth()/2.0f;
 		float fcenterY = m_vControlAbsolutePosition.y + VGetHeight()/2.0f- m_pLabel->VGetHeight()/2.0f;
-		m_pLabel->VSetPosition(cVector2(fcenterX, fcenterY));
+		m_pLabel->VSetPosition(cVector2<float>(fcenterX, fcenterY));
 	}
 }
 

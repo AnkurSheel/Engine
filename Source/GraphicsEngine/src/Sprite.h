@@ -34,10 +34,10 @@ namespace Graphics
 		bool VInitialize(const Base::cString & strTextureFilename);
 		void VRender(const ICamera * const pCamera);
 		void VCleanup();
-		void VSetPosition(const Base::cVector2 & vPosition);
-		void VSetSize(const Base::cVector2 & vSize);
-		void VSetScale(const Base::cVector2 & vScale);
-		Base::cVector2 VGetScaledSize() const;
+		void VSetPosition(const Base::cVector2<float> & vPosition);
+		void VSetSize(const Base::cVector2<float> & vSize);
+		void VSetScale(const Base::cVector2<float> & vScale);
+		Base::cVector2<float> VGetScaledSize() const;
 		////////////////////////////////////////////////////////////////////////
 		/// Creates the vertex buffer using the vertex data
 		///
@@ -76,10 +76,10 @@ namespace Graphics
 		ID3D11Buffer *						m_pIndexBuffer;	/// The index buffer
 		shared_ptr<IShader>					m_pShader;	/// The shader responsible for rendering the model depending on the model vertex data type.
 		shared_ptr<Graphics::ITexture>		m_pTexture;	/// The Texture of the sprite
-		Base::cVector2						m_vSize;	/// The size/scale in pixels
-		Base::cVector2						m_vScaledSize;	/// The Scaled size of the sprite
-		Base::cVector2						m_vScale;	/// The scale of the sprite
-		Base::cVector2						m_vPosition;	/// The current position of the sprite
+		Base::cVector2<float>				m_vSize;	/// The size/scale in pixels
+		Base::cVector2<float>				m_vScaledSize;	/// The Scaled size of the sprite
+		Base::cVector2<float>				m_vScale;	/// The scale of the sprite
+		Base::cVector2<float>				m_vPosition;	/// The current position of the sprite
 		bool								m_bIsDirty;	/// True if the vertex data needs to be recalculated
 		int									m_iIndexCount;	/// The number of indices that have to be displayed
 		int									m_iVertexCount;	/// The number of vertices that have to be displayed

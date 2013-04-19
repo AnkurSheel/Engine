@@ -40,7 +40,7 @@ namespace Graphics
 		bool VInitialize(const Base::cString & strFont, 
 			const Base::cString & strText, const Base::cColor & textColor);
 		void VRender(const ICamera * const pCamera);
-		void VSetPosition(const Base::cVector2 & vPosition);
+		void VSetPosition(const Base::cVector2<float> & vPosition);
 		void VGetText(Base::cString & strText) const;
 		void VSetText(const Base::cString & strText);
 		void VSetTextColor(const Base::cColor & colorText);
@@ -80,7 +80,7 @@ namespace Graphics
 		 ***********************************************/
 		void InitializesVertexData(stTexVertex * const pVertices,
 			const int iLineLength, const int iStartPos,
-			const Base::cVector2 & vPos, float & fWidth);
+			const Base::cVector2<float> & vPos, float & fWidth);
 		/********************************************//**
 		 *
 		 * Releases all the pointers/buffers
@@ -95,7 +95,7 @@ namespace Graphics
 		Base::cColor						m_TextColor;		/*!< The text color */
 		int									m_iVertexCount;		/*!< The number of vertices that have to be displayed */
 		int									m_iIndexCount;		/*!< The number of indices that have to be displayed */
-		Base::cVector2						m_vPosition;		/*!< The current position of the sprite */
+		Base::cVector2<float>				m_vPosition;		/*!< The current position of the sprite */
 		bool								m_bIsDirty;			/*!< True if the vertex data needs to be recalculated */
 		float								m_fWidth;			/*!< The length of the text in pixels */
 		float								m_fHeight;			/*!< The height of the text in pixels */
