@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\GameDirectories.cpp" />
-    <ClCompile Include="src\Checks.cpp" />
     <ClCompile Include="src\RandomGenerator.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\FileInput.cpp">
@@ -41,11 +40,10 @@
     <ClCompile Include="src\ProcessManager.cpp">
       <Filter>Process</Filter>
     </ClCompile>
+    <ClCompile Include="src\SystemChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameDirectories.h" />
-    <ClInclude Include="src\Checks.h" />
-    <ClInclude Include="Includes\Checks.hxx" />
     <ClInclude Include="src\RandomGenerator.h" />
     <ClInclude Include="Includes\RandomGenerator.hxx" />
     <ClInclude Include="src\stdafx.h" />
@@ -116,9 +114,10 @@
     <ClInclude Include="src\ProcessManager.h">
       <Filter>Process</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\SystemChecker.hxx" />
+    <ClInclude Include="src\SystemChecker.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Checks.inl" />
     <None Include="src\Zipfile.inl">
       <Filter>FileIO</Filter>
     </None>

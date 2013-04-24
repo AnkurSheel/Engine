@@ -32,7 +32,7 @@ namespace GameBase
 		virtual ~IBaseApp(){}
 		virtual void VOnInitialization(const HINSTANCE & hInstance,
 			const int nCmdShow, const Base::cString & strOptionsFile) = 0;
-		Base::cString VGetGameTitle() const = 0; 
+		virtual Base::cString VGetGameTitle() const = 0; 
 		virtual Utilities::IProcessManager * VGetProcessManager() const = 0;
 		virtual bool VOnMsgProc(const Base::AppMsg & msg) = 0;
 		virtual void VRun() = 0;

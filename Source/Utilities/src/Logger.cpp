@@ -11,7 +11,7 @@
 #include "Logger.h"
 #include <time.h>
 #include "XMLFileIO.hxx"
-#include "Checks.hxx"
+#include "SystemChecker.hxx"
 #include "FileOutput.hxx"
 
 using namespace Utilities;
@@ -87,30 +87,26 @@ void cLogger::CreateHeader()
 	m_pXmlLogFile->VAddElement("LogHeader", "Session", "", "");
 	m_pXmlLogFile->VAddElement("Session", "Configuration", "", "");
 	m_pXmlLogFile->VAddElement("Configuration", "Memory", "", "");
-	m_pXmlLogFile->VAddElement("Memory", "AvailablePhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "AvailablePhysical", "", cString(30, "%d", ISystemChecker::Instance()->VGetAvailablePhysicalMemory()));
 
-	m_pXmlLogFile->VAddElement("Memory", "TotalPhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalPhysical", "", cString(30, "%d", ISystemChecker::Instance()->VGetTotalPhysicalMemory()));
 
-	m_pXmlLogFile->VAddElement("Memory", "AvailableVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "AvailableVirtual", "", cString(30, "%d", ISystemChecker::Instance()->VGetAvailableVirtualMemory()));
 
-	m_pXmlLogFile->VAddElement("Memory", "TotalVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalVirtual", "", cString(30, "%d", ISystemChecker::Instance()->VGetTotalVirtualMemory()));
 
-	m_pXmlLogFile->VAddElement("Memory", "AvailableHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
+	m_pXmlLogFile->VAddElement("Memory", "AvailableHardDiskSpace", "", cString(30, "%d", ISystemChecker::Instance()->VGetAvailableHardDiskSpace()));
 
-	m_pXmlLogFile->VAddElement("Memory", "TotalHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
+	m_pXmlLogFile->VAddElement("Memory", "TotalHardDiskSpace", "", cString(30, "%d", ISystemChecker::Instance()->VGetTotalHardDiskSpace()));
 
 	m_pXmlLogFile->VAddElement("Configuration", "Processor", "", "");
-	m_pXmlLogFile->VAddElement("Processor", "ClockSpeed", "", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
-
-	m_pXmlLogFile->VAddElement("Processor", "Family", "", IResourceChecker::GetInstance()->GetCPUBrand());
+	m_pXmlLogFile->VAddElement("Processor", "ClockSpeed", "", cString(30, "%d", ISystemChecker::Instance()->VGetCPUSpeed()));
 
 	m_pXmlLogFile->VAddElement("Session", "Started", "", "");
 
 	time_t currentTime;
 	time(&currentTime);
 	m_pXmlLogFile->VAddElement("Started", "Time", "", cString::TimeToString(currentTime));
-
-	m_pXmlLogFile->VAddElement("Configuration", "Environment", "", IResourceChecker::GetInstance()->GetOSVersion());
 }
 
 // *****************************************************************************

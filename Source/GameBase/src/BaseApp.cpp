@@ -5,7 +5,7 @@
 #include "HumanView.h"
 #include "ParamLoaders.hxx"
 #include "Optional.h"
-#include "Checks.hxx"
+#include "SystemChecker.hxx"
 #include "EntityManager.hxx"
 #include "MessageDispatchManager.hxx"
 #include "ResourceManager.hxx"
@@ -53,7 +53,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	bool MultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
 	if (MultipleInstances)
 	{
-		if (!IResourceChecker::GetInstance()->VIsOnlyInstance(m_Title))
+		if (!ISystemChecker::Instance()->VIsOnlyInstance(m_Title))
 		{
 			PostQuitMessage(0);
 			m_Quitting = true;
@@ -61,9 +61,9 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		}
 	}
 
-	if(!IResourceChecker::GetInstance()->VCheckMemory(32, 64) 
-		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
-		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
+	if(!ISystemChecker::Instance()->VCheckMemory(32, 64) 
+		|| !ISystemChecker::Instance()->VCheckHardDiskSpace(6) 
+		|| !ISystemChecker::Instance()->VCheckCPUSpeed(266))
 	{
 		PostQuitMessage(0);
 		m_Quitting = true;
@@ -76,7 +76,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	unsigned int PriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 1);
 	ILogger::Instance()->VSetLogOptions(ShowConsoleLog, LogToText, LogToXML, PriorityLevel);
 
-	IResourceChecker::Destroy();
+	ISystemChecker::Destroy();
 
 	// initialize resource manager
 	cString AssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");

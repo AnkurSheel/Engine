@@ -110,7 +110,7 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Logger.cpp" />
-    <ClCompile Include="src\Checks.cpp" />
+    <ClCompile Include="src\SystemChecker.cpp" />
     <ClCompile Include="src\FileInput.cpp" />
     <ClCompile Include="src\ParamLoader.cpp" />
     <ClCompile Include="src\XMLFileIO.cpp" />
@@ -134,8 +134,8 @@
     <ClInclude Include="Includes\Timer.hxx" />
     <ClInclude Include="src\Logger.h" />
     <ClInclude Include="Includes\Logger.hxx" />
-    <ClInclude Include="src\Checks.h" />
-    <ClInclude Include="Includes\Checks.hxx" />
+    <ClInclude Include="src\SystemChecker.h" />
+    <ClInclude Include="Includes\SystemChecker.hxx" />
     <ClInclude Include="src\FileInput.h" />
     <ClInclude Include="Includes\FileInput.hxx" />
     <ClInclude Include="src\ParamLoader.h" />
@@ -154,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Timer.inl" />
-    <None Include="src\Checks.inl" />
     <None Include="src\Zipfile.inl" />
   </ItemGroup>
   <ItemGroup>
