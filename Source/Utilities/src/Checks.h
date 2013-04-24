@@ -1,12 +1,8 @@
-// ***************************************************************
-//  Checks   version:  1.0   Ankur Sheel  date: 2011/02/15
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+// *****************************************************************************
+//  Checks   version:  1.0   Ankur Sheel  date: 2013/04/24
+// *****************************************************************************
+//  purpose:	apdapted from Game Coding Complete
+// *****************************************************************************
 #ifndef Checks_h__
 #define Checks_h__
 
@@ -19,8 +15,13 @@ namespace Utilities
 		, public Base::cNonCopyable
 	{
 	public:
-		bool IsOnlyInstance(const Base::cString &  gameTitle);
-		bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded); 
+		static void CreateResourceChecker();
+		static void Destroy();
+
+	private:
+		cResourceChecker();
+		bool VIsOnlyInstance(const Base::cString & gameTitle);
+		bool VCheckMemory(const unsigned int physicalRAMNeeded, const unsigned int virtualRAMNeeded); 
 		bool CheckHardDisk(const unsigned int diskSpaceNeeded); 
 		bool CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq);
 		unsigned int GetTotalPhysicalMemory() const;
@@ -32,11 +33,6 @@ namespace Utilities
 		unsigned int GetCPUSpeed() const;
 		Base::cString GetCPUBrand();
 		Base::cString GetOSVersion();
-		static void CreateResourceChecker();
-		static void Destroy();
-	
-	private:
-		cResourceChecker();
 		int StartTimingCPU();
 		void UpdateCPUTime(); 
 		int CalcCPUSpeed(); 

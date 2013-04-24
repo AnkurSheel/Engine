@@ -186,7 +186,7 @@ cString cXMLFileIO::VGetNodeValue(const cString & strElementID)
 	ElementMap::const_iterator curr = m_ElementMap.find(strElementID);
 	if (curr == m_ElementMap.end())
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "could not find element " + strElementID) ;
+		Log_Write(ILogger::LT_WARNING, 1, "could not find element " + strElementID) ;
 		return "";
 	}
 	XMLElement * pElem = const_cast<XMLElement*> (curr->second);
@@ -204,7 +204,7 @@ cString cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 	}
 	else
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Could not find attribute" + strAttributeName + " for " + strElementID);
+		Log_Write(ILogger::LT_WARNING, 2, "Could not find attribute" + strAttributeName + " for " + strElementID);
 	}
 	return "";
 }
@@ -217,7 +217,7 @@ int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 	tOptional<int> val = strAttributeValue.ToInt();
 	if(val.IsInvalid())
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		Log_Write(ILogger::LT_WARNING, 2, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
 		return 0;
 	}
 	return *val;
@@ -231,7 +231,7 @@ bool cXMLFileIO::VGetNodeAttributeAsBool(const Base::cString & strElementID,
 	tOptional<bool> val = strAttributeValue.ToBool();
 	if(val.IsInvalid())
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		Log_Write(ILogger::LT_WARNING, 2, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
 		return false;
 	}
 	return *val;

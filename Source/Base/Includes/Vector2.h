@@ -10,6 +10,8 @@
 #ifndef Vector2_h__
 #define Vector2_h__
 
+#include "MathIncludes.h"
+
 namespace Base
 {
 	///////////////////////////////////////////////////////////////////////////
@@ -154,8 +156,8 @@ namespace Base
 		bool operator!=(const cVector2 & inVec) const;
 		float & operator[](const unsigned int i);
 		const float operator[](const unsigned int i) const;
-
 		static cVector2 Zero();
+		static cVector2 GetDirection(const float fAngle);
 
 	public:
 		float	x;	/*!< X component of Vector2 */
@@ -169,6 +171,6 @@ namespace Base
 	inline cVector2 operator+(const cVector2 & inVec1, const cVector2 & inVec2);
 	inline cVector2 operator*(const cVector2 & inVec1, const cVector2 & inVec2);
 
-	#include "Vector2.inl"
+#include "Vector2.inl"
 }
 #endif // Vector2_h__

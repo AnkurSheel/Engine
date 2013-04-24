@@ -11,9 +11,7 @@
 #define BaseApp_h__
 
 #include "BaseApp.hxx"
-#include "BaseEntity.h"
-#include "GameOptions.h"
-#include "GameDirectories.h"
+#include "BaseEntity.hxx"
 
 namespace Utilities
 {
@@ -33,7 +31,7 @@ namespace GameBase
 {
 	class cBaseApp 
 		: public IBaseApp
-		, public cBaseEntity
+		, public IBaseEntity
 	{
 	public:
 		virtual ~cBaseApp(){}
@@ -44,7 +42,7 @@ namespace GameBase
 		GAMEBASE_API cGameControls * GetGameControls() const;
 
 	protected:
-		GAMEBASE_API cBaseApp(const Base::cString strName);
+		GAMEBASE_API cBaseApp(const Base::cString & Name);
 		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE & hInstance,
 			const int nCmdShow, const Base::cString & strOptionsFile);
 		GAMEBASE_API virtual void VCreateHumanView();
@@ -57,7 +55,7 @@ namespace GameBase
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
-		GAMEBASE_API Base::cString VGetGameTitle() const;
+		Base::cString VGetGameTitle() const { return m_Title; }
 
 	protected:
 		Utilities::ITimer *				m_pGameTimer;
@@ -65,8 +63,9 @@ namespace GameBase
 		Utilities::IParamLoader *		m_pParamLoader;
 		cHighScoreTable *				m_pHighScoreTable;
 		cGameControls *					m_pGameControls;
-		bool							m_bQuitting;
+		bool							m_Quitting;
 		Utilities::IProcessManager *	m_pProcessManager;
+		Base::cString					m_Title;
 	};
 }
 

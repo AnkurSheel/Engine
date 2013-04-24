@@ -1,12 +1,3 @@
-// ***************************************************************
-//  Checks   version:  1.0   Ankur Sheel  date: 2011/04/12
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
 #include "stdafx.h"
 #include "Checks.h"
 #include <direct.h>
@@ -37,7 +28,7 @@ cResourceChecker::cResourceChecker()
 {
 }
 
-bool cResourceChecker::IsOnlyInstance(const cString & gameTitle) 
+bool cResourceChecker::VIsOnlyInstance(const cString & gameTitle) 
 { 
 	// Find the window. If active, set and return false 
 	// Only one game instance may have this mutex at a time... 
@@ -53,7 +44,6 @@ bool cResourceChecker::IsOnlyInstance(const cString & gameTitle)
 			SetFocus(hWnd); 
 			SetForegroundWindow(hWnd); 
 			SetActiveWindow(hWnd);
-			Log_Write(ILogger::LT_ERROR, 1, "An instance is already running");
 			return false; 
 		} 
 	} 
@@ -160,7 +150,7 @@ bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded)
 	return true;
 }
 
-bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) 
+bool cResourceChecker::VCheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) 
 {
 	MEMORYSTATUSEX status; 
 	status.dwLength = sizeof (status);
@@ -181,8 +171,6 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 	if (status.ullAvailVirtual < virtualRAMNeeded) 
 	{ 
 		Log_Write(ILogger::LT_ERROR, 1, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory));
-		// Tell the player to shut down the copy of Visual Studio running in the 
-		// background, or whatever seems to be sucking the memory dry. 
 		return false; 
 	} 
 	char * buff = DEBUG_NEW char[virtualRAMNeeded]; 
@@ -192,11 +180,7 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 	}
 	else 
 	{ 
-		Log_Write(ILogger::LT_ERROR, 1, "Not Enough Virtual Memory");
-		// The system lied to you. When you attempted to grab a block as big 
-		// as you need the system failed to do so. Something else is eating 
-		// memory in the background; tell them to shut down all other apps 
-		// and concentrate on your game. 
+		Log_Write(ILogger::LT_ERROR, 1, "System Lied: Not Enough Virtual Memory");
 		return false; 
 	} 
 	return true;

@@ -1,21 +1,12 @@
-// ***************************************************************
-//  Checks   version:  1.0   Ankur Sheel  date: 2011/02/15
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+// *****************************************************************************
+//  Checks   version:  1.0   Ankur Sheel  date: 2013/04/24
+// *****************************************************************************
+//  purpose:	
+// *****************************************************************************
 #ifndef Checks_hxx__
 #define Checks_hxx__
 
 #include "UtilitiesDefines.h"
-
-namespace Base
-{
-	class cString;
-}
 
 namespace Utilities
 {
@@ -23,8 +14,9 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API virtual ~IResourceChecker(){}
-		UTILITIES_API virtual bool IsOnlyInstance(const Base::cString &  gameTitle) = 0;
-		UTILITIES_API virtual bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) = 0; 
+		UTILITIES_API virtual bool VIsOnlyInstance(const Base::cString &  gameTitle) = 0;
+		UTILITIES_API virtual bool VCheckMemory( const unsigned int physicalRAMNeeded,
+			const unsigned int virtualRAMNeeded) = 0; 
 		UTILITIES_API virtual bool CheckHardDisk(const unsigned int diskSpaceNeeded) = 0; 
 		UTILITIES_API virtual bool CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq) = 0;
 		UTILITIES_API virtual unsigned int GetTotalPhysicalMemory() const = 0;

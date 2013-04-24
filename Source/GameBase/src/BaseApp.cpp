@@ -1,12 +1,3 @@
-// *****************************************************************************
-//  BaseApp   version:  1.0   Ankur Sheel  date: 2011/10/19
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// *****************************************************************************
-// 
-// *****************************************************************************
 #include "stdafx.h"
 #include "BaseApp.h"
 #include "MainWindow.hxx"
@@ -20,6 +11,8 @@
 #include "ResourceManager.hxx"
 #include "GraphicsClass.hxx"
 #include "ProcessManager.hxx"
+#include "GameDirectories.h"
+#include "GameOptions.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -28,14 +21,13 @@ using namespace Graphics;
 using namespace std;
 
 // *****************************************************************************
-cBaseApp::cBaseApp(const cString strName)
-: cBaseEntity(strName)
-, m_pGameTimer(NULL)
+cBaseApp::cBaseApp(const cString & Name)
+: m_pGameTimer(NULL)
 , m_pHumanView(NULL)
 , m_pParamLoader(NULL)
 , m_pHighScoreTable(NULL)
 , m_pGameControls(NULL)
-, m_bQuitting(false)
+, m_Quitting(false)
 , m_pProcessManager(NULL)
 {
 	// make sure our memory leak checker is working
@@ -50,45 +42,47 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 								 const cString & strOptionsFile)
 {
 	ILogger::Instance()->VInitialize();
-	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
-		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
-		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
-	{
-		PostQuitMessage(0);
-		m_bQuitting = true;
-		return;
-	}
-	
 	if(m_pParamLoader == NULL)
 	{
 		m_pParamLoader = IParamLoader::CreateParamLoader();
 		m_pParamLoader->VLoadParametersFromFile(strOptionsFile);
 	}
 
-	bool bShowConsoleLog = m_pParamLoader->VGetParameterValueAsBool("-showconsolelog", false);
-	bool bLogToText = m_pParamLoader->VGetParameterValueAsBool("-logtotext", true);
-	bool bLogToXML = m_pParamLoader->VGetParameterValueAsBool("-logtoxml", false);
-	unsigned int uiPriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 1);
-	ILogger::Instance()->VSetLogOptions(bShowConsoleLog, bLogToText, bLogToXML, uiPriorityLevel);
+	m_Title = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
 
-	IResourceChecker::Destroy();
-
-	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	m_strName = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
-	if (bMultipleInstances)
+	bool MultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	if (MultipleInstances)
 	{
-		if (!IResourceChecker::GetInstance()->IsOnlyInstance(m_strName))
+		if (!IResourceChecker::GetInstance()->VIsOnlyInstance(m_Title))
 		{
 			PostQuitMessage(0);
-			m_bQuitting = true;
+			m_Quitting = true;
 			return;
 		}
 	}
-	// initialize resource manager
-	cString strAssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
-	if(!IResourceManager::GetInstance()->VInitialize(strAssetsPath))
+
+	if(!IResourceChecker::GetInstance()->VCheckMemory(32, 64) 
+		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
+		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
 	{
-		m_bQuitting = true;
+		PostQuitMessage(0);
+		m_Quitting = true;
+		return;
+	}
+	
+	bool ShowConsoleLog = m_pParamLoader->VGetParameterValueAsBool("-showconsolelog", false);
+	bool LogToText = m_pParamLoader->VGetParameterValueAsBool("-logtotext", true);
+	bool LogToXML = m_pParamLoader->VGetParameterValueAsBool("-logtoxml", false);
+	unsigned int PriorityLevel = m_pParamLoader->VGetParameterValueAsInt("-loglevel", 1);
+	ILogger::Instance()->VSetLogOptions(ShowConsoleLog, LogToText, LogToXML, PriorityLevel);
+
+	IResourceChecker::Destroy();
+
+	// initialize resource manager
+	cString AssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
+	if(!IResourceManager::GetInstance()->VInitialize(AssetsPath))
+	{
+		m_Quitting = true;
 		return;
 	}
 
@@ -104,7 +98,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 
 	if(hwnd == NULL)
 	{
-		m_bQuitting = true;
+		m_Quitting = true;
 		return;
 	}
 
@@ -124,12 +118,9 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		cGameOptions::GameOptions().iWidth, 
 		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear))
 	{
-		m_bQuitting = true;
+		m_Quitting = true;
 		return;
 	}
-
-	cBaseEntity::VInitialize();
-	IEntityManager::GetInstance()->VRegisterEntity(this);
 
 	m_pProcessManager = IProcessManager::CreateProcessManager();
 
@@ -175,7 +166,7 @@ void cBaseApp::VRun()
 
 void cBaseApp::VOnUpdate()
 {
-	if(m_bQuitting)
+	if(m_Quitting)
 	{
 		return;
 	}
@@ -194,7 +185,6 @@ void cBaseApp::VOnUpdate()
 // *****************************************************************************
 void cBaseApp::VCleanup()
 {
-	cBaseEntity::VCleanup();
 	SafeDelete(&m_pGameTimer);
 	SafeDelete(&m_pParamLoader);
 	SafeDelete(&m_pProcessManager);
@@ -262,7 +252,7 @@ Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 }
 
 // *****************************************************************************
-cGameControls * GameBase::cBaseApp::GetGameControls() const
+cGameControls * cBaseApp::GetGameControls() const
 {
 	return m_pGameControls;
 }
@@ -271,10 +261,4 @@ cGameControls * GameBase::cBaseApp::GetGameControls() const
 IProcessManager * cBaseApp::VGetProcessManager() const
 {
 	return m_pProcessManager;
-}
-
-// *****************************************************************************
-cString cBaseApp::VGetGameTitle() const
-{
-	return GetName();
 }
