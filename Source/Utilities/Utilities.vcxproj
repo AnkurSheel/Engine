@@ -114,6 +114,7 @@
     <ClCompile Include="src\FileInput.cpp" />
     <ClCompile Include="src\ParamLoader.cpp" />
     <ClCompile Include="src\XMLFileIO.cpp" />
+    <ClCompile Include="src\XMLNode.cpp" />
     <ClCompile Include="src\ZipFile.cpp" />
     <ClCompile Include="src\ResCache.cpp" />
     <ClCompile Include="src\Process.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Includes\ProcessManager.hxx" />
     <ClInclude Include="Includes\Resources.h" />
     <ClInclude Include="Includes\ResourceManager.hxx" />
+    <ClInclude Include="Includes\XMLNode.hxx" />
     <ClInclude Include="src\FileOutput.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Timer.h" />
@@ -142,6 +144,7 @@
     <ClInclude Include="Includes\ParamLoaders.hxx" />
     <ClInclude Include="src\XMLFileIO.h" />
     <ClInclude Include="Includes\XMLFileIO.hxx" />
+    <ClInclude Include="src\XMLNode.h" />
     <ClInclude Include="src\ZipFile.h" />
     <ClInclude Include="Includes\ZipFile.hxx" />
     <ClInclude Include="src\ResCache.h" />

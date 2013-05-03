@@ -41,6 +41,7 @@
       <Filter>Process</Filter>
     </ClCompile>
     <ClCompile Include="src\SystemChecker.cpp" />
+    <ClCompile Include="src\XMLNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameDirectories.h" />
@@ -116,6 +117,8 @@
     </ClInclude>
     <ClInclude Include="Includes\SystemChecker.hxx" />
     <ClInclude Include="src\SystemChecker.h" />
+    <ClInclude Include="Includes\XMLNode.hxx" />
+    <ClInclude Include="src\XMLNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Zipfile.inl">
