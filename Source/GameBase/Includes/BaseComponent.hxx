@@ -11,13 +11,18 @@ namespace GameBase
 	class IBaseEntity;
 }
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
 namespace GameBase
 {
 	class IBaseComponent
 	{
 	public:
 		virtual ~IBaseComponent(){};
-		virtual void VInitialize() = 0;
+		virtual void VInitialize(const Utilities::IXMLNode * const pXMLNode) = 0;
 		virtual void VCleanup() = 0;
 		virtual void VSetOwner(const IBaseEntity * const pNewOwner) = 0;
 		virtual unsigned long VGetID() const = 0;

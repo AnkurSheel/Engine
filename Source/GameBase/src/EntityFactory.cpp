@@ -6,6 +6,7 @@
 
 #include "StdAfx.h"
 #include "EntityFactory.h"
+#include "Transform2DComponent.h"
 
 using namespace GameBase;
 
@@ -20,4 +21,10 @@ cEntityFactory::cEntityFactory()
 // *****************************************************************************
 cEntityFactory::~cEntityFactory()
 {
+}
+
+// *****************************************************************************
+void cEntityFactory::RegisterComponents()
+{
+	m_RegisteredComponents.Register<cTransform2DComponent>(cTransform2DComponent::m_Name.GetHash());
 }

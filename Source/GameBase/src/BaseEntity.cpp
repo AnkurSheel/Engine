@@ -8,7 +8,6 @@
 #include "FSM/StateMachine.h"
 #include "BaseComponent.h"
 #include "EntityManager.hxx"
-#include "XMLNode.hxx"
 
 using namespace AI;
 using namespace Utilities;
@@ -58,31 +57,31 @@ int cBaseEntity::GetID() const
 // *****************************************************************************
 void cBaseEntity::VInitialize()
 {
-	const shared_ptr<IXMLNode> pRoot = IXMLNode::Load("Paddle.xml");
-	Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pRoot->VGetName() );
-	Log_Write(ILogger::LT_COMMENT, 1, "Element Type : " + pRoot->VGetNodeAttribute("type"));
-	
-	IXMLNode::XMLNodeList List;
-	pRoot->VGetChildren(List);
-	IXMLNode::XMLNodeList::iterator Iter;
-	for (Iter = List.begin(); Iter != List.end(); Iter++)
-	{
-		IXMLNode * pNode = (*Iter).get();
-		Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pNode->VGetName() );
- //       StrongActorComponentPtr pComponent(VCreateComponent(pNode));
- //       if (pComponent)
- //       {
- //           pActor->AddComponent(pComponent);
- //           pComponent->SetOwner(pActor);
- //       }
- //       else
- //       {
- //           // If an error occurs, we kill the actor and bail.  We could keep going, but the actor is will only be 
- //           // partially complete so it's not worth it.  Note that the pActor instance will be destroyed because it
- //           // will fall out of scope with nothing else pointing to it.
- //           return StrongActorPtr();
- //       }
-	}
+	//const shared_ptr<IXMLNode> pRoot = IXMLNode::Load("Paddle.xml");
+	//Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pRoot->VGetName() );
+	//Log_Write(ILogger::LT_COMMENT, 1, "Element Type : " + pRoot->VGetNodeAttribute("type"));
+	//
+	//IXMLNode::XMLNodeList List;
+	//pRoot->VGetChildren(List);
+	//IXMLNode::XMLNodeList::iterator Iter;
+	//for (Iter = List.begin(); Iter != List.end(); Iter++)
+	//{
+	//	IXMLNode * pNode = (*Iter).get();
+	//	Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pNode->VGetName() );
+ ////       StrongActorComponentPtr pComponent(VCreateComponent(pNode));
+ ////       if (pComponent)
+ ////       {
+ ////           pActor->AddComponent(pComponent);
+ ////           pComponent->SetOwner(pActor);
+ ////       }
+ ////       else
+ ////       {
+ ////           // If an error occurs, we kill the actor and bail.  We could keep going, but the actor is will only be 
+ ////           // partially complete so it's not worth it.  Note that the pActor instance will be destroyed because it
+ ////           // will fall out of scope with nothing else pointing to it.
+ ////           return StrongActorPtr();
+ ////       }
+	//}
 	/*ComponentMap::iterator iter;
 	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{

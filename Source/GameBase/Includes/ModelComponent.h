@@ -10,6 +10,11 @@
 #include "GameBaseDefines.h"
 #include "Transform3DComponent.h"
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
 namespace Graphics
 {
 	class IModel;
@@ -24,7 +29,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cModelComponent();
 		GAMEBASE_API ~cModelComponent();
-		void VInitialize();
+		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
 		void UpdateTransform(const cTransform3DComponent * const pTransform);
 		void Render(const Graphics::ICamera * const pCamera);

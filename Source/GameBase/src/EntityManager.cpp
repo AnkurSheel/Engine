@@ -146,7 +146,7 @@ void cEntityManager::VAddComponent(IBaseEntity * const pEntity, IBaseComponent *
 		}
 		if(pComponent != NULL)
 		{
-			pComponent->VInitialize();
+			//pComponent->VInitialize();
 			pEnt->AddComponent(pComponent);
 			EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
 			if(iter == m_ComponentMap.end())

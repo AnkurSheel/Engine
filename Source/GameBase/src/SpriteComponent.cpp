@@ -10,6 +10,7 @@
 using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
+using namespace Utilities;
 
 Base::cHashedString	cSpriteComponent::m_Name = cHashedString("spritecomponent");
 
@@ -27,7 +28,7 @@ cSpriteComponent::~cSpriteComponent()
 }
 
 // *****************************************************************************
-void cSpriteComponent::VInitialize()
+void cSpriteComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
 	if (!m_strSpriteName.IsEmpty())
 	{

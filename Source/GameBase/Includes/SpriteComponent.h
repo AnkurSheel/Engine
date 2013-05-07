@@ -9,6 +9,11 @@
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
 namespace Graphics
 {
 	class ISprite;
@@ -28,7 +33,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cSpriteComponent();
 		GAMEBASE_API ~cSpriteComponent();
-		void VInitialize();
+		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
 		void UpdateTransform(const Base::cVector2 & vPosition,
 			const Base::cVector2 & vRotation, const Base::cVector2 & vSize);

@@ -9,6 +9,7 @@
 
 using namespace GameBase;
 using namespace Base;
+using namespace Utilities;
 
 Base::cHashedString	cTransform3DComponent::m_Name = cHashedString("transform3dcomponent");
 
@@ -24,7 +25,7 @@ cTransform3DComponent::~cTransform3DComponent()
 }
 
 // *****************************************************************************
-void cTransform3DComponent::VInitialize()
+void cTransform3DComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
 }
 

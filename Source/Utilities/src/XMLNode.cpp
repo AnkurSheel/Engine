@@ -204,6 +204,15 @@ void cXMLNode::VGetChildren(XMLNodeList & ChildrenList)
 }
 
 // *****************************************************************************
+const shared_ptr<IXMLNode> cXMLNode::VGetChild(const cString & Name) const
+{
+	XMLElement * pElement = m_pElement->FirstChildElement(Name.GetData());
+	const shared_ptr<cXMLNode> pNode(DEBUG_NEW cXMLNode());
+	pNode->m_pElement = pElement;
+	return pNode;
+}
+
+// *****************************************************************************
 const shared_ptr<IXMLNode> IXMLNode::InitializeForSave(const cString & RootName,
 	const cString & StyleSheetPath)
 {

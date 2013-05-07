@@ -10,6 +10,7 @@
 using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
+using namespace Utilities;
 
 Base::cHashedString	cModelComponent::m_Name = cHashedString("modelcomponent");
 
@@ -26,7 +27,7 @@ cModelComponent::~cModelComponent()
 }
 
 // *****************************************************************************
-void cModelComponent::VInitialize()
+void cModelComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
 	m_pTransform = DEBUG_NEW cTransform3DComponent();
 	if (!m_strModelName.IsEmpty())

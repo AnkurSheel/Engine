@@ -10,6 +10,11 @@
 #include "BaseComponent.h"
 #include "Vector3.h"
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
 namespace GameBase
 {
 	class cTransform3DComponent
@@ -18,7 +23,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cTransform3DComponent();
 		GAMEBASE_API ~cTransform3DComponent();
-		void VInitialize();
+		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
 
 	public:
