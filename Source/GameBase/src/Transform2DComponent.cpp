@@ -38,6 +38,13 @@ void cTransform2DComponent::VInitialize(const IXMLNode * const pXMLNode)
 		m_vPosition.x = pPositionNode->VGetNodeAttributeAsInt("x");
 		m_vPosition.y = pPositionNode->VGetNodeAttributeAsInt("y");
 	}
+	
+	shared_ptr<IXMLNode> pSizeNode(pXMLNode->VGetChild("ScaleInPixels"));
+	if(pSizeNode != NULL)
+	{
+		m_vSize.x = pSizeNode->VGetNodeAttributeAsInt("x");
+		m_vSize.y = pSizeNode->VGetNodeAttributeAsInt("y");
+	}
 }
 
 // *****************************************************************************
