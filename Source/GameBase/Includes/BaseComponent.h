@@ -19,14 +19,13 @@ namespace GameBase
 		: public IBaseComponent
 	{
 	public:
-		cBaseComponent(const Base::cString & strComponentName);
+		cBaseComponent();
 		virtual ~cBaseComponent();
 		unsigned long VGetID() const;
 		void VSetOwner(const IBaseEntity * const pNewOwner);
-		Base::cString VGetName() const;
+		virtual unsigned long VGetHashedID() const  = 0;
 
 	private:
-		Base::cHashedString		m_strComponentName;
 		const IBaseEntity *		m_pOwner;
 	};
 }

@@ -11,6 +11,7 @@
 #include "EntityManager.h"
 #include "BaseEntity.h"
 #include "BaseComponent.hxx"
+#include "EntityFactory.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -31,21 +32,24 @@ cEntityManager::~cEntityManager()
 }
 
 // *****************************************************************************
-void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
+void cEntityManager::VRegisterEntity(const cString & Type)
 {
-	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
-	if (pEntity != NULL)
+	if(cEntityFactory::Instance() == NULL)
 	{
-		m_EntityMap.insert(std::make_pair(pEntity->GetID(), pNewEntity));
-		IBaseEntity::ComponentList components;
+		Log_Write(ILogger::LT_ERROR, 1, "Entity Factory Not Created");
+		return;
+	}
 
-		Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
-			+ pEntity->GetName());
-		IBaseEntity::ComponentList::iterator iter;
-		for (iter = components.begin(); iter != components.end(); iter++)
-		{
-			VAddComponent(pNewEntity, *iter);
-		}
+	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(Type.GetInLowerCase()));
+	m_EntityMap.insert(std::make_pair(pEntity->GetID(), pEntity));
+	IBaseEntity::ComponentList components;
+
+	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
+		+ pEntity->VGetName());
+	IBaseEntity::ComponentList::iterator iter;
+	for (iter = components.begin(); iter != components.end(); iter++)
+	{
+		VAddComponent(pEntity, *iter);
 	}
 }
 
@@ -110,7 +114,7 @@ cString cEntityManager::VGetEntityName(const IBaseEntity * const pEntity) const
 
 	if (pEnt != NULL)
 	{
-		return pEnt->GetName();
+		return pEnt->VGetName();
 	}
 	return "";
 }

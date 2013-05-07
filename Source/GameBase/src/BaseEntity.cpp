@@ -8,6 +8,7 @@
 #include "FSM/StateMachine.h"
 #include "BaseComponent.h"
 #include "EntityManager.hxx"
+#include "XMLNode.hxx"
 
 using namespace AI;
 using namespace Utilities;
@@ -17,15 +18,13 @@ using namespace GameBase;
 int cBaseEntity::m_siNextValidID = 0;
 
 // *****************************************************************************
-cBaseEntity::cBaseEntity(const int iID, const Base::cString & strName)
-: m_strName(strName)
+cBaseEntity::cBaseEntity(const int iID)
 {
 	SetID(iID);
 }
 
 // *****************************************************************************
-cBaseEntity::cBaseEntity(const Base::cString & strName)
-: m_strName(strName)
+cBaseEntity::cBaseEntity()
 {
 	SetID(m_siNextValidID);
 }
@@ -57,19 +56,38 @@ int cBaseEntity::GetID() const
 }
 
 // *****************************************************************************
-cString cBaseEntity::GetName() const
-{
-	return m_strName;
-}
-
-// *****************************************************************************
 void cBaseEntity::VInitialize()
 {
-	ComponentMap::iterator iter;
+	const shared_ptr<IXMLNode> pRoot = IXMLNode::Load("Paddle.xml");
+	Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pRoot->VGetName() );
+	Log_Write(ILogger::LT_COMMENT, 1, "Element Type : " + pRoot->VGetNodeAttribute("type"));
+	
+	IXMLNode::XMLNodeList List;
+	pRoot->VGetChildren(List);
+	IXMLNode::XMLNodeList::iterator Iter;
+	for (Iter = List.begin(); Iter != List.end(); Iter++)
+	{
+		IXMLNode * pNode = (*Iter).get();
+		Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pNode->VGetName() );
+ //       StrongActorComponentPtr pComponent(VCreateComponent(pNode));
+ //       if (pComponent)
+ //       {
+ //           pActor->AddComponent(pComponent);
+ //           pComponent->SetOwner(pActor);
+ //       }
+ //       else
+ //       {
+ //           // If an error occurs, we kill the actor and bail.  We could keep going, but the actor is will only be 
+ //           // partially complete so it's not worth it.  Note that the pActor instance will be destroyed because it
+ //           // will fall out of scope with nothing else pointing to it.
+ //           return StrongActorPtr();
+ //       }
+	}
+	/*ComponentMap::iterator iter;
 	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		iter->second->VInitialize();
-	}
+	}*/
 }
 
 // *****************************************************************************

@@ -37,7 +37,13 @@ namespace GameBase
 	public:
 		Base::cString					m_strSpriteName;	///< The sprite file name
 
+		
 	private:
+		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		Base::cString VGetName() const { return m_Name.GetString(); }
+
+	private:
+		static Base::cHashedString		m_Name;	///< The component name
 		shared_ptr<Graphics::ISprite>	m_pSprite;	///< The 2d Sprite
 	};
 }

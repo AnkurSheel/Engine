@@ -11,10 +11,11 @@ using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
 
+Base::cHashedString	cModelComponent::m_Name = cHashedString("modelcomponent");
+
 // *****************************************************************************
 cModelComponent::cModelComponent()
-	: cBaseComponent("ModelComponent")
-	, m_pModel(NULL)
+	: m_pModel(NULL)
 	, m_pTransform(NULL)
 {
 }

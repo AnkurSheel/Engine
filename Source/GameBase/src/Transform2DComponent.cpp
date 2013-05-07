@@ -10,9 +10,10 @@
 using namespace GameBase;
 using namespace Base;
 
+Base::cHashedString	cTransform2DComponent::m_Name = cHashedString("transform2dcomponent");
+
 // *****************************************************************************
 cTransform2DComponent::cTransform2DComponent()
-	: cBaseComponent("Transform2DComponent")
 {
 }
 

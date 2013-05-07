@@ -124,6 +124,7 @@ cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & 
 	m_ElementMap.insert(std::make_pair(strID, pElement));
 	return strID;
 }
+
 // *****************************************************************************
 void cXMLFileIO::VAddAttribute(const cString & strElementName,
 							   const cString & strAttributeName,
@@ -131,7 +132,6 @@ void cXMLFileIO::VAddAttribute(const cString & strElementName,
 {
 	ElementMap::const_iterator  curr = m_ElementMap.find(strElementName);
 	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeName.GetData(), strAttributeValue.GetData());
-
 }
 
 // *****************************************************************************

@@ -36,7 +36,7 @@ namespace Base
 		/// @param[in] string The string from which the hash has to be created
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API explicit cHashedString(const cString & string);
+		BASE_API cHashedString(const cString & string);
 		///////////////////////////////////////////////////////////////////////
 		/// Copy Constructor
 		///

@@ -10,10 +10,11 @@
 using namespace GameBase;
 using namespace Base;
 
+Base::cHashedString	cTransform3DComponent::m_Name = cHashedString("transform3dcomponent");
+
 // *****************************************************************************
 cTransform3DComponent::cTransform3DComponent()
-	: cBaseComponent("Transform3DComponent")
-	, m_vScale(1.0f, 1.0f, 1.0f)
+	: m_vScale(1.0f, 1.0f, 1.0f)
 {
 }
 

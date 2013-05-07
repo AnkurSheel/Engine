@@ -11,10 +11,11 @@ using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
 
+Base::cHashedString	cSpriteComponent::m_Name = cHashedString("spritecomponent");
+
 // *****************************************************************************
 cSpriteComponent::cSpriteComponent()
-	: cBaseComponent("SpriteComponent")
-	, m_pSprite(NULL)
+	: m_pSprite(NULL)
 {
 
 }

@@ -49,7 +49,7 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 
 	if (pGame)
 	{
-		strGameTitle = pGame->VGetGameTitle() ;
+		strGameTitle = pGame->VGetName();
 	}
 
 	if(!CreateMyWindow(nCmdShow, strGameTitle))

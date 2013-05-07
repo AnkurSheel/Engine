@@ -439,6 +439,14 @@ tOptional<bool> cString::ToBool() const
 }
 
 // *****************************************************************************
+cString cString::GetInLowerCase() const
+{
+	char *copy1 = _strdup(m_str.data());
+	_strlwr_s(copy1, GetLength() + 1);
+	return copy1;
+}
+
+// *****************************************************************************
 cString cString::GetExtensionFromFileName() const
 {
 	tOptional<int> index = FindLastOf(".", GetLength());

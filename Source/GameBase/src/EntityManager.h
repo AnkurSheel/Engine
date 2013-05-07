@@ -30,7 +30,7 @@ namespace GameBase
 		typedef std::map<unsigned long, EntityList> EntityComponentMap;
 
 	private:
-		void VRegisterEntity(IBaseEntity * const pNewEntity);
+		void VRegisterEntity(const Base::cString & Type);
 		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
 		void VAddComponent(IBaseEntity * const pEntity, IBaseComponent * pComponent);
 		void VRemoveComponent(IBaseEntity * const pEntity,

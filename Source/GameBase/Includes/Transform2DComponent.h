@@ -25,6 +25,13 @@ namespace GameBase
 		Base::cVector2	m_vPosition;	///< The position of the game element.
 		Base::cVector2	m_vRotation;	///< The rotation of the game element.
 		Base::cVector2	m_vSize;		///< The size of the game element.
+
+	private:
+		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		Base::cString VGetName() const { return m_Name.GetString(); }
+
+	private:
+		static Base::cHashedString	m_Name;	///< The component name
 	};
 }
 #endif // Transform2DComponent_h__

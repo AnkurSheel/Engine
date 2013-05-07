@@ -281,6 +281,13 @@ namespace Base
 		///////////////////////////////////////////////////////////////////////
 		BASE_API Base::tOptional<bool> ToBool() const;
 		///////////////////////////////////////////////////////////////////////
+		/// Gets the string in lowercase
+		///
+		/// @return A duplicate of the string with all lowercase characters
+		///
+		///////////////////////////////////////////////////////////////////////
+		BASE_API cString GetInLowerCase() const;
+		///////////////////////////////////////////////////////////////////////
 		/// Gets the extension from a file
 		///
 		/// @return The extension of the file
@@ -294,8 +301,7 @@ namespace Base
 		///
 		///////////////////////////////////////////////////////////////////////
 		BASE_API static cString TimeToString(time_t time);
-		//BASE_API bool Compare (const cString & str) const;
-		//BASE_API void operator += (const char * const str);
+
 	private:
 		std::string m_str;
 	};
