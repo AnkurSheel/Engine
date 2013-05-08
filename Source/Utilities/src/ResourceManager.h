@@ -30,7 +30,8 @@ namespace Utilities
 	private:
 		cResourceManager();
 		~cResourceManager();
-		bool VInitialize(const Base::cString & strPath);
+		bool VInitialize(const int SizeInMB,
+			const Base::cString & FileName, const bool UseDevelopmentDirectory);
 		Utilities::IResCache * VGetResourceCache() const;
 
 	private:

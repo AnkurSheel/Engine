@@ -29,9 +29,6 @@ namespace Utilities
 		, public cFileInput
 
 	{
-	private:
-		typedef std::map<Base::cString, int> ZipContentsMap;		// maps path to a zip content id
-
 	public:
 		cZipFile();
 		~cZipFile();

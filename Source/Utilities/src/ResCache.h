@@ -1,16 +1,13 @@
-// ***************************************************************
+// *****************************************************************************
 //  ResCache   version:  1.0   Ankur Sheel  date: 2011/04/01
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+// *****************************************************************************
+//  purpose:	
+// *****************************************************************************
 #ifndef ResCache_h__
 #define ResCache_h__
 
 #include "ResCache.hxx"
+#include "ZipFile.hxx"
 
 namespace Base
 {
@@ -69,7 +66,26 @@ namespace Utilities
 	private:
 		IZipFile *	m_pZipFile;
 		Base::cString m_strResFileName;
+	};
 
+	class cDevelopmentResourceZipFile : public cResourceZipFile
+	{
+	public:
+		cDevelopmentResourceZipFile(const Base::cString & resFileName);
+		virtual ~cDevelopmentResourceZipFile();
+
+		virtual bool Open();
+		virtual int GetResourceSize(const IResource &r);
+		virtual void GetResource(const IResource &r, char *buffer);
+
+	private:
+		bool ReadAssetsDirectory(const Base::cString & FileSpec);
+		Base::tOptional<int> Find(const Base::cString & Name);
+
+	private:
+		Base::cString					m_AssetsDir;
+		IZipFile::ZipContentsMap		m_DirectoryContentsMap;
+		std::vector<WIN32_FIND_DATA>	m_AssetFileInfo;
 	};
 }
 #endif // ResCache_h__

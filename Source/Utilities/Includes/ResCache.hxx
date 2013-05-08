@@ -1,12 +1,8 @@
-// ***************************************************************
+// *****************************************************************************
 //  ResCache   version:  1.0   Ankur Sheel  date: 2011/04/01
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+// *****************************************************************************
+//  purpose:	
+// *****************************************************************************
 #ifndef ResCache_hxx__
 #define ResCache_hxx__
 
@@ -57,7 +53,8 @@ namespace Utilities
 		UTILITIES_API virtual bool Init() = 0;
 		UTILITIES_API virtual shared_ptr<IResHandle> GetHandle(IResource & r) = 0;
 		virtual void MemoryHasBeenFreed(unsigned int iSize) = 0;
-		UTILITIES_API static IResCache * CreateResourceCache(const int iSizeInMB, const Base::cString & strFileName);
+		UTILITIES_API static IResCache * CreateResourceCache(const int SizeInMB,
+			const Base::cString & FileName, const bool UseDevelopmentDirectory);
 	};
 }
 #endif // ResCache_hxx__

@@ -25,6 +25,8 @@ namespace Utilities
 	class IZipFile
 	{
 	public:
+		typedef std::map<Base::cString, int> ZipContentsMap;		// maps path to a zip content id
+
 		UTILITIES_API virtual ~IZipFile(){}
 		UTILITIES_API virtual bool Init(const Base::cString & resFileName) = 0;
 		UTILITIES_API virtual void End() = 0;

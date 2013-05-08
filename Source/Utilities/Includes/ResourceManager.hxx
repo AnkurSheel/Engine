@@ -44,7 +44,8 @@ namespace Utilities
 		 *
 		 * Creates and Initializes the resource cache
 		 ***********************************************/
-		virtual bool VInitialize(const Base::cString & strPath) = 0;
+		virtual bool VInitialize(const int SizeInMB,
+			const Base::cString & FileName, const bool UseDevelopmentDirectory) = 0;
 		/********************************************//**
  		 * @return A pointer to the resource cache
 		 *
