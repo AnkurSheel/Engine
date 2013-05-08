@@ -41,6 +41,12 @@ void cEntityManager::VRegisterEntity(const cString & Type)
 	}
 
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase())));
+	if (pEntity == NULL)
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Entity Not Created");
+		return;
+	}
+
 	m_EntityMap.insert(std::make_pair(pEntity->GetID(), pEntity));
 
 	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
