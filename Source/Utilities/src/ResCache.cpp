@@ -7,6 +7,7 @@
 #include "ResCache.h"
 #include "ZipFile.hxx"
 #include "Optional.h"
+#include "FileInput.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -276,9 +277,11 @@ void cDevelopmentResourceZipFile::GetResource(const IResource &r, char *buffer)
 	{
 		Size = m_AssetFileInfo[*num].nFileSizeLow;
 		cString fullFileSpec = m_AssetsDir + r.VGetFileName(); 
-		FILE *f = fopen(fullFileSpec.GetData(), "rb");
-		size_t bytes = fread(buffer, 1, m_AssetFileInfo[*num].nFileSizeLow, f);
-		fclose(f);
+		IFileInput * pFile = IFileInput::CreateInputFile();
+		pFile->Open(fullFileSpec, std::ios::in | std::ios::binary);
+		pFile->ReadAll(buffer);
+		pFile->Close();
+		SafeDelete(&pFile);
 	}
 }
 

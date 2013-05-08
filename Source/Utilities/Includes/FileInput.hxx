@@ -20,11 +20,10 @@ namespace Utilities
 		UTILITIES_API virtual ~IFileInput(){}
 		UTILITIES_API virtual bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode) = 0;
 		UTILITIES_API virtual bool Close() = 0;
-		UTILITIES_API virtual const unsigned char * const ReadAll() = 0;
-		UTILITIES_API virtual const unsigned char * const Read(unsigned long ulSize) = 0;
+		UTILITIES_API virtual void ReadAll(const char * pBuffer) = 0;
+		UTILITIES_API virtual void Read(const char * pBuffer, unsigned long Size) = 0;
 		UTILITIES_API virtual Base::cString ReadLine() = 0;
 		UTILITIES_API virtual bool IsEOF() = 0;
-		UTILITIES_API virtual const unsigned char * const GetBuffer() const = 0;
 		UTILITIES_API virtual unsigned long VGetFileSize() const = 0;
 		UTILITIES_API static  IFileInput * CreateInputFile();
 	};
