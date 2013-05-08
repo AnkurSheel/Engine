@@ -21,6 +21,7 @@
 #include <crtdbg.h>
 #include <typeinfo>
 #include <limits>
+#include <algorithm>
 #include "Macros.h"
 #include "BaseUtilities.h"
 #include "typedef.h"

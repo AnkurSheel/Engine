@@ -24,22 +24,21 @@ namespace GameBase
 		typedef std::map<unsigned long, IBaseComponent *> ComponentMap;
 
 	public:
-		GAMEBASE_API cBaseEntity(const int iID);
 		GAMEBASE_API cBaseEntity();
+		GAMEBASE_API cBaseEntity(const int iID);
 		GAMEBASE_API virtual ~cBaseEntity();
-		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
-		GAMEBASE_API unsigned long RemoveComponent(const Base::cString & strComponentName);
-		GAMEBASE_API void GetAllComponents(ComponentList & components) const;
-		GAMEBASE_API IBaseComponent * GetComponent(const Base::cString & strComponentName);
-		GAMEBASE_API int GetID() const;
-		GAMEBASE_API virtual unsigned long VGetHashedID() const  = 0;
-
-	protected:
 		GAMEBASE_API void VInitialize();
 		GAMEBASE_API void VCleanup();
+		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
+		GAMEBASE_API virtual unsigned long VGetHashedID() const = 0;
+		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
+		GAMEBASE_API void RemoveComponent(const unsigned long ComponentID);
+		GAMEBASE_API void GetAllComponents(ComponentList & components) const;
+		GAMEBASE_API IBaseComponent * GetComponent(const Base::cHashedString & ComponentName);
+		GAMEBASE_API IBaseComponent * GetComponent(const unsigned long ComponentID);
+		GAMEBASE_API int GetID() const;
 
 	private:
-		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
 		void SetID(const int iID);
 
 	private:

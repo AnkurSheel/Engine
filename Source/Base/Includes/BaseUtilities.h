@@ -90,6 +90,16 @@ namespace Base
 	{
 		return *(T*)(p).get();
 	}
+
+	template <class Type>
+	std::tr1::shared_ptr<Type> MakeStrongPtr(std::tr1::weak_ptr<Type> pWeakPtr)
+	{
+		if (!pWeakPtr.expired())
+			return std::tr1::shared_ptr<Type>(pWeakPtr);
+		else
+			return std::tr1::shared_ptr<Type>();
+	}
+
 }
 
 #endif // Utilities_h__

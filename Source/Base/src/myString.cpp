@@ -11,6 +11,7 @@
 #include "myString.h"
 #include <time.h>
 #include "Optional.h"
+#include <ctype.h>
 
 using namespace Base;
 
@@ -441,9 +442,9 @@ tOptional<bool> cString::ToBool() const
 // *****************************************************************************
 cString cString::GetInLowerCase() const
 {
-	char *copy1 = _strdup(m_str.data());
-	_strlwr_s(copy1, GetLength() + 1);
-	return copy1;
+	std::string lowerCase = m_str;
+	std::transform(lowerCase.begin(), lowerCase.end(), lowerCase.begin(), ::tolower);
+	return lowerCase;
 }
 
 // *****************************************************************************

@@ -21,7 +21,7 @@ namespace GameBase
 	public:
 		cBaseComponent();
 		virtual ~cBaseComponent();
-		unsigned long VGetID() const;
+		unsigned long VGetID() const { return VGetHashedID(); }
 		void VSetOwner(const IBaseEntity * const pNewOwner);
 		virtual unsigned long VGetHashedID() const  = 0;
 

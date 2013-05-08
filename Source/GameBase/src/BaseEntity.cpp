@@ -17,15 +17,15 @@ using namespace GameBase;
 int cBaseEntity::m_siNextValidID = 0;
 
 // *****************************************************************************
-cBaseEntity::cBaseEntity(const int iID)
-{
-	SetID(iID);
-}
-
-// *****************************************************************************
 cBaseEntity::cBaseEntity()
 {
 	SetID(m_siNextValidID);
+}
+
+// *****************************************************************************
+cBaseEntity::cBaseEntity(const int iID)
+{
+	SetID(iID);
 }
 
 // *****************************************************************************
@@ -57,64 +57,40 @@ int cBaseEntity::GetID() const
 // *****************************************************************************
 void cBaseEntity::VInitialize()
 {
-	//const shared_ptr<IXMLNode> pRoot = IXMLNode::Load("Paddle.xml");
-	//Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pRoot->VGetName() );
-	//Log_Write(ILogger::LT_COMMENT, 1, "Element Type : " + pRoot->VGetNodeAttribute("type"));
-	//
-	//IXMLNode::XMLNodeList List;
-	//pRoot->VGetChildren(List);
-	//IXMLNode::XMLNodeList::iterator Iter;
-	//for (Iter = List.begin(); Iter != List.end(); Iter++)
-	//{
-	//	IXMLNode * pNode = (*Iter).get();
-	//	Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pNode->VGetName() );
- ////       StrongActorComponentPtr pComponent(VCreateComponent(pNode));
- ////       if (pComponent)
- ////       {
- ////           pActor->AddComponent(pComponent);
- ////           pComponent->SetOwner(pActor);
- ////       }
- ////       else
- ////       {
- ////           // If an error occurs, we kill the actor and bail.  We could keep going, but the actor is will only be 
- ////           // partially complete so it's not worth it.  Note that the pActor instance will be destroyed because it
- ////           // will fall out of scope with nothing else pointing to it.
- ////           return StrongActorPtr();
- ////       }
-	//}
-	/*ComponentMap::iterator iter;
-	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
-	{
-		iter->second->VInitialize();
-	}*/
 }
 
 // *****************************************************************************
 void cBaseEntity::AddComponent(IBaseComponent * pComponent)
 {
-	pComponent->VSetOwner(this);
-	m_Components.insert(std::make_pair(pComponent->VGetID(), pComponent));
+	ComponentMap::iterator iter = m_Components.find(pComponent->VGetID());
+	if(iter == m_Components.end())
+	{
+		pComponent->VSetOwner(this);
+		m_Components.insert(std::make_pair(pComponent->VGetID(), pComponent));
+	}
 }
 
 // *****************************************************************************
-unsigned long cBaseEntity::RemoveComponent(const Base::cString & strComponentName)
+void cBaseEntity::RemoveComponent(const unsigned long ComponentID)
 {
-	unsigned long ulID = 0; 
-	IBaseComponent * pComponent = GetComponent(strComponentName);
+	IBaseComponent * pComponent = GetComponent(ComponentID);
 	if(pComponent != NULL)
 	{
-		ulID = pComponent->VGetID();
-		m_Components.erase(ulID);
+		m_Components.erase(ComponentID);
 		SafeDelete(&pComponent);
 	}
-	return ulID;
 }
 
 // *****************************************************************************
-IBaseComponent * cBaseEntity::GetComponent(const Base::cString & strComponentName)
+IBaseComponent * cBaseEntity::GetComponent(const cHashedString & ComponentName)
 {
-	unsigned long hash = cHashedString::CalculateHash(strComponentName);
-	ComponentMap::iterator iter = m_Components.find(hash);
+	return GetComponent(ComponentName.GetHash());
+}
+
+// *****************************************************************************
+IBaseComponent * cBaseEntity::GetComponent(const unsigned long ComponentID)
+{
+	ComponentMap::iterator iter = m_Components.find(ComponentID);
 	if(iter == m_Components.end())
 	{
 		return NULL;

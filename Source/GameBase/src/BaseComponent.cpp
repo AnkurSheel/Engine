@@ -21,12 +21,6 @@ cBaseComponent::~cBaseComponent()
 }
 
 // *****************************************************************************
-unsigned long cBaseComponent::VGetID() const
-{
-	return VGetHashedID();
-}
-
-// *****************************************************************************
 void cBaseComponent::VSetOwner(const IBaseEntity * const pNewOwner)
 {
 	m_pOwner = pNewOwner;

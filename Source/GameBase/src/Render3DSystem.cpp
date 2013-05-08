@@ -33,13 +33,13 @@ void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
 	cProcess::VUpdate(iDeltaMilliSeconds);
 
 	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities("ModelComponent", entityList);
+	IEntityManager::GetInstance()->VGetEntities(cModelComponent::m_Name, entityList);
 	IEntityManager::EntityList::iterator enityIter;
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cTransform3DComponent * pTransform = dynamic_cast<cTransform3DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "Transform3DComponent"));
-		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "ModelComponent"));
+		cTransform3DComponent * pTransform = dynamic_cast<cTransform3DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransform3DComponent::m_Name));
+		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cModelComponent::m_Name));
 		if(pTransform != NULL)
 		{
 			pModel->UpdateTransform(pTransform);
@@ -47,17 +47,16 @@ void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
 	}
 }
 
-
 // *****************************************************************************
 void cRender3DSystem::Render(const ICamera * const pCamera)
 {
 	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities("ModelComponent", entityList);
+	IEntityManager::GetInstance()->VGetEntities(cModelComponent::m_Name, entityList);
 	IEntityManager::EntityList::iterator enityIter;
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, "ModelComponent"));
+		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cModelComponent::m_Name));
 		pModel->Render(pCamera);
 	}
 

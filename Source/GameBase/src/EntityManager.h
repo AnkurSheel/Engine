@@ -34,13 +34,13 @@ namespace GameBase
 		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
 		void VAddComponent(IBaseEntity * const pEntity, IBaseComponent * pComponent);
 		void VRemoveComponent(IBaseEntity * const pEntity,
-			const Base::cString & strComponentName);
-		void VGetEntities(const Base::cString & strComponentName,
+			const unsigned long ComponentID);
+		void VGetEntities(const Base::cHashedString & Component,
 			EntityList & entities);
 		IBaseEntity * const VGetEntityFromID(const int iID) const;
 		Base::cString VGetEntityNameFromID(const int iID) const;
 		Base::cString VGetEntityName(const IBaseEntity * const pEntity) const;
-		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cString & strComponentName);
+		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cHashedString & ComponentName);
 		int VGetEntityID(const IBaseEntity * const pEntity) const;
 		void Cleanup();
 

@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "SpriteComponent.h"
 #include "Sprite.hxx"
+#include "XMLNode.hxx"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -30,10 +31,28 @@ cSpriteComponent::~cSpriteComponent()
 // *****************************************************************************
 void cSpriteComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
-	if (!m_strSpriteName.IsEmpty())
+	if(pXMLNode == NULL)
 	{
-		m_pSprite = ISprite::CreateSprite();
-		m_pSprite->VInitialize(m_strSpriteName);
+		return;
+	}
+
+	shared_ptr<IXMLNode> pName(pXMLNode->VGetChild("Name"));
+	if(pName != NULL)
+	{
+		cString SpriteName = pName->VGetNodeValue(); 
+		if (!SpriteName.IsEmpty())
+		{
+			m_pSprite = ISprite::CreateSprite();
+			m_pSprite->VInitialize(SpriteName);
+		}
+		else
+		{
+			Log_Write(ILogger::LT_ERROR, 1, "Element Name in Sprite Component cannot be empty");
+		}
+	}
+	else
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Missing Element in Sprite Component : Name");
 	}
 }
 

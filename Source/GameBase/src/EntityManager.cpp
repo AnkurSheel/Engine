@@ -40,12 +40,15 @@ void cEntityManager::VRegisterEntity(const cString & Type)
 		return;
 	}
 
-	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(Type.GetInLowerCase()));
+	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase())));
 	m_EntityMap.insert(std::make_pair(pEntity->GetID(), pEntity));
-	IBaseEntity::ComponentList components;
 
 	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
 		+ pEntity->VGetName());
+
+	IBaseEntity::ComponentList components;
+	pEntity->GetAllComponents(components);
+
 	IBaseEntity::ComponentList::iterator iter;
 	for (iter = components.begin(); iter != components.end(); iter++)
 	{
@@ -71,7 +74,7 @@ void cEntityManager::VUnRegisterEntity( IBaseEntity * const pNewEntity )
 		IBaseEntity::ComponentList::iterator iter;
 		for (iter = components.begin(); iter != components.end(); iter++)
 		{
-			VRemoveComponent(pNewEntity, (*iter)->VGetName());
+			VRemoveComponent(pNewEntity, (*iter)->VGetID());
 		}
 		m_EntityMap.erase(pEntity->GetID());
 	}
@@ -121,12 +124,12 @@ cString cEntityManager::VGetEntityName(const IBaseEntity * const pEntity) const
 
 // *****************************************************************************
 IBaseComponent * cEntityManager::VGetComponent(IBaseEntity * pEntity,
-	const Base::cString & strComponentName)
+	const cHashedString & ComponentName)
 {
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
 	if (pEnt != NULL)
 	{
-		return pEnt->GetComponent(strComponentName);
+		return pEnt->GetComponent(ComponentName);
 	}
 	return NULL;
 	
@@ -144,9 +147,9 @@ void cEntityManager::VAddComponent(IBaseEntity * const pEntity, IBaseComponent *
 			Log_Write(ILogger::LT_ERROR, 1, "Adding component to unregistered entity");
 			return;
 		}
+
 		if(pComponent != NULL)
 		{
-			//pComponent->VInitialize();
 			pEnt->AddComponent(pComponent);
 			EntityComponentMap::iterator iter = m_ComponentMap.find(pComponent->VGetID());
 			if(iter == m_ComponentMap.end())
@@ -166,7 +169,7 @@ void cEntityManager::VAddComponent(IBaseEntity * const pEntity, IBaseComponent *
 
 // *****************************************************************************
 void cEntityManager::VRemoveComponent(IBaseEntity * const pEntity,
-	const Base::cString & strComponentName)
+	const unsigned long ComponentID)
 {
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
 	if (pEnt != NULL)
@@ -178,9 +181,9 @@ void cEntityManager::VRemoveComponent(IBaseEntity * const pEntity,
 			return;
 		}
 
-		unsigned long ulComponentID = pEnt->RemoveComponent(strComponentName);
+		pEnt->RemoveComponent(ComponentID);
 
-		EntityComponentMap::iterator iter = m_ComponentMap.find(ulComponentID);
+		EntityComponentMap::iterator iter = m_ComponentMap.find(ComponentID);
 		if(iter == m_ComponentMap.end())
 		{
 			Log_Write(ILogger::LT_ERROR, 1, "Trying to remove non existent component");
@@ -191,17 +194,16 @@ void cEntityManager::VRemoveComponent(IBaseEntity * const pEntity,
 		list.remove(pEntity);
 		if(list.empty())
 		{
-			m_ComponentMap.erase(ulComponentID);
+			m_ComponentMap.erase(ComponentID);
 		}
 	}
 }
 
 // *****************************************************************************
-void cEntityManager::VGetEntities(const Base::cString & strComponentName,
+void cEntityManager::VGetEntities(const cHashedString & Component,
 	EntityList & entities)
 {
-	unsigned long hash = cHashedString::CalculateHash(strComponentName);
-	EntityComponentMap::iterator iter = m_ComponentMap.find(hash);
+	EntityComponentMap::iterator iter = m_ComponentMap.find(Component.GetHash());
 	if(iter == m_ComponentMap.end())
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Trying to access non existent component");

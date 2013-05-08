@@ -22,8 +22,8 @@ cXMLNode::cXMLNode()
 // *****************************************************************************
 cXMLNode::~cXMLNode()
 {
-	SafeDelete(&m_pDoc);
 	m_ChildNodes.clear();
+	SafeDelete(&m_pDoc);
 	m_pElement = NULL;
 }
 
@@ -207,8 +207,13 @@ void cXMLNode::VGetChildren(XMLNodeList & ChildrenList)
 const shared_ptr<IXMLNode> cXMLNode::VGetChild(const cString & Name) const
 {
 	XMLElement * pElement = m_pElement->FirstChildElement(Name.GetData());
-	const shared_ptr<cXMLNode> pNode(DEBUG_NEW cXMLNode());
-	pNode->m_pElement = pElement;
+	shared_ptr<cXMLNode> pNode = NULL;
+	if(pElement != NULL)
+	{
+		pNode = shared_ptr<cXMLNode>(DEBUG_NEW cXMLNode());
+		pNode->m_pElement = pElement;
+	}
+
 	return pNode;
 }
 
@@ -231,4 +236,3 @@ const shared_ptr<IXMLNode> IXMLNode::Parse(const Base::cString & XML,
 {
 	return cXMLNode::Parse(XML, Size);
 }
-

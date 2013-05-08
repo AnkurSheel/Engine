@@ -36,13 +36,12 @@ namespace GameBase
 
 	public:
 		Base::cString		m_strModelName;	///< The model file name
+		static Base::cHashedString	m_Name;	///< The component name
 
 	private :
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
-		Base::cString VGetName() const { return m_Name.GetString(); }
 
 	private:
-		static Base::cHashedString	m_Name;	///< The component name
 		Graphics::IModel *			m_pModel;	///< The 3D model
 		cTransform3DComponent *		m_pTransform;
 	};

@@ -30,13 +30,10 @@ namespace GameBase
 		Base::cVector3	m_vPosition;	///< The position of the game element.
 		Base::cVector3	m_vRotation;	///< The rotation of the game element.
 		Base::cVector3	m_vScale;		///< The scale of the game element.
+		static Base::cHashedString	m_Name;	///< The component name
 
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
-		Base::cString VGetName() const { return m_Name.GetString(); }
-
-	private:
-		static Base::cHashedString	m_Name;	///< The component name
 	};
 }
 #endif // Transform3DComponent_h__
