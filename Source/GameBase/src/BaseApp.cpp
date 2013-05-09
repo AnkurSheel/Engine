@@ -80,15 +80,16 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 
 	// initialize resource manager
 	cString AssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
+	cString ResourceFile = m_pParamLoader->VGetParameterValueAsString("-ResourceFile", "");
 	bool UseDevelopmentDirectory = m_pParamLoader->VGetParameterValueAsBool("-UseDevelopmentDirectory", false);
-	if(!IResourceManager::GetInstance()->VInitialize(30, AssetsPath, UseDevelopmentDirectory))
+	if(!IResourceManager::GetInstance()->VInitialize(30, AssetsPath + ResourceFile, UseDevelopmentDirectory))
 	{
 		m_Quitting = true;
 		return;
 	}
 
-	cGameDirectories::Initialize();
-	cGameOptions::InitializeGameOptions(cGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
+	cGameDirectories::Initialize(AssetsPath);
+	cGameOptions::InitializeGameOptions(cGameDirectories::GetMediaDirectory() + "PlayerOptions.xml");
 #if _DEBUG
 	cGameOptions::GameOptions().bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", cGameOptions::GameOptions().bFullScreen);
 	cGameOptions::GameOptions().iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", cGameOptions::GameOptions().iWidth);

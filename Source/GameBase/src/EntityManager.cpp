@@ -210,11 +210,7 @@ void cEntityManager::VGetEntities(const cHashedString & Component,
 	EntityList & entities)
 {
 	EntityComponentMap::iterator iter = m_ComponentMap.find(Component.GetHash());
-	if(iter == m_ComponentMap.end())
-	{
-		Log_Write(ILogger::LT_ERROR, 1, "Trying to access non existent component");
-	}
-	else
+	if(iter != m_ComponentMap.end())
 	{
 		entities = iter->second;
 	}

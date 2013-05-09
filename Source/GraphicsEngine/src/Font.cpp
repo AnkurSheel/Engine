@@ -104,12 +104,12 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 
-	IResource * pResource = IResource::CreateResource(cGameDirectories::GameDirectories().strFontDirectory
+	IResource * pResource = IResource::CreateResource(cGameDirectories::GetFontDirectory()
 		+ strFontDescFilename + ".fnt");
 	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
 
-	m_strFontTexPath = cGameDirectories::GameDirectories().strFontDirectory + pFile->VGetNodeAttribute("page0", "file");
+	m_strFontTexPath = cGameDirectories::GetFontDirectory() + pFile->VGetNodeAttribute("page0", "file");
 	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
 	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
 	m_iFontHeight = pFile->VGetNodeAttributeAsInt("common", "lineHeight");

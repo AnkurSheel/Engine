@@ -38,7 +38,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 	{
 		if(m_pDefaultTexture == NULL)
 		{
-			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + def.strDefaultImage);
+			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + def.strDefaultImage);
 		}
 	}
 
@@ -46,7 +46,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 	{
 		if(m_pPressedTexture == NULL)
 		{
-			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + def.strPressedImage);
+			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + def.strPressedImage);
 		}
 	}
 

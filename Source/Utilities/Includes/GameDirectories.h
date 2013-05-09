@@ -1,11 +1,7 @@
 // *****************************************************************************
 //  GameDirectories   version:  1.0   Ankur Sheel  date: 2013/01/22
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
 // *****************************************************************************
-// 
+//  purpose:	
 // *****************************************************************************
 #ifndef GameDirectories_h__
 #define GameDirectories_h__
@@ -20,19 +16,32 @@ namespace Utilities
 namespace Utilities
 {
 	class cGameDirectories
+		: public Base::cNonCopyable
 	{
 	public:
-		UTILITIES_API static const cGameDirectories & GameDirectories();
-		UTILITIES_API static void Initialize();
+		UTILITIES_API static void Initialize(const Base::cString & AssetsPath);
+		UTILITIES_API static Base::cString GetMediaDirectory() { return MediaDirectory; }
+		UTILITIES_API static Base::cString GetFontDirectory() { return FontDirectory; }
+		UTILITIES_API static Base::cString GetShaderDirectory() { return ShaderDirectory; }
+		UTILITIES_API static Base::cString GetSpriteDirectory() { return SpriteDirectory; }
+		UTILITIES_API static Base::cString GetSoundSFXDirectory() { return SoundSFXDirectory; }
+		UTILITIES_API static Base::cString GetSoundMusicDirectory() { return SoundMusicDirectory; }
+		UTILITIES_API static Base::cString GetModelDirectory() { return ModelDirectory; }
+		UTILITIES_API static Base::cString GetDefDirectory() { return DefDirectory; }
 
-	public:
-		Base::cString	strMediaDirectory;
-		Base::cString	strFontDirectory;
-		Base::cString	strShaderDirectory;
-		Base::cString	strSpriteDirectory;
-		Base::cString	strSoundSFXDirectory;
-		Base::cString	strSoundMusicDirectory;
-		Base::cString	strModelDirectory;
+	private:
+		cGameDirectories();
+		~cGameDirectories();
+
+	private:
+		static Base::cString	MediaDirectory;
+		static Base::cString	FontDirectory;
+		static Base::cString	ShaderDirectory;
+		static Base::cString	SpriteDirectory;
+		static Base::cString	SoundSFXDirectory;
+		static Base::cString	SoundMusicDirectory;
+		static Base::cString	ModelDirectory;
+		static Base::cString	DefDirectory;
 	};
 }
 #endif // GameDirectories_h__

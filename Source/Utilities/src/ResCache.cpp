@@ -148,7 +148,6 @@ char * cResCache::Allocate(unsigned int iSize)
 	{	
 		m_iTotalMemoryAllocated += iSize;
 		Log_Write(ILogger::LT_DEBUG, 2, cString(300, "Allocating Memory. File Size : %u KB. Currently using %u KB (%0.2f MB) out of %u MB in cache", iSize/KILOBYTE, m_iTotalMemoryAllocated/KILOBYTE, (float)m_iTotalMemoryAllocated/MEGABYTE, m_iCacheSize/MEGABYTE));
-
 	}
 	return pBuffer;
 }

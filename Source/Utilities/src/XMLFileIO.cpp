@@ -83,7 +83,7 @@ void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 	
 	if (m_pDoc->Parse(strXML.GetData(), size) != XML_NO_ERROR)
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Could not parse XML file");
+		Log_Write(ILogger::LT_ERROR, 1, "Could not parse XML file: " + cString(m_pDoc->GetErrorStr1()) + ": " + cString(m_pDoc->GetErrorStr2()));
 		return;
 	}
 

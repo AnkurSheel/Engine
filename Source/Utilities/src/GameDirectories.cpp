@@ -1,11 +1,7 @@
 // *****************************************************************************
 //  GameDirectories   version:  1.0   Ankur Sheel  date: 2013/01/22
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
 // *****************************************************************************
-// 
+//  purpose:	
 // *****************************************************************************
 #include "stdafx.h"
 #include "GameDirectories.h"
@@ -17,16 +13,27 @@
 using namespace Utilities;
 using namespace Base;
 
-static cGameDirectories gameDirectories;
+cString cGameDirectories::MediaDirectory;
+cString cGameDirectories::FontDirectory;
+cString cGameDirectories::ShaderDirectory;
+cString cGameDirectories::SpriteDirectory;
+cString cGameDirectories::SoundSFXDirectory;
+cString cGameDirectories::SoundMusicDirectory;
+cString cGameDirectories::ModelDirectory;
+cString cGameDirectories::DefDirectory;
 
 // *****************************************************************************
-const cGameDirectories & cGameDirectories::GameDirectories()
+cGameDirectories::cGameDirectories()
 {
-	return gameDirectories;
 }
 
 // *****************************************************************************
-void cGameDirectories::Initialize()
+cGameDirectories::~cGameDirectories()
+{
+}
+
+// *****************************************************************************
+void cGameDirectories::Initialize(const Base::cString & AssetsPath)
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 
@@ -36,14 +43,15 @@ void cGameDirectories::Initialize()
 	if(directoriesXML != NULL)
 	{
 		pFile->VParse(directoriesXML->GetBuffer(), directoriesXML->GetSize());
-		gameDirectories.strMediaDirectory = pFile->VGetNodeValue("MediaDirectory");
-		gameDirectories.strFontDirectory = pFile->VGetNodeValue("FontDirectory");
-		gameDirectories.strShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
-		gameDirectories.strSpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
-		cString strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
-		gameDirectories.strSoundSFXDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
-		gameDirectories.strSoundMusicDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
-		gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
+		MediaDirectory = AssetsPath;
+		FontDirectory = pFile->VGetNodeValue("FontDirectory");
+		ShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
+		SpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
+		cString SoundDirectory = pFile->VGetNodeValue("SoundDirectory");
+		SoundSFXDirectory = SoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
+		SoundMusicDirectory = SoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
+		ModelDirectory = pFile->VGetNodeValue("ModelDirectory");
+		DefDirectory = pFile->VGetNodeValue("DefDirectory");
 	}
 	SafeDelete(&pResource);
 	SafeDelete(&pFile);

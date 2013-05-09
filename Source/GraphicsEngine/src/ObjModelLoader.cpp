@@ -59,7 +59,7 @@ shared_ptr<stModelDef> cObjModelLoader::LoadModelDef(const cString & strModelFil
 {
 	//shared_ptr<IFileInput> pObjFile = shared_ptr<IFileInput>(IFileInput::CreateInputFile());
 	
-	cString strModelPath = cGameDirectories::GameDirectories().strModelDirectory + strModelFile + ".spdo";
+	cString strModelPath = cGameDirectories::GetModelDirectory() + strModelFile + ".spdo";
 	IResource * pResource = IResource::CreateResource(strModelPath);
 	shared_ptr<IResHandle> modelHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	shared_ptr<stModelDef> pDef;

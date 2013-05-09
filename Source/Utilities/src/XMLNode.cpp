@@ -76,7 +76,9 @@ const shared_ptr<IXMLNode> cXMLNode::Parse(const Base::cString & XML,
 	pNode->m_pDoc = DEBUG_NEW XMLDocument();
 	if (pNode->m_pDoc->Parse(XML.GetData(), Size) != XML_NO_ERROR)
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Could not parse XML file");
+		Log_Write(ILogger::LT_ERROR, 1, "Could not parse XML file: " + 
+			cString(pNode->m_pDoc->GetErrorStr1()) + ": " + 
+			cString(pNode->m_pDoc->GetErrorStr2()));
 		return NULL;
 	}
 
@@ -206,14 +208,16 @@ void cXMLNode::VGetChildren(XMLNodeList & ChildrenList)
 // *****************************************************************************
 const shared_ptr<IXMLNode> cXMLNode::VGetChild(const cString & Name) const
 {
-	XMLElement * pElement = m_pElement->FirstChildElement(Name.GetData());
-	shared_ptr<cXMLNode> pNode = NULL;
-	if(pElement != NULL)
+	shared_ptr<IXMLNode> pNode;
+	XMLNodeList::const_iterator Iter;
+	for(Iter = m_ChildNodes.begin(); Iter != m_ChildNodes.end(); Iter++)
 	{
-		pNode = shared_ptr<cXMLNode>(DEBUG_NEW cXMLNode());
-		pNode->m_pElement = pElement;
+		pNode = (*Iter);
+		if(Name.CompareInsensitive(pNode->VGetName()) == true)
+		{
+			break;
+		}
 	}
-
 	return pNode;
 }
 

@@ -96,7 +96,7 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 	//if(!CompileShader(strVertexShaderPath, strEntry, strModel, &pVertexShaderBuffer))
 	//	return false;
 
-	cString strVertexShaderPath = cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".vsho";
+	cString strVertexShaderPath = cGameDirectories::GetShaderDirectory() + strShaderName + ".vsho";
 	shared_ptr<IResource> pResource = shared_ptr<IResource>(IResource::CreateResource(strVertexShaderPath));
 	shared_ptr<IResHandle> shaderHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	if(shaderHandle == NULL)
@@ -120,7 +120,7 @@ bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 // *****************************************************************************
 bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 {
-	cString strPixelShaderPath = cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".psho";
+	cString strPixelShaderPath = cGameDirectories::GetShaderDirectory() + strShaderName + ".psho";
 
 	IResource * pResource = IResource::CreateResource(strPixelShaderPath);
 	shared_ptr<IResHandle> shaderHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);

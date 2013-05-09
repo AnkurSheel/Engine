@@ -72,7 +72,7 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 {
 	Log_Write(ILogger::LT_EVENT, 2, "Loading Sprite : " + strTextureFilename);
 
-	m_pTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + strTextureFilename);
+	m_pTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + strTextureFilename);
 	
 	if (m_pTexture != NULL)
 	{
