@@ -38,14 +38,13 @@ namespace GameBase
 		void UpdateTransform(const Base::cVector2 & vPosition,
 			const Base::cVector2 & vRotation, const Base::cVector2 & vSize);
 		void Render(const Graphics::ICamera * const pCamera);
-
-	public:
-		static Base::cHashedString		m_Name;	///< The component name
+		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
+		static Base::cHashedString		m_Name;	///< The component name
 		shared_ptr<Graphics::ISprite>	m_pSprite;	///< The 2d Sprite
 	};
 }

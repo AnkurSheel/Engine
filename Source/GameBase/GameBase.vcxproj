@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClCompile Include="src\BaseComponent.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\EntityFactory.cpp" />
     <ClCompile Include="src\GameControls.cpp" />
     <ClCompile Include="src\HighScoreTable.cpp" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="Includes\BaseComponent.h" />
     <ClInclude Include="Includes\BaseComponent.hxx" />
+    <ClInclude Include="Includes\Config.h" />
     <ClInclude Include="Includes\EntityFactory.h" />
     <ClInclude Include="Includes\GameControls.h" />
     <ClInclude Include="Includes\GenericObjectCreation.h" />

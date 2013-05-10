@@ -12,17 +12,29 @@
 namespace GameBase
 {
 	class IBaseComponent;
+	class cComponentDef;
 }
 
 namespace GameBase
 {
+	typedef std::map<unsigned long, IBaseComponent *> ComponentMap;
+	class cEntityDef
+		: public Base::cNonCopyable
+	{
+	public:
+		GAMEBASE_API cEntityDef(){}
+		GAMEBASE_API virtual ~cEntityDef(){}
+
+	public:
+		bool			m_IsCollidable;
+		Base::cString	m_Type;
+		ComponentMap	m_Components;
+	};
+
 	class cBaseEntity
 		: public IBaseEntity
 		, public Base::cNonCopyable
 	{
-	private :
-		typedef std::map<unsigned long, IBaseComponent *> ComponentMap;
-
 	public:
 		GAMEBASE_API cBaseEntity();
 		GAMEBASE_API cBaseEntity(const int iID);

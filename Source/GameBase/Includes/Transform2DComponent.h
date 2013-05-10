@@ -25,11 +25,14 @@ namespace GameBase
 		GAMEBASE_API ~cTransform2DComponent();
 		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
+		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 
 	public:
-		Base::cVector2				m_vPosition;	///< The position of the game element.
-		Base::cVector2				m_vRotation;	///< The rotation of the game element.
-		Base::cVector2				m_vSize;		///< The size of the game element.
+		Base::cVector2	m_vPosition;	///< The position of the game element.
+		Base::cVector2	m_vRotation;	///< The rotation of the game element.
+		Base::cVector2	m_vSize;		///< The size of the game element.
+	
+	private:
 		static Base::cHashedString	m_Name;	///< The component name
 	
 	private:

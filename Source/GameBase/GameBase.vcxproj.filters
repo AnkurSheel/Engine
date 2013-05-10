@@ -45,6 +45,7 @@
     <ClCompile Include="src\EntityFactory.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="src\Config.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Includes\EntityFactory.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\Config.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

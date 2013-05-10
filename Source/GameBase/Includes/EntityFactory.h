@@ -27,11 +27,9 @@ namespace GameBase
 		GAMEBASE_API virtual void RegisterEntities() = 0;
 		GAMEBASE_API virtual IBaseEntity * VCreateEntity(const Base::cHashedString & Type) = 0;
 		GAMEBASE_API static cEntityFactory * Instance() { return m_pInstance; }
-		GAMEBASE_API virtual void RegisterComponents();
 
 	protected:
 		GenericObjectFactory<IBaseEntity, unsigned long>	m_RegisteredEntities;
-		GenericObjectFactory<IBaseComponent, unsigned long>	m_RegisteredComponents;
 		GAMEBASE_API static cEntityFactory *				m_pInstance;
 	};
 
