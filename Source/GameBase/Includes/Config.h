@@ -24,17 +24,20 @@ namespace GameBase
 	public:
 		GAMEBASE_API virtual void VInitialize(const Base::cString & FileName) = 0;
 		GAMEBASE_API static const cEntityDef * const GetEntityDef(const Base::cHashedString & EntityType);
+		GAMEBASE_API virtual ~cConfig();
 
 	protected:
 		GAMEBASE_API cConfig();
-		GAMEBASE_API virtual ~cConfig();
 		GAMEBASE_API void InitPrivate(const Base::cString & FileName);
 
 	protected:
 		typedef std::map<unsigned long, const cEntityDef *> EnitityDefMap;
-		EnitityDefMap m_EntityDefs;
+		EnitityDefMap										m_EntityDefs;
 		GenericObjectFactory<IBaseComponent, unsigned long>	m_RegisteredComponents;
-		GAMEBASE_API static cConfig * m_pInstance;
+		GAMEBASE_API static cConfig *						m_pInstance;
+
+	private:
+		void Cleanup();
 	};
 }
 #endif // Config_h__

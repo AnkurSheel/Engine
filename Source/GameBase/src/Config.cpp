@@ -28,6 +28,7 @@ cConfig::cConfig()
 // *****************************************************************************
 cConfig::~cConfig()
 {
+	Cleanup();
 }
 
 // *****************************************************************************
@@ -64,7 +65,7 @@ void cConfig::InitPrivate(const cString & FileName)
 	for (Iter = List.begin(); Iter != List.end(); Iter++)
 	{
 		IXMLNode * pEntityDefNode = (*Iter).get();
-		Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pEntityDefNode->VGetName() );
+		Log_Write(ILogger::LT_COMMENT, 2, "Element Name : " + pEntityDefNode->VGetName() );
 		cEntityDef * pEntityDef = DEBUG_NEW cEntityDef();
 		m_EntityDefs[cHashedString::CalculateHash(pEntityDefNode->VGetName().GetInLowerCase())] = pEntityDef;
 
@@ -74,7 +75,7 @@ void cConfig::InitPrivate(const cString & FileName)
 		for (Iter = List.begin(); Iter != List.end(); Iter++)
 		{
 			IXMLNode * pComponentDefNode = (*Iter).get();
-			Log_Write(ILogger::LT_COMMENT, 1, "Element Name : " + pComponentDefNode->VGetName() );
+			Log_Write(ILogger::LT_COMMENT, 2, "Element Name : " + pComponentDefNode->VGetName() );
 
 			unsigned long hash = cHashedString::CalculateHash(pComponentDefNode->VGetName().GetInLowerCase());
 			IBaseComponent * pComponent = m_RegisteredComponents.Create(hash);
@@ -85,4 +86,18 @@ void cConfig::InitPrivate(const cString & FileName)
 			}
 		}
 	}
+}
+
+// *****************************************************************************
+void cConfig::Cleanup()
+{
+	EnitityDefMap ::iterator iter = m_EntityDefs.begin();
+	while(iter != m_EntityDefs.end())
+	{
+		cEntityDef * pEntityDef = const_cast<cEntityDef *>(iter->second);
+		iter++;
+		SafeDelete(&pEntityDef);
+
+	}
+	m_EntityDefs.clear();
 }
