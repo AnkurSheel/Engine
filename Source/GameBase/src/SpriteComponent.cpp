@@ -28,6 +28,17 @@ cSpriteComponent::~cSpriteComponent()
 	VCleanup();
 }
 
+cSpriteComponent::cSpriteComponent(const cSpriteComponent & other)
+	: m_pSprite(ISprite::CreateSprite())
+{
+}
+
+cSpriteComponent & cSpriteComponent::operator =(const cSpriteComponent & other)
+{
+	return *this;
+}
+
+
 // *****************************************************************************
 void cSpriteComponent::VInitialize(const IXMLNode * const pXMLNode)
 {

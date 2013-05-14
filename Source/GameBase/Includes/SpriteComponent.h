@@ -33,8 +33,11 @@ namespace GameBase
 	public:
 		GAMEBASE_API cSpriteComponent();
 		GAMEBASE_API ~cSpriteComponent();
-		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
-		void VCleanup();
+		GAMEBASE_API cSpriteComponent(const cSpriteComponent & other);
+		GAMEBASE_API cSpriteComponent & operator =(const cSpriteComponent & other);
+
+		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
+		GAMEBASE_API void VCleanup();
 		void UpdateTransform(const Base::cVector2 & vPosition,
 			const Base::cVector2 & vRotation, const Base::cVector2 & vSize);
 		void Render(const Graphics::ICamera * const pCamera);
@@ -44,7 +47,7 @@ namespace GameBase
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
-		static Base::cHashedString		m_Name;	///< The component name
+		GAMEBASE_API static Base::cHashedString		m_Name;	///< The component name
 		shared_ptr<Graphics::ISprite>	m_pSprite;	///< The 2d Sprite
 	};
 }

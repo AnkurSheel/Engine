@@ -12,6 +12,7 @@
 #include "ResourceManager.hxx"
 #include "BaseEntity.h"
 #include "BaseComponent.hxx"
+#include "ComponentFactory.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -22,7 +23,8 @@ cConfig * cConfig::m_pInstance = NULL;
 // *****************************************************************************
 cConfig::cConfig()
 {
-
+	if(m_pInstance == NULL)
+		m_pInstance = this;
 }
 
 // *****************************************************************************
@@ -32,17 +34,7 @@ cConfig::~cConfig()
 }
 
 // *****************************************************************************
-const cEntityDef * const cConfig::GetEntityDef(const Base::cHashedString & EntityType)
-{
-	if(m_pInstance != NULL)
-	{
-		return m_pInstance->m_EntityDefs[EntityType.GetHash()];
-	}
-	return NULL;
-}
-
-// *****************************************************************************
-void cConfig::InitPrivate(const cString & FileName)
+void cConfig::Initialize(const cString & FileName)
 {
 	IResource * pResource = IResource::CreateResource(cGameDirectories::GetDesignDirectory() + FileName + ".xml");
 	shared_ptr<IResHandle> pXMLFile = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
@@ -77,15 +69,24 @@ void cConfig::InitPrivate(const cString & FileName)
 			IXMLNode * pComponentDefNode = (*Iter).get();
 			Log_Write(ILogger::LT_COMMENT, 2, "Element Name : " + pComponentDefNode->VGetName() );
 
-			unsigned long hash = cHashedString::CalculateHash(pComponentDefNode->VGetName().GetInLowerCase());
-			IBaseComponent * pComponent = m_RegisteredComponents.Create(hash);
+			IBaseComponent * pComponent = cComponentFactory::Instance()->CreateComponent(cHashedString(pComponentDefNode->VGetName().GetInLowerCase()));
 			if(pComponent != NULL)
 			{
 				pComponent->VInitialize(pComponentDefNode);
-				pEntityDef->m_Components[hash] = pComponent;
+				pEntityDef->m_Components[pComponent->VGetID()] = pComponent;
 			}
 		}
 	}
+}
+
+// *****************************************************************************
+const cEntityDef * const cConfig::GetEntityDef(const Base::cHashedString & EntityType)
+{
+	if(m_pInstance != NULL)
+	{
+		return m_pInstance->m_EntityDefs[EntityType.GetHash()];
+	}
+	return NULL;
 }
 
 // *****************************************************************************

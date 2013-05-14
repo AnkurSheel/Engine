@@ -6,6 +6,8 @@
 #ifndef BaseComponent_hxx__
 #define BaseComponent_hxx__
 
+#include "GameBaseDefines.h"
+
 namespace GameBase
 {
 	class IBaseEntity;

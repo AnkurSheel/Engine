@@ -32,19 +32,19 @@ cEntityManager::~cEntityManager()
 }
 
 // *****************************************************************************
-void cEntityManager::VRegisterEntity(const cString & Type)
+IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
 {
 	if(cEntityFactory::Instance() == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Entity Factory Not Created");
-		return;
+		return NULL;
 	}
 
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase())));
 	if (pEntity == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Entity " + Type + " Not Created");
-		return;
+		return NULL;
 	}
 
 	m_EntityMap.insert(std::make_pair(pEntity->GetID(), pEntity));
@@ -60,6 +60,7 @@ void cEntityManager::VRegisterEntity(const cString & Type)
 	{
 		VAddComponent(pEntity, *iter);
 	}
+	return pEntity;
 }
 
 // *****************************************************************************

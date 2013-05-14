@@ -46,6 +46,9 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\ComponentFactory.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -109,6 +112,9 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Includes\Config.h" />
+    <ClInclude Include="Includes\ComponentFactory.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

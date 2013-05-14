@@ -33,7 +33,6 @@ namespace GameBase
 
 	class cBaseEntity
 		: public IBaseEntity
-		, public Base::cNonCopyable
 	{
 	public:
 		GAMEBASE_API cBaseEntity();

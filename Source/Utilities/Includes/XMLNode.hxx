@@ -7,6 +7,8 @@
 #ifndef XMLNode_hxx__
 #define XMLNode_hxx__
 
+#include "UtilitiesDefines.h"
+
 namespace Utilities
 {
 	////////////////////////////////////////////////////////////////////////////

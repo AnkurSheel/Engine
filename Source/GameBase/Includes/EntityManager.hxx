@@ -27,7 +27,7 @@ namespace GameBase
 
 	public:
 		virtual ~IEntityManager(){}
-		virtual void VRegisterEntity(const Base::cString & Type) = 0;
+		virtual IBaseEntity * const VRegisterEntity(const Base::cString & Type) = 0;
 		virtual void VUnRegisterEntity(IBaseEntity * const pNewEntity) = 0;
 		virtual IBaseEntity * const VGetEntityFromID(const int iID) const = 0;
 		virtual Base::cString VGetEntityNameFromID(const int iID) const  = 0;
