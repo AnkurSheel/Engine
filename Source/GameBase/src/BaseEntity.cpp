@@ -17,6 +17,31 @@ using namespace GameBase;
 int cBaseEntity::m_siNextValidID = 0;
 
 // *****************************************************************************
+cEntityDef::cEntityDef()
+{
+
+}
+
+// *****************************************************************************
+cEntityDef::~cEntityDef()
+{
+	Cleanup();
+}
+
+// *****************************************************************************
+void cEntityDef::Cleanup() 
+{
+	ComponentMap::iterator iter = m_Components.begin();
+	while(iter != m_Components.end())
+	{
+		IBaseComponent * pComponent = const_cast<IBaseComponent *>(iter->second);
+		iter++;
+		SafeDelete(&pComponent);
+	}
+	m_Components.clear();
+}
+
+// *****************************************************************************
 cBaseEntity::cBaseEntity()
 {
 	SetID(m_siNextValidID);

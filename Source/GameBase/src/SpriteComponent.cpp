@@ -29,12 +29,17 @@ cSpriteComponent::~cSpriteComponent()
 }
 
 cSpriteComponent::cSpriteComponent(const cSpriteComponent & other)
-	: m_pSprite(ISprite::CreateSprite())
+	: cBaseComponent(other)
+	, m_pSprite(ISprite::CreateSprite())
 {
+	m_pSprite->VInitialize(other.m_pSprite->VGetTexture());
 }
 
 cSpriteComponent & cSpriteComponent::operator =(const cSpriteComponent & other)
 {
+	cBaseComponent::operator=(other);
+	m_pSprite = ISprite::CreateSprite();
+	m_pSprite->VInitialize(other.m_pSprite->VGetTexture());
 	return *this;
 }
 

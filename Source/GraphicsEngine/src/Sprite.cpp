@@ -161,12 +161,6 @@ void cSprite::VSetScale(const Base::cVector2 & vScale)
 	}
 }
 
-// ***************************************************************************************
-void cSprite::VSetTexture(shared_ptr<ITexture> const pTexture)
-{
-	m_pTexture = pTexture;
-}
-
 // *****************************************************************************
 void cSprite::VCleanup()
 {

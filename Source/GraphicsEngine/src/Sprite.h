@@ -54,7 +54,8 @@ namespace Graphics
 		virtual bool CreateIndexBuffer( );
 
 	private:
-		void VSetTexture( shared_ptr<ITexture> const pTexture);
+		shared_ptr<Graphics::ITexture> VGetTexture() const { return m_pTexture; }
+		void VSetTexture( shared_ptr<ITexture> const pTexture) { m_pTexture = pTexture; }
 		////////////////////////////////////////////////////////////////////////
 		/// Creates and Initializes the font shader for use
 		///

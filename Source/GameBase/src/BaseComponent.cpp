@@ -21,6 +21,20 @@ cBaseComponent::~cBaseComponent()
 }
 
 // *****************************************************************************
+cBaseComponent::cBaseComponent(const cBaseComponent & other)
+	: m_pOwner(other.m_pOwner)
+{
+
+}
+
+// *****************************************************************************
+cBaseComponent & cBaseComponent::operator=(const cBaseComponent & other)
+{
+	m_pOwner = other.m_pOwner;
+	return *this;
+}
+
+// *****************************************************************************
 void cBaseComponent::VSetOwner(const IBaseEntity * const pNewOwner)
 {
 	m_pOwner = pNewOwner;

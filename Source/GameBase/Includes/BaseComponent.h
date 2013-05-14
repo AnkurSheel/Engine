@@ -20,6 +20,9 @@ namespace GameBase
 	{
 	public:
 		cBaseComponent();
+		cBaseComponent(const cBaseComponent & other);
+		cBaseComponent & operator =(const cBaseComponent & other);
+
 		GAMEBASE_API virtual ~cBaseComponent();
 		unsigned long VGetID() const { return VGetHashedID(); }
 		GAMEBASE_API void VSetOwner(const IBaseEntity * const pNewOwner);

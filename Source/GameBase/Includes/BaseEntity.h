@@ -22,13 +22,16 @@ namespace GameBase
 		: public Base::cNonCopyable
 	{
 	public:
-		GAMEBASE_API cEntityDef(){}
-		GAMEBASE_API virtual ~cEntityDef(){}
+		GAMEBASE_API cEntityDef();
+		GAMEBASE_API virtual ~cEntityDef();
 
 	public:
 		bool			m_IsCollidable;
 		Base::cString	m_Type;
 		ComponentMap	m_Components;
+	
+	private:
+		void Cleanup();
 	};
 
 	class cBaseEntity

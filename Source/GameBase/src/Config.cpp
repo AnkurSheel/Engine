@@ -92,7 +92,7 @@ const cEntityDef * const cConfig::GetEntityDef(const Base::cHashedString & Entit
 // *****************************************************************************
 void cConfig::Cleanup()
 {
-	EnitityDefMap ::iterator iter = m_EntityDefs.begin();
+	EnitityDefMap::iterator iter = m_EntityDefs.begin();
 	while(iter != m_EntityDefs.end())
 	{
 		cEntityDef * pEntityDef = const_cast<cEntityDef *>(iter->second);
