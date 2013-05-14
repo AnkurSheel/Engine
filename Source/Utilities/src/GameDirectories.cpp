@@ -20,7 +20,7 @@ cString cGameDirectories::SpriteDirectory;
 cString cGameDirectories::SoundSFXDirectory;
 cString cGameDirectories::SoundMusicDirectory;
 cString cGameDirectories::ModelDirectory;
-cString cGameDirectories::DefDirectory;
+cString cGameDirectories::DesignDirectory;
 
 // *****************************************************************************
 cGameDirectories::cGameDirectories()
@@ -51,7 +51,7 @@ void cGameDirectories::Initialize(const Base::cString & AssetsPath)
 		SoundSFXDirectory = SoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
 		SoundMusicDirectory = SoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
 		ModelDirectory = pFile->VGetNodeValue("ModelDirectory");
-		DefDirectory = pFile->VGetNodeValue("DefDirectory");
+		DesignDirectory = pFile->VGetNodeValue("DesignDirectory");
 	}
 	SafeDelete(&pResource);
 	SafeDelete(&pFile);

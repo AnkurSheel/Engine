@@ -26,6 +26,7 @@ namespace Utilities
 
 	private:
 		void VLoadParametersFromFile(const Base::cString & strFileName);
+		void VLoadParametersFromBuffer(const Base::cString & Buffer);
 		float VGetParameterAsFloat(const Base::cString & strArgument) const;
 		Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter) const;
 		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter) const;
@@ -47,6 +48,7 @@ namespace Utilities
 		Base::tOptional<int> GetNextParameterAsInt();
 		Base::tOptional<float> GetNextParameterAsFloat();
 		Base::tOptional<bool> GetNextParameterAsBool();
+		void ExtractParameters();
 
 	private:
 		std::vector<Base::cString> m_vCommandLineArguments;

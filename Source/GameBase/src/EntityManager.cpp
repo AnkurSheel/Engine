@@ -43,7 +43,7 @@ void cEntityManager::VRegisterEntity(const cString & Type)
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase())));
 	if (pEntity == NULL)
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Entity Not Created");
+		Log_Write(ILogger::LT_ERROR, 1, "Entity " + Type + " Not Created");
 		return;
 	}
 

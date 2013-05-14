@@ -44,7 +44,7 @@ const cEntityDef * const cConfig::GetEntityDef(const Base::cHashedString & Entit
 // *****************************************************************************
 void cConfig::InitPrivate(const cString & FileName)
 {
-	IResource * pResource = IResource::CreateResource(cGameDirectories::GetDefDirectory() + FileName + ".xml");
+	IResource * pResource = IResource::CreateResource(cGameDirectories::GetDesignDirectory() + FileName + ".xml");
 	shared_ptr<IResHandle> pXMLFile = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	shared_ptr<IXMLNode> pRoot;
 	SafeDelete(&pResource);
@@ -97,7 +97,6 @@ void cConfig::Cleanup()
 		cEntityDef * pEntityDef = const_cast<cEntityDef *>(iter->second);
 		iter++;
 		SafeDelete(&pEntityDef);
-
 	}
 	m_EntityDefs.clear();
 }

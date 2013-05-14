@@ -23,7 +23,7 @@ namespace Utilities
 	public:
 		virtual ~IParamLoader(){}
 		UTILITIES_API virtual void VLoadParametersFromFile(const Base::cString & strFileName) = 0;
-		
+		UTILITIES_API virtual void VLoadParametersFromBuffer(const Base::cString & Buffer) = 0;
 		UTILITIES_API virtual Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter) const = 0;
 		UTILITIES_API virtual Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter) const = 0;
 		UTILITIES_API virtual Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter) const = 0;

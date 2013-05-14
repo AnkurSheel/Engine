@@ -27,7 +27,7 @@ namespace Utilities
 		UTILITIES_API static Base::cString GetSoundSFXDirectory() { return SoundSFXDirectory; }
 		UTILITIES_API static Base::cString GetSoundMusicDirectory() { return SoundMusicDirectory; }
 		UTILITIES_API static Base::cString GetModelDirectory() { return ModelDirectory; }
-		UTILITIES_API static Base::cString GetDefDirectory() { return DefDirectory; }
+		UTILITIES_API static Base::cString GetDesignDirectory() { return DesignDirectory; }
 
 	private:
 		cGameDirectories();
@@ -41,7 +41,7 @@ namespace Utilities
 		static Base::cString	SoundSFXDirectory;
 		static Base::cString	SoundMusicDirectory;
 		static Base::cString	ModelDirectory;
-		static Base::cString	DefDirectory;
+		static Base::cString	DesignDirectory;
 	};
 }
 #endif // GameDirectories_h__

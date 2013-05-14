@@ -28,49 +28,38 @@ void cParamLoader::VLoadParametersFromFile(const cString & strFileName)
 {
 	if(cFileInput::Open(strFileName, std::ios_base::in))
 	{
-		const cString delims(" =\t");
-		tOptional<int> begIndex;
-		tOptional<int> endIndex;
-		
-		cString strParam1;
-		cString strParam2;
 
 		ReadLine();
 
 		while(!IsEOF() || !m_strBuffer.IsEmpty())
 		{
-			if(!m_strBuffer.IsEmpty())
-			{
-				RemoveCommentsFromLine();
-				m_strBuffer.TrimBoth();
-				if(!m_strBuffer.IsEmpty())
-				{
-					if(m_strBuffer[0] != '-')
-					{
-						m_strBuffer.Insert(0, "-");
-					}
-					endIndex = m_strBuffer.FindFirstOf(delims, 0);
-					if(endIndex.IsInvalid())
-					{
-						m_vCommandLineArguments.push_back(m_strBuffer);
-					}
-					else
-					{
-						strParam1 = m_strBuffer.GetSubString(0, *endIndex);
-						m_vCommandLineArguments.push_back(strParam1);
-
-						begIndex = m_strBuffer.FindFirstNotOf(delims, *endIndex);
-						if(begIndex.IsValid())
-						{
-							strParam2 = m_strBuffer.GetSubString(*begIndex, *endIndex);
-							m_vCommandLineArguments.push_back(strParam2);
-						}
-					}
-				}
-			}
+			ExtractParameters();
 			ReadLine();
 		}
 		cFileInput::Close();
+	}
+}
+
+// *****************************************************************************
+void cParamLoader::VLoadParametersFromBuffer(const cString & Buffer)
+{
+	const cString delims("\n");
+	tOptional<int> begIndex = 0;
+	tOptional<int> endIndex;
+	
+	while(true)
+	{
+		endIndex = Buffer.FindFirstOf(delims, *begIndex);
+		if(endIndex.IsValid())
+		{
+			m_strBuffer = Buffer.GetSubString(*begIndex, *endIndex);
+			begIndex = Buffer.FindFirstNotOf(delims, *endIndex);
+			ExtractParameters();
+		}
+		else
+		{
+			break;
+		}
 	}
 }
 
@@ -366,6 +355,47 @@ void cParamLoader::RemoveCommentsFromLine()
 	if(index.IsValid())
 	{
 		m_strBuffer = m_strBuffer.GetSubString(0, *index);
+	}
+}
+
+// *****************************************************************************
+void cParamLoader::ExtractParameters()
+{
+	if(!m_strBuffer.IsEmpty())
+	{
+		const cString delims(" =\t");
+		tOptional<int> begIndex;
+		tOptional<int> endIndex;
+		
+		cString strParam1;
+		cString strParam2;
+
+		RemoveCommentsFromLine();
+		m_strBuffer.TrimBoth();
+		if(!m_strBuffer.IsEmpty())
+		{
+			if(m_strBuffer[0] != '-')
+			{
+				m_strBuffer.Insert(0, "-");
+			}
+			endIndex = m_strBuffer.FindFirstOf(delims, 0);
+			if(endIndex.IsInvalid())
+			{
+				m_vCommandLineArguments.push_back(m_strBuffer);
+			}
+			else
+			{
+				strParam1 = m_strBuffer.GetSubString(0, *endIndex);
+				m_vCommandLineArguments.push_back(strParam1);
+
+				begIndex = m_strBuffer.FindFirstNotOf(delims, *endIndex);
+				if(begIndex.IsValid())
+				{
+					strParam2 = m_strBuffer.GetSubString(*begIndex, *endIndex);
+					m_vCommandLineArguments.push_back(strParam2);
+				}
+			}
+		}
 	}
 }
 
