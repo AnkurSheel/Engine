@@ -124,6 +124,8 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		return;
 	}
 
+	IEntityManager::GetInstance()->VRegisterEntity(this);
+
 	m_pProcessManager = IProcessManager::CreateProcessManager();
 
 	VCreateHumanView();
@@ -191,13 +193,14 @@ void cBaseApp::VCleanup()
 	SafeDelete(&m_pParamLoader);
 	SafeDelete(&m_pProcessManager);
 	SafeDelete(&m_pHumanView);
+	// this is important to avoid recursive calls to cleanup
+	IEntityManager::GetInstance()->VUnRegisterEntity(this);
 
 	IEntityManager::Destroy();
 	IMessageDispatchManager::Destroy();
 	IGraphicsClass::Destroy();
 	IResourceManager::Destroy();
 	IMainWindow::Destroy();
-	
 	ILogger::Destroy();
 }
 

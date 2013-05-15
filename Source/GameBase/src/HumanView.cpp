@@ -102,7 +102,7 @@ void cHumanView::VOnDestroyDevice()
 	SafeDelete(&m_pAppWindowControl);
 	SafeDelete(&m_pCamera);
 	IAudio::Destroy();
-	//SAFE_DELETE(m_pCursorSprite);
+	IKeyboardController::Destroy();
 }
 
 // *****************************************************************************

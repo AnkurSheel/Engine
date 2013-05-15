@@ -11,11 +11,9 @@
 #define BaseApp_hxx__
 
 #include "GameBaseDefines.h"
-#include "BaseEntity.hxx"
 
 namespace Base
 {
-	class cString;
 	struct AppMsg;
 }
 
@@ -28,7 +26,6 @@ namespace Utilities
 namespace GameBase
 {
 	class IBaseApp
-		: public IBaseEntity
 	{
 	public:
 		virtual ~IBaseApp(){}
@@ -39,6 +36,7 @@ namespace GameBase
 		virtual void VRun() = 0;
 		virtual float VGetFPS() const = 0;
 		virtual Utilities::IParamLoader * VGetParamLoader() const = 0;
+		virtual Base::cString VGetName() const = 0;
 	};
 }
 #endif // BaseApp_hxx__

@@ -85,6 +85,25 @@ void cBaseEntity::VInitialize()
 }
 
 // *****************************************************************************
+void cBaseEntity::VCleanup()
+{
+	/*ComponentMap::iterator iter;
+	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
+	{
+		iter->second->VCleanup();
+		SafeDelete(&(iter->second));
+	}
+	m_Components.clear();*/
+	IEntityManager::GetInstance()->VUnRegisterEntity(this);
+}
+
+// *****************************************************************************
+bool cBaseEntity::VOnHandleMessage(const AI::Telegram & telegram)
+{
+	return false;
+}
+
+// *****************************************************************************
 void cBaseEntity::AddComponent(IBaseComponent * pComponent)
 {
 	ComponentMap::iterator iter = m_Components.find(pComponent->VGetID());
@@ -121,25 +140,6 @@ IBaseComponent * cBaseEntity::GetComponent(const unsigned long ComponentID)
 		return NULL;
 	}
 	return iter->second;
-}
-
-// *****************************************************************************
-bool cBaseEntity::VOnHandleMessage(const AI::Telegram & telegram)
-{
-	return false;
-}
-
-// *****************************************************************************
-void cBaseEntity::VCleanup()
-{
-	/*ComponentMap::iterator iter;
-	for(iter = m_Components.begin(); iter != m_Components.end(); iter++)
-	{
-		iter->second->VCleanup();
-		SafeDelete(&(iter->second));
-	}
-	m_Components.clear();*/
-	IEntityManager::GetInstance()->VUnRegisterEntity(this);
 }
 
 // *****************************************************************************

@@ -11,6 +11,7 @@
 #define BaseApp_h__
 
 #include "BaseApp.hxx"
+#include "BaseEntity.h"
 
 namespace Utilities
 {
@@ -30,6 +31,7 @@ namespace GameBase
 {
 	class cBaseApp 
 		: public IBaseApp
+		, public cBaseEntity
 	{
 	public:
 		virtual ~cBaseApp(){}
@@ -54,6 +56,7 @@ namespace GameBase
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
 		Base::cString VGetName() const { return m_Title; }
+		virtual unsigned long VGetHashedID() const { return 0; }
 
 	protected:
 		Utilities::ITimer *				m_pGameTimer;

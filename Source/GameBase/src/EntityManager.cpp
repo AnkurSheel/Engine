@@ -32,6 +32,12 @@ cEntityManager::~cEntityManager()
 }
 
 // *****************************************************************************
+void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
+{
+	InitializeEntity(pNewEntity);
+}
+
+// *****************************************************************************
 IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
 {
 	if(cEntityFactory::Instance() == NULL)
@@ -40,26 +46,15 @@ IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
 		return NULL;
 	}
 
-	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase())));
+	IBaseEntity * pEntity = cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase()));
 	if (pEntity == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Entity " + Type + " Not Created");
 		return NULL;
 	}
 
-	m_EntityMap.insert(std::make_pair(pEntity->GetID(), pEntity));
+	InitializeEntity(pEntity);
 
-	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pEntity->GetID())
-		+ pEntity->VGetName());
-
-	IBaseEntity::ComponentList components;
-	pEntity->GetAllComponents(components);
-
-	IBaseEntity::ComponentList::iterator iter;
-	for (iter = components.begin(); iter != components.end(); iter++)
-	{
-		VAddComponent(pEntity, *iter);
-	}
 	return pEntity;
 }
 
@@ -214,6 +209,25 @@ void cEntityManager::VGetEntities(const cHashedString & Component,
 	if(iter != m_ComponentMap.end())
 	{
 		entities = iter->second;
+	}
+}
+
+// *****************************************************************************
+void cEntityManager::InitializeEntity(IBaseEntity * const pEntity)
+{
+	cBaseEntity * pBaseEntity = dynamic_cast<cBaseEntity *>(pEntity);
+	m_EntityMap.insert(std::make_pair(pBaseEntity->GetID(), pEntity));
+
+	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pBaseEntity->GetID())
+		+ pEntity->VGetName());
+
+	IBaseEntity::ComponentList components;
+	pBaseEntity->GetAllComponents(components);
+
+	IBaseEntity::ComponentList::iterator iter;
+	for (iter = components.begin(); iter != components.end(); iter++)
+	{
+		VAddComponent(pEntity, *iter);
 	}
 }
 
