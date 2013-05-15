@@ -49,6 +49,9 @@
     <ClCompile Include="src\ComponentFactory.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\KeyboardController.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -115,6 +118,12 @@
     <ClInclude Include="Includes\ComponentFactory.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\KeyboardController.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\KeyboardController.hxx">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">
@@ -128,6 +137,9 @@
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{61e73550-f0d4-41d2-b494-a01308c8e633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{bbfc5759-8989-4e8e-b0ca-c22608f9dfbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

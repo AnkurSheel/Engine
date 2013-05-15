@@ -108,6 +108,7 @@
     <ClCompile Include="src\EntityFactory.cpp" />
     <ClCompile Include="src\GameControls.cpp" />
     <ClCompile Include="src\HighScoreTable.cpp" />
+    <ClCompile Include="src\KeyboardController.cpp" />
     <ClCompile Include="src\ModelComponent.cpp" />
     <ClCompile Include="src\Render2DSystem.cpp" />
     <ClCompile Include="src\Render3DSystem.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Includes\GameControls.h" />
     <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\HighScoreTable.h" />
+    <ClInclude Include="Includes\KeyboardController.hxx" />
     <ClInclude Include="Includes\ModelComponent.h" />
     <ClInclude Include="Includes\Render2DSystem.h" />
     <ClInclude Include="Includes\Render3DSystem.h" />
@@ -147,6 +149,7 @@
     <ClInclude Include="Includes\Transform3DComponent.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
+    <ClInclude Include="src\KeyboardController.h" />
     <ClInclude Include="src\MessageDispatchManager.h" />
     <ClInclude Include="Includes\MessageDispatchManager.hxx" />
     <ClInclude Include="Includes\BaseApp.h" />

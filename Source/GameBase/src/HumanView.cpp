@@ -20,6 +20,7 @@
 #include "GameOptions.h"
 #include "GameDirectories.h"
 #include "ProcessManager.hxx"
+#include "KeyboardController.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -36,7 +37,7 @@ cHumanView::cHumanView()
 , m_hashSFXChannel("SFXChannelProcess")
 , m_hashMusicChannel("MusicChannelProcess")
 {
-	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
+	
 }
 
 // *****************************************************************************
@@ -134,10 +135,10 @@ bool cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 		{
 			bHandled = m_pAppWindowControl->VPostMsg(msg);
 		}
-		if (msg.m_wParam == VK_F2 && !IsKeyLocked(VK_F2) )
+		if (msg.m_wParam == VK_F2 && !IKeyboardController::Instance()->VIsKeyLocked(VK_F2) )
 		{
 			// lock the F2 key
-			LockKey(VK_F2);
+			IKeyboardController::Instance()->VLockKey(VK_F2);
 			m_bDisplayFPS = !m_bDisplayFPS;
 			if(m_pFpsLabel)
 			{
@@ -205,24 +206,6 @@ void cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
 	IGraphicsClass::GetInstance()->VEndRender();
-}
-
-bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
-{
-	return m_bLockedKeys[dwKey];
-}
-
-// *****************************************************************************
-// Locks the key on the keyboard
-// *****************************************************************************
-void cHumanView::LockKey( const DWORD dwKey ) 
-{
-	m_bLockedKeys[dwKey] = true;
-}
-
-void cHumanView::UnlockKey( const DWORD dwKey ) 
-{
-	m_bLockedKeys[dwKey] = false;
 }
 
 // *****************************************************************************

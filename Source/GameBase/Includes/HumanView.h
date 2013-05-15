@@ -62,9 +62,6 @@ namespace GameBase
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();
-		GAMEBASE_API void LockKey( const DWORD dwKey );
-		GAMEBASE_API void UnlockKey( const DWORD dwKey );
-		GAMEBASE_API bool IsKeyLocked( const DWORD dwKey ) const;
 		GAMEBASE_API HRESULT OnBeginRender(TICK tickCurrent);
 		GAMEBASE_API void OnEndRender(const HRESULT hr);
 		GAMEBASE_API void VOnAttach(GameViewId id);
@@ -82,7 +79,6 @@ namespace GameBase
 		bool							m_bRunFullSpeed;
 		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
 		bool							m_bDisplayFPS;
-		bool							m_bLockedKeys[KEYBOARD_KEYS];
 		GameBase::IBaseApp	*			m_pGame;
 		const Base::cString				m_hashSFXChannel;
 		const Base::cString				m_hashMusicChannel;
