@@ -52,6 +52,12 @@
     <ClCompile Include="src\KeyboardController.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="src\KeyboardHandlerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -123,6 +129,12 @@
     </ClInclude>
     <ClInclude Include="Includes\KeyboardController.hxx">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\KeyboardHandlerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\InputSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

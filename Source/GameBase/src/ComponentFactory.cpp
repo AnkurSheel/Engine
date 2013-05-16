@@ -8,6 +8,7 @@
 #include "ComponentFactory.h"
 #include "Transform2DComponent.h"
 #include "SpriteComponent.h"
+#include "KeyboardHandlerComponent.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -32,6 +33,7 @@ void cComponentFactory::RegisterComponents()
 {
 	m_RegisteredComponents.Register<cTransform2DComponent>(cTransform2DComponent::GetName().GetHash());
 	m_RegisteredComponents.Register<cSpriteComponent>(cSpriteComponent::GetName().GetHash());
+	m_RegisteredComponents.Register<cKeyboardHandlerComponent>(cKeyboardHandlerComponent::GetName().GetHash());
 }
 
 // *****************************************************************************

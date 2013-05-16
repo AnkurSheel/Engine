@@ -14,7 +14,7 @@ using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
 
-int cBaseEntity::m_siNextValidID = 0;
+int cBaseEntity::m_siNextValidID = 1;
 
 // *****************************************************************************
 cEntityDef::cEntityDef()
