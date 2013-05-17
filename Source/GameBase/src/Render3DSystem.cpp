@@ -28,9 +28,9 @@ cRender3DSystem::~cRender3DSystem()
 }
 
 // *****************************************************************************
-void cRender3DSystem::VUpdate(const int iDeltaMilliSeconds)
+void cRender3DSystem::VUpdate(const float DeltaTime)
 {
-	cProcess::VUpdate(iDeltaMilliSeconds);
+	cProcess::VUpdate(DeltaTime);
 
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities(cModelComponent::m_Name, entityList);

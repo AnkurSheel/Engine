@@ -107,14 +107,14 @@ namespace Utilities
 		/// @return The name of the element.
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual Base::cString VGetName() = 0;
+		virtual Base::cString VGetName() const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Returns the value of the element.
 		///
 		/// @return The value associated with the element.
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual Base::cString VGetNodeValue() = 0;
+		virtual Base::cString VGetNodeValue() const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Returns The value of the attribute.
 		/// 
@@ -122,7 +122,7 @@ namespace Utilities
 		/// @return The value of the attribute.
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual Base::cString VGetNodeAttribute(const Base::cString & AttributeName) = 0;
+		virtual Base::cString VGetNodeAttribute(const Base::cString & AttributeName) const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Returns The value of the attribute as an Int. If the attribute
 		/// is not found returns 0.
@@ -131,7 +131,7 @@ namespace Utilities
 		/// @return The value of the attribute as an int.
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual int VGetNodeAttributeAsInt(const Base::cString & AttributeName) = 0;
+		virtual int VGetNodeAttributeAsInt(const Base::cString & AttributeName) const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Returns The value of the attribute as an Int. If the attribute
 		/// is not found returns false.
@@ -140,14 +140,14 @@ namespace Utilities
 		/// @return The value of the attribute as an int.
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual bool VGetNodeAttributeAsBool(const Base::cString & AttributeName) = 0;
+		virtual bool VGetNodeAttributeAsBool(const Base::cString & AttributeName) const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Stores all the child nodes in ChildrenList
 		/// 
 		/// @param[out] ChildrenList The list of all the children
 		///
 		////////////////////////////////////////////////////////////////////////
-		virtual void VGetChildren(XMLNodeList & ChildrenList) = 0;
+		virtual void VGetChildren(XMLNodeList & ChildrenList) const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Get the first child element with the specified name.If no child
 		/// with the specified name exists, returns NULL

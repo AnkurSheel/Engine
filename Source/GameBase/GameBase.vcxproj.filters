@@ -58,6 +58,12 @@
     <ClCompile Include="src\InputSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\PhysicsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -134,6 +140,12 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Includes\InputSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\PhysicsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\PhysicsSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>

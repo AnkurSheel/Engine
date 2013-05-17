@@ -152,3 +152,9 @@ void cBaseEntity::GetAllComponents(ComponentList & components) const
 		components.push_back(iter->second);
 	}
 }
+
+// *****************************************************************************
+void cBaseEntity::VHandleInput(const unsigned int CharID)
+{
+	Log_Write(ILogger::LT_ERROR, 1, "Should be handled by derived class");
+}

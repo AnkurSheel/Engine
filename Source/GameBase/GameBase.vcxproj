@@ -112,6 +112,8 @@
     <ClCompile Include="src\KeyboardController.cpp" />
     <ClCompile Include="src\KeyboardHandlerComponent.cpp" />
     <ClCompile Include="src\ModelComponent.cpp" />
+    <ClCompile Include="src\PhysicsComponent.cpp" />
+    <ClCompile Include="src\PhysicsSystem.cpp" />
     <ClCompile Include="src\Render2DSystem.cpp" />
     <ClCompile Include="src\Render3DSystem.cpp" />
     <ClCompile Include="src\Score.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="Includes\KeyboardController.hxx" />
     <ClInclude Include="Includes\KeyboardHandlerComponent.h" />
     <ClInclude Include="Includes\ModelComponent.h" />
+    <ClInclude Include="Includes\PhysicsComponent.h" />
+    <ClInclude Include="Includes\PhysicsSystem.h" />
     <ClInclude Include="Includes\Render2DSystem.h" />
     <ClInclude Include="Includes\Render3DSystem.h" />
     <ClInclude Include="Includes\Score.h" />

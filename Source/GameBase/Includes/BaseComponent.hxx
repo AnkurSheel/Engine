@@ -26,7 +26,7 @@ namespace GameBase
 		virtual ~IBaseComponent(){};
 		virtual void VInitialize(const Utilities::IXMLNode * const pXMLNode) = 0;
 		virtual void VCleanup() = 0;
-		virtual void VSetOwner(const IBaseEntity * const pNewOwner) = 0;
+		virtual void VSetOwner(IBaseEntity * const pNewOwner) = 0;
 		virtual unsigned long VGetID() const = 0;
 	};
 }

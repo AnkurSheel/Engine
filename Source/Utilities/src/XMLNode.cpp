@@ -48,7 +48,7 @@ const shared_ptr<IXMLNode> cXMLNode::InitializeForSave(const cString & RootName,
 }
 
 // *****************************************************************************
-const shared_ptr<IXMLNode> cXMLNode::Load(const Base::cString & FilePath)
+const shared_ptr<IXMLNode> cXMLNode::Load(const cString & FilePath)
 {
 	Log_Write(ILogger::LT_DEBUG, 3, "loading XML file " + FilePath);
 	const shared_ptr<cXMLNode> pNode(DEBUG_NEW cXMLNode());
@@ -67,7 +67,7 @@ const shared_ptr<IXMLNode> cXMLNode::Load(const Base::cString & FilePath)
 }
 
 // *****************************************************************************
-const shared_ptr<IXMLNode> cXMLNode::Parse(const Base::cString & XML,
+const shared_ptr<IXMLNode> cXMLNode::Parse(const cString & XML,
 	const unsigned int Size)
 {
 	Log_Write(ILogger::LT_DEBUG, 3, "Parsing XML file ");
@@ -89,14 +89,14 @@ const shared_ptr<IXMLNode> cXMLNode::Parse(const Base::cString & XML,
 }
 
 // *****************************************************************************
-void cXMLNode::VSave(const Base::cString & FilePath)
+void cXMLNode::VSave(const cString & FilePath)
 {
 	m_pDoc->SaveFile(FilePath.GetData());
 }
 
 // *****************************************************************************
-const weak_ptr<IXMLNode> cXMLNode::VAddElement(const Base::cString & ElementName,
-	const Base::cString & ElementValue)
+const weak_ptr<IXMLNode> cXMLNode::VAddElement(const cString & ElementName,
+	const cString & ElementValue)
 {
 	const shared_ptr<cXMLNode> pNode(DEBUG_NEW cXMLNode());
 	pNode->m_pElement = m_pDoc->NewElement(ElementName.GetData());
@@ -113,52 +113,52 @@ const weak_ptr<IXMLNode> cXMLNode::VAddElement(const Base::cString & ElementName
 }
 
 // *****************************************************************************
-void cXMLNode::VAddComment(const Base::cString & Comment)
+void cXMLNode::VAddComment(const cString & Comment)
 {
 	m_pElement->InsertEndChild(m_pDoc->NewComment(Comment.GetData()));
 }
 
 // *****************************************************************************
-void cXMLNode::VAddAttribute(const Base::cString & AttributeName, 
-	const Base::cString & AttributeValue)
+void cXMLNode::VAddAttribute(const cString & AttributeName, 
+	const cString & AttributeValue)
 {
 	m_pElement->SetAttribute(AttributeName.GetData(), AttributeValue.GetData());
 }
 
 // *****************************************************************************
-void cXMLNode::VAddAttribute(const Base::cString & AttributeName,
+void cXMLNode::VAddAttribute(const cString & AttributeName,
 	const int AttributeValue)
 {
 	m_pElement->SetAttribute(AttributeName.GetData(), AttributeValue);
 }
 
 // *****************************************************************************
-void cXMLNode::VAddAttribute(const Base::cString & AttributeName, 
+void cXMLNode::VAddAttribute(const cString & AttributeName, 
 	const bool AttributeValue)
 {
 	m_pElement->SetAttribute(AttributeName.GetData(), AttributeValue);
 }
 
 // *****************************************************************************
-cString cXMLNode::VGetName()
+cString cXMLNode::VGetName() const
 {
 	return m_pElement->Name();
 }
 
 // *****************************************************************************
-cString cXMLNode::VGetNodeValue()
+cString cXMLNode::VGetNodeValue() const
 {
 	return (m_pElement->GetText());
 }
 
 // *****************************************************************************
-cString cXMLNode::VGetNodeAttribute(const Base::cString & AttributeName)
+cString cXMLNode::VGetNodeAttribute(const cString & AttributeName) const
 {
 	return m_pElement->Attribute(AttributeName.GetData());
 }
 
 // *****************************************************************************
-int cXMLNode::VGetNodeAttributeAsInt(const Base::cString & AttributeName)
+int cXMLNode::VGetNodeAttributeAsInt(const cString & AttributeName) const
 {
 	cString AttributeValue = VGetNodeAttribute(AttributeName);
 	tOptional<int> val = AttributeValue.ToInt();
@@ -171,7 +171,7 @@ int cXMLNode::VGetNodeAttributeAsInt(const Base::cString & AttributeName)
 }
 
 // *****************************************************************************
-bool cXMLNode::VGetNodeAttributeAsBool(const Base::cString & AttributeName)
+bool cXMLNode::VGetNodeAttributeAsBool(const cString & AttributeName) const
 {
 	cString AttributeValue = VGetNodeAttribute(AttributeName);
 	tOptional<bool> val = AttributeValue.ToBool();
@@ -200,7 +200,7 @@ void cXMLNode::AddChildElements()
 }
 
 // *****************************************************************************
-void cXMLNode::VGetChildren(XMLNodeList & ChildrenList)
+void cXMLNode::VGetChildren(XMLNodeList & ChildrenList) const
 {
 	ChildrenList = m_ChildNodes;
 }
@@ -229,13 +229,13 @@ const shared_ptr<IXMLNode> IXMLNode::InitializeForSave(const cString & RootName,
 }
 
 // *****************************************************************************
-const shared_ptr<IXMLNode> IXMLNode::Load(const Base::cString & FilePath)
+const shared_ptr<IXMLNode> IXMLNode::Load(const cString & FilePath)
 {
 	return cXMLNode::Load(FilePath);
 }
 
 // *****************************************************************************
-const shared_ptr<IXMLNode> IXMLNode::Parse(const Base::cString & XML,
+const shared_ptr<IXMLNode> IXMLNode::Parse(const cString & XML,
 	const unsigned int Size)
 {
 	return cXMLNode::Parse(XML, Size);

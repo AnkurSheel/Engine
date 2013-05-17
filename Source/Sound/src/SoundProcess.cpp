@@ -59,9 +59,9 @@ void cSoundProcess::VInitialize()
 }
 
 // *****************************************************************************
-void cSoundProcess::VUpdate(const int iDeltaMilliSeconds)
+void cSoundProcess::VUpdate(const float DeltaTime)
 {
-	cProcess::VUpdate(iDeltaMilliSeconds);
+	cProcess::VUpdate(DeltaTime);
 	if (!IsPlaying())
 	{
 		if(m_bLooping)

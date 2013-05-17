@@ -22,7 +22,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cRender3DSystem();
 		GAMEBASE_API ~cRender3DSystem();
-		void VUpdate(const int iDeltaMilliSeconds);
+		void VUpdate(const float DeltaTime);
 		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
 	};
 }

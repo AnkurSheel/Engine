@@ -1,45 +1,38 @@
 // *****************************************************************************
-//  InputSystem version:  1.0   Ankur Sheel  date: 2013/05/16
+//  PhysicsSystem version:  1.0   Ankur Sheel  date: 2013/05/16
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
 #include "stdafx.h"
-#include "InputSystem.h"
+#include "PhysicsSystem.h"
 #include "EntityManager.hxx"
-#include "KeyboardHandlerComponent.h"
+#include "PhysicsComponent.h"
 
 using namespace GameBase;
 using namespace Utilities;
-using namespace Graphics;
 
 // *****************************************************************************
-cInputSystem::cInputSystem()
-	:cProcess("InputSystem")
+cPhysicsSystem::cPhysicsSystem()
+	:cProcess("PhysicsSystem")
 {
 
 }
 
 // *****************************************************************************
-cInputSystem::~cInputSystem()
+cPhysicsSystem::~cPhysicsSystem()
 {
 
 }
 
 // *****************************************************************************
-void cInputSystem::VUpdate(const float DeltaTime)
+void cPhysicsSystem::VUpdate(const float DeltaTime)
 {
 	cProcess::VUpdate(DeltaTime);
 
 	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities(cKeyboardHandlerComponent::GetName(), entityList);
+	IEntityManager::GetInstance()->VGetEntities(cPhysicsComponent::GetName(), entityList);
 	IEntityManager::EntityList::iterator enityIter;
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
-		IBaseEntity * pEntity = *enityIter;
-		cKeyboardHandlerComponent * pKeyboardHandler = dynamic_cast<cKeyboardHandlerComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cKeyboardHandlerComponent::GetName()));
-		if(pKeyboardHandler != NULL)
-		{
-			pKeyboardHandler->Update();
-		}
 	}
 }

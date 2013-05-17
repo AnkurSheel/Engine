@@ -179,7 +179,7 @@ void cBaseApp::VOnUpdate()
 
 	if(m_pProcessManager)
 	{
-		m_pProcessManager->UpdateProcesses(m_pGameTimer->VGetRunningTicks());
+		m_pProcessManager->UpdateProcesses(m_pGameTimer->VGetDeltaTime());
 	}
 
 }

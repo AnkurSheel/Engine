@@ -7,6 +7,8 @@
 #include "stdafx.h"
 #include "KeyboardHandlerComponent.h"
 #include "KeyboardController.hxx"
+#include "BaseEntity.hxx"
+#include "optional.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -37,12 +39,17 @@ void cKeyboardHandlerComponent::VCleanup()
 // *****************************************************************************
 void cKeyboardHandlerComponent::Update()
 {
+	tOptional<unsigned int> charPressed;
 	if(IKeyboardController::Instance()->VIsKeyPressed(VK_LEFT))
 	{
-		Log_Write(ILogger::LT_COMMENT, 1, "Left Pressed");
+		charPressed = VK_LEFT;
 	}
 	else if(IKeyboardController::Instance()->VIsKeyPressed(VK_RIGHT))
 	{
-		Log_Write(ILogger::LT_COMMENT, 1, "Right Pressed");
+		charPressed = VK_RIGHT;
+	}
+	if(charPressed.IsValid())
+	{
+		m_pOwner->VHandleInput(*charPressed);
 	}
 }

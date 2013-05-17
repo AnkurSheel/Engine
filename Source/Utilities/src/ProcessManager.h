@@ -26,7 +26,7 @@ namespace Utilities
 		~cProcessManager();
 
 		bool HasProcesses() const;
-		void UpdateProcesses(const int iDeltaMilliSeconds);
+		void UpdateProcesses(const float DeltaTime);
 
 	private:
 		void VAttachProcess(shared_ptr<cProcess> pProcess);

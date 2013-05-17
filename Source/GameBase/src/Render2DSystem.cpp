@@ -28,9 +28,9 @@ cRender2DSystem::~cRender2DSystem()
 }
 
 // *****************************************************************************
-void cRender2DSystem::VUpdate(const int iDeltaMilliSeconds)
+void cRender2DSystem::VUpdate(const float DeltaTime)
 {
-	cProcess::VUpdate(iDeltaMilliSeconds);
+	cProcess::VUpdate(DeltaTime);
 
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities(cSpriteComponent::GetName(), entityList);

@@ -25,11 +25,11 @@ namespace GameBase
 
 		GAMEBASE_API virtual ~cBaseComponent();
 		unsigned long VGetID() const { return VGetHashedID(); }
-		GAMEBASE_API void VSetOwner(const IBaseEntity * const pNewOwner);
+		GAMEBASE_API void VSetOwner(IBaseEntity * const pNewOwner) { m_pOwner = pNewOwner; }
 		virtual unsigned long VGetHashedID() const  = 0;
 
-	private:
-		const IBaseEntity *		m_pOwner;
+	protected:
+		IBaseEntity *		m_pOwner;
 	};
 }
 #endif //Component_hxx__

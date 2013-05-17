@@ -1,28 +1,23 @@
 // *****************************************************************************
-//  InputSystem version:  1.0   Ankur Sheel  date: 2013/05/16
+//  PhysicsSystem version:  1.0   Ankur Sheel  date: 2013/05/16
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
-#ifndef InputSystem_h__
-#define InputSystem_h__
+#ifndef PhysicsSystem_h__
+#define PhysicsSystem_h__
 
 #include "GameBaseDefines.h"
 #include "Process.h"
 
-namespace Graphics
-{
-	class ICamera;
-}
-
 namespace GameBase
 {
-	class cInputSystem
+	class cPhysicsSystem
 		: public Utilities::cProcess
 	{
 	public:
-		GAMEBASE_API cInputSystem();
-		GAMEBASE_API ~cInputSystem();
+		GAMEBASE_API cPhysicsSystem();
+		GAMEBASE_API ~cPhysicsSystem();
 		void VUpdate(const float DeltaTime);
 	};
 }
-#endif // InputSystem_h__
+#endif // PhysicsSystem_h__

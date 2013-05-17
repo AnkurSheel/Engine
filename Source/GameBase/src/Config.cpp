@@ -75,6 +75,10 @@ void cConfig::Initialize(const cString & FileName)
 				pComponent->VInitialize(pComponentDefNode);
 				pEntityDef->m_Components[pComponent->VGetID()] = pComponent;
 			}
+			else
+			{
+				Log_Write(ILogger::LT_ERROR, 1, "Component not Registered: " + pComponentDefNode->VGetName() );
+			}
 		}
 	}
 }

@@ -43,7 +43,7 @@ void cProcess::VInitialize()
 	m_bInitialUpdate = false;
 }
 
-void cProcess::VUpdate(const int iDeltaMilliSeconds)
+void cProcess::VUpdate(const float DeltaTime)
 {
 	if(m_bInitialUpdate) 
 	{ 

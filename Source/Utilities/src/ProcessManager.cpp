@@ -34,7 +34,7 @@ bool cProcessManager::HasProcesses() const
 }
 
 // *****************************************************************************
-void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
+void cProcessManager::UpdateProcesses(const float DeltaTime)
 {
 	shared_ptr<cProcess> pNext;
 
@@ -57,7 +57,7 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 		}
 		else if(p->IsActive() && !p->VIsPaused())
 		{
-			p->VUpdate(iDeltaMilliSeconds);
+			p->VUpdate(DeltaTime);
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Sound
 			const bool bLooping);
 		~cSoundProcess();
 		void VInitialize();
-		void VUpdate(const int iDeltaMilliSeconds);
+		void VUpdate(const float DeltaTime);
 		void VKill();
 		void VTogglePause();
 		void VSetActive(const bool bActive);
