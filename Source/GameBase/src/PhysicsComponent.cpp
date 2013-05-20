@@ -20,6 +20,7 @@ cPhysicsComponent::cPhysicsComponent()
 	: m_ApplyGravity(false)
 	, m_TopSpeed(0)
 	, m_Acceleration(0)
+	, m_DragFactor(1)
 {
 }
 
@@ -58,6 +59,17 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 		if(accel.IsValid())
 		{
 			m_Acceleration = *accel;
+		}
+	}
+
+	shared_ptr<IXMLNode> pDragNode(pXMLNode->VGetChild("DragFactor"));
+	if(pSpeedNode != NULL)
+	{
+		NodeValue = pDragNode->VGetNodeValue();
+		tOptional<float> DragFactor = NodeValue.ToFloat();
+		if(DragFactor.IsValid())
+		{
+			m_DragFactor = *DragFactor;
 		}
 	}
 }

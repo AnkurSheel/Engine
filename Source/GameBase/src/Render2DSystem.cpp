@@ -42,7 +42,7 @@ void cRender2DSystem::VUpdate(const float DeltaTime)
 		cSpriteComponent * pSprite = dynamic_cast<cSpriteComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
 		if(pTransform != NULL)
 		{
-			pSprite->UpdateTransform(pTransform->m_vPosition, pTransform->m_vRotation, pTransform->m_vSize);
+			pSprite->UpdateTransform(pTransform->m_Position, pTransform->m_Rotation, pTransform->m_Size);
 		}
 	}
 }

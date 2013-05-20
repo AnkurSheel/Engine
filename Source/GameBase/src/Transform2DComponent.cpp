@@ -16,6 +16,7 @@ Base::cHashedString	cTransform2DComponent::m_Name = cHashedString("transform2dco
 
 // *****************************************************************************
 cTransform2DComponent::cTransform2DComponent()
+	: m_LookAt(1.0f, 0.0f)
 {
 }
 
@@ -35,15 +36,15 @@ void cTransform2DComponent::VInitialize(const IXMLNode * const pXMLNode)
 	shared_ptr<IXMLNode> pPositionNode(pXMLNode->VGetChild("Position"));
 	if(pPositionNode != NULL)
 	{
-		m_vPosition.x = pPositionNode->VGetNodeAttributeAsInt("x");
-		m_vPosition.y = pPositionNode->VGetNodeAttributeAsInt("y");
+		m_Position.x = pPositionNode->VGetNodeAttributeAsInt("x");
+		m_Position.y = pPositionNode->VGetNodeAttributeAsInt("y");
 	}
 	
 	shared_ptr<IXMLNode> pSizeNode(pXMLNode->VGetChild("ScaleInPixels"));
 	if(pSizeNode != NULL)
 	{
-		m_vSize.x = pSizeNode->VGetNodeAttributeAsInt("x");
-		m_vSize.y = pSizeNode->VGetNodeAttributeAsInt("y");
+		m_Size.x = pSizeNode->VGetNodeAttributeAsInt("x");
+		m_Size.y = pSizeNode->VGetNodeAttributeAsInt("y");
 	}
 }
 

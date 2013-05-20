@@ -13,6 +13,7 @@ namespace GameBase
 {
 	class IBaseComponent;
 	class cComponentDef;
+	class cTransform2DComponent;
 }
 
 namespace GameBase
@@ -52,6 +53,9 @@ namespace GameBase
 		GAMEBASE_API IBaseComponent * GetComponent(const Base::cHashedString & ComponentName);
 		GAMEBASE_API IBaseComponent * GetComponent(const unsigned long ComponentID);
 		GAMEBASE_API int GetID() const;
+
+	protected:
+		cTransform2DComponent * m_pTransFormComponent;
 
 	private:
 		void SetID(const int iID);

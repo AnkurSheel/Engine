@@ -28,9 +28,10 @@ namespace GameBase
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 
 	public:
-		Base::cVector2	m_vPosition;	///< The position of the game element.
-		Base::cVector2	m_vRotation;	///< The rotation of the game element.
-		Base::cVector2	m_vSize;		///< The size of the game element.
+		Base::cVector2	m_Position;	///< The position of the game element.
+		Base::cVector2	m_Rotation;	///< The rotation of the game element.
+		Base::cVector2	m_Size;		///< The size of the game element.
+		Base::cVector2	m_LookAt;
 	
 	private:
 		GAMEBASE_API static Base::cHashedString	m_Name;	///< The component name

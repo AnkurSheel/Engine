@@ -8,6 +8,7 @@
 
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
+#include "vector2.h"
 
 namespace GameBase
 {
@@ -22,14 +23,19 @@ namespace GameBase
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		void Update();
 
+	public:
+		bool	m_ApplyGravity;
+		float	m_TopSpeed;
+		float	m_Acceleration;
+		Base::cVector2 m_CurrentVelocity;
+		Base::cVector2 m_CurrentAcceleration;
+		float	m_DragFactor;
+
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
 		static Base::cHashedString	m_Name;	///< The component name
-		bool	m_ApplyGravity;
-		float	m_TopSpeed;
-		float	m_Acceleration;
 	};
 }
 #endif // PhysicsComponent_h__
