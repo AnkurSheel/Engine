@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "ModelComponent.h"
 #include "Model.hxx"
+#include "TransformComponent.h"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -29,12 +30,12 @@ cModelComponent::~cModelComponent()
 // *****************************************************************************
 void cModelComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
-	m_pTransform = DEBUG_NEW cTransform3DComponent();
+	m_pTransform = DEBUG_NEW cTransformComponent();
 	if (!m_strModelName.IsEmpty())
 	{
 		m_pModel = IModel::CreateModel(m_strModelName);
-		m_pModel->VRecalculateWorldMatrix(m_pTransform->m_vPosition,
-					m_pTransform->m_vRotation, m_pTransform->m_vScale);
+		m_pModel->VRecalculateWorldMatrix(m_pTransform->m_Position,
+					m_pTransform->m_Rotation, m_pTransform->m_Size);
 	}
 }
 
@@ -46,19 +47,19 @@ void cModelComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cModelComponent::UpdateTransform(const cTransform3DComponent * const pTransform)
+void cModelComponent::UpdateTransform(const cTransformComponent * const pTransform)
 {
 	if(m_pTransform != NULL)
 	{
-		if(m_pTransform->m_vPosition != pTransform->m_vPosition
-			|| m_pTransform->m_vRotation != pTransform->m_vRotation
-			|| m_pTransform->m_vScale != pTransform->m_vScale)
+		if(m_pTransform->m_Position != pTransform->m_Position
+			|| m_pTransform->m_Rotation != pTransform->m_Rotation
+			|| m_pTransform->m_Size != pTransform->m_Size)
 		{
 			*(m_pTransform) = *(pTransform);
 			if(m_pModel != NULL)
 			{
-				m_pModel->VRecalculateWorldMatrix(m_pTransform->m_vPosition,
-					m_pTransform->m_vRotation, m_pTransform->m_vScale);
+				m_pModel->VRecalculateWorldMatrix(m_pTransform->m_Position,
+					m_pTransform->m_Rotation, m_pTransform->m_Size);
 			}
 		}
 	}
@@ -71,5 +72,4 @@ void cModelComponent::Render(const ICamera * const pCamera)
 	{
 		m_pModel->VRender(pCamera);
 	}
-
 }

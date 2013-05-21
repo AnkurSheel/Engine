@@ -6,13 +6,15 @@
 #include "stdafx.h"
 #include "Render2DSystem.h"
 #include "EntityManager.hxx"
-#include "Transform2DComponent.h"
+#include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "Camera.hxx"
+#include "vector2.h"
 
 using namespace GameBase;
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 
 // *****************************************************************************
 cRender2DSystem::cRender2DSystem()
@@ -38,11 +40,14 @@ void cRender2DSystem::VUpdate(const float DeltaTime)
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cTransform2DComponent * pTransform = dynamic_cast<cTransform2DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransform2DComponent::GetName()));
+		cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cSpriteComponent * pSprite = dynamic_cast<cSpriteComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
 		if(pTransform != NULL)
 		{
-			pSprite->UpdateTransform(pTransform->m_Position, pTransform->m_Rotation, pTransform->m_Size);
+			cVector2 position(pTransform->m_Position.x, pTransform->m_Position.y);
+			cVector2 rotation(pTransform->m_Rotation.x, pTransform->m_Rotation.y);
+			cVector2 size(pTransform->m_Size.x, pTransform->m_Size.y);
+			pSprite->UpdateTransform(position, rotation, size);
 		}
 	}
 }

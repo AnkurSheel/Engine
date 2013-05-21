@@ -6,7 +6,7 @@
 
 #include "StdAfx.h"
 #include "ComponentFactory.h"
-#include "Transform2DComponent.h"
+#include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "KeyboardHandlerComponent.h"
 #include "PhysicsComponent.h"
@@ -32,7 +32,7 @@ cComponentFactory::~cComponentFactory()
 // *****************************************************************************
 void cComponentFactory::RegisterComponents()
 {
-	m_RegisteredComponents.Register<cTransform2DComponent>(cTransform2DComponent::GetName().GetHash());
+	m_RegisteredComponents.Register<cTransformComponent>(cTransformComponent::GetName().GetHash());
 	m_RegisteredComponents.Register<cSpriteComponent>(cSpriteComponent::GetName().GetHash());
 	m_RegisteredComponents.Register<cKeyboardHandlerComponent>(cKeyboardHandlerComponent::GetName().GetHash());
 	m_RegisteredComponents.Register<cPhysicsComponent>(cPhysicsComponent::GetName().GetHash());

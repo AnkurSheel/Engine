@@ -36,12 +36,6 @@
     <ClCompile Include="src\Render2DSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\Transform3DComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Transform2DComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\EntityFactory.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -63,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="src\PhysicsSystem.cpp">
       <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,12 +113,6 @@
     <ClInclude Include="Includes\Render2DSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\Transform3DComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Transform2DComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\EntityFactory.h">
       <Filter>Entity</Filter>
@@ -147,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="Includes\PhysicsSystem.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\TransformComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

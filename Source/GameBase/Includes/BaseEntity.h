@@ -13,7 +13,7 @@ namespace GameBase
 {
 	class IBaseComponent;
 	class cComponentDef;
-	class cTransform2DComponent;
+	class cTransformComponent;
 }
 
 namespace GameBase
@@ -55,7 +55,7 @@ namespace GameBase
 		GAMEBASE_API int GetID() const;
 
 	protected:
-		cTransform2DComponent * m_pTransFormComponent;
+		cTransformComponent * m_pTransFormComponent;
 
 	private:
 		void SetID(const int iID);

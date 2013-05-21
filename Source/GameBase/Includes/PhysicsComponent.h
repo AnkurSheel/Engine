@@ -8,7 +8,7 @@
 
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
-#include "vector2.h"
+#include "vector3.h"
 
 namespace GameBase
 {
@@ -27,8 +27,8 @@ namespace GameBase
 		bool	m_ApplyGravity;
 		float	m_TopSpeed;
 		float	m_Acceleration;
-		Base::cVector2 m_CurrentVelocity;
-		Base::cVector2 m_CurrentAcceleration;
+		Base::cVector3 m_CurrentVelocity;
+		Base::cVector3 m_CurrentAcceleration;
 		float	m_DragFactor;
 
 	private:

@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "Render3DSystem.h"
 #include "EntityManager.hxx"
-#include "Transform3DComponent.h"
+#include "TransformComponent.h"
 #include "ModelComponent.h"
 #include "Camera.hxx"
 
@@ -38,7 +38,7 @@ void cRender3DSystem::VUpdate(const float DeltaTime)
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cTransform3DComponent * pTransform = dynamic_cast<cTransform3DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransform3DComponent::m_Name));
+		cTransformComponent * pTransform = dynamic_cast<cTransformComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cModelComponent * pModel = dynamic_cast<cModelComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cModelComponent::m_Name));
 		if(pTransform != NULL)
 		{

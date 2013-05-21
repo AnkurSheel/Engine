@@ -126,8 +126,7 @@
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\SpriteComponent.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Transform2DComponent.cpp" />
-    <ClCompile Include="src\Transform3DComponent.cpp" />
+    <ClCompile Include="src\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\BaseComponent.h" />
@@ -153,8 +152,7 @@
     <ClInclude Include="Includes\GameOptions.h" />
     <ClInclude Include="Includes\HumanView.h" />
     <ClInclude Include="Includes\SpriteComponent.h" />
-    <ClInclude Include="Includes\Transform2DComponent.h" />
-    <ClInclude Include="Includes\Transform3DComponent.h" />
+    <ClInclude Include="Includes\TransformComponent.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
     <ClInclude Include="src\KeyboardController.h" />

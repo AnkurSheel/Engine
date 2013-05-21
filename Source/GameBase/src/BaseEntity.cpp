@@ -8,7 +8,7 @@
 #include "FSM/StateMachine.h"
 #include "BaseComponent.h"
 #include "EntityManager.hxx"
-#include "transform2dComponent.h"
+#include "TransformComponent.h"
 
 using namespace AI;
 using namespace Utilities;
@@ -84,7 +84,7 @@ int cBaseEntity::GetID() const
 // *****************************************************************************
 void cBaseEntity::VInitialize()
 {
-	m_pTransFormComponent = dynamic_cast<cTransform2DComponent *>(GetComponent(cTransform2DComponent::GetName().GetHash()));
+	m_pTransFormComponent = dynamic_cast<cTransformComponent *>(GetComponent(cTransformComponent::GetName().GetHash()));
 }
 
 // *****************************************************************************

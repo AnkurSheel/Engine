@@ -15,6 +15,12 @@ namespace tinyxml2
 	class XMLDocument;
 }
 
+namespace Base
+{
+	template<class T>
+	class tOptional;
+}
+
 namespace Utilities
 {
 	////////////////////////////////////////////////////////////////////////////
@@ -51,6 +57,8 @@ namespace Utilities
 		Base::cString VGetNodeAttribute(const Base::cString & AttributeName) const;
 		int VGetNodeAttributeAsInt(const Base::cString & AttributeName) const;
 		bool VGetNodeAttributeAsBool(const Base::cString & AttributeName) const;
+		Base::tOptional<float> VGetNodeAttributeAsFloat(const Base::cString & AttributeName) const;
+		float VGetNodeAttributeAsFloat(const Base::cString & AttributeName, const float DefaultValue) const;
 		void VGetChildren(XMLNodeList & ChildrenList) const;
 		const shared_ptr<IXMLNode> VGetChild(const Base::cString & Name) const;
 		////////////////////////////////////////////////////////////////////////

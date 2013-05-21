@@ -7,7 +7,7 @@
 #include "PhysicsSystem.h"
 #include "EntityManager.hxx"
 #include "PhysicsComponent.h"
-#include "Transform2DComponent.h"
+#include "TransformComponent.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -37,13 +37,13 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
-		cTransform2DComponent * pTransform = dynamic_cast<cTransform2DComponent *>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransform2DComponent::GetName()));
+		cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
 		if(!pPhysics->m_CurrentAcceleration.IsZero())
 		{
 			if(pTransform != NULL)
 			{
-				cVector2 Force;
+				cVector3 Force;
 				if(pPhysics->m_ApplyGravity)
 				{
 					//fy += m * 9.81;
@@ -51,14 +51,14 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 				}
 				
 				//fy += -1 * 0.5 * rho * C_d * A * vy * vy;
-				cVector2 Distance = (pPhysics->m_CurrentVelocity * DeltaTime) + (0.5f * pPhysics->m_CurrentAcceleration * DeltaTime * DeltaTime);
+				cVector3 Distance = (pPhysics->m_CurrentVelocity * DeltaTime) + (0.5f * pPhysics->m_CurrentAcceleration * DeltaTime * DeltaTime);
 				// new_ay = fy / m;
-				cVector2 newAcceleration = Force;
-				cVector2 avgAcceleration = 0.5f * (newAcceleration + pPhysics->m_CurrentAcceleration);
+				cVector3 newAcceleration = Force;
+				cVector3 avgAcceleration = 0.5f * (newAcceleration + pPhysics->m_CurrentAcceleration);
 				pPhysics->m_CurrentVelocity += avgAcceleration;
 				Clamp<float>(pPhysics->m_CurrentVelocity.x, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
 				Clamp<float>(pPhysics->m_CurrentVelocity.y, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-				pPhysics->m_CurrentAcceleration = cVector2::Zero();
+				pPhysics->m_CurrentAcceleration = cVector3::Zero();
 				pTransform->m_Position += Distance;
 			}
 		}

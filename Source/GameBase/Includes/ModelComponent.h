@@ -8,7 +8,6 @@
 
 #include "BaseComponent.h"
 #include "GameBaseDefines.h"
-#include "Transform3DComponent.h"
 
 namespace Utilities
 {
@@ -23,6 +22,11 @@ namespace Graphics
 
 namespace GameBase
 {
+	class cTransformComponent;
+}
+
+namespace GameBase
+{
 	class cModelComponent
 		: public cBaseComponent
 	{
@@ -31,7 +35,7 @@ namespace GameBase
 		GAMEBASE_API ~cModelComponent();
 		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
-		void UpdateTransform(const cTransform3DComponent * const pTransform);
+		void UpdateTransform(const cTransformComponent * const pTransform);
 		void Render(const Graphics::ICamera * const pCamera);
 
 	public:
@@ -43,7 +47,7 @@ namespace GameBase
 
 	private:
 		Graphics::IModel *			m_pModel;	///< The 3D model
-		cTransform3DComponent *		m_pTransform;
+		cTransformComponent *		m_pTransform;
 	};
 }
 #endif // ModelComponent_h__

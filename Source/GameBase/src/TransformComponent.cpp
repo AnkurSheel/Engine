@@ -1,32 +1,32 @@
 // *****************************************************************************
-//  Transform2DComponent version:  1.0   Ankur Sheel  date: 2013/04/10
+//  TransformComponent version:  1.0   Ankur Sheel  date: 2013/04/10
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
 
 #include "stdafx.h"
-#include "Transform2DComponent.h"
+#include "TransformComponent.h"
 #include "XMLNode.hxx"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
 
-Base::cHashedString	cTransform2DComponent::m_Name = cHashedString("transform2dcomponent");
+Base::cHashedString	cTransformComponent::m_Name = cHashedString("transformcomponent");
 
 // *****************************************************************************
-cTransform2DComponent::cTransform2DComponent()
-	: m_LookAt(1.0f, 0.0f)
+cTransformComponent::cTransformComponent()
+	: m_LookAt(1.0f, 0.0f, 0.0f)
 {
 }
 
 // *****************************************************************************
-cTransform2DComponent::~cTransform2DComponent()
+cTransformComponent::~cTransformComponent()
 {
 }
 
 // *****************************************************************************
-void cTransform2DComponent::VInitialize(const IXMLNode * const pXMLNode)
+void cTransformComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
 	if(pXMLNode == NULL)
 	{
@@ -36,20 +36,22 @@ void cTransform2DComponent::VInitialize(const IXMLNode * const pXMLNode)
 	shared_ptr<IXMLNode> pPositionNode(pXMLNode->VGetChild("Position"));
 	if(pPositionNode != NULL)
 	{
-		m_Position.x = pPositionNode->VGetNodeAttributeAsInt("x");
-		m_Position.y = pPositionNode->VGetNodeAttributeAsInt("y");
+		m_Position.x = pPositionNode->VGetNodeAttributeAsFloat("x", 0.0f);
+		m_Position.y = pPositionNode->VGetNodeAttributeAsFloat("y", 0.0f);
+		m_Position.z = pPositionNode->VGetNodeAttributeAsFloat("z", 0.0f);
 	}
 	
 	shared_ptr<IXMLNode> pSizeNode(pXMLNode->VGetChild("ScaleInPixels"));
 	if(pSizeNode != NULL)
 	{
-		m_Size.x = pSizeNode->VGetNodeAttributeAsInt("x");
-		m_Size.y = pSizeNode->VGetNodeAttributeAsInt("y");
+		m_Size.x = pSizeNode->VGetNodeAttributeAsFloat("x", 8.0f);
+		m_Size.y = pSizeNode->VGetNodeAttributeAsFloat("y", 8.0f);
+		m_Size.z = pSizeNode->VGetNodeAttributeAsFloat("z", 1.0f);
 	}
 }
 
 // *****************************************************************************
-void cTransform2DComponent::VCleanup()
+void cTransformComponent::VCleanup()
 {
 
 }

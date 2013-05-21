@@ -183,6 +183,32 @@ bool cXMLNode::VGetNodeAttributeAsBool(const cString & AttributeName) const
 	return *val;
 }
 
+
+// *****************************************************************************
+tOptional<float> cXMLNode::VGetNodeAttributeAsFloat(const cString & AttributeName) const
+{
+	cString AttributeValue = VGetNodeAttribute(AttributeName);
+	tOptional<float> val = AttributeValue.ToFloat();
+	if(val.IsInvalid())
+	{
+		Log_Write(ILogger::LT_WARNING, 2, "Error in getting " + AttributeName + " attribute as int in " + m_pElement->Name());
+	}
+	return val;
+}
+
+// *****************************************************************************
+float cXMLNode::VGetNodeAttributeAsFloat(const cString & AttributeName,
+	const float DefaultValue) const
+{
+	tOptional<float> val = AttributeName.ToFloat();
+	if(val.IsInvalid())
+	{
+		Log_Write(ILogger::LT_WARNING, 2, "Error in getting " + AttributeName + " attribute as int in " + m_pElement->Name());
+		return DefaultValue;
+	}
+	return *val;
+}
+
 // *****************************************************************************
 void cXMLNode::AddChildElements()
 {

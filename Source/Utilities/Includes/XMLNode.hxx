@@ -9,6 +9,12 @@
 
 #include "UtilitiesDefines.h"
 
+namespace Base
+{
+	template<class T>
+	class tOptional;
+}
+
 namespace Utilities
 {
 	////////////////////////////////////////////////////////////////////////////
@@ -141,6 +147,26 @@ namespace Utilities
 		///
 		////////////////////////////////////////////////////////////////////////
 		virtual bool VGetNodeAttributeAsBool(const Base::cString & AttributeName) const = 0;
+		////////////////////////////////////////////////////////////////////////
+		/// @brief Returns The value of the attribute as an float. If the attribute
+		/// is not found returns false.
+		/// 
+		/// @param[in] AttributeName The attribute name.
+		/// @return The value of the attribute as an float.
+		///
+		////////////////////////////////////////////////////////////////////////
+		virtual Base::tOptional<float> VGetNodeAttributeAsFloat(const Base::cString & AttributeName) const = 0;
+		////////////////////////////////////////////////////////////////////////
+		/// @brief Returns The value of the attribute as an Int. If the attribute
+		/// is not found returns false.
+		/// 
+		/// @param[in] AttributeName The attribute name.
+		/// @param[in] DefaultValue The default value if the attribute is not found
+		/// @return The value of the attribute as an int.
+		///
+		////////////////////////////////////////////////////////////////////////
+		virtual float VGetNodeAttributeAsFloat(const Base::cString & AttributeName,
+			const float DefaultValue) const = 0;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Stores all the child nodes in ChildrenList
 		/// 
