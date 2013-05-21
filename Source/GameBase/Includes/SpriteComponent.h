@@ -8,6 +8,7 @@
 
 #include "GameBaseDefines.h"
 #include "BaseComponent.h"
+#include "RenderableComponent.hxx"
 
 namespace Utilities
 {
@@ -22,13 +23,14 @@ namespace Graphics
 
 namespace Base
 {
-	class cVector2;
+	class cVector3;
 }
 
 namespace GameBase
 {
 	class cSpriteComponent
 		: public cBaseComponent
+		, public IRenderableComponent
 	{
 	public:
 		GAMEBASE_API cSpriteComponent();
@@ -38,9 +40,9 @@ namespace GameBase
 
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		GAMEBASE_API void VCleanup();
-		void UpdateTransform(const Base::cVector2 & vPosition,
-			const Base::cVector2 & vRotation, const Base::cVector2 & vSize);
-		void Render(const Graphics::ICamera * const pCamera);
+		void VUpdateTransform(const Base::cVector3 & vPosition,
+			const Base::cVector3 & vRotation, const Base::cVector3 & vSize);
+		void VRender(const Graphics::ICamera * const pCamera);
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		
 	private:

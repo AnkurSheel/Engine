@@ -114,8 +114,7 @@
     <ClCompile Include="src\ModelComponent.cpp" />
     <ClCompile Include="src\PhysicsComponent.cpp" />
     <ClCompile Include="src\PhysicsSystem.cpp" />
-    <ClCompile Include="src\Render2DSystem.cpp" />
-    <ClCompile Include="src\Render3DSystem.cpp" />
+    <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\Score.cpp" />
     <ClCompile Include="src\GameElement.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
@@ -143,8 +142,8 @@
     <ClInclude Include="Includes\ModelComponent.h" />
     <ClInclude Include="Includes\PhysicsComponent.h" />
     <ClInclude Include="Includes\PhysicsSystem.h" />
-    <ClInclude Include="Includes\Render2DSystem.h" />
-    <ClInclude Include="Includes\Render3DSystem.h" />
+    <ClInclude Include="Includes\RenderSystem.h" />
+    <ClInclude Include="Includes\RenderableComponent.hxx" />
     <ClInclude Include="Includes\Score.h" />
     <ClInclude Include="Includes\GameElement.h" />
     <ClInclude Include="Includes\BaseEntity.h" />

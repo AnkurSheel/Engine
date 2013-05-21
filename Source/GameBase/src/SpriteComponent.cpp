@@ -7,6 +7,8 @@
 #include "SpriteComponent.h"
 #include "Sprite.hxx"
 #include "XMLNode.hxx"
+#include "vector2.h"
+#include "vector3.h"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -79,18 +81,21 @@ void cSpriteComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cSpriteComponent::UpdateTransform(const Base::cVector2 & vPosition,
-	const Base::cVector2 & vRotation, const Base::cVector2 & vSize)
+void cSpriteComponent::VUpdateTransform(const Base::cVector3 & vPosition,
+	const Base::cVector3 & vRotation, const Base::cVector3 & vSize)
 {
 	if(m_pSprite != NULL)
 	{
-		m_pSprite->VSetPosition(vPosition);
-		m_pSprite->VSetSize(vSize);
+		cVector2 position(vPosition.x, vPosition.y);
+		cVector2 size(vSize.x, vSize.y);
+
+		m_pSprite->VSetPosition(position);
+		m_pSprite->VSetSize(size);
 	}
 }
 
 // *****************************************************************************
-void cSpriteComponent::Render(const ICamera * const pCamera)
+void cSpriteComponent::VRender(const ICamera * const pCamera)
 {
 	if(m_pSprite)
 	{

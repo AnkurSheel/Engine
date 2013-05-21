@@ -200,7 +200,8 @@ tOptional<float> cXMLNode::VGetNodeAttributeAsFloat(const cString & AttributeNam
 float cXMLNode::VGetNodeAttributeAsFloat(const cString & AttributeName,
 	const float DefaultValue) const
 {
-	tOptional<float> val = AttributeName.ToFloat();
+	cString AttributeValue = VGetNodeAttribute(AttributeName);
+	tOptional<float> val = AttributeValue.ToFloat();
 	if(val.IsInvalid())
 	{
 		Log_Write(ILogger::LT_WARNING, 2, "Error in getting " + AttributeName + " attribute as int in " + m_pElement->Name());
@@ -241,10 +242,10 @@ const shared_ptr<IXMLNode> cXMLNode::VGetChild(const cString & Name) const
 		pNode = (*Iter);
 		if(Name.CompareInsensitive(pNode->VGetName()) == true)
 		{
-			break;
+			return pNode;
 		}
 	}
-	return pNode;
+	return NULL;
 }
 
 // *****************************************************************************

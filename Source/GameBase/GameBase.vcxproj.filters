@@ -27,14 +27,8 @@
     <ClCompile Include="src\BaseEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="src\Render3DSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="src\SpriteComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Render2DSystem.cpp">
-      <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\EntityFactory.cpp">
       <Filter>Entity</Filter>
@@ -60,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,14 +101,8 @@
     <ClInclude Include="Includes\BaseComponent.hxx">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\Render3DSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\SpriteComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Render2DSystem.h">
-      <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\EntityFactory.h">
@@ -141,6 +132,12 @@
     </ClInclude>
     <ClInclude Include="Includes\TransformComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\RenderableComponent.hxx">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\RenderSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

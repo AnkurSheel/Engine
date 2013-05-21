@@ -7,6 +7,7 @@
 #include "ModelComponent.h"
 #include "Model.hxx"
 #include "TransformComponent.h"
+#include "XMLNode.hxx"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -18,7 +19,6 @@ Base::cHashedString	cModelComponent::m_Name = cHashedString("modelcomponent");
 // *****************************************************************************
 cModelComponent::cModelComponent()
 	: m_pModel(NULL)
-	, m_pTransform(NULL)
 {
 }
 
@@ -30,12 +30,27 @@ cModelComponent::~cModelComponent()
 // *****************************************************************************
 void cModelComponent::VInitialize(const IXMLNode * const pXMLNode)
 {
-	m_pTransform = DEBUG_NEW cTransformComponent();
-	if (!m_strModelName.IsEmpty())
+	if(pXMLNode == NULL)
 	{
-		m_pModel = IModel::CreateModel(m_strModelName);
-		m_pModel->VRecalculateWorldMatrix(m_pTransform->m_Position,
-					m_pTransform->m_Rotation, m_pTransform->m_Size);
+		return;
+	}
+
+	shared_ptr<IXMLNode> pName(pXMLNode->VGetChild("Name"));
+	if(pName != NULL)
+	{
+		cString ModelName = pName->VGetNodeValue(); 
+		if (!ModelName.IsEmpty())
+		{
+			m_pModel = IModel::CreateModel(ModelName);
+		}
+		else
+		{
+			Log_Write(ILogger::LT_ERROR, 1, "Element Name in Model Component cannot be empty");
+		}
+	}
+	else
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Missing Element in Model Component : Name");
 	}
 }
 
@@ -43,30 +58,20 @@ void cModelComponent::VInitialize(const IXMLNode * const pXMLNode)
 void cModelComponent::VCleanup()
 {
 	SafeDelete(&m_pModel);
-	SafeDelete(&m_pTransform);
 }
 
 // *****************************************************************************
-void cModelComponent::UpdateTransform(const cTransformComponent * const pTransform)
+void cModelComponent::VUpdateTransform(const cVector3 & vPosition,
+	const cVector3 & vRotation, const cVector3 & vSize)
 {
-	if(m_pTransform != NULL)
+	if(m_pModel != NULL)
 	{
-		if(m_pTransform->m_Position != pTransform->m_Position
-			|| m_pTransform->m_Rotation != pTransform->m_Rotation
-			|| m_pTransform->m_Size != pTransform->m_Size)
-		{
-			*(m_pTransform) = *(pTransform);
-			if(m_pModel != NULL)
-			{
-				m_pModel->VRecalculateWorldMatrix(m_pTransform->m_Position,
-					m_pTransform->m_Rotation, m_pTransform->m_Size);
-			}
-		}
+		m_pModel->VRecalculateWorldMatrix(vPosition, vRotation, vSize);
 	}
 }
 
 // *****************************************************************************
-void cModelComponent::Render(const ICamera * const pCamera)
+void cModelComponent::VRender(const ICamera * const pCamera)
 {
 	if(m_pModel != NULL)
 	{
