@@ -26,6 +26,15 @@ namespace Base
 	const float   HalfPi    = Pi / 2;
 	const float   QuarterPi = Pi / 4;
 
+	inline bool isZero(const float a)
+	{
+		if (fabs(a) < EpsilonFloat)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	inline bool isEqual(const float a, const float b)
 	{
 		if (fabs(a-b) < EpsilonFloat)

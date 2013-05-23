@@ -3,8 +3,11 @@
   <ItemGroup>
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="Includes\PhysicsDefines.h" />
+    <ClInclude Include="Includes\RigidBody.hxx" />
+    <ClInclude Include="src\RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\RigidBody.cpp" />
   </ItemGroup>
 </Project>

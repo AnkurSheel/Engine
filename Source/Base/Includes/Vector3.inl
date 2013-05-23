@@ -168,6 +168,12 @@ inline void cVector3::NegTo()
 }
 
 // *******************************************************************************************
+inline cVector3 cVector3::GetReverse()
+{
+	return cVector3(-x, -y, -z);
+}
+
+// *******************************************************************************************
 inline const cVector3 & cVector3::operator+=( const cVector3 & inVec )
 {
 	x += inVec.x;

@@ -10,6 +10,11 @@
 #include "BaseComponent.h"
 #include "vector3.h"
 
+namespace Physics
+{
+	class IRigidBody;
+}
+
 namespace GameBase
 {
 	class cPhysicsComponent
@@ -21,20 +26,17 @@ namespace GameBase
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
-		void Update();
-
-	public:
-		bool	m_ApplyGravity;
-		float	m_TopSpeed;
-		float	m_Acceleration;
-		Base::cVector3 m_CurrentVelocity;
-		Base::cVector3 m_CurrentAcceleration;
-		float	m_DragFactor;
+		GAMEBASE_API void ApplyForce(const Base::cVector3 & Direction);
+		GAMEBASE_API void Update();
 
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
+		Physics::IRigidBody *		m_pRigidBody;
+		float						m_Force;
+		bool						m_ApplyForce;
+		Base::cVector3				m_Direction;
 		static Base::cHashedString	m_Name;	///< The component name
 	};
 }

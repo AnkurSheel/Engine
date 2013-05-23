@@ -105,6 +105,12 @@ class cVector3
 		  * Changes the sign of the components
 		 ***********************************************/
 		void NegTo();
+		/********************************************//**
+		  * @return Reverse of this vector
+		  *
+		  * Gets the reverse vector
+		 ***********************************************/
+		cVector3 GetReverse();
 
 		const cVector3 & operator+=(const cVector3 & inVec);
 		const cVector3 & operator-=(const cVector3 & inVec);

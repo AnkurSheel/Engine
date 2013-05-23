@@ -8,19 +8,19 @@
 #include "PhysicsComponent.h"
 #include "XMLNode.hxx"
 #include "optional.h"
+#include "RigidBody.hxx"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
+using namespace Physics;
 
 Base::cHashedString	cPhysicsComponent::m_Name = cHashedString("physicscomponent");
 
 // *****************************************************************************
 cPhysicsComponent::cPhysicsComponent()
-	: m_ApplyGravity(false)
-	, m_TopSpeed(0)
-	, m_Acceleration(0)
-	, m_DragFactor(1)
+	: m_pRigidBody(NULL)
+	, m_Force(0.0f)
 {
 }
 
@@ -36,8 +36,9 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	{
 		return;
 	}
+	stRigidBodyDef def;
 
-	m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
+	def.m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
 	
 	shared_ptr<IXMLNode> pSpeedNode(pXMLNode->VGetChild("TopSpeed"));
 	cString NodeValue;
@@ -47,29 +48,29 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 		tOptional<float> speed = NodeValue.ToFloat();
 		if(speed.IsValid())
 		{
-			m_TopSpeed = *speed;
+			def.m_TopSpeed = *speed;
 		}
 	}
 
-	shared_ptr<IXMLNode> pAccelNode(pXMLNode->VGetChild("Acceleration"));
-	if(pSpeedNode != NULL)
+	shared_ptr<IXMLNode> pLinearDampingNode(pXMLNode->VGetChild("LinearDamping"));
+	if(pLinearDampingNode != NULL)
 	{
-		NodeValue = pAccelNode->VGetNodeValue();
-		tOptional<float> accel = NodeValue.ToFloat();
-		if(accel.IsValid())
+		NodeValue = pLinearDampingNode->VGetNodeValue();
+		tOptional<float> LinearDamping = NodeValue.ToFloat();
+		if(LinearDamping.IsValid())
 		{
-			m_Acceleration = *accel;
+			def.m_LinearDamping = *LinearDamping;
 		}
 	}
 
-	shared_ptr<IXMLNode> pDragNode(pXMLNode->VGetChild("DragFactor"));
-	if(pSpeedNode != NULL)
+	shared_ptr<IXMLNode> pForceNode(pXMLNode->VGetChild("Force"));
+	if(pForceNode != NULL)
 	{
-		NodeValue = pDragNode->VGetNodeValue();
-		tOptional<float> DragFactor = NodeValue.ToFloat();
-		if(DragFactor.IsValid())
+		NodeValue = pForceNode->VGetNodeValue();
+		tOptional<float> Force = NodeValue.ToFloat();
+		if(Force.IsValid())
 		{
-			m_DragFactor = *DragFactor;
+			m_Force = *Force;
 		}
 	}
 }
@@ -77,9 +78,23 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 // *****************************************************************************
 void cPhysicsComponent::VCleanup()
 {
+	SafeDelete(&m_pRigidBody);
+}
+
+// *****************************************************************************
+void cPhysicsComponent::ApplyForce(const cVector3 & Direction)
+{
+	m_ApplyForce = true;
+	m_Direction = Direction;
+//m_pPhysicsComponent->m_CurrentAcceleration = m_pTransFormComponent->m_LookAt * m_pPhysicsComponent->m_Acceleration;
 }
 
 // *****************************************************************************
 void cPhysicsComponent::Update()
 {
+	if(m_ApplyForce)
+	{
+		/// rigidbody apply force
+		m_ApplyForce = false;
+	}
 }
