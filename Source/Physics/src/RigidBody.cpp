@@ -31,3 +31,15 @@ void cRigidBody::VInitialize(const stRigidBodyDef & def)
 	m_ApplyGravity = def.m_ApplyGravity;
 	m_TopSpeed = def.m_TopSpeed;
 }
+
+// *****************************************************************************
+void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
+{
+	ApplyCentralForce(Direction * Newtons);
+}
+
+// *****************************************************************************
+void cRigidBody::ApplyCentralForce(const cVector3 & Force)
+{
+	m_LinearVelocity += (Force * m_InverseMass);
+}

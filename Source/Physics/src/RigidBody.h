@@ -21,6 +21,8 @@ namespace Physics
 
 	private:
 		PHYSICS_API virtual void VInitialize(const stRigidBodyDef & def);
+		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
+		void ApplyCentralForce(const Base::cVector3 & Force);
 
 	private:
 		float			m_InverseMass;

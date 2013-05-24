@@ -9,6 +9,11 @@
 
 #include "PhysicsDefines.h"
 
+namespace Base
+{
+	class cVector3;
+}
+
 namespace Physics
 {
 	struct	stRigidBodyDef
@@ -32,6 +37,7 @@ namespace Physics
 	public:
 		virtual ~IRigidBody() {}
 		virtual void VInitialize(const stRigidBodyDef & def) = 0;
+		virtual void VApplyForce(const Base::cVector3 & Direction, const float Newtons) = 0;
 	};
 }
 #endif //RigidBody_hxx

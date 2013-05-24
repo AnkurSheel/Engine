@@ -86,7 +86,7 @@ void cPhysicsComponent::ApplyForce(const cVector3 & Direction)
 {
 	m_ApplyForce = true;
 	m_Direction = Direction;
-//m_pPhysicsComponent->m_CurrentAcceleration = m_pTransFormComponent->m_LookAt * m_pPhysicsComponent->m_Acceleration;
+	//m_pPhysicsComponent->m_CurrentAcceleration = m_pTransFormComponent->m_LookAt * m_pPhysicsComponent->m_Acceleration;
 }
 
 // *****************************************************************************
@@ -94,7 +94,12 @@ void cPhysicsComponent::Update()
 {
 	if(m_ApplyForce)
 	{
-		/// rigidbody apply force
 		m_ApplyForce = false;
+		if(m_pRigidBody != NULL)
+		{
+			m_pRigidBody->VApplyForce(m_Direction, 10);
+		}
+		/// rigidbody apply force
+		
 	}
 }
