@@ -1,51 +1,35 @@
 #include "stdafx.h"
-#include "RigidBody.h"
+#include "Physics.h"
+#include "RigidBody.hxx"
 
 using namespace Physics;
 using namespace Base;
 
 // *****************************************************************************
-cRigidBody::cRigidBody()
-	: m_InverseMass(0.0f)
-	, m_LinearDamping(0.0f)
+cPhysics::cPhysics()
+	: m_Gravity(0.0f)
 {
 }
 
 // *****************************************************************************
-cRigidBody::~cRigidBody()
+cPhysics::~cPhysics()
 {
 }
 
 // *****************************************************************************
-void cRigidBody::VInitialize(const stRigidBodyDef & def)
+void cPhysics::VInitialize(const stPhysicsDef & def)
 {
-	if(isZero(def.m_Mass))
-	{	
-		m_InverseMass = 0.0f;
-	}
-	else
+	m_Gravity = def.m_Gravity;
+}
+
+// *****************************************************************************
+void cPhysics::VUpdate(const float DeltaTime)
+{
+	RigidBodyMap::iterator Iter;
+	for(Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
-		m_InverseMass = 1.0f / def.m_Mass;
+		IRigidBody * pRigidBody = Iter->second;
 	}
-	m_LinearDamping = def.m_LinearDamping;
-	m_ApplyGravity = def.m_ApplyGravity;
-	m_TopSpeed = def.m_TopSpeed;
-}
-
-// *****************************************************************************
-void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
-{
-	ApplyCentralForce(Direction * Newtons);
-}
-
-// *****************************************************************************
-void cRigidBody::ApplyCentralForce(const cVector3 & Force)
-{
-	m_LinearVelocity += (Force * m_InverseMass);
-}
-
-void cRigidBody::Update(const float DeltaTime)
-{
 	//if(!m_LinearVelocity.IsZero())
 	//{
 	//	if(m_ApplyGravity)
@@ -68,7 +52,32 @@ void cRigidBody::Update(const float DeltaTime)
 	//m_LinearVelocity-= m_LinearVelocity * m_LinearDamping;
 }
 
-IRigidBody * IRigidBody::Create()
+// *****************************************************************************
+void cPhysics::VAddRigidBody(const int ID, const stRigidBodyDef & def)
 {
-	return DEBUG_NEW cRigidBody();
+	IRigidBody * pRigidBody = IRigidBody::Create();
+	pRigidBody->VInitialize(def);
+	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
+}
+
+// *****************************************************************************
+void cPhysics::VRemoveRigidBody(const int ID)
+{
+	IRigidBody * const pRigidBody = FindRigidBody(ID);
+	if (pRigidBody != NULL)
+	{
+		m_RigidBodyMap.erase(ID);
+	}
+}
+
+// *****************************************************************************
+IRigidBody* cPhysics::FindRigidBody(const int ID) const
+{
+	RigidBodyMap::const_iterator Iter = m_RigidBodyMap.find(ID);
+	if(Iter != m_RigidBodyMap.end())
+	{
+		return Iter->second;
+	}
+
+	return NULL;
 }

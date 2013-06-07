@@ -76,12 +76,6 @@ void cBaseEntity::SetID(const int iID)
 }
 
 // *****************************************************************************
-int cBaseEntity::GetID() const
-{
-	return m_iID;
-}
-
-// *****************************************************************************
 void cBaseEntity::VInitialize()
 {
 	m_pTransFormComponent = dynamic_cast<cTransformComponent *>(GetComponent(cTransformComponent::GetName().GetHash()));

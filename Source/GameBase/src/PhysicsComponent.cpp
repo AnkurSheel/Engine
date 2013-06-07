@@ -9,6 +9,8 @@
 #include "XMLNode.hxx"
 #include "optional.h"
 #include "RigidBody.hxx"
+#include "Physics.hxx"
+#include "BaseEntity.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -73,12 +75,16 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 			m_Force = *Force;
 		}
 	}
+	if(m_pOwner != NULL)
+	{
+		//IPhysics::VAddRigidBody(m_pOwner->VGetID(), def);
+	}
 }
 
 // *****************************************************************************
 void cPhysicsComponent::VCleanup()
 {
-	SafeDelete(&m_pRigidBody);
+	//IPhysics::VRemoveRigidBody(m_pOwner->VGetID());
 }
 
 // *****************************************************************************

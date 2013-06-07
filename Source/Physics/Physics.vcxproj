@@ -11,12 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Includes\Physics.hxx" />
     <ClInclude Include="Includes\PhysicsDefines.h" />
     <ClInclude Include="Includes\RigidBody.hxx" />
+    <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\RigidBody.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>

@@ -46,13 +46,13 @@ namespace GameBase
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
 		GAMEBASE_API void VHandleInput(const unsigned int CharID);
+		GAMEBASE_API int VGetID() const { return m_iID; } 
 		GAMEBASE_API virtual unsigned long VGetHashedID() const = 0;
 		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
 		GAMEBASE_API void RemoveComponent(const unsigned long ComponentID);
 		GAMEBASE_API void GetAllComponents(ComponentList & components) const;
 		GAMEBASE_API IBaseComponent * GetComponent(const Base::cHashedString & ComponentName);
 		GAMEBASE_API IBaseComponent * GetComponent(const unsigned long ComponentID);
-		GAMEBASE_API int GetID() const;
 
 	protected:
 		cTransformComponent * m_pTransFormComponent;

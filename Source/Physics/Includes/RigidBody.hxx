@@ -38,6 +38,7 @@ namespace Physics
 		virtual ~IRigidBody() {}
 		virtual void VInitialize(const stRigidBodyDef & def) = 0;
 		virtual void VApplyForce(const Base::cVector3 & Direction, const float Newtons) = 0;
+		static IRigidBody * Create();
 	};
 }
 #endif //RigidBody_hxx
