@@ -33,3 +33,9 @@ cBaseComponent & cBaseComponent::operator=(const cBaseComponent & other)
 	m_pOwner = other.m_pOwner;
 	return *this;
 }
+
+// *****************************************************************************
+void cBaseComponent::VOnAttached(IBaseEntity * const pOwner)
+{
+	m_pOwner = pOwner;
+}

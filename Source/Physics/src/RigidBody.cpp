@@ -3,6 +3,7 @@
 
 using namespace Physics;
 using namespace Base;
+using namespace Utilities;
 
 // *****************************************************************************
 cRigidBody::cRigidBody()
@@ -17,19 +18,19 @@ cRigidBody::~cRigidBody()
 }
 
 // *****************************************************************************
-void cRigidBody::VInitialize(const stRigidBodyDef & def)
+void cRigidBody::VInitialize(const stRigidBodyDef * const pDef)
 {
-	if(isZero(def.m_Mass))
+	if(isZero(pDef->m_Mass))
 	{	
 		m_InverseMass = 0.0f;
 	}
 	else
 	{
-		m_InverseMass = 1.0f / def.m_Mass;
+		m_InverseMass = 1.0f / pDef->m_Mass;
 	}
-	m_LinearDamping = def.m_LinearDamping;
-	m_ApplyGravity = def.m_ApplyGravity;
-	m_TopSpeed = def.m_TopSpeed;
+	m_LinearDamping = pDef->m_LinearDamping;
+	m_ApplyGravity = pDef->m_ApplyGravity;
+	m_TopSpeed = pDef->m_TopSpeed;
 }
 
 // *****************************************************************************
@@ -42,32 +43,26 @@ void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
 void cRigidBody::ApplyCentralForce(const cVector3 & Force)
 {
 	m_LinearVelocity += (Force * m_InverseMass);
+	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
+	Clamp<float>(m_LinearVelocity.y, -m_TopSpeed, m_TopSpeed);
 }
 
+// *****************************************************************************
 void cRigidBody::Update(const float DeltaTime)
 {
-	//if(!m_LinearVelocity.IsZero())
-	//{
-	//	if(m_ApplyGravity)
-	//	{
-	//		//fy += m * 9.81;
-	//		Force.y += 981; // cm/s
-	//	}
-	//			
-	//	//fy += -1 * 0.5 * rho * C_d * A * vy * vy;
-	//	cVector3 Distance = (pPhysics->m_CurrentVelocity * DeltaTime) + (0.5f * pPhysics->m_CurrentAcceleration * DeltaTime * DeltaTime);
-	//	// new_ay = fy / m;
-	//	cVector3 newAcceleration = Force;
-	//	cVector3 avgAcceleration = 0.5f * (newAcceleration + pPhysics->m_CurrentAcceleration);
-	//	pPhysics->m_CurrentVelocity += avgAcceleration;
-	//	Clamp<float>(pPhysics->m_CurrentVelocity.x, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-	//	Clamp<float>(pPhysics->m_CurrentVelocity.y, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-	//	pPhysics->m_CurrentAcceleration = cVector3::Zero();
-	//	pTransform->m_Position += Distance;
-	//}
-	//m_LinearVelocity-= m_LinearVelocity * m_LinearDamping;
+	if(m_ApplyGravity)
+	{
+		ApplyCentralForce(cVector3(0,981, 0));
+	}
+
+	if(!m_LinearVelocity.IsZero())
+	{
+		m_Position += m_LinearVelocity * DeltaTime;
+		m_LinearVelocity *= (1 - m_LinearDamping);
+	}
 }
 
+// *****************************************************************************
 IRigidBody * IRigidBody::Create()
 {
 	return DEBUG_NEW cRigidBody();

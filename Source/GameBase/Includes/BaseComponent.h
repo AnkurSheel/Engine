@@ -22,12 +22,12 @@ namespace GameBase
 		cBaseComponent();
 		cBaseComponent(const cBaseComponent & other);
 		cBaseComponent & operator =(const cBaseComponent & other);
-
 		GAMEBASE_API virtual ~cBaseComponent();
-		unsigned long VGetID() const { return VGetHashedID(); }
-		GAMEBASE_API void VSetOwner(IBaseEntity * const pNewOwner) { m_pOwner = pNewOwner; }
-		virtual unsigned long VGetHashedID() const  = 0;
 
+		unsigned long VGetID() const { return VGetHashedID(); }
+		void VOnAttached(IBaseEntity * const pOwner);
+		virtual unsigned long VGetHashedID() const  = 0;
+		
 	protected:
 		IBaseEntity *		m_pOwner;
 	};

@@ -106,7 +106,7 @@ void cBaseEntity::AddComponent(IBaseComponent * pComponent)
 	ComponentMap::iterator iter = m_Components.find(pComponent->VGetID());
 	if(iter == m_Components.end())
 	{
-		pComponent->VSetOwner(this);
+		pComponent->VOnAttached(this);
 		m_Components.insert(std::make_pair(pComponent->VGetID(), pComponent));
 	}
 }
@@ -118,6 +118,7 @@ void cBaseEntity::RemoveComponent(const unsigned long ComponentID)
 	if(pComponent != NULL)
 	{
 		m_Components.erase(ComponentID);
+		pComponent->VCleanup();
 		SafeDelete(&pComponent);
 	}
 }

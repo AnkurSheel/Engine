@@ -21,14 +21,20 @@ namespace Physics
 	private:
 		void VInitialize(const stPhysicsDef & def);
 		void VUpdate(const float DeltaTime);
-		void VAddRigidBody(const int ID, const stRigidBodyDef & def);
+		IRigidBody * const VAddRigidBody(const int ID, const stRigidBodyDef * const pDef);
 		void VRemoveRigidBody(const int ID);
 		IRigidBody* FindRigidBody(const int ID) const;
+	
 	private:
 		typedef std::map<int, IRigidBody * const > RigidBodyMap;
-		
-		float			m_Gravity;
-		RigidBodyMap	m_RigidBodyMap;
+	
+		float				m_Gravity;
+		RigidBodyMap		m_RigidBodyMap;
+		static IPhysics * s_pPhysics;	/*!< static object of this class */
+
+	private:
+		friend static IPhysics * IPhysics::GetInstance();
+		friend static void IPhysics::Destroy();
 	};
 }
 #endif //Physics_hxx

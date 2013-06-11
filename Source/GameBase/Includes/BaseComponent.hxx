@@ -25,8 +25,8 @@ namespace GameBase
 	public:
 		virtual ~IBaseComponent(){};
 		virtual void VInitialize(const Utilities::IXMLNode * const pXMLNode) = 0;
+		virtual void VOnAttached(IBaseEntity * const pOwner) = 0;
 		virtual void VCleanup() = 0;
-		virtual void VSetOwner(IBaseEntity * const pNewOwner) = 0;
 		virtual unsigned long VGetID() const = 0;
 	};
 }

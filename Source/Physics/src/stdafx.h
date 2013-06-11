@@ -5,5 +5,6 @@
 
 #pragma once
 #include "Includes.h"
+#include "Logger.hxx"
 
 // TODO: reference additional headers your program requires here

@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Physics.h"
-#include "RigidBody.hxx"
+#include "RigidBody.h"
 
 using namespace Physics;
 using namespace Base;
+
+IPhysics * cPhysics::s_pPhysics = NULL;
 
 // *****************************************************************************
 cPhysics::cPhysics()
@@ -28,7 +30,8 @@ void cPhysics::VUpdate(const float DeltaTime)
 	RigidBodyMap::iterator Iter;
 	for(Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
-		IRigidBody * pRigidBody = Iter->second;
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
+		pRigidBody->Update(DeltaTime);
 	}
 	//if(!m_LinearVelocity.IsZero())
 	//{
@@ -53,20 +56,22 @@ void cPhysics::VUpdate(const float DeltaTime)
 }
 
 // *****************************************************************************
-void cPhysics::VAddRigidBody(const int ID, const stRigidBodyDef & def)
+IRigidBody * const cPhysics::VAddRigidBody(const int ID, const stRigidBodyDef * const pDef)
 {
 	IRigidBody * pRigidBody = IRigidBody::Create();
-	pRigidBody->VInitialize(def);
+	pRigidBody->VInitialize(pDef);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
+	return pRigidBody;
 }
 
 // *****************************************************************************
 void cPhysics::VRemoveRigidBody(const int ID)
 {
-	IRigidBody * const pRigidBody = FindRigidBody(ID);
+	IRigidBody * pRigidBody = FindRigidBody(ID);
 	if (pRigidBody != NULL)
 	{
 		m_RigidBodyMap.erase(ID);
+		SafeDelete(&pRigidBody);
 	}
 }
 
@@ -80,4 +85,18 @@ IRigidBody* cPhysics::FindRigidBody(const int ID) const
 	}
 
 	return NULL;
+}
+
+// ****************************************************************************
+IPhysics * IPhysics::GetInstance()
+{
+	if(cPhysics::s_pPhysics == NULL)
+		cPhysics::s_pPhysics = DEBUG_NEW cPhysics();
+	return cPhysics::s_pPhysics;
+}
+
+// ****************************************************************************
+void IPhysics::Destroy()
+{
+	SafeDelete(&cPhysics::s_pPhysics);
 }

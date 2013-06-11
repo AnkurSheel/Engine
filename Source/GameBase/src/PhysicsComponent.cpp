@@ -23,6 +23,8 @@ Base::cHashedString	cPhysicsComponent::m_Name = cHashedString("physicscomponent"
 cPhysicsComponent::cPhysicsComponent()
 	: m_pRigidBody(NULL)
 	, m_Force(0.0f)
+	, m_ApplyForce(false)
+	, m_Initialized(false)
 {
 }
 
@@ -38,9 +40,8 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	{
 		return;
 	}
-	stRigidBodyDef def;
-
-	def.m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
+	m_pDef = DEBUG_NEW stRigidBodyDef();
+	m_pDef->m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
 	
 	shared_ptr<IXMLNode> pSpeedNode(pXMLNode->VGetChild("TopSpeed"));
 	cString NodeValue;
@@ -50,7 +51,7 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 		tOptional<float> speed = NodeValue.ToFloat();
 		if(speed.IsValid())
 		{
-			def.m_TopSpeed = *speed;
+			m_pDef->m_TopSpeed = *speed;
 		}
 	}
 
@@ -61,7 +62,7 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 		tOptional<float> LinearDamping = NodeValue.ToFloat();
 		if(LinearDamping.IsValid())
 		{
-			def.m_LinearDamping = *LinearDamping;
+			m_pDef->m_LinearDamping = *LinearDamping;
 		}
 	}
 
@@ -75,16 +76,30 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 			m_Force = *Force;
 		}
 	}
-	if(m_pOwner != NULL)
-	{
-		//IPhysics::VAddRigidBody(m_pOwner->VGetID(), def);
-	}
+}
+
+// *****************************************************************************
+void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
+{
+	cBaseComponent::VOnAttached(pOwner);
+	m_pRigidBody = IPhysics::GetInstance()->VAddRigidBody(m_pOwner->VGetID(), m_pDef);	
 }
 
 // *****************************************************************************
 void cPhysicsComponent::VCleanup()
 {
-	//IPhysics::VRemoveRigidBody(m_pOwner->VGetID());
+	SafeDelete(&m_pDef);
+	IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetID());
+}
+
+// *****************************************************************************
+void cPhysicsComponent::Initialize(const Base::cVector3 & Position)
+{
+	if(!m_Initialized && m_pRigidBody != NULL)
+	{
+		m_Initialized = true;
+		m_pRigidBody->VSetPosition(Position);
+	}
 }
 
 // *****************************************************************************
@@ -103,9 +118,18 @@ void cPhysicsComponent::Update()
 		m_ApplyForce = false;
 		if(m_pRigidBody != NULL)
 		{
-			m_pRigidBody->VApplyForce(m_Direction, 10);
+			m_pRigidBody->VApplyForce(m_Direction, m_Force);
 		}
-		/// rigidbody apply force
-		
 	}
+}
+
+// *****************************************************************************
+cVector3 cPhysicsComponent::GetPosition() const
+{
+	if(m_pRigidBody != NULL)
+	{
+		return m_pRigidBody->VGetPosition();
+	}
+
+	return cVector3::Zero();
 }

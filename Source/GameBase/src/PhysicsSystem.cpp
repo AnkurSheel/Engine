@@ -8,10 +8,12 @@
 #include "EntityManager.hxx"
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
+#include "physics.hxx"
 
 using namespace GameBase;
 using namespace Utilities;
 using namespace Base;
+using namespace Physics;
 
 // *****************************************************************************
 cPhysicsSystem::cPhysicsSystem()
@@ -23,7 +25,7 @@ cPhysicsSystem::cPhysicsSystem()
 // *****************************************************************************
 cPhysicsSystem::~cPhysicsSystem()
 {
-
+	IPhysics::Destroy();
 }
 
 // *****************************************************************************
@@ -37,38 +39,22 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
+		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
+		if(!pPhysics->GetInitialized())
+		{
+			cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
+			pPhysics->Initialize(pTransform->m_Position);
+		}
+		pPhysics->Update();
+	}
+	
+	IPhysics::GetInstance()->VUpdate(DeltaTime);
+	
+	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
+	{
+		IBaseEntity * pEntity = *enityIter;
 		cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
-		if(pPhysics != NULL)
-		{
-			pPhysics->Update();
-		}
-		//if(!pPhysics->m_CurrentAcceleration.IsZero())
-		//{
-		//	if(pTransform != NULL)
-		//	{
-		//		cVector3 Force;
-		//		if(pPhysics->m_ApplyGravity)
-		//		{
-		//			//fy += m * 9.81;
-		//			Force.y += 981; // cm/s
-		//		}
-		//		
-		//		//fy += -1 * 0.5 * rho * C_d * A * vy * vy;
-		//		cVector3 Distance = (pPhysics->m_CurrentVelocity * DeltaTime) + (0.5f * pPhysics->m_CurrentAcceleration * DeltaTime * DeltaTime);
-		//		// new_ay = fy / m;
-		//		cVector3 newAcceleration = Force;
-		//		cVector3 avgAcceleration = 0.5f * (newAcceleration + pPhysics->m_CurrentAcceleration);
-		//		pPhysics->m_CurrentVelocity += avgAcceleration;
-		//		Clamp<float>(pPhysics->m_CurrentVelocity.x, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-		//		Clamp<float>(pPhysics->m_CurrentVelocity.y, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-		//		pPhysics->m_CurrentAcceleration = cVector3::Zero();
-		//		pTransform->m_Position += Distance;
-		//	}
-		//}
-		//if(!pPhysics->m_CurrentVelocity.IsZero())
-		//{
-		//	pPhysics->m_CurrentVelocity -= pPhysics->m_CurrentVelocity * pPhysics->m_DragFactor;
-		//}
+		pTransform->m_Position = pPhysics->GetPosition();
 	}
 }

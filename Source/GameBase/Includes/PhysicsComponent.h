@@ -13,6 +13,7 @@
 namespace Physics
 {
 	class IRigidBody;
+	struct stRigidBodyDef;
 }
 
 namespace GameBase
@@ -24,8 +25,12 @@ namespace GameBase
 		GAMEBASE_API cPhysicsComponent();
 		GAMEBASE_API ~cPhysicsComponent();
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
+		void VOnAttached(IBaseEntity * const pOwner);
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
+		GAMEBASE_API void Initialize(const Base::cVector3 & Position);
+		bool GetInitialized() const { return m_Initialized; }
+		Base::cVector3 GetPosition() const;
 		GAMEBASE_API void ApplyForce(const Base::cVector3 & Direction);
 		GAMEBASE_API void Update();
 
@@ -34,9 +39,11 @@ namespace GameBase
 
 	private:
 		Physics::IRigidBody *		m_pRigidBody;
-		float						m_Force;
-		bool						m_ApplyForce;
+		Physics::stRigidBodyDef *	m_pDef;
 		Base::cVector3				m_Direction;
+		float						m_Force;
+		bool						m_Initialized;
+		bool						m_ApplyForce;
 		static Base::cHashedString	m_Name;	///< The component name
 	};
 }
