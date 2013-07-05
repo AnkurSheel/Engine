@@ -61,7 +61,7 @@ bool cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 
 	if(!SetupRasterStates())
 		return false;
-
+	
 	if(!CreateBlendStates())
 		return false;
 
@@ -205,8 +205,11 @@ void cDXBase::VSetFullScreenMode(const bool bIsFullScreen, const int iNewWidth, 
 	if (m_pSwapChain)
 	{
 		m_pDeviceContext->OMSetRenderTargets(0, 0, 0);
+		
 		SafeRelease(&m_pRenderTargetView);
+		SafeRelease(&m_pDepthStencilBuffer);
 		SafeRelease(&m_pDepthStencilView);
+
 		DXGI_SWAP_CHAIN_DESC scd;
 		m_pSwapChain->GetDesc(&scd);
 		if(bIsFullScreen)
@@ -220,13 +223,11 @@ void cDXBase::VSetFullScreenMode(const bool bIsFullScreen, const int iNewWidth, 
 		{
 			//m_pSwapChain->ResizeTarget(&scd.BufferDesc);
 			m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN , DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-			if(!scd.Windowed)
-			{
-				m_pSwapChain->SetFullscreenState(false, NULL);
-			}
+			m_pSwapChain->SetFullscreenState(false, NULL);
 		}
 
 		AttachBackBufferToSwapChain();
+		CreateDepthStencilBuffer(iNewWidth, iNewHeight);
 		CreateDepthStencilView();
 		m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 		SetupViewPort(iNewWidth, iNewHeight);
@@ -272,16 +273,21 @@ bool cDXBase::SetupRenderTargets(const int iWidth,
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
+
 	IDXGIDevice * pDXGIDevice;
 	m_pDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
 
 	IDXGIAdapter * pDXGIAdapter;
 	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void **)&pDXGIAdapter);
+	pDXGIDevice->Release();
 
 	IDXGIFactory * pIDXGIFactory;
 	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&pIDXGIFactory);
+	pDXGIAdapter->Release();
 
 	pIDXGIFactory->MakeWindowAssociation(hWnd, 0);
+	pIDXGIFactory->Release();
+	
 	return true;
 }
 
@@ -295,7 +301,8 @@ bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 
-	swapChainDesc.BufferCount = 1;
+	swapChainDesc.BufferCount = 2;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_SEQUENTIAL;
 	swapChainDesc.BufferDesc.Width = iWidth;
 	swapChainDesc.BufferDesc.Height = iHeight;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -305,11 +312,11 @@ bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = m_DisplayMode.RefreshRate.Numerator;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = m_DisplayMode.RefreshRate.Denominator;
 	}
-	else
+	/*else
 	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	}
+	}*/
 
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = hWnd;
@@ -320,7 +327,7 @@ bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
 
 	unsigned int iCreationFlags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 #ifdef _DEBUG
-	//iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 	D3D_DRIVER_TYPE driverTypes[] =
@@ -333,10 +340,10 @@ bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
 	HRESULT result;
 	for( int i = 0; i < 4; ++i )
 	{
-		result = D3D11CreateDeviceAndSwapChain(NULL, driverTypes[i],
+		result = D3D11CreateDeviceAndSwapChain(NULL, driverTypes[0],
 			NULL, iCreationFlags, NULL, NULL, D3D11_SDK_VERSION, &swapChainDesc, 
 			&m_pSwapChain, &m_pDevice, &featureLevel, &m_pDeviceContext);
-
+		
 		if( SUCCEEDED( result ) )
 			break;
 	}
@@ -346,6 +353,32 @@ bool cDXBase::SetupSwapChain(const int iWidth, const int iHeight,
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
+	}
+
+	ID3D11Debug *d3dDebug = nullptr;
+	if(SUCCEEDED(m_pDevice->QueryInterface( __uuidof(ID3D11Debug), (void**)&d3dDebug ) ) )
+	{
+		ID3D11InfoQueue *d3dInfoQueue = nullptr;
+		if( SUCCEEDED( d3dDebug->QueryInterface( __uuidof(ID3D11InfoQueue), (void**)&d3dInfoQueue ) ) )
+		{
+#ifdef _DEBUG
+			d3dInfoQueue->SetBreakOnSeverity( D3D11_MESSAGE_SEVERITY_CORRUPTION, true );
+			d3dInfoQueue->SetBreakOnSeverity( D3D11_MESSAGE_SEVERITY_ERROR, true );
+#endif
+			D3D11_MESSAGE_ID hide [] =
+			{
+				D3D11_MESSAGE_ID_SETPRIVATEDATA_CHANGINGPARAMS,
+				// Add more message IDs here as needed
+			};
+
+			D3D11_INFO_QUEUE_FILTER filter;
+			memset( &filter, 0, sizeof(filter) );
+			filter.DenyList.NumIDs = _countof(hide);
+			filter.DenyList.pIDList = hide;
+			d3dInfoQueue->AddStorageFilterEntries( &filter );
+			d3dInfoQueue->Release();
+		}
+		d3dDebug->Release();
 	}
 
 	if(!AttachBackBufferToSwapChain())
@@ -682,11 +715,24 @@ void cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const 
 }
 
 // *****************************************************************************
+void cDXBase::DumpDirectXInfo()
+{
+#ifdef _DEBUG
+	if(m_pDevice != NULL)
+	{
+		ID3D11Debug * pD3dDebug = NULL;
+		if(SUCCEEDED(m_pDevice->QueryInterface( __uuidof(ID3D11Debug), (void**)&pD3dDebug)))
+		{
+			pD3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			pD3dDebug->Release();
+		}
+	}
+#endif
+}
+
+// *****************************************************************************
 void cDXBase::Cleanup()
 {
-	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
-	VSetFullScreenMode(false, m_iScreenWidth, m_iScreenHeight);
-
 	SafeRelease(&m_pRasterState);
 	SafeRelease(&m_pDepthStencilView);
 	SafeRelease(&m_p3DDepthStencilState);
@@ -696,9 +742,13 @@ void cDXBase::Cleanup()
 	SafeRelease(&m_pAlphaEnableBlendingState);
 	SafeRelease(&m_pAlphaDisableBlendingState);
 
-	SafeRelease(&m_pDeviceContext);
-	SafeRelease(&m_pDevice);
+	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
+	m_pSwapChain->SetFullscreenState(false, NULL);
 	SafeRelease(&m_pSwapChain);
+	SafeRelease(&m_pDeviceContext);
+	DumpDirectXInfo();
+
+	SafeRelease(&m_pDevice);
 }
 
 // *****************************************************************************

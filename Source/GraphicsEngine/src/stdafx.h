@@ -37,6 +37,7 @@
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 #pragma comment(lib, "dxerr.lib")
+#pragma comment(lib, "dxguid.lib")
 
 #include <dxgi.h>
 #include <d3dcommon.h>
@@ -48,3 +49,11 @@
 #include "Includes.h"
 #include "Vector3.h"
 #include "Vector2.h"
+\
+
+inline void SetDebugObjectName(ID3D11DeviceChild* resource, const Base::cString name)
+{
+  #if defined(_DEBUG) || defined(PROFILE)
+	resource->SetPrivateData(WKPDID_D3DDebugObjectName, name.GetLength(), name.GetData());
+  #endif
+}

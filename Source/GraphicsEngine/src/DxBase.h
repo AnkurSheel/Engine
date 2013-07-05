@@ -59,7 +59,7 @@ namespace Graphics
 		/// @return False if there was an error
         ///
 		////////////////////////////////////////////////////////////////////////
-		bool SetupRenderTargets( const int iWidth, const int iHeight,
+		bool SetupRenderTargets(const int iWidth, const int iHeight,
 			const HWND & hWnd, const bool bFullScreen);
 		////////////////////////////////////////////////////////////////////////
 		/// Fills out the swap chain description and creates the device and
@@ -71,8 +71,7 @@ namespace Graphics
 		/// @return False if there was an error
         ///
 		////////////////////////////////////////////////////////////////////////
-		bool SetupSwapChain( const int iWidth, const int iHeight,
-			const HWND & hWnd);
+		bool SetupSwapChain(const int iWidth, const int iHeight, const HWND & hWnd);
 		////////////////////////////////////////////////////////////////////////
 		/// Creates the depth stencil state for 3D.
 		///
@@ -153,7 +152,15 @@ namespace Graphics
 		/// @param[in] fScreenNear Near Depth setting for the 3D environment
         ///
 		////////////////////////////////////////////////////////////////////////
-		void SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth );
+		void SetupProjectionMatrix(const int iWidth, const int iHeight,
+			const float fScreenNear, const float fScreenDepth);
+		////////////////////////////////////////////////////////////////////////
+		/// Helper function to report information of directx resources that
+		/// might be leaking.
+		///
+        ///
+		////////////////////////////////////////////////////////////////////////
+		void DumpDirectXInfo();
 		////////////////////////////////////////////////////////////////////////
 		/// Releases all the pointers
 		///

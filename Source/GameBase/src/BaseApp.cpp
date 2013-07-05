@@ -234,6 +234,10 @@ float cBaseApp::VGetFPS() const
 // *****************************************************************************
 bool cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 {
+	if(m_Quitting)
+	{
+		return false;
+	}
 	return m_pHumanView->VOnMsgProc(msg);
 }
 
@@ -242,6 +246,10 @@ bool cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 // *****************************************************************************
 void cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 {
+	if(m_Quitting)
+	{
+		return;
+	}
 	m_pHumanView->VOnRender(tickCurrent, fElapsedTime);
 }
 
