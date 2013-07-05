@@ -89,7 +89,10 @@ void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
 void cPhysicsComponent::VCleanup()
 {
 	SafeDelete(&m_pDef);
-	IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetID());
+	if(m_pOwner != NULL)
+	{
+		IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetID());
+	}
 }
 
 // *****************************************************************************

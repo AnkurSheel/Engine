@@ -118,7 +118,6 @@ void cBaseEntity::RemoveComponent(const unsigned long ComponentID)
 	if(pComponent != NULL)
 	{
 		m_Components.erase(ComponentID);
-		pComponent->VCleanup();
 		SafeDelete(&pComponent);
 	}
 }
