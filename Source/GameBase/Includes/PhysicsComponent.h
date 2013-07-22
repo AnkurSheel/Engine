@@ -38,13 +38,13 @@ namespace GameBase
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
-		Physics::IRigidBody *		m_pRigidBody;
-		Physics::stRigidBodyDef *	m_pDef;
-		Base::cVector3				m_Direction;
-		float						m_Force;
-		bool						m_Initialized;
-		bool						m_ApplyForce;
-		static Base::cHashedString	m_Name;	///< The component name
+		Physics::IRigidBody *				m_pRigidBody;
+		shared_ptr<Physics::stRigidBodyDef>	m_pDef;
+		Base::cVector3						m_Direction;
+		float								m_Force;
+		bool								m_Initialized;
+		bool								m_ApplyForce;
+		static Base::cHashedString			m_Name;	///< The component name
 	};
 }
 #endif // PhysicsComponent_h__

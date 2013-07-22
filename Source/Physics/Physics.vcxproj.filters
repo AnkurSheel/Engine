@@ -7,10 +7,30 @@
     <ClInclude Include="src\RigidBody.h" />
     <ClInclude Include="Includes\Physics.hxx" />
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\Shape.hxx">
+      <Filter>Collison</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RectangleShape.h">
+      <Filter>Collison</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shape.h">
+      <Filter>Collison</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\RectangleShape.cpp">
+      <Filter>Collison</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shape.cpp">
+      <Filter>Collison</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Collison">
+      <UniqueIdentifier>{75a5ce21-7426-41d4-a4f6-7558a19c7a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

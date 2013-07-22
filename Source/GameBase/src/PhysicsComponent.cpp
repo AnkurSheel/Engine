@@ -31,6 +31,7 @@ cPhysicsComponent::cPhysicsComponent()
 // *****************************************************************************
 cPhysicsComponent::~cPhysicsComponent()
 {
+	VCleanup();
 }
 
 // *****************************************************************************
@@ -40,7 +41,7 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	{
 		return;
 	}
-	m_pDef = DEBUG_NEW stRigidBodyDef();
+	m_pDef = shared_ptr<Physics::stRigidBodyDef>(DEBUG_NEW stRigidBodyDef());
 	m_pDef->m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
 	
 	shared_ptr<IXMLNode> pSpeedNode(pXMLNode->VGetChild("TopSpeed"));
@@ -76,6 +77,16 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 			m_Force = *Force;
 		}
 	}
+
+	shared_ptr<IXMLNode> pShapeNode(pXMLNode->VGetChild("Shape"));
+	if(pShapeNode != NULL)
+	{
+		NodeValue = pShapeNode->VGetNodeValue();
+		if(!NodeValue.IsEmpty())
+		{
+			m_pDef->m_Shape = cHashedString(NodeValue.GetInLowerCase());
+		}
+	}
 }
 
 // *****************************************************************************
@@ -88,7 +99,6 @@ void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
 // *****************************************************************************
 void cPhysicsComponent::VCleanup()
 {
-	SafeDelete(&m_pDef);
 	if(m_pOwner != NULL)
 	{
 		IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetID());

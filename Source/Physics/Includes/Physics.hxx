@@ -33,7 +33,7 @@ namespace Physics
 		virtual ~IPhysics() {}
 		virtual void VInitialize(const stPhysicsDef & def) = 0;
 		virtual void VUpdate(const float DeltaTime) = 0;
-		virtual IRigidBody * const VAddRigidBody(const int ID, const stRigidBodyDef *	const pDef) = 0;
+		virtual IRigidBody * const VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef) = 0;
 		virtual void VRemoveRigidBody(const int ID) = 0;
 		PHYSICS_API static IPhysics * GetInstance();
 		PHYSICS_API static void Destroy();

@@ -56,7 +56,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 }
 
 // *****************************************************************************
-IRigidBody * const cPhysics::VAddRigidBody(const int ID, const stRigidBodyDef * const pDef)
+IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
 {
 	IRigidBody * pRigidBody = IRigidBody::Create();
 	pRigidBody->VInitialize(pDef);
