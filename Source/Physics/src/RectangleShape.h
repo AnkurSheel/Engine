@@ -17,7 +17,11 @@ namespace Physics
 	public:
 		cRectangleShape();
 		~cRectangleShape();
-		void VInitialize(const Base::cVector3 & MinVertex, const Base::cVector3 & MaxVertex);
+		void VInitialize(const Base::cVector3 & MinBound, const Base::cVector3 & MaxBound);
+		static Base::cHashedString	GetName()  {return m_Name; }
+
+	private:
+		static Base::cHashedString			m_Name;	///< The component name
 	};
 }
 #endif //RectangleShape_hxx

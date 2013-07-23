@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RigidBody.h"
 #include "Shape.hxx"
+#include "RectangleShape.h"
 
 using namespace Physics;
 using namespace Base;
@@ -25,6 +26,11 @@ cRigidBody::~cRigidBody()
 // *****************************************************************************
 void cRigidBody::VInitialize(shared_ptr<const stRigidBodyDef> pDef)
 {
+	if(pDef == NULL)
+	{
+		return;
+	}
+
 	if(isZero(pDef->m_Mass))
 	{	
 		m_InverseMass = 0.0f;
@@ -36,9 +42,10 @@ void cRigidBody::VInitialize(shared_ptr<const stRigidBodyDef> pDef)
 	m_LinearDamping = pDef->m_LinearDamping;
 	m_ApplyGravity = pDef->m_ApplyGravity;
 	m_TopSpeed = pDef->m_TopSpeed;
-	if(pDef->m_Shape == cHashedString("rectangle"))
+	if(pDef->m_Shape == cRectangleShape::GetName())
 	{
 		m_pCollisionShape = IShape::CreateRectangleShape();
+		m_pCollisionShape->VInitialize(pDef->m_MinBound, pDef->m_MaxBound);
 	}
 }
 

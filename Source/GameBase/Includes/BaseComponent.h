@@ -26,7 +26,7 @@ namespace GameBase
 
 		unsigned long VGetID() const { return VGetHashedID(); }
 		void VOnAttached(IBaseEntity * const pOwner);
-		virtual unsigned long VGetHashedID() const  = 0;
+		virtual unsigned long VGetHashedID() const = 0;
 		
 	protected:
 		IBaseEntity *		m_pOwner;

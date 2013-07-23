@@ -102,3 +102,10 @@ void cSpriteComponent::VRender(const ICamera * const pCamera)
 		m_pSprite->VRender(pCamera);
 	}
 }
+
+// *****************************************************************************
+void cSpriteComponent::VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds)
+{
+	minBound = cVector3::Zero();
+	maxBounds = cVector3(m_pSprite->VGetScaledSize().x, m_pSprite->VGetScaledSize().y, 0.0f);
+}

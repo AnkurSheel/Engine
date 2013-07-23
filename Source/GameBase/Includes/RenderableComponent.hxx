@@ -26,6 +26,7 @@ namespace GameBase
 		virtual void VUpdateTransform(const Base::cVector3 & vPosition,
 			const Base::cVector3 & vRotation, const Base::cVector3 & vSize) = 0;
 		virtual void VRender(const Graphics::ICamera * const pCamera) = 0;
+		virtual void VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds) = 0;
 	};
 }
 #endif // RenderableComponent_hxx__

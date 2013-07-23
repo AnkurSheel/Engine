@@ -8,11 +8,7 @@
 #define RigidBody_hxx
 
 #include "PhysicsDefines.h"
-
-namespace Base
-{
-	class cVector3;
-}
+#include "vector3.h"
 
 namespace Physics
 {
@@ -21,6 +17,8 @@ namespace Physics
 		float				m_Mass;
 		float				m_LinearDamping;
 		float				m_TopSpeed;
+		Base::cVector3		m_MinBound;
+		Base::cVector3		m_MaxBound;
 		Base::cHashedString	m_Shape; 
 		bool				m_ApplyGravity;
 

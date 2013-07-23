@@ -43,6 +43,7 @@ namespace GameBase
 		void VUpdateTransform(const Base::cVector3 & vPosition,
 			const Base::cVector3 & vRotation, const Base::cVector3 & vSize);
 		void VRender(const Graphics::ICamera * const pCamera);
+		void VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds);
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		
 	private:

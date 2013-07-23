@@ -9,6 +9,8 @@
 using namespace Physics;
 using namespace Base;
 
+Base::cHashedString	cRectangleShape::m_Name = cHashedString("rectangle");
+
 // *****************************************************************************
 cRectangleShape::cRectangleShape()
 {
@@ -20,10 +22,10 @@ cRectangleShape::~cRectangleShape()
 }
 
 // *****************************************************************************
-void cRectangleShape::VInitialize(const cVector3 & MinVertex, const cVector3 & MaxVertex)
+void cRectangleShape::VInitialize(const cVector3 & MinBound, const cVector3 & MaxBound)
 {
-	m_Center = ((MinVertex + MaxVertex) * 0.5f);
-	m_HalfExtents = ((MaxVertex - MinVertex) * 0.5f);
+	m_Center = ((MinBound + MaxBound) * 0.5f);
+	m_HalfExtents = ((MaxBound - MinBound) * 0.5f);
 }
 
 // *****************************************************************************

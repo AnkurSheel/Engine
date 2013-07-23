@@ -11,6 +11,8 @@
 #include "RigidBody.hxx"
 #include "Physics.hxx"
 #include "BaseEntity.hxx"
+#include "EntityManager.hxx"
+#include "SpriteComponent.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -93,6 +95,17 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
 {
 	cBaseComponent::VOnAttached(pOwner);
+	if(m_pDef != NULL)
+	{
+		if(m_pDef->m_Shape == cHashedString("rectangle"))
+		{
+			IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pOwner, cSpriteComponent::GetName()));
+			if(pRenderableComponent != NULL)
+			{
+				pRenderableComponent->VGetBounds(m_pDef->m_MinBound, m_pDef->m_MaxBound);
+			}
+		}
+	}
 	m_pRigidBody = IPhysics::GetInstance()->VAddRigidBody(m_pOwner->VGetID(), m_pDef);	
 }
 
