@@ -43,6 +43,7 @@ namespace GameBase
 		Base::cString VGetEntityName(const IBaseEntity * const pEntity) const;
 		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cHashedString & ComponentName);
 		int VGetEntityID(const IBaseEntity * const pEntity) const;
+		void VUpdate();
 		void InitializeEntity(IBaseEntity * const pEntity);
 		void Cleanup();
 
@@ -50,15 +51,16 @@ namespace GameBase
 		~cEntityManager();
 
 	private:
-		EntityMap			m_EntityMap;
-		EntityComponentMap	m_ComponentMap;
+		EntityMap				m_EntityMap;
+		EntityComponentMap		m_ComponentMap;
 		static IEntityManager * s_pEntityManager;
+		static IBaseEntity *		s_pBaseApp;
 
-		private:
-			friend static IEntityManager * IEntityManager::GetInstance();
-			friend static void IEntityManager::Destroy();
-
+	private:
+		friend static void IEntityManager::SetApp(IBaseEntity * const pApp);
+		friend static IBaseEntity * const IEntityManager::GetApp();
+		friend static IEntityManager * IEntityManager::GetInstance();
+		friend static void IEntityManager::Destroy();
 	};
-
 }
 #endif // EnityManager_h__

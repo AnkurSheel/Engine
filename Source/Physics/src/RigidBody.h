@@ -24,6 +24,7 @@ namespace Physics
 		cRigidBody();
 		~cRigidBody();
 		void Update(const float DeltaTime);
+		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 
 	private:
 		PHYSICS_API virtual void VInitialize(shared_ptr<const stRigidBodyDef>);

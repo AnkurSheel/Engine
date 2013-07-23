@@ -124,7 +124,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		return;
 	}
 
-	IEntityManager::GetInstance()->VRegisterEntity(this);
+	IEntityManager::SetApp(this);
 
 	m_pProcessManager = IProcessManager::CreateProcessManager();
 

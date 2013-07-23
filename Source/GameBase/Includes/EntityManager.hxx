@@ -42,8 +42,12 @@ namespace GameBase
 			IBaseComponent * pComponent) = 0;
 		virtual void VRemoveComponent(IBaseEntity * const pEntity,
 			const unsigned long ComponentID) = 0;
+		virtual void VUpdate() = 0;
 
 		GAMEBASE_API static IEntityManager * GetInstance();
+		GAMEBASE_API static void SetApp(IBaseEntity * const pApp);
+		GAMEBASE_API static IBaseEntity * const GetApp();
+
 		GAMEBASE_API static void Destroy();
 	};
 }

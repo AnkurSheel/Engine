@@ -14,6 +14,7 @@
     <ClInclude Include="Includes\Physics.hxx" />
     <ClInclude Include="Includes\PhysicsDefines.h" />
     <ClInclude Include="Includes\RigidBody.hxx" />
+    <ClInclude Include="src\CollisionInfo.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\RectangleShape.h" />
     <ClInclude Include="src\RigidBody.h" />
@@ -22,6 +23,7 @@
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionInfo.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\RectangleShape.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />

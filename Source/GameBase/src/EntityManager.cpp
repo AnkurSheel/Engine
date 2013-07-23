@@ -17,7 +17,8 @@ using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
 
-IEntityManager * GameBase::cEntityManager::s_pEntityManager = NULL;
+IEntityManager * cEntityManager::s_pEntityManager = NULL;
+IBaseEntity * cEntityManager::s_pBaseApp = NULL;
 
 // *****************************************************************************
 cEntityManager::cEntityManager()
@@ -213,6 +214,20 @@ void cEntityManager::VGetEntities(const cHashedString & Component,
 }
 
 // *****************************************************************************
+void cEntityManager::VUpdate()
+{
+	EntityMap::iterator iter = m_EntityMap.begin();
+	for(iter != m_EntityMap.begin(); iter != m_EntityMap.end(); iter++)
+	{
+		IBaseEntity * pEntity = iter->second;
+		if(pEntity != s_pBaseApp)
+		{
+			pEntity->VOnUpdate();
+		}
+	}
+}
+
+// *****************************************************************************
 void cEntityManager::InitializeEntity(IBaseEntity * const pEntity)
 {
 	cBaseEntity * pBaseEntity = dynamic_cast<cBaseEntity *>(pEntity);
@@ -240,7 +255,6 @@ void cEntityManager::Cleanup()
 		IBaseEntity * pEntity = iter->second;
 		iter++;
 		SafeDelete(&pEntity);
-		
 	}
 
 	m_EntityMap.clear();
@@ -250,6 +264,22 @@ void cEntityManager::Cleanup()
 	}
 	m_ComponentMap.clear();
 }
+
+// *****************************************************************************
+IBaseEntity * const IEntityManager::GetApp()
+{
+	return cEntityManager::s_pBaseApp;
+}
+// *****************************************************************************
+void IEntityManager::SetApp(IBaseEntity * const pApp)
+{
+	if(pApp != NULL && cEntityManager::s_pBaseApp == NULL)
+	{
+		cEntityManager::s_pBaseApp = pApp;
+		GetInstance()->VRegisterEntity(pApp);
+	}
+}
+
 
 // *****************************************************************************
 IEntityManager * IEntityManager::GetInstance()

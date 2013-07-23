@@ -16,6 +16,9 @@
     <ClInclude Include="src\Shape.h">
       <Filter>Collison</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionInfo.h">
+      <Filter>Collison</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp" />
@@ -25,6 +28,9 @@
       <Filter>Collison</Filter>
     </ClCompile>
     <ClCompile Include="src\Shape.cpp">
+      <Filter>Collison</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionInfo.cpp">
       <Filter>Collison</Filter>
     </ClCompile>
   </ItemGroup>
