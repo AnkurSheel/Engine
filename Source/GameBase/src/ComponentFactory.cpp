@@ -30,7 +30,7 @@ cComponentFactory::~cComponentFactory()
 }
 
 // *****************************************************************************
-void cComponentFactory::RegisterComponents()
+void cComponentFactory::VRegisterComponents()
 {
 	m_RegisteredComponents.Register<cTransformComponent>(cTransformComponent::GetName().GetHash());
 	m_RegisteredComponents.Register<cSpriteComponent>(cSpriteComponent::GetName().GetHash());

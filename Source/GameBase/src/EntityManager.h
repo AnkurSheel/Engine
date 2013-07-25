@@ -30,6 +30,8 @@ namespace GameBase
 		typedef std::map<unsigned long, EntityList> EntityComponentMap;
 
 	private:
+		void VInitializeEntityFactory(shared_ptr<cEntityFactory> pEntityFactory);
+		void VInitializeComponentFactory(shared_ptr<cComponentFactory> pComponentFactory);
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		IBaseEntity * const VRegisterEntity(const Base::cString & Type);
 		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
@@ -51,10 +53,12 @@ namespace GameBase
 		~cEntityManager();
 
 	private:
-		EntityMap				m_EntityMap;
-		EntityComponentMap		m_ComponentMap;
-		static IEntityManager * s_pEntityManager;
-		static IBaseEntity *		s_pBaseApp;
+		static IEntityManager *			s_pEntityManager;
+		static IBaseEntity *			s_pBaseApp;
+		EntityMap						m_EntityMap;
+		EntityComponentMap				m_ComponentMap;
+		shared_ptr<cEntityFactory>		m_pEntityFactory;
+		shared_ptr<cComponentFactory>	m_pComponentFactory;
 
 	private:
 		friend static void IEntityManager::SetApp(IBaseEntity * const pApp);

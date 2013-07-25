@@ -22,7 +22,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cComponentFactory();
 		GAMEBASE_API ~cComponentFactory();
-		GAMEBASE_API void RegisterComponents();
+		GAMEBASE_API void VRegisterComponents();
 		IBaseComponent * CreateComponent(const Base::cHashedString & Type);
 		GAMEBASE_API IBaseComponent * GetDuplicateComponent(const IBaseComponent * const pComponent);
 		static cComponentFactory * Instance() { return m_pInstance; }

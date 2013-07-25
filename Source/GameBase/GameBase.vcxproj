@@ -101,11 +101,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ActorMovedEventData.cpp" />
     <ClCompile Include="src\BaseComponent.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
     <ClCompile Include="src\ComponentFactory.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\EntityFactory.cpp" />
+    <ClCompile Include="src\EventFactory.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\GameControls.cpp" />
     <ClCompile Include="src\HighScoreTable.cpp" />
     <ClCompile Include="src\InputSystem.cpp" />
@@ -130,9 +133,13 @@
   <ItemGroup>
     <ClInclude Include="Includes\BaseComponent.h" />
     <ClInclude Include="Includes\BaseComponent.hxx" />
+    <ClInclude Include="Includes\BaseEventData.h" />
     <ClInclude Include="Includes\ComponentFactory.h" />
     <ClInclude Include="Includes\Config.h" />
     <ClInclude Include="Includes\EntityFactory.h" />
+    <ClInclude Include="Includes\EventData.hxx" />
+    <ClInclude Include="Includes\EventFactory.h" />
+    <ClInclude Include="Includes\EventManager.hxx" />
     <ClInclude Include="Includes\GameControls.h" />
     <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\HighScoreTable.h" />
@@ -152,8 +159,10 @@
     <ClInclude Include="Includes\HumanView.h" />
     <ClInclude Include="Includes\SpriteComponent.h" />
     <ClInclude Include="Includes\TransformComponent.h" />
+    <ClInclude Include="src\ActorMovedEventData.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
+    <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\KeyboardController.h" />
     <ClInclude Include="src\MessageDispatchManager.h" />
     <ClInclude Include="Includes\MessageDispatchManager.hxx" />

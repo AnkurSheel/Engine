@@ -13,6 +13,7 @@
 #include "ProcessManager.hxx"
 #include "GameDirectories.h"
 #include "GameOptions.h"
+#include "EventManager.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -125,7 +126,6 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	}
 
 	IEntityManager::SetApp(this);
-
 	m_pProcessManager = IProcessManager::CreateProcessManager();
 
 	VCreateHumanView();
@@ -177,9 +177,13 @@ void cBaseApp::VOnUpdate()
 	m_pGameTimer->VOnUpdate();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 
-	if(m_pProcessManager)
+	if(m_pGameTimer != NULL)
 	{
-		m_pProcessManager->UpdateProcesses(m_pGameTimer->VGetDeltaTime());
+		if(m_pProcessManager)
+		{
+			m_pProcessManager->UpdateProcesses(m_pGameTimer->VGetDeltaTime());
+		}
+		IEventManager::Instance()->VUpdate(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 	}
 
 }
@@ -192,6 +196,8 @@ void cBaseApp::VCleanup()
 	// this is important to avoid recursive calls to cleanup
 	IEntityManager::GetInstance()->VUnRegisterEntity(this);
 	IEntityManager::Destroy();
+
+	IEventManager::Destroy();
 
 	SafeDelete(&m_pGameTimer);
 	SafeDelete(&m_pParamLoader);
@@ -209,7 +215,9 @@ void cBaseApp::VCleanup()
 float cBaseApp::GetRunningTime() const
 {
 	if(m_pGameTimer)
+	{
 		return m_pGameTimer->VGetRunningTime();
+	}
 
 	return 0.f;
 }
@@ -217,10 +225,12 @@ float cBaseApp::GetRunningTime() const
 // *****************************************************************************
 TICK cBaseApp::GetRunningTicks() const
 {
-	if(m_pGameTimer)
+	if(m_pGameTimer != NULL)
+	{
 		return m_pGameTimer->VGetRunningTicks();
+	}
 
-	return 0;
+	return 0.0f;
 }
 
 // *****************************************************************************
@@ -228,7 +238,11 @@ TICK cBaseApp::GetRunningTicks() const
 // *****************************************************************************
 float cBaseApp::VGetFPS() const
 {
-	return m_pGameTimer->VGetFPS();
+	if(m_pGameTimer != NULL)
+	{
+		return m_pGameTimer->VGetFPS();
+	}
+	return 0.0f;
 }
 
 // *****************************************************************************
@@ -251,28 +265,4 @@ void cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 		return;
 	}
 	m_pHumanView->VOnRender(tickCurrent, fElapsedTime);
-}
-
-// *****************************************************************************
-cHumanView * const cBaseApp::VGetHumanView() const
-{
-	return m_pHumanView;
-}
-
-// *****************************************************************************
-Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
-{
-	return m_pParamLoader;
-}
-
-// *****************************************************************************
-cGameControls * cBaseApp::GetGameControls() const
-{
-	return m_pGameControls;
-}
-
-// *****************************************************************************
-IProcessManager * cBaseApp::VGetProcessManager() const
-{
-	return m_pProcessManager;
 }

@@ -35,11 +35,11 @@ namespace GameBase
 	{
 	public:
 		virtual ~cBaseApp(){}
-		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
-		GAMEBASE_API Utilities::IProcessManager * VGetProcessManager() const;
+		GAMEBASE_API virtual cHumanView * const VGetHumanView() const { return m_pHumanView; }
+		GAMEBASE_API Utilities::IProcessManager * VGetProcessManager() const {return m_pProcessManager; }
 		TICK GetRunningTicks() const;
 		GAMEBASE_API float GetRunningTime() const;
-		GAMEBASE_API cGameControls * GetGameControls() const;
+		GAMEBASE_API cGameControls * GetGameControls() const { return m_pGameControls; }
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString & Name);
@@ -51,9 +51,9 @@ namespace GameBase
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
-		
+
 	private:
-		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
+		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const { return m_pParamLoader; }
 		GAMEBASE_API float VGetFPS() const;
 		Base::cString VGetName() const { return m_Title; }
 		virtual unsigned long VGetHashedID() const { return 0; }

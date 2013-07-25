@@ -16,6 +16,8 @@ namespace GameBase
 {
 	class IBaseEntity;
 	class IBaseComponent;
+	class cEntityFactory;
+	class cComponentFactory;
 }
 
 namespace GameBase
@@ -27,6 +29,8 @@ namespace GameBase
 
 	public:
 		virtual ~IEntityManager(){}
+		virtual void VInitializeEntityFactory(shared_ptr<cEntityFactory> pEntityFactory) = 0;
+		virtual void VInitializeComponentFactory(shared_ptr<cComponentFactory> pComponentFactory) = 0;
 		virtual void VRegisterEntity(IBaseEntity * const pNewEntity) = 0;
 		virtual IBaseEntity * const VRegisterEntity(const Base::cString & Type) = 0;
 		virtual void VUnRegisterEntity(IBaseEntity * const pNewEntity) = 0;

@@ -24,7 +24,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cEntityFactory();
 		GAMEBASE_API virtual ~cEntityFactory();
-		GAMEBASE_API virtual void RegisterEntities() = 0;
+		GAMEBASE_API virtual void VRegisterEntities() = 0;
 		GAMEBASE_API virtual IBaseEntity * VCreateEntity(const Base::cHashedString & Type) = 0;
 		GAMEBASE_API static cEntityFactory * Instance() { return m_pInstance; }
 

@@ -14,7 +14,8 @@ cEntityFactory * cEntityFactory::m_pInstance = NULL;
 // *****************************************************************************
 cEntityFactory::cEntityFactory()
 {
-
+	if(m_pInstance == NULL)
+		m_pInstance = this;
 }
 
 // *****************************************************************************

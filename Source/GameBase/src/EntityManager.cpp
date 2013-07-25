@@ -12,6 +12,7 @@
 #include "BaseEntity.h"
 #include "BaseComponent.hxx"
 #include "EntityFactory.h"
+#include "ComponentFactory.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -33,6 +34,25 @@ cEntityManager::~cEntityManager()
 }
 
 // *****************************************************************************
+void cEntityManager::VInitializeEntityFactory(shared_ptr<cEntityFactory> pEntityFactory)
+{
+	if(m_pEntityFactory == NULL && pEntityFactory != NULL)
+	{
+		m_pEntityFactory = pEntityFactory;
+		m_pEntityFactory->VRegisterEntities();
+	}
+}
+
+// *****************************************************************************
+void cEntityManager::VInitializeComponentFactory(shared_ptr<cComponentFactory> pComponentFactory)
+{
+	if(m_pComponentFactory == NULL && pComponentFactory != NULL)
+	{
+		m_pComponentFactory = pComponentFactory;
+		m_pComponentFactory->VRegisterComponents();
+	}
+}
+// *****************************************************************************
 void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
 {
 	InitializeEntity(pNewEntity);
@@ -41,13 +61,13 @@ void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
 // *****************************************************************************
 IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
 {
-	if(cEntityFactory::Instance() == NULL)
+	if(m_pEntityFactory == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Entity Factory Not Created");
 		return NULL;
 	}
 
-	IBaseEntity * pEntity = cEntityFactory::Instance()->VCreateEntity(cHashedString(Type.GetInLowerCase()));
+	IBaseEntity * pEntity = m_pEntityFactory->VCreateEntity(cHashedString(Type.GetInLowerCase()));
 	if (pEntity == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Entity " + Type + " Not Created");
