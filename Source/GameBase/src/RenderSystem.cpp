@@ -11,7 +11,7 @@
 #include "Camera.hxx"
 #include "ModelComponent.h"
 #include "EventManager.hxx"
-#include "ActorMovedEventData.h"
+#include "EntityMovedEventData.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -28,13 +28,13 @@ cRenderSystem::cRenderSystem()
 cRenderSystem::~cRenderSystem()
 {
 	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
-	IEventManager::Instance()->VRemoveListener(cbActorMoved, cActorMovedEventData::m_Name);
+	IEventManager::Instance()->VRemoveListener(cbActorMoved, cEntityMovedEventData::m_Name);
 }
 
 void cRenderSystem::VInitialize()
 {
 	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
-	IEventManager::Instance()->VAddListener(cbActorMoved, cActorMovedEventData::m_Name);
+	IEventManager::Instance()->VAddListener(cbActorMoved, cEntityMovedEventData::m_Name);
 }
 
 // *****************************************************************************
@@ -64,7 +64,7 @@ void cRenderSystem::Render(const ICamera * const pCamera)
 // *****************************************************************************
 void cRenderSystem::ActorMovedListener(IEventDataPtr pEventData)
 {
-	shared_ptr<cActorMovedEventData> pCastEventData = static_pointer_cast<cActorMovedEventData>(pEventData);
+	shared_ptr<cEntityMovedEventData> pCastEventData = static_pointer_cast<cEntityMovedEventData>(pEventData);
 
 	int id = pCastEventData->GetActorID();
     cVector3 position = pCastEventData->GetPosition();

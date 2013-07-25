@@ -58,13 +58,13 @@
     <ClCompile Include="src\RenderSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\ActorMovedEventData.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="src\EventManager.cpp">
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="src\EventFactory.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityMovedEventData.cpp">
       <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
@@ -148,9 +148,6 @@
     <ClInclude Include="Includes\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ActorMovedEventData.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\EventManager.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -164,6 +161,9 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Includes\EventFactory.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityMovedEventData.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>

@@ -101,7 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ActorMovedEventData.cpp" />
+    <ClCompile Include="src\EntityMovedEventData.cpp" />
     <ClCompile Include="src\BaseComponent.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
     <ClCompile Include="src\ComponentFactory.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="Includes\HumanView.h" />
     <ClInclude Include="Includes\SpriteComponent.h" />
     <ClInclude Include="Includes\TransformComponent.h" />
-    <ClInclude Include="src\ActorMovedEventData.h" />
+    <ClInclude Include="src\EntityMovedEventData.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
     <ClInclude Include="src\EventManager.h" />

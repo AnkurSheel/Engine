@@ -1,23 +1,23 @@
 // *****************************************************************************
-//  ActorMovedEventData version:  1.0   Ankur Sheel  date: 2013/07/25
+//  EntityMovedEventData version:  1.0   Ankur Sheel  date: 2013/07/25
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
-#ifndef ActorMovedEventData_h__
-#define ActorMovedEventData_h__
+#ifndef EntityMovedEventData_h__
+#define EntityMovedEventData_h__
 
 #include "BaseEventData.h"
 #include "vector3.h"
 
 namespace GameBase
 {
-	class cActorMovedEventData
+	class cEntityMovedEventData
 		: public cBaseEventData
 	{
 	public:
-		cActorMovedEventData();
-		cActorMovedEventData(const Base::cVector3 & position, const int actorID);
-		~cActorMovedEventData();
+		cEntityMovedEventData();
+		cEntityMovedEventData(const Base::cVector3 & position, const int actorID);
+		~cEntityMovedEventData();
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 		virtual Base::cString VGetName() const { return m_Name.GetString(); }
 		int GetActorID() const { return m_ActorID; }
@@ -31,4 +31,4 @@ namespace GameBase
 		int				m_ActorID;
 	};
 }
-#endif //ActorMovedEventData_h__
+#endif //EntityMovedEventData_h__

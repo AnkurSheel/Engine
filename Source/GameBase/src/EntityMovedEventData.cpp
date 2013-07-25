@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "ActorMovedEventData.h"
+#include "EntityMovedEventData.h"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
 
-Base::cHashedString	cActorMovedEventData::m_Name = cHashedString("eventactormoved");
+Base::cHashedString	cEntityMovedEventData::m_Name = cHashedString("eventactormoved");
 
 // *****************************************************************************
-cActorMovedEventData::cActorMovedEventData()
+cEntityMovedEventData::cEntityMovedEventData()
 	: m_ActorID(0)
 {
 }
 
 // *****************************************************************************
-cActorMovedEventData::cActorMovedEventData(const Base::cVector3 & position,
+cEntityMovedEventData::cEntityMovedEventData(const Base::cVector3 & position,
 	const int actorID)
 	: m_ActorID(actorID)
 	, m_Position(position)
@@ -22,7 +22,7 @@ cActorMovedEventData::cActorMovedEventData(const Base::cVector3 & position,
 }
 
 // *****************************************************************************
-cActorMovedEventData::~cActorMovedEventData()
+cEntityMovedEventData::~cEntityMovedEventData()
 {
 }
 

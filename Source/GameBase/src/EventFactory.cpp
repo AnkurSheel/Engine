@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "EventFactory.h"
 #include "EventData.hxx"
-#include "ActorMovedEventData.h"
+#include "EntityMovedEventData.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -30,7 +30,7 @@ cEventFactory::~cEventFactory()
 // *****************************************************************************
 void cEventFactory::VRegisterEvents()
 {
-	m_RegisteredEvents.Register<cActorMovedEventData>(cActorMovedEventData::m_Name.GetHash());
+	m_RegisteredEvents.Register<cEntityMovedEventData>(cEntityMovedEventData::m_Name.GetHash());
 }
 
 // *****************************************************************************

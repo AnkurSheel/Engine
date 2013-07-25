@@ -10,7 +10,7 @@
 #include "TransformComponent.h"
 #include "physics.hxx"
 #include "EventManager.hxx"
-#include "ActorMovedEventData.h"
+#include "EntityMovedEventData.h"
 #include "BaseEntity.hxx"
 
 using namespace GameBase;
@@ -61,7 +61,7 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 		if(pTransform->m_Position != pPhysics->GetPosition())
 		{
 			pTransform->m_Position = pPhysics->GetPosition();
-			shared_ptr<cActorMovedEventData> pEvent(DEBUG_NEW cActorMovedEventData(pTransform->m_Position, pEntity->VGetID()));
+			shared_ptr<cEntityMovedEventData> pEvent(DEBUG_NEW cEntityMovedEventData(pTransform->m_Position, pEntity->VGetID()));
 			IEventManager::Instance()->VQueueEvent(pEvent);
 		}
 	}
