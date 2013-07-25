@@ -10,6 +10,8 @@
 #include "SpriteComponent.h"
 #include "Camera.hxx"
 #include "ModelComponent.h"
+#include "EventManager.hxx"
+#include "ActorMovedEventData.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -20,47 +22,19 @@ using namespace Base;
 cRenderSystem::cRenderSystem()
 	:cProcess("RenderSystem")
 {
-
 }
 
 // *****************************************************************************
 cRenderSystem::~cRenderSystem()
 {
-
+	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
+	IEventManager::Instance()->VRemoveListener(cbActorMoved, cActorMovedEventData::m_Name);
 }
 
-// *****************************************************************************
-void cRenderSystem::VUpdate(const float DeltaTime)
+void cRenderSystem::VInitialize()
 {
-	cProcess::VUpdate(DeltaTime);
-
-	IEntityManager::EntityList entityList;
-	IEntityManager::GetInstance()->VGetEntities(cModelComponent::GetName(), entityList);
-	IEntityManager::EntityList::iterator enityIter;
-	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
-	{
-		IBaseEntity * pEntity = *enityIter;
-		cTransformComponent * pTransformComponent = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
-		IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
-		if(pTransformComponent != NULL)
-		{
-			pRenderableComponent->VUpdateTransform(pTransformComponent->m_Position, pTransformComponent->m_Rotation, pTransformComponent->m_Size);
-		}
-	}
-	
-	entityList.clear();
-	
-	IEntityManager::GetInstance()->VGetEntities(cSpriteComponent::GetName(), entityList);
-	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
-	{
-		IBaseEntity * pEntity = *enityIter;
-		cTransformComponent * pTransformComponent = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
-		IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
-		if(pTransformComponent != NULL)
-		{
-			pRenderableComponent->VUpdateTransform(pTransformComponent->m_Position, pTransformComponent->m_Rotation, pTransformComponent->m_Size);
-		}
-	}
+	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
+	IEventManager::Instance()->VAddListener(cbActorMoved, cActorMovedEventData::m_Name);
 }
 
 // *****************************************************************************
@@ -84,5 +58,33 @@ void cRenderSystem::Render(const ICamera * const pCamera)
 		IBaseEntity * pEntity = *enityIter;
 		IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
 		pRenderableComponent->VRender(pCamera);
+	}
+}
+
+// *****************************************************************************
+void cRenderSystem::ActorMovedListener(IEventDataPtr pEventData)
+{
+	shared_ptr<cActorMovedEventData> pCastEventData = static_pointer_cast<cActorMovedEventData>(pEventData);
+
+	int id = pCastEventData->GetActorID();
+    cVector3 position = pCastEventData->GetPosition();
+	
+	IBaseEntity * pEntity = IEntityManager::GetInstance()->VGetEntityFromID(id);
+	if(pEntity != NULL)
+	{
+		cTransformComponent * pTransformComponent = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
+		if(pTransformComponent != NULL)
+		{
+			IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+			if(pRenderableComponent == NULL)
+			{
+				pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+			}
+
+			if(pRenderableComponent != NULL)
+			{
+				pRenderableComponent->VUpdateTransform(position, pTransformComponent->m_Rotation, pTransformComponent->m_Size);
+			}
+		}
 	}
 }

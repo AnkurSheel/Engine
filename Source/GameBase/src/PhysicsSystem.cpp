@@ -9,6 +9,9 @@
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
 #include "physics.hxx"
+#include "EventManager.hxx"
+#include "ActorMovedEventData.h"
+#include "BaseEntity.hxx"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -55,6 +58,11 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 		IBaseEntity * pEntity = *enityIter;
 		cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
-		pTransform->m_Position = pPhysics->GetPosition();
+		if(pTransform->m_Position != pPhysics->GetPosition())
+		{
+			pTransform->m_Position = pPhysics->GetPosition();
+			shared_ptr<cActorMovedEventData> pEvent(DEBUG_NEW cActorMovedEventData(pTransform->m_Position, pEntity->VGetID()));
+			IEventManager::Instance()->VQueueEvent(pEvent);
+		}
 	}
 }

@@ -16,14 +16,21 @@ namespace Graphics
 
 namespace GameBase
 {
+	class IEventData;
+	typedef shared_ptr<IEventData> IEventDataPtr;
+}
+
+namespace GameBase
+{
 	class cRenderSystem
 		: public Utilities::cProcess
 	{
 	public:
 		GAMEBASE_API cRenderSystem();
 		GAMEBASE_API ~cRenderSystem();
-		void VUpdate(const float DeltaTime);
+		void VInitialize();
 		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
+		void ActorMovedListener(IEventDataPtr pEventData);
 	};
 }
 #endif // RenderSystem_h__

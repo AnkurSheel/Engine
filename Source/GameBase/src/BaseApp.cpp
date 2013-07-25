@@ -197,14 +197,13 @@ void cBaseApp::VCleanup()
 	IEntityManager::GetInstance()->VUnRegisterEntity(this);
 	IEntityManager::Destroy();
 
-	IEventManager::Destroy();
-
 	SafeDelete(&m_pGameTimer);
 	SafeDelete(&m_pParamLoader);
 	SafeDelete(&m_pProcessManager);
 	SafeDelete(&m_pHumanView);
 
 	IMessageDispatchManager::Destroy();
+	IEventManager::Destroy();
 	IGraphicsClass::Destroy();
 	IResourceManager::Destroy();
 	IMainWindow::Destroy();

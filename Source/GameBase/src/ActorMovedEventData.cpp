@@ -9,6 +9,15 @@ Base::cHashedString	cActorMovedEventData::m_Name = cHashedString("eventactormove
 
 // *****************************************************************************
 cActorMovedEventData::cActorMovedEventData()
+	: m_ActorID(0)
+{
+}
+
+// *****************************************************************************
+cActorMovedEventData::cActorMovedEventData(const Base::cVector3 & position,
+	const int actorID)
+	: m_ActorID(actorID)
+	, m_Position(position)
 {
 }
 
