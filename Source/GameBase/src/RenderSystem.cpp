@@ -22,6 +22,7 @@ using namespace Base;
 cRenderSystem::cRenderSystem()
 	:cProcess("RenderSystem")
 {
+	VInitialize();
 }
 
 // *****************************************************************************
@@ -33,6 +34,7 @@ cRenderSystem::~cRenderSystem()
 
 void cRenderSystem::VInitialize()
 {
+	cProcess::VInitialize();
 	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
 	IEventManager::Instance()->VAddListener(cbActorMoved, cEntityMovedEventData::m_Name);
 }

@@ -7,6 +7,9 @@
 #include "stdafx.h"
 #include "TransformComponent.h"
 #include "XMLNode.hxx"
+#include "EventManager.hxx"
+#include "EntityMovedEventData.h"
+#include "BaseEntity.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -54,4 +57,14 @@ void cTransformComponent::VInitialize(const IXMLNode * const pXMLNode)
 void cTransformComponent::VCleanup()
 {
 
+}
+// *****************************************************************************
+void cTransformComponent::SetPosition(const Base::cVector3 & position)
+{
+	if (m_Position != position)
+	{
+		m_Position = position;
+		shared_ptr<cEntityMovedEventData> pEvent(DEBUG_NEW cEntityMovedEventData(m_Position, m_pOwner->VGetID()));
+		IEventManager::Instance()->VQueueEvent(pEvent);
+	}
 }

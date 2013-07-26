@@ -21,21 +21,23 @@ namespace GameBase
 		: public cBaseComponent
 	{
 	public:
-		GAMEBASE_API cTransformComponent();
-		GAMEBASE_API ~cTransformComponent();
-		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
-		GAMEBASE_API void VCleanup();
-		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
+		cTransformComponent();
+		~cTransformComponent();
+		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
+		void VCleanup();
+		static Base::cHashedString	GetName()  {return m_Name; }
+		Base::cVector3 GetPosition() const { return m_Position; }
+		GAMEBASE_API void SetPosition(const Base::cVector3 & position);
 
 	public:
-		Base::cVector3	m_Position;	///< The position of the game element.
 		Base::cVector3	m_Rotation;	///< The rotation of the game element.
 		Base::cVector3	m_Size;		///< The size of the game element.
 		Base::cVector3	m_LookAt;
 	
 	private:
 		GAMEBASE_API static Base::cHashedString	m_Name;	///< The component name
-	
+		Base::cVector3	m_Position;	///< The position of the game element.
+
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 	};
