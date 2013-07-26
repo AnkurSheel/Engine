@@ -141,7 +141,7 @@ inline cVector3 cVector3::MinorAxis() const
 		else
 		{
 			float signZ = static_cast<float>(Sign(z));
-			return cVector3(0,0,signZ);
+			return cVector3(0.0f, 0.0f ,signZ);
 		}
 	}
 	else
@@ -153,8 +153,8 @@ inline cVector3 cVector3::MinorAxis() const
 		}
 		else
 		{
-				float signZ = static_cast<float>(Sign(z));
-				return cVector3(0, 0, signZ);
+			float signZ = static_cast<float>(Sign(z));
+			return cVector3(0, 0, signZ);
 		}
 	}
 }

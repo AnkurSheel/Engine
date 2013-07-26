@@ -21,9 +21,9 @@ namespace Physics
 		void VUpdateBounds(const Base::cVector3 & position,
 			const Base::cVector3 & minBound, const Base::cVector3 & maxBound);
 		void VOnMoved(const Base::cVector3 & deltaPosition);
-		static Base::cHashedString	GetName()  {return m_Name; }
+		Base::cHashedString	VGetShapeName()  {return m_Name; }
 
-	private:
+	public:
 		static Base::cHashedString			m_Name;	///< The component name
 	};
 }

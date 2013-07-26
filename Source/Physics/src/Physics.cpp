@@ -49,7 +49,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 					c.Solve();
 					if(c.m_Collided)
 					{
-						int a = 5;
+						pRigidBodyB->VSetPosition(pRigidBodyB->VGetPosition() - c.m_Distance);
 					}
 				}
 			}

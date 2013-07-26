@@ -82,7 +82,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 	m_LinearDamping = pDef->m_LinearDamping;
 	m_ApplyGravity = pDef->m_ApplyGravity;
 	m_TopSpeed = pDef->m_TopSpeed;
-	if(pDef->m_Shape == cRectangleShape::GetName())
+	if(pDef->m_Shape == cRectangleShape::m_Name)
 	{
 		m_pCollisionShape = IShape::CreateRectangleShape();
 		m_pCollisionShape->VInitialize(pDef->m_MinBound, pDef->m_MaxBound);
@@ -112,7 +112,7 @@ void cRigidBody::Update(const float DeltaTime)
 
 	if(!m_LinearVelocity.IsZero())
 	{
-		m_Position += m_LinearVelocity * DeltaTime;
+		VSetPosition(m_Position + (m_LinearVelocity * DeltaTime));
 		m_LinearVelocity *= (1 - m_LinearDamping);
 	}
 }

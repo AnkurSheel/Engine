@@ -256,6 +256,8 @@ void cEntityManager::InitializeEntity(IBaseEntity * const pEntity)
 	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pBaseEntity->VGetID())
 		+ pEntity->VGetName());
 
+	pEntity->VInitialize();
+
 	IBaseEntity::ComponentList components;
 	pBaseEntity->GetAllComponents(components);
 

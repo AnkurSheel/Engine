@@ -3,7 +3,6 @@
 // *****************************************************************************
 //  purpose:	
 // *****************************************************************************
-
 #include "stdafx.h"
 #include "TransformComponent.h"
 #include "XMLNode.hxx"
@@ -16,7 +15,7 @@ using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
 
-Base::cHashedString	cTransformComponent::m_Name = cHashedString("transformcomponent");
+cHashedString	cTransformComponent::m_Name = cHashedString("transformcomponent");
 
 // *****************************************************************************
 cTransformComponent::cTransformComponent()
@@ -59,6 +58,7 @@ void cTransformComponent::VCleanup()
 {
 
 }
+
 // *****************************************************************************
 void cTransformComponent::SetPosition(const cVector3 & position)
 {
@@ -69,6 +69,7 @@ void cTransformComponent::SetPosition(const cVector3 & position)
 		IEventManager::Instance()->VQueueEvent(pEvent);
 	}
 }
+
 // *****************************************************************************
 void cTransformComponent::SetSize(const cVector3 & size)
 {
@@ -81,11 +82,10 @@ void cTransformComponent::SetSize(const cVector3 & size)
 }
 
 // *****************************************************************************
-void cTransformComponent::SetRotation(const Base::cVector3 & rotation)
+void cTransformComponent::SetRotation(const cVector3 & rotation)
 {
 	if (m_Rotation != rotation)
 	{
 		m_Rotation = rotation;
 	}
 }
-
