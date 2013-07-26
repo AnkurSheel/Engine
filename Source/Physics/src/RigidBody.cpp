@@ -56,6 +56,15 @@ void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
 }
 
 // *****************************************************************************
+void cRigidBody::VUpdateBounds(const cVector3 & minBound, const cVector3 & maxBound)
+{
+	if(m_pCollisionShape != NULL)
+	{
+		m_pCollisionShape->VUpdateBounds(minBound, maxBound);
+	}
+}
+
+// *****************************************************************************
 void cRigidBody::ApplyCentralForce(const cVector3 & Force)
 {
 	m_LinearVelocity += (Force * m_InverseMass);

@@ -31,6 +31,8 @@ namespace Physics
 		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
 		void ApplyCentralForce(const Base::cVector3 & Force);
 		void VSetPosition(const Base::cVector3 & Position) { m_Position = Position; }
+		void VUpdateBounds(const Base::cVector3 & minBound, 
+			const Base::cVector3 & maxBound);
 		Base::cVector3 VGetPosition() const { return m_Position; }
 
 	private:

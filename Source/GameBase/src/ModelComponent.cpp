@@ -61,12 +61,25 @@ void cModelComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cModelComponent::VUpdateTransform(const cVector3 & vPosition,
-	const cVector3 & vRotation, const cVector3 & vSize)
+void cModelComponent::VSetPosition(const cVector3 & position)
 {
 	if(m_pModel != NULL)
 	{
-		m_pModel->VRecalculateWorldMatrix(vPosition, vRotation, vSize);
+		//m_pModel->VRecalculateWorldMatrix(vPosition, vRotation, vSize);
+	}
+}
+
+// *****************************************************************************
+void cModelComponent::VSetRotation(const cVector3 & rotation)
+{
+}
+
+// *****************************************************************************
+void cModelComponent::VSetSize(const cVector3 & size)
+{
+	if(m_pModel != NULL)
+	{
+		//m_pModel->VRecalculateWorldMatrix(vPosition, vRotation, vSize);
 	}
 }
 

@@ -39,7 +39,7 @@ void cEventManager::VAddListener(const EventListenerCallBackFn & fnListener,
 
     for (auto it = eventListeners.begin(); it != eventListeners.end(); it++)
     {
-        if (fnListener == (*it))
+		if (fnListener.target_type() == (*it).target_type())
         {
 			Log_Write(ILogger::LT_WARNING, 2, "Attempting to double-register a listener for event " + eventType.GetString());
             return;

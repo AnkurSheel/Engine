@@ -40,8 +40,9 @@ namespace GameBase
 
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		GAMEBASE_API void VCleanup();
-		void VUpdateTransform(const Base::cVector3 & vPosition,
-			const Base::cVector3 & vRotation, const Base::cVector3 & vSize);
+		void VSetPosition(const Base::cVector3 & position);
+		void VSetRotation(const Base::cVector3 & rotation);
+		void VSetSize(const Base::cVector3 & size);
 		void VRender(const Graphics::ICamera * const pCamera);
 		void VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds);
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }

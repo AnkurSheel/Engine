@@ -20,9 +20,12 @@ namespace Physics
 	{
 	public:
 		virtual ~IShape() {}
-		virtual void VInitialize(const Base::cVector3 & MinBound, const Base::cVector3 & MaxBound) = 0;
+		virtual void VInitialize(const Base::cVector3 & minBound,
+			const Base::cVector3 & maxBound) = 0;
 		virtual Base::cVector3 VGetCenter() const = 0; 
 		virtual Base::cVector3 VGetHalfExtents() const = 0;
+		virtual void VUpdateBounds(const Base::cVector3 & minBound,
+			const Base::cVector3 & maxBound) = 0;
 		static IShape * CreateRectangleShape();
 	};
 }

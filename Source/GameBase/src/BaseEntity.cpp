@@ -9,6 +9,8 @@
 #include "BaseComponent.h"
 #include "EntityManager.hxx"
 #include "TransformComponent.h"
+#include "EntityInitializedEventData.h"
+#include "EventManager.hxx"
 
 using namespace AI;
 using namespace Utilities;
@@ -79,6 +81,14 @@ void cBaseEntity::SetID(const int iID)
 void cBaseEntity::VInitialize()
 {
 	m_pTransFormComponent = dynamic_cast<cTransformComponent *>(GetComponent(cTransformComponent::GetName().GetHash()));
+}
+
+// *****************************************************************************
+void cBaseEntity::VPostInitialize()
+{
+	shared_ptr<cEntityInitializedEventData> pEvent(DEBUG_NEW cEntityInitializedEventData(m_pTransFormComponent->GetPosition(),
+		m_pTransFormComponent->GetRotation(), VGetID()));
+	IEventManager::Instance()->VQueueEvent(pEvent);
 }
 
 // *****************************************************************************

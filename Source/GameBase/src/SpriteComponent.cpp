@@ -15,7 +15,7 @@ using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
 
-Base::cHashedString	cSpriteComponent::m_Name = cHashedString("spritecomponent");
+cHashedString	cSpriteComponent::m_Name = cHashedString("spritecomponent");
 
 // *****************************************************************************
 cSpriteComponent::cSpriteComponent()
@@ -81,16 +81,25 @@ void cSpriteComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cSpriteComponent::VUpdateTransform(const Base::cVector3 & vPosition,
-	const Base::cVector3 & vRotation, const Base::cVector3 & vSize)
+void cSpriteComponent::VSetPosition(const cVector3 & position)
 {
 	if(m_pSprite != NULL)
 	{
-		cVector2 position(vPosition.x, vPosition.y);
-		cVector2 size(vSize.x, vSize.y);
+		m_pSprite->VSetPosition(cVector2(position.x, position.y));
+	}
+}
 
-		m_pSprite->VSetPosition(position);
-		m_pSprite->VSetSize(size);
+// *****************************************************************************
+void cSpriteComponent::VSetRotation(const cVector3 & rotation)
+{
+}
+
+// *****************************************************************************
+void cSpriteComponent::VSetSize(const cVector3 & size)
+{
+	if(m_pSprite != NULL)
+	{
+		m_pSprite->VSetSize(cVector2(size.x, size.y));
 	}
 }
 
@@ -104,7 +113,7 @@ void cSpriteComponent::VRender(const ICamera * const pCamera)
 }
 
 // *****************************************************************************
-void cSpriteComponent::VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds)
+void cSpriteComponent::VGetBounds(cVector3 & minBound, cVector3 & maxBounds)
 {
 	minBound = cVector3::Zero();
 	maxBounds = cVector3(m_pSprite->VGetScaledSize().x, m_pSprite->VGetScaledSize().y, 0.0f);

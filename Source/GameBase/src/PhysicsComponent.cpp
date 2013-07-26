@@ -19,7 +19,7 @@ using namespace Base;
 using namespace Utilities;
 using namespace Physics;
 
-Base::cHashedString	cPhysicsComponent::m_Name = cHashedString("physicscomponent");
+cHashedString	cPhysicsComponent::m_Name = cHashedString("physicscomponent");
 
 // *****************************************************************************
 cPhysicsComponent::cPhysicsComponent()
@@ -97,14 +97,7 @@ void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
 	cBaseComponent::VOnAttached(pOwner);
 	if(m_pDef != NULL)
 	{
-		if(m_pDef->m_Shape == cHashedString("rectangle"))
-		{
-			IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pOwner, cSpriteComponent::GetName()));
-			if(pRenderableComponent != NULL)
-			{
-				pRenderableComponent->VGetBounds(m_pDef->m_MinBound, m_pDef->m_MaxBound);
-			}
-		}
+		GetBounds(m_pDef->m_MinBound, m_pDef->m_MaxBound);
 	}
 	m_pRigidBody = IPhysics::GetInstance()->VAddRigidBody(m_pOwner->VGetID(), m_pDef);	
 }
@@ -119,12 +112,13 @@ void cPhysicsComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cPhysicsComponent::Initialize(const Base::cVector3 & Position)
+void cPhysicsComponent::Initialize(const cVector3 & position,
+	const cVector3 & rotation)
 {
 	if(!m_Initialized && m_pRigidBody != NULL)
 	{
 		m_Initialized = true;
-		m_pRigidBody->VSetPosition(Position);
+		m_pRigidBody->VSetPosition(position);
 	}
 }
 
@@ -142,7 +136,7 @@ void cPhysicsComponent::Update()
 	if(m_ApplyForce)
 	{
 		m_ApplyForce = false;
-		if(m_pRigidBody != NULL)
+		if(m_pRigidBody != NULL && m_Initialized)
 		{
 			m_pRigidBody->VApplyForce(m_Direction, m_Force);
 		}
@@ -158,4 +152,33 @@ cVector3 cPhysicsComponent::GetPosition() const
 	}
 
 	return cVector3::Zero();
+}
+
+// *****************************************************************************
+void cPhysicsComponent::GetBounds(cVector3 & minBound, cVector3 & maxBound)
+{
+	if(m_pDef != NULL)
+	{
+		if(m_pDef->m_Shape == cHashedString("rectangle"))
+		{
+			IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(m_pOwner, cSpriteComponent::GetName()));
+			if(pRenderableComponent != NULL)
+			{
+				pRenderableComponent->VGetBounds(minBound, maxBound);
+			}
+		}
+	}
+}
+
+// *****************************************************************************
+void cPhysicsComponent::OnSizeUpdated()
+{
+	cVector3 minBound;
+	cVector3 maxBound;
+
+	GetBounds(minBound, maxBound);
+	if(m_pRigidBody != NULL)
+	{
+		m_pRigidBody->VUpdateBounds(minBound, maxBound);
+	}
 }

@@ -22,10 +22,16 @@ cRectangleShape::~cRectangleShape()
 }
 
 // *****************************************************************************
-void cRectangleShape::VInitialize(const cVector3 & MinBound, const cVector3 & MaxBound)
+void cRectangleShape::VInitialize(const cVector3 & minBound, const cVector3 & maxBound)
 {
-	m_Center = ((MinBound + MaxBound) * 0.5f);
-	m_HalfExtents = ((MaxBound - MinBound) * 0.5f);
+	VUpdateBounds(minBound, maxBound);
+}
+
+// *****************************************************************************
+void cRectangleShape::VUpdateBounds(const cVector3 & minBound, const cVector3 & maxBound)
+{
+	m_Center = ((minBound + maxBound) * 0.5f);
+	m_HalfExtents = ((maxBound - minBound) * 0.5f);
 }
 
 // *****************************************************************************

@@ -101,12 +101,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\EntityInitializedEventData.cpp" />
     <ClCompile Include="src\EntityMovedEventData.cpp" />
     <ClCompile Include="src\BaseComponent.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
     <ClCompile Include="src\ComponentFactory.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\EntityFactory.cpp" />
+    <ClCompile Include="src\EntityScaledEventData.cpp" />
     <ClCompile Include="src\EventFactory.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\GameControls.cpp" />
@@ -159,9 +161,11 @@
     <ClInclude Include="Includes\HumanView.h" />
     <ClInclude Include="Includes\SpriteComponent.h" />
     <ClInclude Include="Includes\TransformComponent.h" />
+    <ClInclude Include="src\EntityInitializedEventData.h" />
     <ClInclude Include="src\EntityMovedEventData.h" />
     <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="Includes\EntityManager.hxx" />
+    <ClInclude Include="src\EntityScaledEventData.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\KeyboardController.h" />
     <ClInclude Include="src\MessageDispatchManager.h" />

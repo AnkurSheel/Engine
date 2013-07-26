@@ -6,12 +6,12 @@
 #include "stdafx.h"
 #include "RenderSystem.h"
 #include "EntityManager.hxx"
-#include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "Camera.hxx"
 #include "ModelComponent.h"
 #include "EventManager.hxx"
 #include "EntityMovedEventData.h"
+#include "EntityScaledEventData.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -28,15 +28,21 @@ cRenderSystem::cRenderSystem()
 // *****************************************************************************
 cRenderSystem::~cRenderSystem()
 {
-	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
-	IEventManager::Instance()->VRemoveListener(cbActorMoved, cEntityMovedEventData::m_Name);
+	EventListenerCallBackFn listener = bind(&cRenderSystem::ActorMovedListener, this, _1);
+	IEventManager::Instance()->VRemoveListener(listener, cEntityMovedEventData::m_Name);
+
+	listener = bind(&cRenderSystem::ActorScaledListener, this, _1);
+	IEventManager::Instance()->VRemoveListener(listener, cEntityScaledEventData::m_Name);
 }
 
 void cRenderSystem::VInitialize()
 {
 	cProcess::VInitialize();
-	EventListenerCallBackFn cbActorMoved = bind(&cRenderSystem::ActorMovedListener, this, _1);
-	IEventManager::Instance()->VAddListener(cbActorMoved, cEntityMovedEventData::m_Name);
+	EventListenerCallBackFn listener = bind(&cRenderSystem::ActorMovedListener, this, _1);
+	IEventManager::Instance()->VAddListener(listener, cEntityMovedEventData::m_Name);
+
+	listener = bind(&cRenderSystem::ActorScaledListener, this, _1);
+	IEventManager::Instance()->VAddListener(listener, cEntityScaledEventData::m_Name);
 }
 
 // *****************************************************************************
@@ -74,19 +80,39 @@ void cRenderSystem::ActorMovedListener(IEventDataPtr pEventData)
 	IBaseEntity * pEntity = IEntityManager::GetInstance()->VGetEntityFromID(id);
 	if(pEntity != NULL)
 	{
-		cTransformComponent * pTransformComponent = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
-		if(pTransformComponent != NULL)
+		IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+		if(pRenderableComponent == NULL)
 		{
-			IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
-			if(pRenderableComponent == NULL)
-			{
-				pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
-			}
+			pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+		}
 
-			if(pRenderableComponent != NULL)
-			{
-				pRenderableComponent->VUpdateTransform(position, pTransformComponent->m_Rotation, pTransformComponent->m_Size);
-			}
+		if(pRenderableComponent != NULL)
+		{
+			pRenderableComponent->VSetPosition(position);
+		}
+	}
+}
+
+// *****************************************************************************
+void cRenderSystem::ActorScaledListener(IEventDataPtr pEventData)
+{
+	shared_ptr<cEntityScaledEventData> pCastEventData = static_pointer_cast<cEntityScaledEventData>(pEventData);
+
+	int id = pCastEventData->GetActorID();
+    cVector3 size = pCastEventData->GetSize();
+	
+	IBaseEntity * pEntity = IEntityManager::GetInstance()->VGetEntityFromID(id);
+	if(pEntity != NULL)
+	{
+		IRenderableComponent * pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+		if(pRenderableComponent == NULL)
+		{
+			pRenderableComponent = dynamic_cast<IRenderableComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cSpriteComponent::GetName()));
+		}
+
+		if(pRenderableComponent != NULL)
+		{
+			pRenderableComponent->VSetSize(size);
 		}
 	}
 }

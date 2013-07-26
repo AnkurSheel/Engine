@@ -23,8 +23,9 @@ namespace GameBase
 	{
 	public:
 		virtual ~IRenderableComponent() {};
-		virtual void VUpdateTransform(const Base::cVector3 & vPosition,
-			const Base::cVector3 & vRotation, const Base::cVector3 & vSize) = 0;
+		virtual void VSetPosition(const Base::cVector3 & Position) = 0;
+		virtual void VSetRotation(const Base::cVector3 & Rotation) = 0;
+		virtual void VSetSize(const Base::cVector3 & Size) = 0;
 		virtual void VRender(const Graphics::ICamera * const pCamera) = 0;
 		virtual void VGetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBounds) = 0;
 	};

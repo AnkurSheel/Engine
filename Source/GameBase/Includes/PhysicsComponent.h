@@ -28,14 +28,17 @@ namespace GameBase
 		void VOnAttached(IBaseEntity * const pOwner);
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
-		GAMEBASE_API void Initialize(const Base::cVector3 & Position);
+		GAMEBASE_API void Initialize(const Base::cVector3 & position,
+			const Base::cVector3 & rotation);
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetPosition() const;
 		GAMEBASE_API void ApplyForce(const Base::cVector3 & Direction);
 		GAMEBASE_API void Update();
+		void OnSizeUpdated();
 
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		void GetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBound);
 
 	private:
 		Physics::IRigidBody *				m_pRigidBody;

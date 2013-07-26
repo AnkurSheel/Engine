@@ -67,6 +67,12 @@
     <ClCompile Include="src\EntityMovedEventData.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="src\EntityScaledEventData.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityInitializedEventData.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\GameElement.h" />
@@ -164,6 +170,12 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityMovedEventData.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityScaledEventData.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityInitializedEventData.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>

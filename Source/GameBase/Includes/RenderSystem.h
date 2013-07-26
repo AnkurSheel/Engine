@@ -31,6 +31,7 @@ namespace GameBase
 		void VInitialize();
 		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
 		void ActorMovedListener(IEventDataPtr pEventData);
+		void ActorScaledListener(IEventDataPtr pEventData);
 	};
 }
 #endif // RenderSystem_h__

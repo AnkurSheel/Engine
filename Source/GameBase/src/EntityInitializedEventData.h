@@ -1,0 +1,37 @@
+// *****************************************************************************
+//  EntityInitializedEventData version:  1.0   Ankur Sheel  date: 2013/07/25
+// *****************************************************************************
+//  purpose:	
+// *****************************************************************************
+#ifndef EntityInitializedEventData_h__
+#define EntityInitializedEventData_h__
+
+#include "BaseEventData.h"
+#include "vector3.h"
+
+namespace GameBase
+{
+	class cEntityInitializedEventData
+		: public cBaseEventData
+	{
+	public:
+		cEntityInitializedEventData();
+		cEntityInitializedEventData(const Base::cVector3 & position,
+			const Base::cVector3 & rotation, const int actorID);
+		~cEntityInitializedEventData();
+		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		virtual Base::cString VGetName() const { return m_Name.GetString(); }
+		int GetActorID() const { return m_ActorID; }
+		Base::cVector3 GetPosition() const { return m_Position; }
+		Base::cVector3 GetRotation() const { return m_Rotation; }
+
+	public:
+		static Base::cHashedString m_Name;
+
+	private:
+		Base::cVector3	m_Position;
+		Base::cVector3	m_Rotation;
+		int				m_ActorID;
+	};
+}
+#endif //EntityInitializedEventData_h__

@@ -17,7 +17,8 @@ namespace Physics
 	public:
 		cRectangleShape();
 		~cRectangleShape();
-		void VInitialize(const Base::cVector3 & MinBound, const Base::cVector3 & MaxBound);
+		void VInitialize(const Base::cVector3 & minBound, const Base::cVector3 & maxBound);
+		void VUpdateBounds(const Base::cVector3 & minBound,	const Base::cVector3 & maxBound);
 		static Base::cHashedString	GetName()  {return m_Name; }
 
 	private:

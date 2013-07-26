@@ -11,13 +11,22 @@
 
 namespace GameBase
 {
+	class IEventData;
+	typedef shared_ptr<IEventData> IEventDataPtr;
+}
+
+namespace GameBase
+{
 	class cPhysicsSystem
 		: public Utilities::cProcess
 	{
 	public:
 		GAMEBASE_API cPhysicsSystem();
 		GAMEBASE_API ~cPhysicsSystem();
+		void VInitialize();
 		void VUpdate(const float DeltaTime);
+		void ActorInitializedListener(IEventDataPtr pEventData);
+		void ActorScaledListener(IEventDataPtr pEventData);
 	};
 }
 #endif // PhysicsSystem_h__

@@ -1,27 +1,27 @@
 #include "stdafx.h"
-#include "EntityMovedEventData.h"
+#include "EntityScaledEventData.h"
 
 using namespace GameBase;
 using namespace Base;
 
-cHashedString	cEntityMovedEventData::m_Name = cHashedString("evententitymoved");
+cHashedString	cEntityScaledEventData::m_Name = cHashedString("evententityscaled");
 
 // *****************************************************************************
-cEntityMovedEventData::cEntityMovedEventData()
+cEntityScaledEventData::cEntityScaledEventData()
 	: m_ActorID(0)
 {
 }
 
 // *****************************************************************************
-cEntityMovedEventData::cEntityMovedEventData(const cVector3 & position,
+cEntityScaledEventData::cEntityScaledEventData(const cVector3 & size,
 	const int actorID)
 	: m_ActorID(actorID)
-	, m_Position(position)
+	, m_Size(size)
 {
 }
 
 // *****************************************************************************
-cEntityMovedEventData::~cEntityMovedEventData()
+cEntityScaledEventData::~cEntityScaledEventData()
 {
 }
 

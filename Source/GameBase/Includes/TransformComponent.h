@@ -28,15 +28,19 @@ namespace GameBase
 		static Base::cHashedString	GetName()  {return m_Name; }
 		Base::cVector3 GetPosition() const { return m_Position; }
 		GAMEBASE_API void SetPosition(const Base::cVector3 & position);
+		Base::cVector3 GetSize() const { return m_Size; }
+		GAMEBASE_API void SetSize(const Base::cVector3 & size);
+		Base::cVector3 GetRotation() const { return m_Rotation; }
+		GAMEBASE_API void SetRotation(const Base::cVector3 & rotation);
 
 	public:
-		Base::cVector3	m_Rotation;	///< The rotation of the game element.
-		Base::cVector3	m_Size;		///< The size of the game element.
 		Base::cVector3	m_LookAt;
 	
 	private:
 		GAMEBASE_API static Base::cHashedString	m_Name;	///< The component name
 		Base::cVector3	m_Position;	///< The position of the game element.
+		Base::cVector3	m_Rotation;	///< The rotation of the game element.
+		Base::cVector3	m_Size;		///< The size of the game element.
 
 	private:
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }

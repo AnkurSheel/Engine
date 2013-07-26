@@ -8,8 +8,9 @@
 #include "TransformComponent.h"
 #include "XMLNode.hxx"
 #include "EventManager.hxx"
-#include "EntityMovedEventData.h"
 #include "BaseEntity.hxx"
+#include "EntityMovedEventData.h"
+#include "EntityScaledEventData.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -59,7 +60,7 @@ void cTransformComponent::VCleanup()
 
 }
 // *****************************************************************************
-void cTransformComponent::SetPosition(const Base::cVector3 & position)
+void cTransformComponent::SetPosition(const cVector3 & position)
 {
 	if (m_Position != position)
 	{
@@ -68,3 +69,23 @@ void cTransformComponent::SetPosition(const Base::cVector3 & position)
 		IEventManager::Instance()->VQueueEvent(pEvent);
 	}
 }
+// *****************************************************************************
+void cTransformComponent::SetSize(const cVector3 & size)
+{
+	if (m_Size != size)
+	{
+		m_Size = size;
+		shared_ptr<cEntityScaledEventData> pEvent(DEBUG_NEW cEntityScaledEventData(m_Size, m_pOwner->VGetID()));
+		IEventManager::Instance()->VQueueEvent(pEvent);
+	}
+}
+
+// *****************************************************************************
+void cTransformComponent::SetRotation(const Base::cVector3 & rotation)
+{
+	if (m_Rotation != rotation)
+	{
+		m_Rotation = rotation;
+	}
+}
+

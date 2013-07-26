@@ -48,6 +48,7 @@ namespace GameBase
 		GAMEBASE_API void VHandleInput(const unsigned int CharID);
 		GAMEBASE_API int VGetID() const { return m_iID; } 
 		GAMEBASE_API virtual unsigned long VGetHashedID() const = 0;
+		GAMEBASE_API virtual void VPostInitialize();
 		GAMEBASE_API void AddComponent(IBaseComponent * pComponent);
 		GAMEBASE_API void RemoveComponent(const unsigned long ComponentID);
 		GAMEBASE_API void GetAllComponents(ComponentList & components) const;
