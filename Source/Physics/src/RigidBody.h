@@ -25,12 +25,14 @@ namespace Physics
 		~cRigidBody();
 		void Update(const float DeltaTime);
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
+		void OnCreated(shared_ptr<const stRigidBodyDef>);
+		bool GetInitialized() const { return m_Initialized; }
 
 	private:
-		PHYSICS_API virtual void VInitialize(shared_ptr<const stRigidBodyDef>);
+		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
 		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
 		void ApplyCentralForce(const Base::cVector3 & Force);
-		void VSetPosition(const Base::cVector3 & Position) { m_Position = Position; }
+		void VSetPosition(const Base::cVector3 & Position);
 		void VUpdateBounds(const Base::cVector3 & minBound, 
 			const Base::cVector3 & maxBound);
 		Base::cVector3 VGetPosition() const { return m_Position; }
@@ -43,6 +45,7 @@ namespace Physics
 		float			m_LinearDamping;
 		float			m_TopSpeed;
 		bool			m_ApplyGravity;
+		bool			m_Initialized;
 	};
 }
 #endif //RigidBody_hxx

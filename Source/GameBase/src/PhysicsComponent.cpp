@@ -118,7 +118,7 @@ void cPhysicsComponent::Initialize(const cVector3 & position,
 	if(!m_Initialized && m_pRigidBody != NULL)
 	{
 		m_Initialized = true;
-		m_pRigidBody->VSetPosition(position);
+		m_pRigidBody->VInitialize(position);
 	}
 }
 

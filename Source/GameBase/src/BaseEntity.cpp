@@ -84,11 +84,11 @@ void cBaseEntity::VInitialize()
 }
 
 // *****************************************************************************
-void cBaseEntity::VPostInitialize()
+void cBaseEntity::VOnInitialized()
 {
 	shared_ptr<cEntityInitializedEventData> pEvent(DEBUG_NEW cEntityInitializedEventData(m_pTransFormComponent->GetPosition(),
-		m_pTransFormComponent->GetRotation(), VGetID()));
-	IEventManager::Instance()->VQueueEvent(pEvent);
+		m_pTransFormComponent->GetRotation(), m_pTransFormComponent->GetSize(), VGetID()));
+	IEventManager::Instance()->VTriggerEvent(pEvent);
 }
 
 // *****************************************************************************

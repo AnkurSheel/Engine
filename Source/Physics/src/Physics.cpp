@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Physics.h"
 #include "RigidBody.h"
+#include "CollisionInfo.h"
 
 using namespace Physics;
 using namespace Base;
@@ -27,39 +28,39 @@ void cPhysics::VInitialize(const stPhysicsDef & def)
 // *****************************************************************************
 void cPhysics::VUpdate(const float DeltaTime)
 {
-	RigidBodyMap::iterator Iter;
-	for(Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
+	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
 		pRigidBody->Update(DeltaTime);
 	}
-	//if(!m_LinearVelocity.IsZero())
-	//{
-	//	if(m_ApplyGravity)
-	//	{
-	//		//fy += m * 9.81;
-	//		Force.y += 981; // cm/s
-	//	}
-	//			
-	//	//fy += -1 * 0.5 * rho * C_d * A * vy * vy;
-	//	cVector3 Distance = (pPhysics->m_CurrentVelocity * DeltaTime) + (0.5f * pPhysics->m_CurrentAcceleration * DeltaTime * DeltaTime);
-	//	// new_ay = fy / m;
-	//	cVector3 newAcceleration = Force;
-	//	cVector3 avgAcceleration = 0.5f * (newAcceleration + pPhysics->m_CurrentAcceleration);
-	//	pPhysics->m_CurrentVelocity += avgAcceleration;
-	//	Clamp<float>(pPhysics->m_CurrentVelocity.x, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-	//	Clamp<float>(pPhysics->m_CurrentVelocity.y, -pPhysics->m_TopSpeed, pPhysics->m_TopSpeed);
-	//	pPhysics->m_CurrentAcceleration = cVector3::Zero();
-	//	pTransform->m_Position += Distance;
-	//}
-	//m_LinearVelocity-= m_LinearVelocity * m_LinearDamping;
+	for(auto IterA = m_RigidBodyMap.begin(); IterA != m_RigidBodyMap.end(); IterA++)
+	{
+		cRigidBody * pRigidBodyA = dynamic_cast<cRigidBody*>(IterA->second);
+		if(pRigidBodyA->GetInitialized())
+		{
+			auto IterB = IterA;
+			IterB++;
+			for(; IterB != m_RigidBodyMap.end(); IterB++)
+			{
+				cRigidBody * pRigidBodyB = dynamic_cast<cRigidBody*>(IterB->second);
+				if(pRigidBodyB->GetInitialized())
+				{
+					cCollisionInfo c(pRigidBodyA, pRigidBodyB);
+					c.Solve();
+					if(c.m_Collided)
+					{
+						int a = 5;
+					}
+				}
+			}
+		}
+	}
 }
 
 // *****************************************************************************
 IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
 {
-	IRigidBody * pRigidBody = IRigidBody::Create();
-	pRigidBody->VInitialize(pDef);
+	IRigidBody * pRigidBody = IRigidBody::Create(pDef);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
 	return pRigidBody;
 }

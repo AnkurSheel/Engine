@@ -24,8 +24,9 @@ namespace Physics
 			const Base::cVector3 & maxBound) = 0;
 		virtual Base::cVector3 VGetCenter() const = 0; 
 		virtual Base::cVector3 VGetHalfExtents() const = 0;
-		virtual void VUpdateBounds(const Base::cVector3 & minBound,
-			const Base::cVector3 & maxBound) = 0;
+		virtual void VUpdateBounds(const Base::cVector3 & position,
+			const Base::cVector3 & minBound, const Base::cVector3 & maxBound) = 0;
+		virtual void VOnMoved(const Base::cVector3 & deltaPosition) = 0;
 		static IShape * CreateRectangleShape();
 	};
 }
