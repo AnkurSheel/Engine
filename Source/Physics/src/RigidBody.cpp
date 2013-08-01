@@ -25,6 +25,36 @@ cRigidBody::~cRigidBody()
 }
 
 // *****************************************************************************
+cRigidBody::cRigidBody(const cRigidBody & other)
+	: m_LinearVelocity(other.m_LinearVelocity)
+	, m_Position(other.m_Position)
+	, m_pCollisionShape(other.m_pCollisionShape->VDuplicate())
+	, m_InverseMass(other.m_InverseMass)
+	, m_LinearDamping(other.m_LinearDamping)
+	, m_TopSpeed(other.m_TopSpeed)
+	, m_ApplyGravity(other.m_ApplyGravity)
+	, m_Initialized(other.m_Initialized)
+	, m_Force(other.m_Force)
+{
+}
+
+// *****************************************************************************
+cRigidBody & cRigidBody::operator =(const cRigidBody & other)
+{
+	m_LinearVelocity = other.m_LinearVelocity;
+	m_Position = other.m_Position;
+	m_pCollisionShape = other.m_pCollisionShape->VDuplicate();
+	m_InverseMass = other.m_InverseMass;
+	m_LinearDamping = other.m_LinearDamping;
+	m_TopSpeed = other.m_TopSpeed;
+	m_ApplyGravity = other.m_ApplyGravity;
+	m_Initialized = other.m_Initialized;
+	m_Force = other.m_Force;
+
+	return *this;
+}
+
+// *****************************************************************************
 void cRigidBody::VInitialize(const cVector3 & position)
 {
 	if(!m_Initialized)
@@ -37,7 +67,7 @@ void cRigidBody::VInitialize(const cVector3 & position)
 // *****************************************************************************
 void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
 {
-	ApplyCentralForce(Direction * Newtons);
+	m_Force += (Direction * Newtons);
 }
 
 // *****************************************************************************
@@ -90,15 +120,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 }
 
 // *****************************************************************************
-void cRigidBody::ApplyCentralForce(const cVector3 & Force)
-{
-	m_LinearVelocity += (Force * m_InverseMass);
-	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
-	Clamp<float>(m_LinearVelocity.y, -m_TopSpeed, m_TopSpeed);
-}
-
-// *****************************************************************************
-void cRigidBody::Update(const float DeltaTime)
+void cRigidBody::IntegrateForces()
 {
 	if(!m_Initialized)
 	{
@@ -107,7 +129,21 @@ void cRigidBody::Update(const float DeltaTime)
 
 	if(m_ApplyGravity)
 	{
-		ApplyCentralForce(cVector3(0,981, 0));
+		VApplyForce(cVector3(0,1, 0), 981);
+	}
+
+	m_LinearVelocity += (m_Force * m_InverseMass);
+	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
+	Clamp<float>(m_LinearVelocity.y, -m_TopSpeed, m_TopSpeed);
+	m_Force = cVector3::Zero();
+}
+
+// *****************************************************************************
+void cRigidBody::IntegrateVelocity(const float DeltaTime)
+{
+	if(!m_Initialized)
+	{
+		return;
 	}
 
 	if(!m_LinearVelocity.IsZero())

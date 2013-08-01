@@ -28,6 +28,7 @@ namespace Physics
 			const Base::cVector3 & minBound, const Base::cVector3 & maxBound) = 0;
 		virtual void VOnMoved(const Base::cVector3 & deltaPosition) = 0;
 		virtual Base::cHashedString VGetName() = 0;
+		virtual IShape * VDuplicate() = 0;
 		static IShape * CreateRectangleShape();
 	};
 }

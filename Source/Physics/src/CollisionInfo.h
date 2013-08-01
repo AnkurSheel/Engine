@@ -17,11 +17,13 @@ namespace Physics
 namespace Physics
 {
 	class cCollisionInfo
-		: public Base::cNonCopyable
 	{
 	public:
 		cCollisionInfo(cRigidBody * pBodyA , cRigidBody * pBodyB);
 		~cCollisionInfo();
+		cCollisionInfo(const cCollisionInfo & other);
+		cCollisionInfo & operator =(const cCollisionInfo & other);
+
 		void Solve();
 
 	public:

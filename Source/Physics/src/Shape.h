@@ -18,9 +18,9 @@ namespace Physics
 	public:
 		cShape();
 		virtual ~cShape();
-		virtual Base::cHashedString VGetShapeName() = 0;
 		cShape(const cShape & other);
 		cShape & operator =(const cShape & other);
+		virtual Base::cHashedString VGetShapeName() = 0;
 		Base::cVector3 VGetCenter() const { return m_Center; }
 		Base::cVector3 VGetHalfExtents() const { return m_HalfExtents; }
 		Base::cHashedString VGetName() { return VGetShapeName(); }

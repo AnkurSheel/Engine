@@ -5,6 +5,7 @@
 
 using namespace Physics;
 using namespace Base;
+using namespace std;
 
 IPhysics * cPhysics::s_pPhysics = NULL;
 
@@ -31,8 +32,11 @@ void cPhysics::VUpdate(const float DeltaTime)
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->Update(DeltaTime);
+		pRigidBody->IntegrateForces();
 	}
+	
+	vector<cCollisionInfo> collisions;
+
 	for(auto IterA = m_RigidBodyMap.begin(); IterA != m_RigidBodyMap.end(); IterA++)
 	{
 		cRigidBody * pRigidBodyA = dynamic_cast<cRigidBody*>(IterA->second);
@@ -49,11 +53,23 @@ void cPhysics::VUpdate(const float DeltaTime)
 					c.Solve();
 					if(c.m_Collided)
 					{
-						pRigidBodyB->VSetPosition(pRigidBodyB->VGetPosition() - c.m_Distance);
+						collisions.emplace_back(c);
 					}
 				}
 			}
 		}
+	}
+
+	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
+	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
+		pRigidBody->IntegrateVelocity(DeltaTime);
+	}
+
+	for(auto Iter = collisions.begin(); Iter != collisions.end(); Iter++)
+	{
+		cCollisionInfo c = *Iter;
+		c.m_pBodyB->VSetPosition(c.m_pBodyB->VGetPosition() - c.m_Distance);
 	}
 }
 

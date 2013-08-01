@@ -22,6 +22,14 @@ cRectangleShape::~cRectangleShape()
 }
 
 // *****************************************************************************
+IShape * cRectangleShape::VDuplicate()
+{
+	cRectangleShape * pShape = DEBUG_NEW cRectangleShape(*this);
+	return pShape;
+
+}
+
+// *****************************************************************************
 void cRectangleShape::VInitialize(const cVector3 & minBound, const cVector3 & maxBound)
 {
 	VUpdateBounds(cVector3::Zero(), minBound, maxBound);
