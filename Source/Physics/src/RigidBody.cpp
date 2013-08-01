@@ -80,7 +80,7 @@ void cRigidBody::VUpdateBounds(const cVector3 & minBound, const cVector3 & maxBo
 }
 
 // *****************************************************************************
-void cRigidBody::VSetPosition(const cVector3 & position) 
+void cRigidBody::VSetPosition(const cVector3 & position)
 {
 	if(m_Position != position)
 	{
@@ -88,7 +88,7 @@ void cRigidBody::VSetPosition(const cVector3 & position)
 		{
 			m_pCollisionShape->VOnMoved(position - m_Position);
 		}
-		m_Position = position; 
+		m_Position = position;
 	}
 
 }
@@ -102,7 +102,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 	}
 
 	if(isZero(pDef->m_Mass))
-	{	
+	{
 		m_InverseMass = 0.0f;
 	}
 	else
@@ -122,7 +122,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 // *****************************************************************************
 void cRigidBody::IntegrateForces()
 {
-	if(!m_Initialized)
+	if(!m_Initialized || isZero(m_InverseMass))
 	{
 		return;
 	}
@@ -150,6 +150,21 @@ void cRigidBody::IntegrateVelocity(const float DeltaTime)
 	{
 		VSetPosition(m_Position + (m_LinearVelocity * DeltaTime));
 		m_LinearVelocity *= (1 - m_LinearDamping);
+	}
+}
+
+// *****************************************************************************
+void cRigidBody::ApplyImpulse(const cVector3 & impulse)
+{
+	m_LinearVelocity += (m_InverseMass * impulse);
+}
+
+// *****************************************************************************
+void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
+{
+	if(!isZero(m_InverseMass))
+	{
+		VSetPosition(m_Position + (correction * m_InverseMass));
 	}
 }
 

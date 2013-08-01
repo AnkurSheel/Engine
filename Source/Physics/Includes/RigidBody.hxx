@@ -23,7 +23,7 @@ namespace Physics
 		bool				m_ApplyGravity;
 
 		stRigidBodyDef()
-			: m_Mass(1.0f)
+			: m_Mass(0.0f)
 			, m_LinearDamping(1.0f)
 			, m_ApplyGravity(false)
 			, m_TopSpeed(0.0f)

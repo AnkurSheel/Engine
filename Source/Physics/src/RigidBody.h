@@ -25,13 +25,17 @@ namespace Physics
 		~cRigidBody();
 		cRigidBody(const cRigidBody & other);
 		cRigidBody & operator =(const cRigidBody & other);
-		IShape * GetCollisionShape() const { return m_pCollisionShape; }
-		void OnCreated(shared_ptr<const stRigidBodyDef>);
-		bool GetInitialized() const { return m_Initialized; }
 		void VSetPosition(const Base::cVector3 & Position);
 		Base::cVector3 VGetPosition() const { return m_Position; }
+		IShape * GetCollisionShape() const { return m_pCollisionShape; }
+		bool GetInitialized() const { return m_Initialized; }
+		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
+		float GetInverseMass() const { return m_InverseMass; }
+		void OnCreated(shared_ptr<const stRigidBodyDef>);
 		void IntegrateForces();
 		void IntegrateVelocity(const float deltaTime);
+		void ApplyImpulse(const Base::cVector3 & impulse);
+		void ApplyPositionCorrection(const Base::cVector3 & correction);
 
 	private:
 		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
@@ -42,13 +46,13 @@ namespace Physics
 	private:
 		Base::cVector3	m_LinearVelocity;
 		Base::cVector3	m_Position;
+		Base::cVector3	m_Force;
 		IShape *		m_pCollisionShape;
 		float			m_InverseMass;
 		float			m_LinearDamping;
 		float			m_TopSpeed;
 		bool			m_ApplyGravity;
 		bool			m_Initialized;
-		Base::cVector3	m_Force;
 	};
 }
 #endif //RigidBody_hxx

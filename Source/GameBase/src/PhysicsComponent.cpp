@@ -89,6 +89,17 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 			m_pDef->m_Shape = cHashedString(NodeValue.GetInLowerCase());
 		}
 	}
+
+	shared_ptr<IXMLNode> pMassNode(pXMLNode->VGetChild("Mass"));
+	if(pMassNode != NULL)
+	{
+		NodeValue = pMassNode->VGetNodeValue();
+		tOptional<float> mass = NodeValue.ToFloat();
+		if(mass.IsValid())
+		{
+			m_pDef->m_Mass = *mass;
+		}
+	}
 }
 
 // *****************************************************************************

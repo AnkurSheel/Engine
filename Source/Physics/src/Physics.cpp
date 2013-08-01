@@ -60,6 +60,18 @@ void cPhysics::VUpdate(const float DeltaTime)
 		}
 	}
 
+	for(auto Iter = collisions.begin(); Iter != collisions.end(); Iter++)
+	{
+		cCollisionInfo c = *Iter;
+		c.ApplyImpulse();
+	}
+
+	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
+	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
+		pRigidBody->IntegrateVelocity(DeltaTime);
+	}
+	
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
@@ -69,7 +81,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 	for(auto Iter = collisions.begin(); Iter != collisions.end(); Iter++)
 	{
 		cCollisionInfo c = *Iter;
-		c.m_pBodyB->VSetPosition(c.m_pBodyB->VGetPosition() - c.m_Distance);
+		c.ApplyPositionCorrection();
 	}
 }
 

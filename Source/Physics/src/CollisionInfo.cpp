@@ -12,6 +12,7 @@ using namespace Base;
 cCollisionInfo::cCollisionInfo(cRigidBody * pBodyA, cRigidBody * pBodyB)
 	: m_pBodyA(pBodyA)
 	, m_pBodyB(pBodyB)
+	, m_Distance(0.0f)
 {
 }
 
@@ -63,7 +64,46 @@ void cCollisionInfo::Solve()
 
 			cVector3 smallestOverlap3 = cVector3(smallestOverlap.x, smallestOverlap.y, 0.0f);
 			m_Normal = (centerDelta * smallestOverlap3).MajorAxis();
-			m_Distance = overlap * m_Normal;
+			m_Distance = (overlap * m_Normal).Length();
 		}
 	}
+}
+
+// *****************************************************************************
+void cCollisionInfo::ApplyImpulse()
+{
+	// Calculate relative velocity
+	cVector3 rv = m_pBodyA->GetLinearVelocity() - m_pBodyB->GetLinearVelocity();
+
+	float velAlongNormal = rv.Dot(m_Normal);
+
+	// Do not resolve if velocities are separating
+	if(velAlongNormal > 0)
+		return;
+
+	// Calculate restitution
+	float e = 0.0f; //min( A.restitution, B.restitution)
+
+	// Calculate impulse scalar
+	float j = -(1 + e) * velAlongNormal;
+	j /= m_pBodyA->GetInverseMass() + m_pBodyB->GetInverseMass();
+
+	// Apply impulse
+	cVector3 impulse = j * m_Normal;
+	m_pBodyA->ApplyImpulse(impulse);
+	m_pBodyB->ApplyImpulse(impulse.GetReverse());
+}
+
+// *****************************************************************************
+void cCollisionInfo::ApplyPositionCorrection()
+{
+	const float slop = 0.05f; // Penetration allowance
+	const float percent = 0.8f; // Penetration percentage to correct
+	if(isZero(m_Distance - slop))
+	{
+		return;
+	}
+	cVector3 correction = (m_Distance / (m_pBodyA->GetInverseMass() + m_pBodyB->GetInverseMass())) * m_Normal * percent;
+	m_pBodyA->ApplyPositionCorrection(correction);
+	m_pBodyB->ApplyPositionCorrection(correction.GetReverse());
 }

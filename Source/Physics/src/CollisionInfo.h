@@ -25,12 +25,14 @@ namespace Physics
 		cCollisionInfo & operator =(const cCollisionInfo & other);
 
 		void Solve();
+		void ApplyImpulse();
+		void ApplyPositionCorrection();
 
 	public:
+		Base::cVector3	m_Normal;
 		cRigidBody *	m_pBodyA;
 		cRigidBody *	m_pBodyB;
-		Base::cVector3	m_Normal;
-		Base::cVector3	m_Distance;
+		float			m_Distance;
 		bool			m_Collided;
 	};
 }

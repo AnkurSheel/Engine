@@ -100,5 +100,11 @@ namespace Base
 		}
 		return val;
 	}
+
+	template <class T>
+	inline T Max(const T a, const T b)
+	{
+		return a > b;
+	}
 }
 #endif // MathIncludes_h__
