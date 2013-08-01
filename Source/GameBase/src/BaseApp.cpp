@@ -194,7 +194,7 @@ void cBaseApp::VOnUpdate()
 void cBaseApp::VCleanup()
 {
 	// this is important to avoid recursive calls to cleanup
-	IEntityManager::GetInstance()->VUnRegisterEntity(this);
+	IEntityManager::GetInstance()->VDeleteEntity(this);
 	IEntityManager::Destroy();
 
 	SafeDelete(&m_pGameTimer);

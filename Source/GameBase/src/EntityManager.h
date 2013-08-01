@@ -32,9 +32,9 @@ namespace GameBase
 	private:
 		void VInitializeEntityFactory(shared_ptr<cEntityFactory> pEntityFactory);
 		void VInitializeComponentFactory(shared_ptr<cComponentFactory> pComponentFactory);
-		void VRegisterEntity(IBaseEntity * const pNewEntity);
-		IBaseEntity * const VRegisterEntity(const Base::cString & Type);
-		void VUnRegisterEntity(IBaseEntity * const pNewEntity);
+		void VAddEntity(IBaseEntity * const pNewEntity);
+		IBaseEntity * const VAddEntity(const Base::cString & Type);
+		void VDeleteEntity(IBaseEntity * const pNewEntity);
 		void VAddComponent(IBaseEntity * const pEntity, IBaseComponent * pComponent);
 		void VRemoveComponent(IBaseEntity * const pEntity,
 			const unsigned long ComponentID);

@@ -53,13 +53,13 @@ void cEntityManager::VInitializeComponentFactory(shared_ptr<cComponentFactory> p
 	}
 }
 // *****************************************************************************
-void cEntityManager::VRegisterEntity(IBaseEntity * const pNewEntity)
+void cEntityManager::VAddEntity(IBaseEntity * const pNewEntity)
 {
 	InitializeEntity(pNewEntity);
 }
 
 // *****************************************************************************
-IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
+IBaseEntity * const cEntityManager::VAddEntity(const cString & Type)
 {
 	if(m_pEntityFactory == NULL)
 	{
@@ -80,7 +80,7 @@ IBaseEntity * const cEntityManager::VRegisterEntity(const cString & Type)
 }
 
 // *****************************************************************************
-void cEntityManager::VUnRegisterEntity( IBaseEntity * const pNewEntity )
+void cEntityManager::VDeleteEntity( IBaseEntity * const pNewEntity )
 {
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
 	if (pEntity != NULL)
@@ -298,7 +298,7 @@ void IEntityManager::SetApp(IBaseEntity * const pApp)
 	if(pApp != NULL && cEntityManager::s_pBaseApp == NULL)
 	{
 		cEntityManager::s_pBaseApp = pApp;
-		GetInstance()->VRegisterEntity(pApp);
+		GetInstance()->VAddEntity(pApp);
 	}
 }
 

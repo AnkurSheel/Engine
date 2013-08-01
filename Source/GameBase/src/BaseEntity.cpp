@@ -104,7 +104,7 @@ void cBaseEntity::VCleanup()
 		SafeDelete(&(iter->second));
 	}
 	m_Components.clear();*/
-	IEntityManager::GetInstance()->VUnRegisterEntity(this);
+	IEntityManager::GetInstance()->VDeleteEntity(this);
 }
 
 // *****************************************************************************

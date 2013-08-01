@@ -31,9 +31,9 @@ namespace GameBase
 		virtual ~IEntityManager(){}
 		virtual void VInitializeEntityFactory(shared_ptr<cEntityFactory> pEntityFactory) = 0;
 		virtual void VInitializeComponentFactory(shared_ptr<cComponentFactory> pComponentFactory) = 0;
-		virtual void VRegisterEntity(IBaseEntity * const pNewEntity) = 0;
-		virtual IBaseEntity * const VRegisterEntity(const Base::cString & Type) = 0;
-		virtual void VUnRegisterEntity(IBaseEntity * const pNewEntity) = 0;
+		virtual void VAddEntity(IBaseEntity * const pNewEntity) = 0;
+		virtual IBaseEntity * const VAddEntity(const Base::cString & Type) = 0;
+		virtual void VDeleteEntity(IBaseEntity * const pNewEntity) = 0;
 		virtual IBaseEntity * const VGetEntityFromID(const int iID) const = 0;
 		virtual Base::cString VGetEntityNameFromID(const int iID) const  = 0;
 		virtual Base::cString VGetEntityName(const IBaseEntity * const pEntity) const = 0;
