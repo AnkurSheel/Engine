@@ -34,7 +34,7 @@ cHashedString::cHashedString(const cHashedString & other)
 }
 
 // *****************************************************************************
-cHashedString cHashedString::operator= (const cHashedString & other)
+cHashedString & cHashedString::operator= (const cHashedString & other)
 {
 	m_strIdent = other.m_strIdent;
 	m_lChecksum = other.m_lChecksum;
