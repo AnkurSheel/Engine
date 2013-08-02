@@ -35,6 +35,7 @@ cRigidBody::cRigidBody(const cRigidBody & other)
 	, m_ApplyGravity(other.m_ApplyGravity)
 	, m_Initialized(other.m_Initialized)
 	, m_Force(other.m_Force)
+	, m_PreviousPosition(other.m_PreviousPosition)
 {
 }
 
@@ -50,6 +51,7 @@ cRigidBody & cRigidBody::operator =(const cRigidBody & other)
 	m_ApplyGravity = other.m_ApplyGravity;
 	m_Initialized = other.m_Initialized;
 	m_Force = other.m_Force;
+	m_PreviousPosition = other.m_PreviousPosition;
 
 	return *this;
 }
@@ -60,6 +62,7 @@ void cRigidBody::VInitialize(const cVector3 & position)
 	if(!m_Initialized)
 	{
 		m_Initialized = true;
+		m_PreviousPosition = position;
 		VSetPosition(position);
 	}
 }
@@ -139,7 +142,7 @@ void cRigidBody::IntegrateForces()
 }
 
 // *****************************************************************************
-void cRigidBody::IntegrateVelocity(const float DeltaTime)
+void cRigidBody::IntegrateVelocity(const float timeStep)
 {
 	if(!m_Initialized)
 	{
@@ -148,7 +151,7 @@ void cRigidBody::IntegrateVelocity(const float DeltaTime)
 
 	if(!m_LinearVelocity.IsZero())
 	{
-		VSetPosition(m_Position + (m_LinearVelocity * DeltaTime));
+		VSetPosition(m_Position + (m_LinearVelocity * timeStep));
 		m_LinearVelocity *= (1 - m_LinearDamping);
 	}
 }
@@ -166,6 +169,18 @@ void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
 	{
 		VSetPosition(m_Position + (correction * m_InverseMass));
 	}
+}
+
+// *****************************************************************************
+void cRigidBody::Interpolate(const float alpha)
+{
+	cVector3 position = m_Position;
+	if(m_PreviousPosition != m_Position)
+	{
+		position = Base::Interpolate<cVector3>(m_PreviousPosition, m_Position, alpha);
+	}
+	m_PreviousPosition = m_Position;
+	VSetPosition(position);
 }
 
 // *****************************************************************************

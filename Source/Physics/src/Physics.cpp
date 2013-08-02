@@ -39,10 +39,17 @@ void cPhysics::VUpdate(const float DeltaTime)
 	m_Accumalator += DeltaTime;
 
 	Clamp<float>(m_Accumalator, 0.0f, 0.1f);
-	while(m_Accumalator >= DeltaTime)
+	while(m_Accumalator >= m_TimeStep)
 	{
 		InternalStep();
-		m_Accumalator -= DeltaTime;
+		m_Accumalator -= m_TimeStep;
+	}
+	
+	float alpha = m_Accumalator / m_TimeStep;
+	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
+	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
+		pRigidBody->Interpolate(alpha);
 	}
 }
 

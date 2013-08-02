@@ -36,6 +36,7 @@ namespace Physics
 		void IntegrateVelocity(const float deltaTime);
 		void ApplyImpulse(const Base::cVector3 & impulse);
 		void ApplyPositionCorrection(const Base::cVector3 & correction);
+		void Interpolate(const float alpha);
 
 	private:
 		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
@@ -46,6 +47,7 @@ namespace Physics
 	private:
 		Base::cVector3	m_LinearVelocity;
 		Base::cVector3	m_Position;
+		Base::cVector3	m_PreviousPosition;
 		Base::cVector3	m_Force;
 		IShape *		m_pCollisionShape;
 		float			m_InverseMass;
