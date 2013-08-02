@@ -104,7 +104,34 @@ namespace Base
 	template <class T>
 	inline T Max(const T a, const T b)
 	{
-		return a > b;
+		if(a > b)
+		{
+			return a;
+		}
+		else
+		{
+			return b;
+		}
+	}
+
+	template <class T>
+	inline T Min(const T a, const T b)
+	{
+		if(a < b)
+		{
+			return a;
+		}
+		else
+		{
+			return b;
+		}
+	}
+
+	template <class T>
+	inline T Interpolate(const T from, const T to, float alpha)
+	{
+		T val = (from * (1.0f - alpha)) + (to * alpha);
+		return val;
 	}
 }
 #endif // MathIncludes_h__

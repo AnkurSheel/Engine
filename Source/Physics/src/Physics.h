@@ -24,13 +24,16 @@ namespace Physics
 		IRigidBody * const VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef);
 		void VRemoveRigidBody(const int ID);
 		IRigidBody* FindRigidBody(const int ID) const;
-	
+		void InternalStep();
+
 	private:
 		typedef std::map<int, IRigidBody * const > RigidBodyMap;
 	
 		float				m_Gravity;
+		float				m_TimeStep;
+		float				m_Accumalator;
 		RigidBodyMap		m_RigidBodyMap;
-		static IPhysics * s_pPhysics;	/*!< static object of this class */
+		static IPhysics *	s_pPhysics;	/*!< static object of this class */
 
 	private:
 		friend static IPhysics * IPhysics::GetInstance();

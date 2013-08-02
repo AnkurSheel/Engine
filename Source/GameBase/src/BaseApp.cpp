@@ -229,7 +229,7 @@ TICK cBaseApp::GetRunningTicks() const
 		return m_pGameTimer->VGetRunningTicks();
 	}
 
-	return 0.0f;
+	return 0;
 }
 
 // *****************************************************************************

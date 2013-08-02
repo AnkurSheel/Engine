@@ -21,7 +21,6 @@ namespace Physics
 		void VUpdateBounds(const Base::cVector3 & position,
 			const Base::cVector3 & minBound, const Base::cVector3 & maxBound);
 		IShape * VDuplicate();
-		void VOnMoved(const Base::cVector3 & deltaPosition);
 		Base::cHashedString	VGetShapeName()  {return m_Name; }
 
 	public:

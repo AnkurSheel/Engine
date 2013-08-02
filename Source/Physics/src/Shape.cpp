@@ -33,3 +33,9 @@ cShape & cShape::operator =(const cShape & other)
 	m_HalfExtents = other.m_HalfExtents;
 	return *this;
 }
+
+// *****************************************************************************
+void cShape::VOnMoved(const cVector3 & deltaPosition)
+{
+	m_Center += deltaPosition;
+}

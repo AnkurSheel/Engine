@@ -48,6 +48,8 @@ void cPhysicsSystem::VInitialize()
 	listener = bind(&cPhysicsSystem::ActorScaledListener, this, _1);
 	IEventManager::Instance()->VAddListener(listener, cEntityScaledEventData::m_Name);
 
+	//intialize physics
+
 }
 
 // *****************************************************************************

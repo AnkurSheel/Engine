@@ -20,9 +20,11 @@ namespace Physics
 	struct	stPhysicsDef
 	{
 		float	m_Gravity;
+		float	m_TimeStep;
 
 		stPhysicsDef()
 			: m_Gravity(0.0f)
+			, m_TimeStep(1.0f/60.0f)
 		{
 		}
 	};

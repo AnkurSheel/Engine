@@ -12,6 +12,8 @@ IPhysics * cPhysics::s_pPhysics = NULL;
 // *****************************************************************************
 cPhysics::cPhysics()
 	: m_Gravity(0.0f)
+	, m_TimeStep(1.0f/60.0f)
+	, m_Accumalator(0.0f)
 {
 }
 
@@ -24,17 +26,66 @@ cPhysics::~cPhysics()
 void cPhysics::VInitialize(const stPhysicsDef & def)
 {
 	m_Gravity = def.m_Gravity;
+	m_TimeStep = def.m_TimeStep;
+	m_Accumalator = 0.0f;
 }
 
 // *****************************************************************************
 void cPhysics::VUpdate(const float DeltaTime)
+{
+	int numSimulationSubSteps = 0;
+
+	// fixed timestep
+	m_Accumalator += DeltaTime;
+
+	Clamp<float>(m_Accumalator, 0.0f, 0.1f);
+	while(m_Accumalator >= DeltaTime)
+	{
+		InternalStep();
+		m_Accumalator -= DeltaTime;
+	}
+}
+
+// *****************************************************************************
+IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
+{
+	IRigidBody * pRigidBody = IRigidBody::Create(pDef);
+	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
+	return pRigidBody;
+}
+
+// *****************************************************************************
+void cPhysics::VRemoveRigidBody(const int ID)
+{
+	IRigidBody * pRigidBody = FindRigidBody(ID);
+	if (pRigidBody != NULL)
+	{
+		m_RigidBodyMap.erase(ID);
+		SafeDelete(&pRigidBody);
+	}
+}
+
+// *****************************************************************************
+IRigidBody* cPhysics::FindRigidBody(const int ID) const
+{
+	RigidBodyMap::const_iterator Iter = m_RigidBodyMap.find(ID);
+	if(Iter != m_RigidBodyMap.end())
+	{
+		return Iter->second;
+	}
+
+	return NULL;
+}
+
+// *****************************************************************************
+void cPhysics::InternalStep()
 {
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
 		pRigidBody->IntegrateForces();
 	}
-	
+
 	vector<cCollisionInfo> collisions;
 
 	for(auto IterA = m_RigidBodyMap.begin(); IterA != m_RigidBodyMap.end(); IterA++)
@@ -69,13 +120,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->IntegrateVelocity(DeltaTime);
-	}
-	
-	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
-	{
-		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->IntegrateVelocity(DeltaTime);
+		pRigidBody->IntegrateVelocity(m_TimeStep);
 	}
 
 	for(auto Iter = collisions.begin(); Iter != collisions.end(); Iter++)
@@ -83,37 +128,6 @@ void cPhysics::VUpdate(const float DeltaTime)
 		cCollisionInfo c = *Iter;
 		c.ApplyPositionCorrection();
 	}
-}
-
-// *****************************************************************************
-IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
-{
-	IRigidBody * pRigidBody = IRigidBody::Create(pDef);
-	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
-	return pRigidBody;
-}
-
-// *****************************************************************************
-void cPhysics::VRemoveRigidBody(const int ID)
-{
-	IRigidBody * pRigidBody = FindRigidBody(ID);
-	if (pRigidBody != NULL)
-	{
-		m_RigidBodyMap.erase(ID);
-		SafeDelete(&pRigidBody);
-	}
-}
-
-// *****************************************************************************
-IRigidBody* cPhysics::FindRigidBody(const int ID) const
-{
-	RigidBodyMap::const_iterator Iter = m_RigidBodyMap.find(ID);
-	if(Iter != m_RigidBodyMap.end())
-	{
-		return Iter->second;
-	}
-
-	return NULL;
 }
 
 // ****************************************************************************

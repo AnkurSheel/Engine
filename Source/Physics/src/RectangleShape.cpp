@@ -44,13 +44,6 @@ void cRectangleShape::VUpdateBounds(const Base::cVector3 & position,
 }
 
 // *****************************************************************************
-void cRectangleShape::VOnMoved(const Base::cVector3 & deltaPosition)
-{
-	m_Center += deltaPosition;
-}
-
-
-// *****************************************************************************
 IShape * IShape::CreateRectangleShape()
 {
 	return DEBUG_NEW cRectangleShape();
