@@ -249,6 +249,18 @@ const shared_ptr<IXMLNode> cXMLNode::VGetChild(const cString & Name) const
 }
 
 // *****************************************************************************
+cString cXMLNode::VGetChildValue(const cString & Name) const
+{
+	cString value;
+	shared_ptr<IXMLNode> pNode(VGetChild(Name));
+	if(pNode != NULL)
+	{
+		value = pNode->VGetNodeValue();
+	}
+	return value;
+}
+
+// *****************************************************************************
 const shared_ptr<IXMLNode> IXMLNode::InitializeForSave(const cString & RootName,
 	const cString & StyleSheetPath)
 {

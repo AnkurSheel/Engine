@@ -35,25 +35,16 @@ void cModelComponent::VInitialize(const IXMLNode * const pXMLNode)
 		return;
 	}
 
-	shared_ptr<IXMLNode> pName(pXMLNode->VGetChild("Name"));
-	if(pName != NULL)
+	cString ModelName = pXMLNode->VGetChildValue("Name");
+	if (!ModelName.IsEmpty())
 	{
-		cString ModelName = pName->VGetNodeValue(); 
-		if (!ModelName.IsEmpty())
-		{
-			m_pModel = IModel::CreateModel(ModelName);
-		}
-		else
-		{
-			Log_Write(ILogger::LT_ERROR, 1, "Element Name in Model Component cannot be empty");
-		}
+		m_pModel = IModel::CreateModel(ModelName);
 	}
 	else
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Missing Element in Model Component : Name");
+		Log_Write(ILogger::LT_ERROR, 1, "Element Name in Model Component cannot be empty");
 	}
 }
-
 // *****************************************************************************
 void cModelComponent::VCleanup()
 {

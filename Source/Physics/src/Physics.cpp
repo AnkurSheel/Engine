@@ -1,10 +1,16 @@
 #include "stdafx.h"
+#include "XMLNode.hxx"
+#include "GameDirectories.h"
+#include "ResCache.hxx"
+#include "ResourceManager.hxx"
 #include "Physics.h"
 #include "RigidBody.h"
 #include "CollisionInfo.h"
+#include "Optional.h"
 
 using namespace Physics;
 using namespace Base;
+using namespace Utilities;
 using namespace std;
 
 IPhysics * cPhysics::s_pPhysics = NULL;
@@ -23,10 +29,36 @@ cPhysics::~cPhysics()
 }
 
 // *****************************************************************************
-void cPhysics::VInitialize(const stPhysicsDef & def)
+void cPhysics::VInitialize(const cString & FileName)
 {
-	m_Gravity = def.m_Gravity;
-	m_TimeStep = def.m_TimeStep;
+	IResource * pResource = IResource::CreateResource(cGameDirectories::GetDesignDirectory() + FileName + ".xml");
+	shared_ptr<IResHandle> pXMLFile = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+	shared_ptr<IXMLNode> pRoot;
+	SafeDelete(&pResource);
+	if(pXMLFile != NULL)
+	{
+		pRoot = shared_ptr<IXMLNode>(IXMLNode::Parse(pXMLFile->GetBuffer(), pXMLFile->GetSize()));
+	}
+
+	if (pRoot == NULL)
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Could not find " + FileName + ".xml");
+		return;
+	}
+	cString value = pRoot->VGetChildValue("Gravity");
+	tOptional<float> gravity = value.ToFloat();
+	if(gravity.IsValid())
+	{
+		m_Gravity = *gravity;
+	}
+
+	value = pRoot->VGetChildValue("TimeStepFrequency");
+	tOptional<float> frequency = value.ToFloat();
+	if(frequency.IsValid())
+	{
+		m_TimeStep = 1.0f /(*frequency);
+	}
+
 	m_Accumalator = 0.0f;
 }
 

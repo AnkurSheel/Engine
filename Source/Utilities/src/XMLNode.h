@@ -61,6 +61,7 @@ namespace Utilities
 		float VGetNodeAttributeAsFloat(const Base::cString & AttributeName, const float DefaultValue) const;
 		void VGetChildren(XMLNodeList & ChildrenList) const;
 		const shared_ptr<IXMLNode> VGetChild(const Base::cString & Name) const;
+		Base::cString VGetChildValue(const Base::cString & Name) const;
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Adds all the child elements for the parent element to the
 		/// child list

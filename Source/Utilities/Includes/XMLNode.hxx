@@ -184,6 +184,16 @@ namespace Utilities
 		///
 		////////////////////////////////////////////////////////////////////////
 		virtual const shared_ptr<IXMLNode> VGetChild(const Base::cString & Name) const = 0;
+		////////////////////////////////////////////////////////////////////////
+		/// @brief Get the value of the first child element with the specified name.
+		/// If no child with the specified name exists, returns NULL
+		/// 
+		/// @param[in] Name The name of the child element.
+		/// @return The value of the first child element with the specified name. If
+		/// no child with the specified name exists, returns NULL
+		///
+		////////////////////////////////////////////////////////////////////////
+		virtual Base::cString VGetChildValue(const Base::cString & Name) const = 0;
 	};
 }
 #endif // XMLNode_h__

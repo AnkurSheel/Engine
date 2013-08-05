@@ -54,23 +54,15 @@ void cSpriteComponent::VInitialize(const IXMLNode * const pXMLNode)
 		return;
 	}
 
-	shared_ptr<IXMLNode> pName(pXMLNode->VGetChild("Name"));
-	if(pName != NULL)
+	cString SpriteName = pXMLNode->VGetChildValue("Name");
+	if (!SpriteName.IsEmpty())
 	{
-		cString SpriteName = pName->VGetNodeValue(); 
-		if (!SpriteName.IsEmpty())
-		{
-			m_pSprite = ISprite::CreateSprite();
-			m_pSprite->VInitialize(SpriteName);
-		}
-		else
-		{
-			Log_Write(ILogger::LT_ERROR, 1, "Element Name in Sprite Component cannot be empty");
-		}
+		m_pSprite = ISprite::CreateSprite();
+		m_pSprite->VInitialize(SpriteName);
 	}
 	else
 	{
-		Log_Write(ILogger::LT_ERROR, 1, "Missing Element in Sprite Component : Name");
+		Log_Write(ILogger::LT_ERROR, 1, "Element Name in Sprite Component cannot be empty");
 	}
 }
 

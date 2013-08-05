@@ -46,59 +46,38 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	m_pDef = shared_ptr<Physics::stRigidBodyDef>(DEBUG_NEW stRigidBodyDef());
 	m_pDef->m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
 	
-	shared_ptr<IXMLNode> pSpeedNode(pXMLNode->VGetChild("TopSpeed"));
-	cString NodeValue;
-	if(pSpeedNode != NULL)
+	cString value = pXMLNode->VGetChildValue("TopSpeed");
+	tOptional<float> speed = value.ToFloat();
+	if(speed.IsValid())
 	{
-		NodeValue = pSpeedNode->VGetNodeValue();
-		tOptional<float> speed = NodeValue.ToFloat();
-		if(speed.IsValid())
-		{
-			m_pDef->m_TopSpeed = *speed;
-		}
+		m_pDef->m_TopSpeed = *speed;
 	}
 
-	shared_ptr<IXMLNode> pLinearDampingNode(pXMLNode->VGetChild("LinearDamping"));
-	if(pLinearDampingNode != NULL)
+	value = pXMLNode->VGetChildValue("LinearDamping");
+	tOptional<float> LinearDamping = value.ToFloat();
+	if(LinearDamping.IsValid())
 	{
-		NodeValue = pLinearDampingNode->VGetNodeValue();
-		tOptional<float> LinearDamping = NodeValue.ToFloat();
-		if(LinearDamping.IsValid())
-		{
-			m_pDef->m_LinearDamping = *LinearDamping;
-		}
+		m_pDef->m_LinearDamping = *LinearDamping;
 	}
 
-	shared_ptr<IXMLNode> pForceNode(pXMLNode->VGetChild("Force"));
-	if(pForceNode != NULL)
+	value = pXMLNode->VGetChildValue("Force");
+	tOptional<float> Force = value.ToFloat();
+	if(Force.IsValid())
 	{
-		NodeValue = pForceNode->VGetNodeValue();
-		tOptional<float> Force = NodeValue.ToFloat();
-		if(Force.IsValid())
-		{
-			m_Force = *Force;
-		}
+		m_Force = *Force;
 	}
 
-	shared_ptr<IXMLNode> pShapeNode(pXMLNode->VGetChild("Shape"));
-	if(pShapeNode != NULL)
+	value = pXMLNode->VGetChildValue("Shape");
+	if(!value.IsEmpty())
 	{
-		NodeValue = pShapeNode->VGetNodeValue();
-		if(!NodeValue.IsEmpty())
-		{
-			m_pDef->m_Shape = cHashedString(NodeValue.GetInLowerCase());
-		}
+		m_pDef->m_Shape = cHashedString(value.GetInLowerCase());
 	}
-
-	shared_ptr<IXMLNode> pMassNode(pXMLNode->VGetChild("Mass"));
-	if(pMassNode != NULL)
+	
+	value = pXMLNode->VGetChildValue("Mass");
+	tOptional<float> mass = value.ToFloat();
+	if(mass.IsValid())
 	{
-		NodeValue = pMassNode->VGetNodeValue();
-		tOptional<float> mass = NodeValue.ToFloat();
-		if(mass.IsValid())
-		{
-			m_pDef->m_Mass = *mass;
-		}
+		m_pDef->m_Mass = *mass;
 	}
 }
 
