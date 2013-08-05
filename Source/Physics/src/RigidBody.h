@@ -25,7 +25,7 @@ namespace Physics
 		~cRigidBody();
 		cRigidBody(const cRigidBody & other);
 		cRigidBody & operator =(const cRigidBody & other);
-		void VSetPosition(const Base::cVector3 & Position);
+		void SetPosition(const Base::cVector3 & Position);
 		Base::cVector3 VGetPosition() const { return m_Position; }
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 		bool GetInitialized() const { return m_Initialized; }

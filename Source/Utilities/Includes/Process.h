@@ -24,7 +24,7 @@ namespace Utilities
 		UTILITIES_API virtual ~cProcess();
 
 		UTILITIES_API virtual void VInitialize();
-		UTILITIES_API virtual void VUpdate(const float DeltaTime);
+		UTILITIES_API virtual void VUpdate(const float deltaTime);
 		UTILITIES_API virtual void VKill();
 		UTILITIES_API virtual void VTogglePause();
 		UTILITIES_API virtual void VSetActive(const bool bActive);

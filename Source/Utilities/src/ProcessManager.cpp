@@ -28,13 +28,7 @@ void cProcessManager::VAttachProcess(shared_ptr<cProcess> pProcess)
 }
 
 // *****************************************************************************
-bool cProcessManager::HasProcesses() const
-{
-	return !(m_pProcessList.empty());
-}
-
-// *****************************************************************************
-void cProcessManager::UpdateProcesses(const float DeltaTime)
+void cProcessManager::VUpdateProcesses(const float deltaTime)
 {
 	shared_ptr<cProcess> pNext;
 
@@ -57,7 +51,7 @@ void cProcessManager::UpdateProcesses(const float DeltaTime)
 		}
 		else if(p->IsActive() && !p->VIsPaused())
 		{
-			p->VUpdate(DeltaTime);
+			p->VUpdate(deltaTime);
 		}
 	}
 }

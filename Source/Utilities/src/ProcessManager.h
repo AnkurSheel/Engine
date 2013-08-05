@@ -25,15 +25,14 @@ namespace Utilities
 	public:
 		~cProcessManager();
 
-		bool HasProcesses() const;
-		void UpdateProcesses(const float DeltaTime);
-
 	private:
 		void VAttachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcesses(const Base::cString & strType);
 		void VSetProcessesActive(const Base::cString & strType, const bool bActive);
 		void VGetProcesses(const Base::cString & strType, ProcessList & pProcessList);
+		void VUpdateProcesses(const float deltaTime);
+		bool VHasProcesses() const { return !(m_pProcessList.empty()); }
 
 	protected:
 		ProcessList m_pProcessList;

@@ -22,7 +22,7 @@ namespace GameBase
 	public:
 		GAMEBASE_API cInputSystem();
 		GAMEBASE_API ~cInputSystem();
-		void VUpdate(const float DeltaTime);
+		void VUpdate(const float deltaTime);
 	};
 }
 #endif // InputSystem_h__

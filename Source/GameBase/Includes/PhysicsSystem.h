@@ -24,7 +24,7 @@ namespace GameBase
 		GAMEBASE_API cPhysicsSystem();
 		GAMEBASE_API ~cPhysicsSystem();
 		void VInitialize();
-		void VUpdate(const float DeltaTime);
+		void VUpdate(const float deltaTime);
 		void ActorInitializedListener(IEventDataPtr pEventData);
 		void ActorScaledListener(IEventDataPtr pEventData);
 	};

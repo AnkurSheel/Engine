@@ -64,7 +64,7 @@ void cRigidBody::VInitialize(const cVector3 & position)
 	{
 		m_Initialized = true;
 		m_PreviousPosition = position;
-		VSetPosition(position);
+		SetPosition(position);
 	}
 }
 
@@ -84,7 +84,7 @@ void cRigidBody::VUpdateBounds(const cVector3 & minBound, const cVector3 & maxBo
 }
 
 // *****************************************************************************
-void cRigidBody::VSetPosition(const cVector3 & position)
+void cRigidBody::SetPosition(const cVector3 & position)
 {
 	if(m_Position != position)
 	{
@@ -94,7 +94,6 @@ void cRigidBody::VSetPosition(const cVector3 & position)
 		}
 		m_Position = position;
 	}
-
 }
 
 // *****************************************************************************
@@ -153,7 +152,7 @@ void cRigidBody::IntegrateVelocity(const float timeStep)
 
 	if(!m_LinearVelocity.IsZero())
 	{
-		VSetPosition(m_Position + (m_LinearVelocity * timeStep));
+		SetPosition(m_Position + (m_LinearVelocity * timeStep));
 		m_LinearVelocity *= (1 - m_LinearDamping);
 	}
 }
@@ -169,20 +168,25 @@ void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
 {
 	if(!isZero(m_InverseMass))
 	{
-		VSetPosition(m_Position + (correction * m_InverseMass));
+		SetPosition(m_Position + (correction * m_InverseMass));
 	}
 }
 
 // *****************************************************************************
 void cRigidBody::Interpolate(const float alpha)
 {
-	cVector3 position = m_Position;
-	if(m_PreviousPosition != m_Position)
-	{
-		position = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
-	}
-	m_PreviousPosition = m_Position;
-	VSetPosition(position);
+	//cVector3 position = m_Position;
+	//if(m_PreviousPosition != m_Position)
+	//{
+	//	position = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
+	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "alpha %f", alpha));
+	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "m_PreviousPosition %f, %f, %f", m_PreviousPosition.x, m_PreviousPosition.y, m_PreviousPosition.z));
+	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "m_Position %f, %f, %f", m_Position.x, m_Position.y, m_Position.z));
+	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "position %f, %f, %f", position.x, position.y, position.z));
+
+	//}
+	//m_PreviousPosition = m_Position;
+	//SetPosition(position);
 }
 
 // *****************************************************************************

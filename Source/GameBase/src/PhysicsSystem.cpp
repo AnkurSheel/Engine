@@ -53,9 +53,9 @@ void cPhysicsSystem::VInitialize()
 }
 
 // *****************************************************************************
-void cPhysicsSystem::VUpdate(const float DeltaTime)
+void cPhysicsSystem::VUpdate(const float deltaTime)
 {
-	cProcess::VUpdate(DeltaTime);
+	cProcess::VUpdate(deltaTime);
 
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities(cPhysicsComponent::GetName(), entityList);
@@ -67,7 +67,7 @@ void cPhysicsSystem::VUpdate(const float DeltaTime)
 		pPhysics->Update();
 	}
 	
-	IPhysics::GetInstance()->VUpdate(DeltaTime);
+	IPhysics::GetInstance()->VUpdate(deltaTime);
 	
 	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{

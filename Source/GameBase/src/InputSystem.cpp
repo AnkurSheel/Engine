@@ -26,9 +26,9 @@ cInputSystem::~cInputSystem()
 }
 
 // *****************************************************************************
-void cInputSystem::VUpdate(const float DeltaTime)
+void cInputSystem::VUpdate(const float deltaTime)
 {
-	cProcess::VUpdate(DeltaTime);
+	cProcess::VUpdate(deltaTime);
 
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities(cKeyboardHandlerComponent::GetName(), entityList);

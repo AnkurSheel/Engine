@@ -73,7 +73,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 	// fixed timestep
 	m_Accumalator += DeltaTime;
 
-	Clamp<float>(m_Accumalator, 0.0f, 0.1f);
+	Clamp<float>(m_Accumalator, 0.0f, 0.3f);
 	while(m_Accumalator >= m_TimeStep)
 	{
 		InternalStep();
