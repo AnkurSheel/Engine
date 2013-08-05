@@ -130,7 +130,7 @@ namespace Base
 	template <class T>
 	inline T Interpolate(const T from, const T to, float alpha)
 	{
-		T val = (from * alpha) + (to * (1.0f - alpha));
+		T val = (from * (1.0f - alpha)) + (to * alpha);
 		return val;
 	}
 }

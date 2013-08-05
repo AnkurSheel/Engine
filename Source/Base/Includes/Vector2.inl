@@ -28,6 +28,12 @@ inline cVector2 cVector2::GetDirection(const float fAngle)
 }
 
 // *****************************************************************************
+inline cVector2 cVector2::Lerp(const cVector2 from, const cVector2 to, float alpha)
+{
+	return Interpolate<cVector2>(from, to, alpha);
+}
+
+// *****************************************************************************
 inline bool cVector2::IsZero() const
 {
 	return LengthSquared() < EpsilonFloat;

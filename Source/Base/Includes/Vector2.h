@@ -158,10 +158,11 @@ namespace Base
 		const float operator[](const unsigned int i) const;
 		static cVector2 Zero();
 		static cVector2 GetDirection(const float fAngle);
+		static cVector2 Lerp(const cVector2 from, const cVector2 to, float alpha);
 
 	public:
-		float	x;	/*!< X component of Vector2 */
-		float	y;	/*!< Y component of Vector2 */
+		float	x;	///< X component of Vector2
+		float	y;	///< Y component of Vector2
 	};
 
 	inline cVector2 operator*(const cVector2 & inVec1, const float fVal);

@@ -177,7 +177,7 @@ void cRigidBody::Interpolate(const float alpha)
 	cVector3 position = m_Position;
 	if(m_PreviousPosition != m_Position)
 	{
-		position = Base::Interpolate<cVector3>(m_PreviousPosition, m_Position, alpha);
+		position = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
 	}
 	m_PreviousPosition = m_Position;
 	VSetPosition(position);
