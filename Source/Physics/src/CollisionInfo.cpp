@@ -82,7 +82,7 @@ void cCollisionInfo::ApplyImpulse()
 		return;
 
 	// Calculate restitution
-	float e = 0.0f; //min( A.restitution, B.restitution)
+	float e = min(m_pBodyA->GetRestitution(), m_pBodyB->GetRestitution());
 
 	// Calculate impulse scalar
 	float j = -(1 + e) * velAlongNormal;

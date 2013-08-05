@@ -31,6 +31,7 @@ namespace Physics
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
 		float GetInverseMass() const { return m_InverseMass; }
+		float GetRestitution() const { return m_MaterialData.restitution; }
 		void OnCreated(shared_ptr<const stRigidBodyDef>);
 		void IntegrateForces();
 		void IntegrateVelocity(const float deltaTime);
@@ -55,6 +56,7 @@ namespace Physics
 		float			m_TopSpeed;
 		bool			m_ApplyGravity;
 		bool			m_Initialized;
+		stMaterialData	m_MaterialData;
 	};
 }
 #endif //RigidBody_hxx

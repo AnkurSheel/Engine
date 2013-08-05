@@ -13,7 +13,7 @@ using namespace Base;
 using namespace Utilities;
 using namespace std;
 
-IPhysics * cPhysics::s_pPhysics = NULL;
+cPhysics * cPhysics::s_pPhysics = NULL;
 
 // *****************************************************************************
 cPhysics::cPhysics()
@@ -45,6 +45,7 @@ void cPhysics::VInitialize(const cString & FileName)
 		Log_Write(ILogger::LT_ERROR, 1, "Could not find " + FileName + ".xml");
 		return;
 	}
+
 	cString value = pRoot->VGetChildValue("Gravity");
 	tOptional<float> gravity = value.ToFloat();
 	if(gravity.IsValid())
@@ -58,6 +59,8 @@ void cPhysics::VInitialize(const cString & FileName)
 	{
 		m_TimeStep = 1.0f /(*frequency);
 	}
+
+	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
 
 	m_Accumalator = 0.0f;
 }
@@ -170,6 +173,43 @@ void cPhysics::InternalStep()
 }
 
 // ****************************************************************************
+void cPhysics::LoadMaterialData(shared_ptr<IXMLNode> pParentNode)
+{
+	if(pParentNode == NULL)
+	{
+		return;
+	}
+
+	IXMLNode::XMLNodeList List;
+	pParentNode->VGetChildren(List);
+	for (auto Iter = List.begin(); Iter != List.end(); Iter++)
+	{
+		IXMLNode * pNode = (*Iter).get();
+		stMaterialData data;
+        data.restitution = pNode->VGetNodeAttributeAsFloat("restitution", 1.0f);
+        data.friction = pNode->VGetNodeAttributeAsFloat("friction", 0.0f);
+		
+		m_MaterialMap[cHashedString::CalculateHash(pNode->VGetName().GetInLowerCase())] = data;
+	}
+}
+
+// ****************************************************************************
+stMaterialData cPhysics::LookUpMaterialData(const cString & materialName)
+{
+	if(s_pPhysics == NULL)
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "Physics has not been initialized");
+		return stMaterialData();
+	}
+
+	auto materialIt = s_pPhysics->m_MaterialMap.find(cHashedString::CalculateHash(materialName));
+    if (materialIt != s_pPhysics->m_MaterialMap.end())
+        return materialIt->second;
+    else
+        return stMaterialData();
+}
+
+// ****************************************************************************
 IPhysics * IPhysics::GetInstance()
 {
 	if(cPhysics::s_pPhysics == NULL)
@@ -182,3 +222,4 @@ void IPhysics::Destroy()
 {
 	SafeDelete(&cPhysics::s_pPhysics);
 }
+

@@ -2,6 +2,7 @@
 #include "RigidBody.h"
 #include "Shape.hxx"
 #include "RectangleShape.h"
+#include "Physics.h"
 
 using namespace Physics;
 using namespace Base;
@@ -120,6 +121,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 		m_pCollisionShape = IShape::CreateRectangleShape();
 		m_pCollisionShape->VInitialize(pDef->m_MinBound, pDef->m_MaxBound);
 	}
+	m_MaterialData = cPhysics::LookUpMaterialData(pDef->m_Material);
 }
 
 // *****************************************************************************

@@ -79,6 +79,8 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	{
 		m_pDef->m_Mass = *mass;
 	}
+
+	m_pDef->m_Material = pXMLNode->VGetChildValue("Material");
 }
 
 // *****************************************************************************

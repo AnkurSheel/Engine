@@ -9,6 +9,16 @@
 
 #include "Physics.hxx"
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
+namespace Physics
+{
+	struct stMaterialData;
+}
+
 namespace Physics
 {
 	class cPhysics
@@ -17,6 +27,7 @@ namespace Physics
 	public:
 		cPhysics();
 		~cPhysics();
+		static stMaterialData LookUpMaterialData(const Base::cString & materialName);
 
 	private:
 		void VInitialize(const Base::cString & FileName);
@@ -25,15 +36,18 @@ namespace Physics
 		void VRemoveRigidBody(const int ID);
 		IRigidBody* FindRigidBody(const int ID) const;
 		void InternalStep();
+		void LoadMaterialData(shared_ptr<Utilities::IXMLNode> pParentNode);
 
 	private:
 		typedef std::map<int, IRigidBody * const > RigidBodyMap;
-	
+		typedef std::map<unsigned long, stMaterialData> MaterialMap;
+		
 		float				m_Gravity;
 		float				m_TimeStep;
 		float				m_Accumalator;
 		RigidBodyMap		m_RigidBodyMap;
-		static IPhysics *	s_pPhysics;	/*!< static object of this class */
+		MaterialMap			m_MaterialMap;
+		static cPhysics *	s_pPhysics;	/*!< static object of this class */
 
 	private:
 		friend static IPhysics * IPhysics::GetInstance();

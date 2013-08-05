@@ -12,6 +12,18 @@
 
 namespace Physics
 {
+	struct stMaterialData
+	{
+		float	restitution;
+		float	friction;
+
+		stMaterialData()
+			: restitution(1.0f)
+			, friction(0.0f)
+		{
+		}
+	};
+
 	struct	stRigidBodyDef
 	{
 		float				m_Mass;
@@ -21,6 +33,7 @@ namespace Physics
 		Base::cVector3		m_MaxBound;
 		Base::cHashedString	m_Shape; 
 		bool				m_ApplyGravity;
+		Base::cString		m_Material;
 
 		stRigidBodyDef()
 			: m_Mass(0.0f)
@@ -28,6 +41,7 @@ namespace Physics
 			, m_ApplyGravity(false)
 			, m_TopSpeed(0.0f)
 			, m_Shape("none")
+			, m_Material("normal")
 		{
 		}
 	};
