@@ -25,8 +25,7 @@ namespace Physics
 		~cRigidBody();
 		cRigidBody(const cRigidBody & other);
 		cRigidBody & operator =(const cRigidBody & other);
-		void SetPosition(const Base::cVector3 & Position);
-		Base::cVector3 VGetPosition() const { return m_Position; }
+		Base::cVector3 VGetRenderPosition() const { return m_RenderPosition; }
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
@@ -37,18 +36,20 @@ namespace Physics
 		void IntegrateVelocity(const float deltaTime);
 		void ApplyImpulse(const Base::cVector3 & impulse);
 		void ApplyPositionCorrection(const Base::cVector3 & correction);
-		void Interpolate(const float alpha);
+		void Sync(const float alpha);
+		void OnMoved();
 
 	private:
 		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
 		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
-		void VUpdateBounds(const Base::cVector3 & minBound, 
+		void VUpdateCollisionShape(const Base::cVector3 & minBound, 
 			const Base::cVector3 & maxBound);
 
 	private:
 		Base::cVector3	m_LinearVelocity;
 		Base::cVector3	m_Position;
 		Base::cVector3	m_PreviousPosition;
+		Base::cVector3	m_RenderPosition;
 		Base::cVector3	m_Force;
 		IShape *		m_pCollisionShape;
 		float			m_InverseMass;

@@ -140,7 +140,7 @@ cVector3 cPhysicsComponent::GetPosition() const
 {
 	if(m_pRigidBody != NULL)
 	{
-		return m_pRigidBody->VGetPosition();
+		return m_pRigidBody->VGetRenderPosition();
 	}
 
 	return cVector3::Zero();
@@ -171,6 +171,6 @@ void cPhysicsComponent::OnSizeUpdated()
 	GetBounds(minBound, maxBound);
 	if(m_pRigidBody != NULL)
 	{
-		m_pRigidBody->VUpdateBounds(minBound, maxBound);
+		m_pRigidBody->VUpdateCollisionShape(minBound, maxBound);
 	}
 }

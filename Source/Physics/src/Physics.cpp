@@ -84,7 +84,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->Interpolate(alpha);
+		pRigidBody->Sync(alpha);
 	}
 }
 

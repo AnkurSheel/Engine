@@ -37,6 +37,7 @@ cRigidBody::cRigidBody(const cRigidBody & other)
 	, m_Initialized(other.m_Initialized)
 	, m_Force(other.m_Force)
 	, m_PreviousPosition(other.m_PreviousPosition)
+	, m_RenderPosition(other.m_RenderPosition)
 {
 }
 
@@ -53,6 +54,7 @@ cRigidBody & cRigidBody::operator =(const cRigidBody & other)
 	m_Initialized = other.m_Initialized;
 	m_Force = other.m_Force;
 	m_PreviousPosition = other.m_PreviousPosition;
+	m_RenderPosition = other.m_RenderPosition;
 
 	return *this;
 }
@@ -63,8 +65,7 @@ void cRigidBody::VInitialize(const cVector3 & position)
 	if(!m_Initialized)
 	{
 		m_Initialized = true;
-		m_PreviousPosition = position;
-		SetPosition(position);
+		m_Position = position;
 	}
 }
 
@@ -75,24 +76,11 @@ void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
 }
 
 // *****************************************************************************
-void cRigidBody::VUpdateBounds(const cVector3 & minBound, const cVector3 & maxBound)
+void cRigidBody::VUpdateCollisionShape(const cVector3 & minBound, const cVector3 & maxBound)
 {
 	if(m_pCollisionShape != NULL)
 	{
 		m_pCollisionShape->VUpdateBounds(m_Position, minBound, maxBound);
-	}
-}
-
-// *****************************************************************************
-void cRigidBody::SetPosition(const cVector3 & position)
-{
-	if(m_Position != position)
-	{
-		if(m_pCollisionShape != NULL)
-		{
-			m_pCollisionShape->VOnMoved(position - m_Position);
-		}
-		m_Position = position;
 	}
 }
 
@@ -135,11 +123,11 @@ void cRigidBody::IntegrateForces()
 	{
 		VApplyForce(cVector3(0,1, 0), 981);
 	}
-
 	m_LinearVelocity += (m_Force * m_InverseMass);
 	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
 	Clamp<float>(m_LinearVelocity.y, -m_TopSpeed, m_TopSpeed);
 	m_Force = cVector3::Zero();
+
 }
 
 // *****************************************************************************
@@ -152,7 +140,7 @@ void cRigidBody::IntegrateVelocity(const float timeStep)
 
 	if(!m_LinearVelocity.IsZero())
 	{
-		SetPosition(m_Position + (m_LinearVelocity * timeStep));
+		m_Position += (m_LinearVelocity * timeStep);
 		m_LinearVelocity *= (1 - m_LinearDamping);
 	}
 }
@@ -168,25 +156,31 @@ void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
 {
 	if(!isZero(m_InverseMass))
 	{
-		SetPosition(m_Position + (correction * m_InverseMass));
+		m_Position += (correction * m_InverseMass);
 	}
 }
 
 // *****************************************************************************
-void cRigidBody::Interpolate(const float alpha)
+void cRigidBody::Sync(const float alpha)
 {
-	//cVector3 position = m_Position;
-	//if(m_PreviousPosition != m_Position)
-	//{
-	//	position = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
-	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "alpha %f", alpha));
-	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "m_PreviousPosition %f, %f, %f", m_PreviousPosition.x, m_PreviousPosition.y, m_PreviousPosition.z));
-	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "m_Position %f, %f, %f", m_Position.x, m_Position.y, m_Position.z));
-	//	//Log_Write(ILogger::LT_DEBUG, 2, cString(100, "position %f, %f, %f", position.x, position.y, position.z));
+	m_RenderPosition = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
 
-	//}
-	//m_PreviousPosition = m_Position;
-	//SetPosition(position);
+
+	if(m_Position != m_PreviousPosition)
+	{
+		OnMoved();
+	}
+}
+
+// *****************************************************************************
+void cRigidBody::OnMoved()
+{
+	if(m_pCollisionShape != NULL)
+	{
+		m_pCollisionShape->VOnMoved(m_Position - m_PreviousPosition);
+	}
+
+	m_PreviousPosition = m_Position;
 }
 
 // *****************************************************************************
