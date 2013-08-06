@@ -13,6 +13,7 @@ cCollisionInfo::cCollisionInfo(cRigidBody * pBodyA, cRigidBody * pBodyB)
 	: m_pBodyA(pBodyA)
 	, m_pBodyB(pBodyB)
 	, m_Distance(0.0f)
+	, m_Collided(false)
 {
 }
 
@@ -46,6 +47,11 @@ cCollisionInfo & cCollisionInfo::operator =(const cCollisionInfo & other)
 // *****************************************************************************
 void cCollisionInfo::Solve()
 {
+	if(isZero(m_pBodyA->GetInverseMass() + m_pBodyB->GetInverseMass()))
+	{
+		return;
+	}
+
 	if(m_pBodyA->GetCollisionShape()->VGetName() == cRectangleShape::m_Name
 		&& m_pBodyB->GetCollisionShape()->VGetName() == cRectangleShape::m_Name)
 	{

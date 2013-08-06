@@ -70,9 +70,10 @@ void cRigidBody::VInitialize(const cVector3 & position)
 }
 
 // *****************************************************************************
-void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
+void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons,
+	const float deltaTime)
 {
-	m_Force += (Direction * Newtons);
+	m_Force += (Direction * Newtons * deltaTime);
 }
 
 // *****************************************************************************
@@ -112,7 +113,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 }
 
 // *****************************************************************************
-void cRigidBody::IntegrateForces()
+void cRigidBody::IntegrateForces(const float timestep)
 {
 	if(!m_Initialized || isZero(m_InverseMass))
 	{
@@ -121,7 +122,7 @@ void cRigidBody::IntegrateForces()
 
 	if(m_ApplyGravity)
 	{
-		VApplyForce(cVector3(0,1, 0), 981);
+		VApplyForce(cVector3(0,1, 0), 981, timestep);
 	}
 	m_LinearVelocity += (m_Force * m_InverseMass);
 	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
@@ -164,7 +165,6 @@ void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
 void cRigidBody::Sync(const float alpha)
 {
 	m_RenderPosition = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
-
 
 	if(m_Position != m_PreviousPosition)
 	{

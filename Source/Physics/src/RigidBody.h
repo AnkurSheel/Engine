@@ -32,8 +32,8 @@ namespace Physics
 		float GetInverseMass() const { return m_InverseMass; }
 		float GetRestitution() const { return m_MaterialData.restitution; }
 		void OnCreated(shared_ptr<const stRigidBodyDef>);
-		void IntegrateForces();
-		void IntegrateVelocity(const float deltaTime);
+		void IntegrateForces(const float timestep);
+		void IntegrateVelocity(const float timestep);
 		void ApplyImpulse(const Base::cVector3 & impulse);
 		void ApplyPositionCorrection(const Base::cVector3 & correction);
 		void Sync(const float alpha);
@@ -41,7 +41,8 @@ namespace Physics
 
 	private:
 		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
-		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
+		void VApplyForce(const Base::cVector3 & Direction, const float Newtons,
+			const float deltaTime);
 		void VUpdateCollisionShape(const Base::cVector3 & minBound, 
 			const Base::cVector3 & maxBound);
 

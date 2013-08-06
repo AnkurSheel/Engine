@@ -125,7 +125,7 @@ void cPhysics::InternalStep()
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->IntegrateForces();
+		pRigidBody->IntegrateForces(m_TimeStep);
 	}
 
 	vector<cCollisionInfo> collisions;

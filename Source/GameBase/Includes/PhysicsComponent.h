@@ -33,7 +33,7 @@ namespace GameBase
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetPosition() const;
 		GAMEBASE_API void ApplyForce(const Base::cVector3 & Direction);
-		GAMEBASE_API void Update();
+		GAMEBASE_API void Update(const float deltaTime);
 		void OnSizeUpdated();
 
 	private:
