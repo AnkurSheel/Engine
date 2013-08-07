@@ -113,7 +113,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
 }
 
 // *****************************************************************************
-void cRigidBody::IntegrateForces(const float timestep)
+void cRigidBody::IntegrateForces(const float timeStep)
 {
 	if(!m_Initialized || isZero(m_InverseMass))
 	{
@@ -122,13 +122,13 @@ void cRigidBody::IntegrateForces(const float timestep)
 
 	if(m_ApplyGravity)
 	{
-		VApplyForce(cVector3(0,1, 0), 981, timestep);
+		ApplyImpulse(cVector3(0, cPhysics::GetGravity() * timeStep / 2.0f, 0));
 	}
+
 	m_LinearVelocity += (m_Force * m_InverseMass);
 	Clamp<float>(m_LinearVelocity.x, -m_TopSpeed, m_TopSpeed);
 	Clamp<float>(m_LinearVelocity.y, -m_TopSpeed, m_TopSpeed);
 	m_Force = cVector3::Zero();
-
 }
 
 // *****************************************************************************
@@ -137,6 +137,11 @@ void cRigidBody::IntegrateVelocity(const float timeStep)
 	if(!m_Initialized)
 	{
 		return;
+	}
+
+	if(m_ApplyGravity)
+	{
+		ApplyImpulse(cVector3(0, cPhysics::GetGravity() * timeStep / 2.0f, 0));
 	}
 
 	if(!m_LinearVelocity.IsZero())
