@@ -29,6 +29,7 @@ namespace Physics
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
+		void SetLinearVelocity(const Base::cVector3 & velocity) { m_LinearVelocity = velocity; }
 		float GetInverseMass() const { return m_InverseMass; }
 		float GetRestitution() const { return m_MaterialData.restitution; }
 		void OnCreated(shared_ptr<const stRigidBodyDef>);

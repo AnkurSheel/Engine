@@ -37,7 +37,7 @@ void cKeyboardHandlerComponent::VCleanup()
 }
 
 // *****************************************************************************
-void cKeyboardHandlerComponent::Update()
+void cKeyboardHandlerComponent::Update(const float deltaTime)
 {
 	tOptional<unsigned int> charPressed;
 	if(IKeyboardController::Instance()->VIsKeyPressed(VK_LEFT))
@@ -50,6 +50,6 @@ void cKeyboardHandlerComponent::Update()
 	}
 	if(charPressed.IsValid())
 	{
-		m_pOwner->VHandleInput(*charPressed);
+		m_pOwner->VHandleInput(*charPressed, deltaTime);
 	}
 }

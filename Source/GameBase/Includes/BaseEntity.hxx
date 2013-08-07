@@ -28,10 +28,10 @@ namespace GameBase
 	public:
 		virtual ~IBaseEntity(){}
 		virtual void VInitialize() = 0;
-		virtual void VOnUpdate() = 0;
+		virtual void VOnUpdate(const float deltaTime) = 0;
 		virtual void VCleanup() = 0;
 		virtual bool VOnHandleMessage(const AI::Telegram & telegram) = 0;
-		virtual void VHandleInput(const unsigned int CharID) = 0;
+		virtual void VHandleInput(const unsigned int CharID, const float deltaTime) = 0;
 		virtual Base::cString VGetName() const = 0;
 		virtual int VGetID() const = 0;
 	};

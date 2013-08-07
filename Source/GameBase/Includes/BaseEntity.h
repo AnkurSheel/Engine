@@ -45,7 +45,7 @@ namespace GameBase
 		GAMEBASE_API void VInitialize();
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API bool VOnHandleMessage(const AI::Telegram & telegram);
-		GAMEBASE_API void VHandleInput(const unsigned int CharID);
+		GAMEBASE_API void VHandleInput(const unsigned int CharID, const float deltaTime);
 		GAMEBASE_API int VGetID() const { return m_iID; } 
 		GAMEBASE_API virtual unsigned long VGetHashedID() const = 0;
 		GAMEBASE_API virtual void VOnInitialized();

@@ -144,7 +144,7 @@ void cPhysics::InternalStep()
 				{
 					cCollisionInfo c(pRigidBodyA, pRigidBodyB);
 					c.Solve();
-					if(c.m_Collided)
+					if(c.GetCollided())
 					{
 						collisions.emplace_back(c);
 					}

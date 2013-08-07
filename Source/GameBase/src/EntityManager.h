@@ -45,7 +45,7 @@ namespace GameBase
 		Base::cString VGetEntityName(const IBaseEntity * const pEntity) const;
 		IBaseComponent * VGetComponent(IBaseEntity * pEntity, const Base::cHashedString & ComponentName);
 		int VGetEntityID(const IBaseEntity * const pEntity) const;
-		void VUpdate();
+		void VUpdate(const float deltaTime);
 		void InitializeEntity(IBaseEntity * const pEntity);
 		void Cleanup();
 
@@ -54,15 +54,12 @@ namespace GameBase
 
 	private:
 		static IEntityManager *			s_pEntityManager;
-		static IBaseEntity *			s_pBaseApp;
 		EntityMap						m_EntityMap;
 		EntityComponentMap				m_ComponentMap;
 		shared_ptr<cEntityFactory>		m_pEntityFactory;
 		shared_ptr<cComponentFactory>	m_pComponentFactory;
 
 	private:
-		friend static void IEntityManager::SetApp(IBaseEntity * const pApp);
-		friend static IBaseEntity * const IEntityManager::GetApp();
 		friend static IEntityManager * IEntityManager::GetInstance();
 		friend static void IEntityManager::Destroy();
 	};

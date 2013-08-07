@@ -39,7 +39,7 @@ void cInputSystem::VUpdate(const float deltaTime)
 		cKeyboardHandlerComponent * pKeyboardHandler = dynamic_cast<cKeyboardHandlerComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cKeyboardHandlerComponent::GetName()));
 		if(pKeyboardHandler != NULL)
 		{
-			pKeyboardHandler->Update();
+			pKeyboardHandler->Update(deltaTime);
 		}
 	}
 }

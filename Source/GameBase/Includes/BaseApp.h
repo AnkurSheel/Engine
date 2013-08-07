@@ -31,7 +31,6 @@ namespace GameBase
 {
 	class cBaseApp 
 		: public IBaseApp
-		, public cBaseEntity
 	{
 	public:
 		virtual ~cBaseApp(){}

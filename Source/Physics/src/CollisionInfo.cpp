@@ -49,6 +49,7 @@ void cCollisionInfo::Solve()
 {
 	if(isZero(m_pBodyA->GetInverseMass() + m_pBodyB->GetInverseMass()))
 	{
+		InfiniteMassCorrection();
 		return;
 	}
 
@@ -112,4 +113,11 @@ void cCollisionInfo::ApplyPositionCorrection()
 	cVector3 correction = (m_Distance / (m_pBodyA->GetInverseMass() + m_pBodyB->GetInverseMass())) * m_Normal * percent;
 	m_pBodyA->ApplyPositionCorrection(correction);
 	m_pBodyB->ApplyPositionCorrection(correction.GetReverse());
+}
+
+// *****************************************************************************
+void cCollisionInfo::InfiniteMassCorrection()
+{
+	m_pBodyA->SetLinearVelocity(cVector3::Zero());
+	m_pBodyB->SetLinearVelocity(cVector3::Zero());
 }

@@ -125,7 +125,6 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		return;
 	}
 
-	IEntityManager::SetApp(this);
 	m_pProcessManager = IProcessManager::CreateProcessManager();
 
 	VCreateHumanView();
@@ -193,8 +192,6 @@ void cBaseApp::VOnUpdate()
 // *****************************************************************************
 void cBaseApp::VCleanup()
 {
-	// this is important to avoid recursive calls to cleanup
-	IEntityManager::GetInstance()->VDeleteEntity(this);
 	IEntityManager::Destroy();
 
 	SafeDelete(&m_pGameTimer);

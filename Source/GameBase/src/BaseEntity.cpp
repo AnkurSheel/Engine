@@ -164,7 +164,7 @@ void cBaseEntity::GetAllComponents(ComponentList & components) const
 }
 
 // *****************************************************************************
-void cBaseEntity::VHandleInput(const unsigned int CharID)
+void cBaseEntity::VHandleInput(const unsigned int CharID, const float deltaTime)
 {
 	Log_Write(ILogger::LT_ERROR, 1, "Should be handled by derived class");
 }

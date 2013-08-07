@@ -16,10 +16,10 @@ namespace Base
 	const int     MinInt    = (std::numeric_limits<int>::min)();
 	const double  MaxDouble = (std::numeric_limits<double>::max)();
 	const double  MinDouble = (std::numeric_limits<double>::min)();
-	const double  EpsilonDouble = (std::numeric_limits<double>::epsilon)();
+	const double  EpsilonDouble = 0.0001;
 	const float   MaxFloat  = (std::numeric_limits<float>::max)();
 	const float   MinFloat  = (std::numeric_limits<float>::min)();
-	const float   EpsilonFloat = (std::numeric_limits<float>::epsilon)();
+	const float   EpsilonFloat = 0.0001f;
 
 	const float   Pi        = 3.14159f;
 	const float   TwoPi     = Pi * 2;
