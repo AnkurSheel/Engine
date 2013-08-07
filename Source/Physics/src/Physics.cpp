@@ -210,6 +210,16 @@ stMaterialData cPhysics::LookUpMaterialData(const cString & materialName)
 }
 
 // ****************************************************************************
+float cPhysics::GetGravity()
+{
+	if(s_pPhysics != NULL)
+	{
+		return s_pPhysics->m_Gravity;
+	}
+	return 0.0f;
+}
+
+// ****************************************************************************
 IPhysics * IPhysics::GetInstance()
 {
 	if(cPhysics::s_pPhysics == NULL)

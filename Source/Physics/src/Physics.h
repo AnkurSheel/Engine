@@ -28,6 +28,7 @@ namespace Physics
 		cPhysics();
 		~cPhysics();
 		static stMaterialData LookUpMaterialData(const Base::cString & materialName);
+		static float GetGravity();
 
 	private:
 		void VInitialize(const Base::cString & FileName);
