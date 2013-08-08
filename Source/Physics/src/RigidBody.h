@@ -42,8 +42,7 @@ namespace Physics
 
 	private:
 		PHYSICS_API virtual void VInitialize(const Base::cVector3 & position);
-		void VApplyForce(const Base::cVector3 & Direction, const float Newtons,
-			const float deltaTime);
+		void VApplyForce(const Base::cVector3 & Direction, const float Newtons);
 		void VUpdateCollisionShape(const Base::cVector3 & minBound, 
 			const Base::cVector3 & maxBound);
 

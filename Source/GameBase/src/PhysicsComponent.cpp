@@ -123,14 +123,15 @@ void cPhysicsComponent::ApplyForce(const cVector3 & Direction)
 }
 
 // *****************************************************************************
-void cPhysicsComponent::Update(const float deltaTime)
+void cPhysicsComponent::Update(const int deltaTime)
 {
 	if(m_ApplyForce)
 	{
 		m_ApplyForce = false;
 		if(m_pRigidBody != NULL && m_Initialized)
 		{
-			m_pRigidBody->VApplyForce(m_Direction, m_Force, deltaTime);
+			float force = m_Force * (float)deltaTime / 10000.0f;
+			m_pRigidBody->VApplyForce(m_Direction, force);
 		}
 	}
 }

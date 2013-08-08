@@ -51,8 +51,8 @@ namespace Physics
 	public:
 		virtual ~IRigidBody() {}
 		virtual void VInitialize(const Base::cVector3 & position) = 0;
-		virtual void VApplyForce(const Base::cVector3 & direction, const float newtons,
-			const float deltaTime) = 0;
+		virtual void VApplyForce(const Base::cVector3 & direction,
+			const float newtons) = 0;
 		virtual void VUpdateCollisionShape(const Base::cVector3 & minBound,
 			const Base::cVector3 & maxBound) = 0;
 		virtual Base::cVector3 VGetRenderPosition() const = 0;

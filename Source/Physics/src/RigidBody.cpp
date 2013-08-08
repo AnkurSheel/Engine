@@ -70,10 +70,9 @@ void cRigidBody::VInitialize(const cVector3 & position)
 }
 
 // *****************************************************************************
-void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons,
-	const float deltaTime)
+void cRigidBody::VApplyForce(const cVector3 & Direction, const float Newtons)
 {
-	m_Force += (Direction * Newtons * deltaTime);
+	m_Force += (Direction * Newtons);
 }
 
 // *****************************************************************************

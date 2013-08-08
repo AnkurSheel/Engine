@@ -64,7 +64,7 @@ void cPhysicsSystem::VUpdate(const float deltaTime)
 	{
 		IBaseEntity * pEntity = *enityIter;
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
-		pPhysics->Update(deltaTime);
+		pPhysics->Update((int)(deltaTime * 10000));
 	}
 	
 	IPhysics::GetInstance()->VUpdate(deltaTime);
