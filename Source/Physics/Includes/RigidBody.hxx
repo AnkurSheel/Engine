@@ -56,7 +56,8 @@ namespace Physics
 		virtual void VUpdateCollisionShape(const Base::cVector3 & minBound,
 			const Base::cVector3 & maxBound) = 0;
 		virtual Base::cVector3 VGetRenderPosition() const = 0;
-		static IRigidBody * Create(shared_ptr<const stRigidBodyDef> pDef);
+		virtual int VGetID() const = 0;
+		static IRigidBody * Create(shared_ptr<const stRigidBodyDef> pDef, const int ID);
 	};
 }
 #endif //RigidBody_hxx

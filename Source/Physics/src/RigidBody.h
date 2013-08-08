@@ -26,13 +26,14 @@ namespace Physics
 		cRigidBody(const cRigidBody & other);
 		cRigidBody & operator =(const cRigidBody & other);
 		Base::cVector3 VGetRenderPosition() const { return m_RenderPosition; }
+		int VGetID() const { return m_ID; }
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
 		void SetLinearVelocity(const Base::cVector3 & velocity) { m_LinearVelocity = velocity; }
 		float GetInverseMass() const { return m_InverseMass; }
 		float GetRestitution() const { return m_MaterialData.restitution; }
-		void OnCreated(shared_ptr<const stRigidBodyDef>);
+		void OnCreated(shared_ptr<const stRigidBodyDef> pDef, const int ID);
 		void IntegrateForces(const float timestep);
 		void IntegrateVelocity(const float timestep);
 		void ApplyImpulse(const Base::cVector3 & impulse);
@@ -56,6 +57,7 @@ namespace Physics
 		float			m_InverseMass;
 		float			m_LinearDamping;
 		float			m_TopSpeed;
+		int				m_ID;
 		bool			m_ApplyGravity;
 		bool			m_Initialized;
 		stMaterialData	m_MaterialData;

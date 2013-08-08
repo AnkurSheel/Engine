@@ -17,6 +17,9 @@ namespace Physics
 
 namespace Physics
 {
+	typedef std::pair<int, int> CollisionPair;
+	typedef std::set<CollisionPair> CollisionPairs;
+
 	class IPhysics
 	{
 	public:
@@ -27,7 +30,6 @@ namespace Physics
 		virtual void VRemoveRigidBody(const int ID) = 0;
 		PHYSICS_API static IPhysics * GetInstance();
 		PHYSICS_API static void Destroy();
-
 	};
 }
 #endif //Physics_hxx

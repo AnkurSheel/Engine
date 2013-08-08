@@ -24,6 +24,8 @@ namespace Physics
 		cCollisionInfo(const cCollisionInfo & other);
 		cCollisionInfo & operator =(const cCollisionInfo & other);
 		bool GetCollided() const { return m_Collided; }
+		const cRigidBody * const GetBodyA() const { return m_pBodyA; }
+		const cRigidBody * const GetBodyB() const { return m_pBodyB; }
 		void Solve();
 		void ApplyImpulse();
 		void ApplyPositionCorrection();

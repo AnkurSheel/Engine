@@ -16,6 +16,7 @@ cRigidBody::cRigidBody()
 	, m_ApplyGravity(false)
 	, m_TopSpeed(0.0f)
 	, m_Initialized(false)
+	, m_ID(-1)
 {
 }
 
@@ -85,13 +86,14 @@ void cRigidBody::VUpdateCollisionShape(const cVector3 & minBound, const cVector3
 }
 
 // *****************************************************************************
-void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef)
+void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef, const int ID)
 {
 	if(pDef == NULL)
 	{
 		return;
 	}
 
+	m_ID = ID;
 	if(isZero(pDef->m_Mass))
 	{
 		m_InverseMass = 0.0f;
@@ -188,12 +190,12 @@ void cRigidBody::OnMoved()
 }
 
 // *****************************************************************************
-IRigidBody * IRigidBody::Create(shared_ptr<const stRigidBodyDef> pDef)
+IRigidBody * IRigidBody::Create(shared_ptr<const stRigidBodyDef> pDef, const int ID)
 {
 	cRigidBody * pBody = DEBUG_NEW cRigidBody();
 	if(pBody)
 	{
-		pBody->OnCreated(pDef);
+		pBody->OnCreated(pDef, ID);
 	}
 	return pBody;
 }

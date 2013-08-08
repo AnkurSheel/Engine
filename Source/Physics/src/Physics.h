@@ -48,6 +48,7 @@ namespace Physics
 		float				m_Accumalator;
 		RigidBodyMap		m_RigidBodyMap;
 		MaterialMap			m_MaterialMap;
+		CollisionPairs		m_CollisionPairs;
 		static cPhysics *	s_pPhysics;	/*!< static object of this class */
 
 	private:

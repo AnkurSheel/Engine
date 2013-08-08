@@ -91,7 +91,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 // *****************************************************************************
 IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
 {
-	IRigidBody * pRigidBody = IRigidBody::Create(pDef);
+	IRigidBody * pRigidBody = IRigidBody::Create(pDef, ID);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
 	return pRigidBody;
 }
@@ -122,6 +122,7 @@ IRigidBody* cPhysics::FindRigidBody(const int ID) const
 // *****************************************************************************
 void cPhysics::InternalStep()
 {
+	m_CollisionPairs.clear();
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
@@ -169,6 +170,19 @@ void cPhysics::InternalStep()
 	{
 		cCollisionInfo c = *Iter;
 		c.ApplyPositionCorrection();
+
+		int ID1 = c.GetBodyA()->VGetID();
+		int ID2 = c.GetBodyB()->VGetID();
+		CollisionPair thisPair;
+		if(ID1 < ID2)
+		{
+			thisPair = std::make_pair(ID1, ID2);
+		}
+		else
+		{
+			thisPair = std::make_pair(ID2, ID1);
+		}
+		m_CollisionPairs.insert(thisPair);
 	}
 }
 
