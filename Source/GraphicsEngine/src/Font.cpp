@@ -63,7 +63,6 @@ void cMyFont::VRender(const XMFLOAT4X4 & inMatWorld, const XMFLOAT4X4 & inMatVie
 		m_pShader->VSetTexture(m_pTexture);
 		m_pShader->VRender(inMatWorld, inMatView, inMatProjection);
 	}
-
 }
 
 // *****************************************************************************
@@ -107,6 +106,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 	IResource * pResource = IResource::CreateResource(cGameDirectories::GetFontDirectory()
 		+ strFontDescFilename + ".fnt");
 	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+
 	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
 
 	m_strFontTexPath = cGameDirectories::GetFontDirectory() + pFile->VGetNodeAttribute("page0", "file");
@@ -133,7 +133,6 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 	}
 	SafeDelete(&pFile);
 	SafeDelete(&pResource);
-
 }
 
 // *****************************************************************************
@@ -141,7 +140,10 @@ bool cMyFont::InitializeShader()
 {
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "Font");
-	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
+	if(bSuccess)
+	{
+		m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
+	}
 	return bSuccess;
 }
 

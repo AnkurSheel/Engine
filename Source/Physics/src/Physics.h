@@ -38,6 +38,7 @@ namespace Physics
 		IRigidBody* FindRigidBody(const int ID) const;
 		void InternalStep();
 		void LoadMaterialData(shared_ptr<Utilities::IXMLNode> pParentNode);
+		const CollisionPairs & VGetCollsionPairs() const { return m_CollisionPairs; }
 
 	private:
 		typedef std::map<int, IRigidBody * const > RigidBodyMap;

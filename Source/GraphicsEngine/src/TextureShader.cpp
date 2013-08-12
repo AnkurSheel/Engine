@@ -72,7 +72,9 @@ bool cTextureShader::VCreateLayout(shared_ptr<IResHandle const> shaderHandle)
 bool cTextureShader::VInitialize(const Base::cString & strShaderName)
 {
 	if(!cBaseShader::VInitialize(strShaderName))
+	{
 		return false;
+	}
 	
 	if(!CreateSampleState())
 	{

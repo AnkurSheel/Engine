@@ -12,6 +12,7 @@
 #include "EventManager.hxx"
 #include "EntityInitializedEventData.h"
 #include "EntityScaledEventData.h"
+#include "BaseEntity.hxx"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -59,8 +60,7 @@ void cPhysicsSystem::VUpdate(const float deltaTime)
 
 	IEntityManager::EntityList entityList;
 	IEntityManager::GetInstance()->VGetEntities(cPhysicsComponent::GetName(), entityList);
-	IEntityManager::EntityList::iterator enityIter;
-	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
+	for(auto enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
@@ -69,12 +69,21 @@ void cPhysicsSystem::VUpdate(const float deltaTime)
 	
 	IPhysics::GetInstance()->VUpdate(deltaTime);
 	
-	for(enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
+	for(auto enityIter = entityList.begin(); enityIter != entityList.end(); enityIter++)
 	{
 		IBaseEntity * pEntity = *enityIter;
 		cTransformComponent * pTransform = dynamic_cast<cTransformComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cTransformComponent::GetName()));
 		cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
 		pTransform->SetPosition(pPhysics->GetPosition());
+	}
+
+	CollisionPairs collisionpairs = IPhysics::GetInstance()->VGetCollsionPairs();
+	for(auto Iter = collisionpairs.begin(); Iter != collisionpairs.end(); Iter++)
+	{
+		const CollisionPair pair = *Iter;
+		IBaseEntity * pEntity1 = IEntityManager::GetInstance()->VGetEntityFromID(pair.first);
+		IBaseEntity * pEntity2 = IEntityManager::GetInstance()->VGetEntityFromID(pair.second);
+		pEntity1->VOnCollided(pEntity2);
 	}
 }
 

@@ -41,7 +41,10 @@ bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 	if(ptr == NULL)
 	{
 		bSuccess = pShader->VInitialize(strShaderName);
-		m_pShaders[hash] = pShader;
+		if(bSuccess)
+		{
+			m_pShaders[hash] = pShader;
+		}
 	}
 	else
 	{

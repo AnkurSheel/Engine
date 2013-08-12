@@ -36,7 +36,7 @@ namespace GameBase
 		virtual Base::cString VGetName() const = 0;
 		virtual unsigned long VGetHashedID() const = 0;
 		virtual int VGetEntityID() const = 0;
-		virtual void VOnCollided(const Base::cHashedString & colliderType) = 0;
+		virtual void VOnCollided(IBaseEntity * const pEntityCollider) = 0;
 	};
 }
 #endif // BaseEntity_hxx__

@@ -71,6 +71,15 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 // 		"cursor.png");
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	cLabelControlDef fpsLabelDef;
+	fpsLabelDef.strControlName = "FPSLabel";
+	fpsLabelDef.strFont= "arial"; 
+	fpsLabelDef.textColor = cColor::RED;
+	fpsLabelDef.fTextHeight = 30;
+	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);
+	fpsLabelDef.bAutoSize = false;
+	fpsLabelDef.vSize = cVector2(150, 30);
+	CreateFPSLabel(fpsLabelDef);
 
 	IAudio::GetInstance()->VInitialize(hWnd);
 }

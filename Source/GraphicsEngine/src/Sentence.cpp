@@ -67,6 +67,11 @@ bool cSentence::VInitialize(const Base::cString & strFont,
 // ***************************************************************
 void cSentence::VRender(const ICamera * const pCamera)
 {
+	if(m_strText.IsEmpty())
+	{
+		return;
+	}
+
 	//IDXBase::GetInstance()->VTurnOnAlphaBlending();
 	if (m_bIsDirty)
 	{
