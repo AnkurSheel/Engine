@@ -107,7 +107,7 @@ void cEventManager::VQueueEvent(const IEventDataPtr & pEvent)
         return;
     }
 
-    Log_Write(ILogger::LT_EVENT, 2, "Attempting to queue event: " + pEvent->VGetEventName());
+    Log_Write(ILogger::LT_EVENT, 3, "Attempting to queue event: " + pEvent->VGetEventName());
 
 	auto findIt = m_eventListeners.find(pEvent->VGetEventID());
     if (findIt != m_eventListeners.end())
@@ -160,7 +160,7 @@ void cEventManager::VUpdate(const TICK tickCurrent, const float fElapsedTime)
         // pop the front of the queue
 		IEventDataPtr pEvent = m_queues[queueToProcess].front();
         m_queues[queueToProcess].pop_front();
-		Log_Write(ILogger::LT_EVENT, 2 , "Processing Event : " + pEvent->VGetEventName());
+		Log_Write(ILogger::LT_EVENT, 3 , "Processing Event : " + pEvent->VGetEventName());
 
         // find all the delegate functions registered for this event
 		auto findIt = m_eventListeners.find(pEvent->VGetEventID());
@@ -185,7 +185,6 @@ IEventManager * IEventManager::Instance()
 	if(cEventManager::s_pEventManager == NULL)
 		cEventManager::s_pEventManager = DEBUG_NEW cEventManager();
 	return cEventManager::s_pEventManager;
-
 }
 
 // *****************************************************************************

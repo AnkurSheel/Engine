@@ -32,10 +32,11 @@ namespace GameBase
 		virtual void VCleanup() = 0;
 		virtual bool VOnHandleMessage(const AI::Telegram & telegram) = 0;
 		virtual void VHandleInput(const unsigned int CharID, const float deltaTime) = 0;
-		virtual Base::cHashedString VGetHashedName() const = 0;
+		virtual Base::cHashedString VGetType() const = 0;
 		virtual Base::cString VGetName() const = 0;
 		virtual unsigned long VGetHashedID() const = 0;
 		virtual int VGetEntityID() const = 0;
+		virtual void VOnCollided(const Base::cHashedString & colliderType) = 0;
 	};
 }
 #endif // BaseEntity_hxx__
