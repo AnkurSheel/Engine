@@ -669,6 +669,7 @@ bool cDXBase::AttachBackBufferToSwapChain()
 			bSuccess = false;
 		}
 	}
+	SetDebugObjectName(pbackBufferTexture, "BackBufferTexture");
 	SafeRelease(&pbackBufferTexture);
 	return bSuccess;
 }
@@ -700,6 +701,7 @@ bool cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
 		PostQuitMessage(0);
 		return false;
 	}
+	SetDebugObjectName(m_pDepthStencilBuffer, "DepthStencilBuffer");
 	return true;
 }
 

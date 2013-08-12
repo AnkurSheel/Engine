@@ -63,6 +63,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	m_vSize.y = static_cast<float>(desc.Height);
 	m_vScaledSize = m_vSize;
 	m_bIsDirty = true;
+	SetDebugObjectName(texResource, "SpriteTextureResource");
 	SafeRelease(&resource);
 	return true;
 }
@@ -164,6 +165,8 @@ void cSprite::VSetScale(const Base::cVector2 & vScale)
 // *****************************************************************************
 void cSprite::VCleanup()
 {
+	m_pShader = NULL;
+	m_pTexture = NULL;
 	SafeRelease(&m_pVertexBuffer);
 	SafeRelease(&m_pIndexBuffer);
 }

@@ -49,7 +49,7 @@
 #include "Includes.h"
 #include "Vector3.h"
 #include "Vector2.h"
-\
+
 
 inline void SetDebugObjectName(ID3D11DeviceChild* resource, const Base::cString name)
 {
