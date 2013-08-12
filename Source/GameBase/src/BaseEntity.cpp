@@ -48,13 +48,13 @@ void cEntityDef::Cleanup()
 cBaseEntity::cBaseEntity()
 	: m_pTransFormComponent(NULL)
 {
-	SetID(m_siNextValidID);
+	SetEntityID(m_siNextValidID);
 }
 
 // *****************************************************************************
 cBaseEntity::cBaseEntity(const int iID)
 {
-	SetID(iID);
+	SetEntityID(iID);
 }
 
 // *****************************************************************************
@@ -63,7 +63,7 @@ cBaseEntity::~cBaseEntity()
 }
 
 // *****************************************************************************
-void cBaseEntity::SetID(const int iID)
+void cBaseEntity::SetEntityID(const int iID)
 {
 	if(iID >= m_siNextValidID)
 	{
@@ -89,7 +89,7 @@ void cBaseEntity::VOnInitialized()
 	if(m_pTransFormComponent != NULL)
 	{
 		shared_ptr<cEntityInitializedEventData> pEvent(DEBUG_NEW cEntityInitializedEventData(m_pTransFormComponent->GetPosition(),
-			m_pTransFormComponent->GetRotation(), VGetID()));
+			m_pTransFormComponent->GetRotation(), VGetEntityID()));
 		IEventManager::Instance()->VTriggerEvent(pEvent);
 	}
 }

@@ -84,7 +84,7 @@ void cEntityManager::VDeleteEntity( IBaseEntity * const pNewEntity )
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
 	if (pEntity != NULL)
 	{
-		EntityMap::iterator Entityiter = m_EntityMap.find(pEntity->VGetID());
+		EntityMap::iterator Entityiter = m_EntityMap.find(pEntity->VGetEntityID());
 		if(Entityiter == m_EntityMap.end())
 		{
 			return;
@@ -98,7 +98,7 @@ void cEntityManager::VDeleteEntity( IBaseEntity * const pNewEntity )
 		{
 			VRemoveComponent(pNewEntity, (*iter)->VGetID());
 		}
-		m_EntityMap.erase(pEntity->VGetID());
+		m_EntityMap.erase(pEntity->VGetEntityID());
 	}
 }
 
@@ -109,7 +109,7 @@ int cEntityManager::VGetEntityID(const IBaseEntity * const pEntity) const
 
 	if (pEnt != NULL)
 	{
-		return pEnt->VGetID();
+		return pEnt->VGetEntityID();
 	}
 	return 0;
 }
@@ -163,7 +163,7 @@ void cEntityManager::VAddComponent(IBaseEntity * const pEntity, IBaseComponent *
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
 	if (pEnt != NULL)
 	{
-		EntityMap::iterator iter = m_EntityMap.find(pEnt->VGetID());
+		EntityMap::iterator iter = m_EntityMap.find(pEnt->VGetEntityID());
 		if(iter == m_EntityMap.end())
 		{
 			Log_Write(ILogger::LT_ERROR, 1, "Adding component to unregistered entity");
@@ -196,7 +196,7 @@ void cEntityManager::VRemoveComponent(IBaseEntity * const pEntity,
 	cBaseEntity * pEnt = dynamic_cast<cBaseEntity *>(pEntity);
 	if (pEnt != NULL)
 	{
-		EntityMap::iterator Entityiter = m_EntityMap.find(pEnt->VGetID());
+		EntityMap::iterator Entityiter = m_EntityMap.find(pEnt->VGetEntityID());
 		if(Entityiter == m_EntityMap.end())
 		{
 			Log_Write(ILogger::LT_ERROR, 1, "Removing component from unregistered entity");
@@ -247,9 +247,9 @@ void cEntityManager::VUpdate(const float deltaTime)
 void cEntityManager::InitializeEntity(IBaseEntity * const pEntity)
 {
 	cBaseEntity * pBaseEntity = dynamic_cast<cBaseEntity *>(pEntity);
-	m_EntityMap.insert(std::make_pair(pBaseEntity->VGetID(), pEntity));
+	m_EntityMap.insert(std::make_pair(pBaseEntity->VGetEntityID(), pEntity));
 
-	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pBaseEntity->VGetID())
+	Log_Write(ILogger::LT_DEBUG, 2, cString(100, "Registering Entity: %d ", pBaseEntity->VGetEntityID())
 		+ pEntity->VGetName());
 
 	pEntity->VInitialize();

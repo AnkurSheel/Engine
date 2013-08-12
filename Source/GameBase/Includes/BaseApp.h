@@ -55,7 +55,6 @@ namespace GameBase
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const { return m_pParamLoader; }
 		GAMEBASE_API float VGetFPS() const;
 		Base::cString VGetName() const { return m_Title; }
-		virtual unsigned long VGetHashedID() const { return 0; }
 
 	protected:
 		Utilities::ITimer *				m_pGameTimer;

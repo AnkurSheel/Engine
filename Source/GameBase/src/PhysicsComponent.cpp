@@ -91,7 +91,7 @@ void cPhysicsComponent::VOnAttached(IBaseEntity * const pOwner)
 	{
 		GetBounds(m_pDef->m_MinBound, m_pDef->m_MaxBound);
 	}
-	m_pRigidBody = IPhysics::GetInstance()->VAddRigidBody(m_pOwner->VGetID(), m_pDef);	
+	m_pRigidBody = IPhysics::GetInstance()->VAddRigidBody(m_pOwner->VGetEntityID(), m_pDef);	
 }
 
 // *****************************************************************************
@@ -99,7 +99,7 @@ void cPhysicsComponent::VCleanup()
 {
 	if(m_pOwner != NULL)
 	{
-		IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetID());
+		IPhysics::GetInstance()->VRemoveRigidBody(m_pOwner->VGetEntityID());
 	}
 }
 

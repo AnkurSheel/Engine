@@ -65,7 +65,7 @@ void cTransformComponent::SetPosition(const cVector3 & position)
 	if (m_Position != position)
 	{
 		m_Position = position;
-		shared_ptr<cEntityMovedEventData> pEvent(DEBUG_NEW cEntityMovedEventData(m_Position, m_pOwner->VGetID()));
+		shared_ptr<cEntityMovedEventData> pEvent(DEBUG_NEW cEntityMovedEventData(m_Position, m_pOwner->VGetEntityID()));
 		IEventManager::Instance()->VQueueEvent(pEvent);
 	}
 }
@@ -76,7 +76,7 @@ void cTransformComponent::SetSize(const cVector3 & size)
 	if (m_Size != size)
 	{
 		m_Size = size;
-		shared_ptr<cEntityScaledEventData> pEvent(DEBUG_NEW cEntityScaledEventData(m_Size, m_pOwner->VGetID()));
+		shared_ptr<cEntityScaledEventData> pEvent(DEBUG_NEW cEntityScaledEventData(m_Size, m_pOwner->VGetEntityID()));
 		IEventManager::Instance()->VQueueEvent(pEvent);
 	}
 }
