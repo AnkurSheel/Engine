@@ -53,10 +53,9 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	m_vPosition = cVector2(-1.0f, -1.0f);
 	
 	ID3D11Resource* resource;
-	ID3D11Texture2D * texResource;
 	D3D11_TEXTURE2D_DESC desc;
 	m_pTexture->VGetTexture()->GetResource(&resource);
-	texResource = reinterpret_cast<ID3D11Texture2D*>(resource);
+	ID3D11Texture2D * texResource = reinterpret_cast<ID3D11Texture2D*>(resource);
 	texResource->GetDesc(&desc);
 	
 	m_vSize.x = static_cast<float>(desc.Width);
@@ -64,7 +63,7 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	m_vScaledSize = m_vSize;
 	m_bIsDirty = true;
 	SetDebugObjectName(texResource, "SpriteTextureResource");
-	SafeRelease(&resource);
+	SafeRelease(&texResource);
 	return true;
 }
 

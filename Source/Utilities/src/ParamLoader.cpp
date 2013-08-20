@@ -204,7 +204,6 @@ void cParamLoader::VGetParameterValueAsFloatList(const cString & strParameter,
 		vValueStr[i].TrimBoth();
 		vValue.push_back(*(vValueStr[i].ToFloat()));
 	}
-
 }
 
 // *****************************************************************************

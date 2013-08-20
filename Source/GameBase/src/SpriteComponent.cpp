@@ -69,6 +69,7 @@ void cSpriteComponent::VInitialize(const IXMLNode * const pXMLNode)
 // *****************************************************************************
 void cSpriteComponent::VCleanup()
 {
+	m_pSprite = NULL;
 	//SafeDelete(&m_pSprite);
 }
 

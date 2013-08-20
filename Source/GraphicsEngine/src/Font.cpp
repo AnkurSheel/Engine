@@ -95,6 +95,8 @@ int cMyFont::VGetFontHeight() const
 // *****************************************************************************
 void cMyFont::Cleanup()
 {
+	m_pShader = NULL;
+	m_pTexture = NULL;
 	m_CharDescriptorMap.clear();
 }
 
