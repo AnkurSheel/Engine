@@ -26,7 +26,6 @@ IShape * cRectangleShape::VDuplicate()
 {
 	cRectangleShape * pShape = DEBUG_NEW cRectangleShape(*this);
 	return pShape;
-
 }
 
 // *****************************************************************************

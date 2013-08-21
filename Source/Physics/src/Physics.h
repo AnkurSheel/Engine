@@ -17,6 +17,7 @@ namespace Utilities
 namespace Physics
 {
 	struct stMaterialData;
+	class cQuadTree;
 }
 
 namespace Physics
@@ -47,6 +48,7 @@ namespace Physics
 		float				m_Gravity;
 		float				m_TimeStep;
 		float				m_Accumalator;
+		cQuadTree *			m_pQuadTree;		
 		RigidBodyMap		m_RigidBodyMap;
 		MaterialMap			m_MaterialMap;
 		CollisionPairs		m_CollisionPairs;

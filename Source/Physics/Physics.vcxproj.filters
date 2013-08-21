@@ -19,6 +19,12 @@
     <ClInclude Include="src\CollisionInfo.h">
       <Filter>Collison</Filter>
     </ClInclude>
+    <ClInclude Include="src\QTNode.h">
+      <Filter>Collison</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QuadTree.h">
+      <Filter>Collison</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp" />
@@ -31,6 +37,12 @@
       <Filter>Collison</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionInfo.cpp">
+      <Filter>Collison</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QTNode.cpp">
+      <Filter>Collison</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QuadTree.cpp">
       <Filter>Collison</Filter>
     </ClCompile>
   </ItemGroup>

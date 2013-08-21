@@ -9,7 +9,7 @@ using namespace Physics;
 using namespace Base;
 
 // *****************************************************************************
-cCollisionInfo::cCollisionInfo(cRigidBody * pBodyA, cRigidBody * pBodyB)
+cCollisionInfo::cCollisionInfo(cRigidBody * const pBodyA, cRigidBody * const pBodyB)
 	: m_pBodyA(pBodyA)
 	, m_pBodyB(pBodyB)
 	, m_Distance(0.0f)
@@ -30,18 +30,6 @@ cCollisionInfo::cCollisionInfo(const cCollisionInfo & other)
 	, m_Distance(other.m_Distance)
 	, m_Collided(other.m_Collided)
 {
-}
-
-// *****************************************************************************
-cCollisionInfo & cCollisionInfo::operator =(const cCollisionInfo & other)
-{
-	m_pBodyA = other.m_pBodyA;
-	m_pBodyB = other.m_pBodyB;
-	m_Normal = other.m_Normal;
-	m_Distance = other.m_Distance;
-	m_Collided = other.m_Collided;
-
-	return *this;
 }
 
 // *****************************************************************************

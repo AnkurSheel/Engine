@@ -13,6 +13,7 @@
 namespace Physics
 {
 	class IShape;
+	class cQTNode;
 }
 
 namespace Physics
@@ -33,12 +34,14 @@ namespace Physics
 		void SetLinearVelocity(const Base::cVector3 & velocity) { m_LinearVelocity = velocity; }
 		float GetInverseMass() const { return m_InverseMass; }
 		float GetRestitution() const { return m_MaterialData.restitution; }
+		cQTNode * const GetNode() const { return m_pNode; }
+		void SetNode(cQTNode * const pNode) { m_pNode = pNode; }
 		void OnCreated(shared_ptr<const stRigidBodyDef> pDef, const int ID);
 		void IntegrateForces(const float timestep);
 		void IntegrateVelocity(const float timestep);
 		void ApplyImpulse(const Base::cVector3 & impulse);
 		void ApplyPositionCorrection(const Base::cVector3 & correction);
-		void Sync(const float alpha);
+		bool Sync(const float alpha);
 		void OnMoved();
 
 	private:
@@ -54,6 +57,7 @@ namespace Physics
 		Base::cVector3	m_RenderPosition;
 		Base::cVector3	m_Force;
 		IShape *		m_pCollisionShape;
+		cQTNode *		m_pNode;
 		float			m_InverseMass;
 		float			m_LinearDamping;
 		float			m_TopSpeed;

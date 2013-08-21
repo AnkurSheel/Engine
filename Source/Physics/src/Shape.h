@@ -23,6 +23,9 @@ namespace Physics
 		virtual Base::cHashedString VGetShapeName() = 0;
 		Base::cVector3 VGetCenter() const { return m_Center; }
 		Base::cVector3 VGetHalfExtents() const { return m_HalfExtents; }
+		virtual Base::cVector3 VGetMinBound() const { return m_Center - m_HalfExtents; }
+		virtual Base::cVector3 VGetMaxBound() const { return m_Center + m_HalfExtents; }
+
 		Base::cHashedString VGetName() { return VGetShapeName(); }
 		void VOnMoved(const Base::cVector3 & deltaPosition);
 

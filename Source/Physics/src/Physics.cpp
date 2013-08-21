@@ -7,6 +7,7 @@
 #include "RigidBody.h"
 #include "CollisionInfo.h"
 #include "Optional.h"
+#include "Quadtree.h"
 
 using namespace Physics;
 using namespace Base;
@@ -20,12 +21,14 @@ cPhysics::cPhysics()
 	: m_Gravity(0.0f)
 	, m_TimeStep(1.0f/60.0f)
 	, m_Accumalator(0.0f)
+	, m_pQuadTree(NULL)
 {
 }
 
 // *****************************************************************************
 cPhysics::~cPhysics()
 {
+	SafeDelete(&m_pQuadTree);
 }
 
 // *****************************************************************************
@@ -63,6 +66,7 @@ void cPhysics::VInitialize(const cString & FileName)
 	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
 
 	m_Accumalator = 0.0f;
+	m_pQuadTree = DEBUG_NEW cQuadTree(cVector3(1024, 768, 0));
 }
 
 // *****************************************************************************
@@ -84,7 +88,10 @@ void cPhysics::VUpdate(const float DeltaTime)
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
-		pRigidBody->Sync(alpha);
+		if(pRigidBody->Sync(alpha))
+		{
+			m_pQuadTree->OnBodyMoved(pRigidBody);
+		}
 	}
 }
 
@@ -93,6 +100,7 @@ IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigi
 {
 	IRigidBody * pRigidBody = IRigidBody::Create(pDef, ID);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
+	m_pQuadTree->Insert(pRigidBody);
 	return pRigidBody;
 }
 
@@ -103,6 +111,7 @@ void cPhysics::VRemoveRigidBody(const int ID)
 	if (pRigidBody != NULL)
 	{
 		m_RigidBodyMap.erase(ID);
+		m_pQuadTree->Remove(pRigidBody);
 		SafeDelete(&pRigidBody);
 	}
 }
@@ -136,21 +145,22 @@ void cPhysics::InternalStep()
 		cRigidBody * pRigidBodyA = dynamic_cast<cRigidBody*>(IterA->second);
 		if(pRigidBodyA->GetInitialized())
 		{
-			auto IterB = IterA;
-			IterB++;
-			for(; IterB != m_RigidBodyMap.end(); IterB++)
-			{
-				cRigidBody * pRigidBodyB = dynamic_cast<cRigidBody*>(IterB->second);
-				if(pRigidBodyB->GetInitialized())
-				{
-					cCollisionInfo c(pRigidBodyA, pRigidBodyB);
-					c.Solve();
-					if(c.GetCollided())
-					{
-						collisions.emplace_back(c);
-					}
-				}
-			}
+			m_pQuadTree->Collides(pRigidBodyA, collisions);
+			//auto IterB = IterA;
+			//IterB++;
+			//for(; IterB != m_RigidBodyMap.end(); IterB++)
+			//{
+			//	cRigidBody * pRigidBodyB = dynamic_cast<cRigidBody*>(IterB->second);
+			//	if(pRigidBodyB->GetInitialized())
+			//	{
+			//		cCollisionInfo c(pRigidBodyA, pRigidBodyB);
+			//		c.Solve();
+			//		if(c.GetCollided())
+			//		{
+			//			collisions.emplace_back(c);
+			//		}
+			//	}
+			//}
 		}
 	}
 

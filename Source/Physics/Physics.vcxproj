@@ -16,6 +16,8 @@
     <ClInclude Include="Includes\RigidBody.hxx" />
     <ClInclude Include="src\CollisionInfo.h" />
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\QTNode.h" />
+    <ClInclude Include="src\QuadTree.h" />
     <ClInclude Include="src\RectangleShape.h" />
     <ClInclude Include="src\RigidBody.h" />
     <ClInclude Include="src\Shape.h" />
@@ -25,6 +27,8 @@
   <ItemGroup>
     <ClCompile Include="src\CollisionInfo.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\QTNode.cpp" />
+    <ClCompile Include="src\QuadTree.cpp" />
     <ClCompile Include="src\RectangleShape.cpp" />
     <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\Shape.cpp" />

@@ -16,6 +16,7 @@ cRigidBody::cRigidBody()
 	, m_ApplyGravity(false)
 	, m_TopSpeed(0.0f)
 	, m_Initialized(false)
+	, m_pNode(NULL)
 	, m_ID(-1)
 {
 }
@@ -168,14 +169,16 @@ void cRigidBody::ApplyPositionCorrection(const cVector3 & correction)
 }
 
 // *****************************************************************************
-void cRigidBody::Sync(const float alpha)
+bool cRigidBody::Sync(const float alpha)
 {
 	m_RenderPosition = cVector3::Lerp(m_PreviousPosition, m_Position, alpha);
 
 	if(m_Position != m_PreviousPosition)
 	{
 		OnMoved();
+		return true;
 	}
+	return false;
 }
 
 // *****************************************************************************
