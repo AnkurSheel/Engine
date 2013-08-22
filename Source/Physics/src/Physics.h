@@ -36,6 +36,7 @@ namespace Physics
 		void VUpdate(const float DeltaTime);
 		IRigidBody * const VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef);
 		void VRemoveRigidBody(const int ID);
+		void VOnRigidBodyAdded(const int ID);
 		IRigidBody* FindRigidBody(const int ID) const;
 		void InternalStep();
 		void LoadMaterialData(shared_ptr<Utilities::IXMLNode> pParentNode);

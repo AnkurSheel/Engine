@@ -29,7 +29,7 @@ namespace GameBase
 		GAMEBASE_API void VCleanup();
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		GAMEBASE_API void Initialize(const Base::cVector3 & position,
-			const Base::cVector3 & rotation);
+			const Base::cVector3 & rotation, const Base::cVector3 & size);
 		bool GetInitialized() const { return m_Initialized; }
 		Base::cVector3 GetPosition() const;
 		GAMEBASE_API void ApplyForce(const Base::cVector3 & Direction);

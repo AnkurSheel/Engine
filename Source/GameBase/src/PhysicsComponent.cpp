@@ -13,6 +13,9 @@
 #include "BaseEntity.hxx"
 #include "EntityManager.hxx"
 #include "SpriteComponent.h"
+#include "EntityMovedEventData.h"
+#include "EntityScaledEventData.h"
+#include "EventManager.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -105,12 +108,17 @@ void cPhysicsComponent::VCleanup()
 
 // *****************************************************************************
 void cPhysicsComponent::Initialize(const cVector3 & position,
-	const cVector3 & rotation)
+	const cVector3 & rotation, const cVector3 & size)
 {
 	if(!m_Initialized && m_pRigidBody != NULL)
 	{
 		m_Initialized = true;
 		m_pRigidBody->VInitialize(position);
+		shared_ptr<cEntityMovedEventData> pMovedEvent(DEBUG_NEW cEntityMovedEventData(position, m_pOwner->VGetEntityID()));
+		IEventManager::Instance()->VTriggerEvent(pMovedEvent);
+		shared_ptr<cEntityScaledEventData> pScaledEvent(DEBUG_NEW cEntityScaledEventData(size, m_pOwner->VGetEntityID()));
+		IEventManager::Instance()->VTriggerEvent(pScaledEvent);
+		IPhysics::GetInstance()->VOnRigidBodyAdded(m_pRigidBody->VGetID());
 	}
 }
 

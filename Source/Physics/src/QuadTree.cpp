@@ -7,6 +7,7 @@
 using namespace Physics;
 using namespace Base;
 using namespace std;
+using namespace Utilities;
 
 unsigned int cQuadTree::m_sMaxObjects = 8;
 
@@ -130,7 +131,7 @@ const cRigidBody * const cQuadTree::CheckLeaf(cRigidBody * const pBody,
 	{
 		return false;
 	}
-	
+
 	if(pNode->IsLeaf())
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
@@ -161,4 +162,32 @@ const cRigidBody * const cQuadTree::CheckLeaf(cRigidBody * const pBody,
 	}
 
 	return NULL;
+}
+
+// *****************************************************************************
+void cQuadTree::Print() const
+{
+	Log_Write(ILogger::LT_COMMENT, 2, cString(40, "Printing QuadTree with %d objects", m_Items.size()));
+	RPrintNode(m_pRoot);
+}
+
+// *****************************************************************************
+void cQuadTree::RPrintNode(const cQTNode * const  pNode) const
+{
+#ifdef _DEBUG
+	if(pNode == NULL) 
+	{
+		return;
+	}
+
+	pNode->Print();
+
+	if(pNode->HasChildren())
+	{
+		for(size_t i = 0; i < cQTNode::GetSplitSize(); i++)
+		{
+			RPrintNode(pNode->GetChild(i));
+		}
+	}
+#endif
 }

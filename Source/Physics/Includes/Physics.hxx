@@ -29,6 +29,7 @@ namespace Physics
 		virtual IRigidBody * const VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef) = 0;
 		virtual void VRemoveRigidBody(const int ID) = 0;
 		virtual const CollisionPairs & VGetCollsionPairs() const = 0;
+		virtual void VOnRigidBodyAdded(const int ID) = 0;
 		PHYSICS_API static IPhysics * GetInstance();
 		PHYSICS_API static void Destroy();
 	};

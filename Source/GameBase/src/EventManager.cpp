@@ -83,8 +83,6 @@ void cEventManager::VRemoveListener(const EventListenerCallBackFn & fnListener,
 // *****************************************************************************
 void cEventManager::VTriggerEvent(const IEventDataPtr & pEvent)
 {
-	Log_Write(ILogger::LT_EVENT, 2, "Attempting to trigger event  " + pEvent->VGetEventName());
-
     auto findIt = m_eventListeners.find(pEvent->VGetEventID());
 	if (findIt != m_eventListeners.end())
     {
@@ -106,8 +104,6 @@ void cEventManager::VQueueEvent(const IEventDataPtr & pEvent)
         Log_Write(ILogger::LT_ERROR, 1, "Invalid event in VQueueEvent()");
         return;
     }
-
-    Log_Write(ILogger::LT_EVENT, 3, "Attempting to queue event: " + pEvent->VGetEventName());
 
 	auto findIt = m_eventListeners.find(pEvent->VGetEventID());
     if (findIt != m_eventListeners.end())

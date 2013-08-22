@@ -14,10 +14,11 @@ cEntityInitializedEventData::cEntityInitializedEventData()
 
 // *****************************************************************************
 cEntityInitializedEventData::cEntityInitializedEventData(const cVector3 & position,
-	const cVector3 & rotation, const int actorID)
+	const cVector3 & rotation, const Base::cVector3 & size, const int actorID)
 	: m_ActorID(actorID)
 	, m_Position(position)
 	, m_Rotation(rotation)
+	, m_Size(size)
 {
 }
 

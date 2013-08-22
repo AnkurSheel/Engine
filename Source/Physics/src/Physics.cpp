@@ -66,7 +66,7 @@ void cPhysics::VInitialize(const cString & FileName)
 	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
 
 	m_Accumalator = 0.0f;
-	m_pQuadTree = DEBUG_NEW cQuadTree(cVector3(1024, 768, 0));
+	m_pQuadTree = DEBUG_NEW cQuadTree(cVector3(1280, 768, 0));
 }
 
 // *****************************************************************************
@@ -90,7 +90,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
 		if(pRigidBody->Sync(alpha))
 		{
-			m_pQuadTree->OnBodyMoved(pRigidBody);
+			//m_pQuadTree->OnBodyMoved(pRigidBody);
 		}
 	}
 }
@@ -100,7 +100,6 @@ IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigi
 {
 	IRigidBody * pRigidBody = IRigidBody::Create(pDef, ID);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
-	m_pQuadTree->Insert(pRigidBody);
 	return pRigidBody;
 }
 
@@ -113,6 +112,17 @@ void cPhysics::VRemoveRigidBody(const int ID)
 		m_RigidBodyMap.erase(ID);
 		m_pQuadTree->Remove(pRigidBody);
 		SafeDelete(&pRigidBody);
+	}
+}
+
+// *****************************************************************************
+void cPhysics::VOnRigidBodyAdded(const int ID)
+{
+	IRigidBody * pRigidBody = FindRigidBody(ID);
+	if (pRigidBody != NULL)
+	{
+		m_pQuadTree->Insert(pRigidBody);
+		m_pQuadTree->Print();
 	}
 }
 

@@ -89,7 +89,7 @@ void cBaseEntity::VOnInitialized()
 	if(m_pTransFormComponent != NULL)
 	{
 		shared_ptr<cEntityInitializedEventData> pEvent(DEBUG_NEW cEntityInitializedEventData(m_pTransFormComponent->GetPosition(),
-			m_pTransFormComponent->GetRotation(), VGetEntityID()));
+			m_pTransFormComponent->GetRotation(), m_pTransFormComponent->GetSize(), VGetEntityID()));
 		IEventManager::Instance()->VTriggerEvent(pEvent);
 	}
 }

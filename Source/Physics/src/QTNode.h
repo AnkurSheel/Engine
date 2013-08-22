@@ -43,7 +43,7 @@ namespace Physics
 		cQTNode * const GetParent() const { return m_pParent; }
 		const std::list<IRigidBody * const> & GetObjects() const { return m_Items; }
 		static unsigned int	GetSplitSize() { return m_sSplitSize; }
-
+		void Print() const;
 	private:
 		cQTNode	*				m_pParent;
 		IShape *				m_pRect;

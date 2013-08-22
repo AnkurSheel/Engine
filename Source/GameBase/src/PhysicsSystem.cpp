@@ -99,7 +99,7 @@ void cPhysicsSystem::ActorInitializedListener(IEventDataPtr pEventData)
 	cPhysicsComponent * pPhysics = dynamic_cast<cPhysicsComponent*>(IEntityManager::GetInstance()->VGetComponent(pEntity, cPhysicsComponent::GetName()));
 	if(pPhysics != NULL)
 	{
-		pPhysics->Initialize(pCastEventData->GetPosition(), pCastEventData->GetRotation());
+		pPhysics->Initialize(pCastEventData->GetPosition(), pCastEventData->GetRotation(), pCastEventData->GetSize());
 	}
 }
 

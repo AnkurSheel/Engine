@@ -7,6 +7,7 @@
 
 using namespace Physics;
 using namespace Base;
+using namespace Utilities;
 
 const unsigned int cQTNode::m_sSplitSize = 4;
 
@@ -97,6 +98,8 @@ void cQTNode::Split()
 
 	m_Children.resize(m_sSplitSize);
 	cVector3 start = m_pRect->VGetMinBound();
+	cVector3 end = m_pRect->VGetHalfExtents();
+
 	int depth = 1;
 	if(m_pParent != NULL)
 	{
@@ -108,7 +111,7 @@ void cQTNode::Split()
 		pCurrent->m_pParent = this;
 
 		// node becomes half the size
-		pCurrent->CreateRect(start, m_pRect->VGetHalfExtents());
+		pCurrent->CreateRect(start, end);
 
 		// Move the proper objects into the new leaf nodes that they belong in,
 		// removing them from the current node.
@@ -128,11 +131,14 @@ void cQTNode::Split()
 
 		m_Children[i] = pCurrent;
 		start.x += m_pRect->VGetHalfExtents().x;
+		end.x += m_pRect->VGetHalfExtents().x;
 
 		if(start.x >= m_pRect->VGetMaxBound().x)
 		{
 			start.x = m_pRect->VGetMinBound().x;
+			end.x = m_pRect->VGetHalfExtents().x;
 			start.y += m_pRect->VGetHalfExtents().y;
+			end.y += m_pRect->VGetHalfExtents().y;
 		}
 	}
 
@@ -194,11 +200,27 @@ void cQTNode::KillChildren()
 	m_Children.clear();
 }
 
-
 // *****************************************************************************
 void cQTNode::CreateRect(const cVector3 & minBound, const cVector3 & maxBound)
 {
 	m_pRect = IShape::CreateRectangleShape();
 	m_pRect->VInitialize(minBound, maxBound);
+}
 
+// *****************************************************************************
+void cQTNode::Print() const
+{
+	cString str(30, "QTNode %u ", this);
+	str += cString(30, "parent (%u) ", m_pParent);
+	str += cString(30, "Depth (%d) ", m_Depth);
+	int children = 0;
+	if(HasChildren())
+	{
+		children = m_Children.size();
+	}
+	str += cString(30, "Children (%d) ", children);
+	str += cString(30, "objCount (%u) ", m_Items.size());
+	cVector3 diff = m_pRect->VGetMaxBound() - m_pRect->VGetMinBound();
+	str += cString(100, "rect (%f, %f, %f %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMinBound().y, diff.x, diff.y);
+	Log_Write(ILogger::LT_DEBUG, 2, str);
 }
