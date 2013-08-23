@@ -100,11 +100,8 @@ void cQTNode::Split()
 	cVector3 start = m_pRect->VGetMinBound();
 	cVector3 end = m_pRect->VGetHalfExtents();
 
-	int depth = 1;
-	if(m_pParent != NULL)
-	{
-		depth = m_pParent->m_Depth + 1;
-	}
+	int depth = m_Depth + 1;
+
 	for(unsigned int i = 0; i< m_sSplitSize; i++)
 	{
 		cQTNode * pCurrent = new cQTNode(depth);
@@ -220,7 +217,6 @@ void cQTNode::Print() const
 	}
 	str += cString(30, "Children (%d) ", children);
 	str += cString(30, "objCount (%u) ", m_Items.size());
-	cVector3 diff = m_pRect->VGetMaxBound() - m_pRect->VGetMinBound();
-	str += cString(100, "rect (%f, %f, %f %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMinBound().y, diff.x, diff.y);
+	str += cString(100, "rect (left: %f, right: %f, top: %f bottom: %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMaxBound().x, m_pRect->VGetMinBound().y, m_pRect->VGetMaxBound().y);
 	Log_Write(ILogger::LT_DEBUG, 2, str);
 }
