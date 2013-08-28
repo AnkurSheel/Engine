@@ -39,8 +39,10 @@ cQTNode::cQTNode(const unsigned int depth)
 // *****************************************************************************
 cQTNode::~cQTNode()
 {
+	SafeDelete(&m_pRect);
 }
 
+// *****************************************************************************
 cQTNode * const cQTNode::GetChild(unsigned int index)
 {
 	if(IsLeaf())

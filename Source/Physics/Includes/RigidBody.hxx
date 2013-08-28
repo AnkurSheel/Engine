@@ -32,8 +32,9 @@ namespace Physics
 		Base::cVector3		m_MinBound;
 		Base::cVector3		m_MaxBound;
 		Base::cHashedString	m_Shape; 
-		bool				m_ApplyGravity;
 		Base::cString		m_Material;
+		bool				m_ApplyGravity;
+		bool				m_Kinematic;
 
 		stRigidBodyDef()
 			: m_Mass(0.0f)
@@ -42,6 +43,7 @@ namespace Physics
 			, m_TopSpeed(0.0f)
 			, m_Shape("none")
 			, m_Material("normal")
+			, m_Kinematic(false)
 		{
 		}
 	};

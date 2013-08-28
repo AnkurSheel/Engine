@@ -30,6 +30,7 @@ namespace Physics
 		int VGetID() const { return m_ID; }
 		IShape * GetCollisionShape() const { return m_pCollisionShape; }
 		bool GetInitialized() const { return m_Initialized; }
+		bool GetKinematic() const { return m_Kinematic; }
 		Base::cVector3 GetLinearVelocity() const { return m_LinearVelocity; }
 		void SetLinearVelocity(const Base::cVector3 & velocity) { m_LinearVelocity = velocity; }
 		float GetInverseMass() const { return m_InverseMass; }
@@ -64,6 +65,7 @@ namespace Physics
 		int				m_ID;
 		bool			m_ApplyGravity;
 		bool			m_Initialized;
+		bool			m_Kinematic;
 		stMaterialData	m_MaterialData;
 	};
 }

@@ -90,7 +90,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(Iter->second);
 		if(pRigidBody->Sync(alpha))
 		{
-			//m_pQuadTree->OnBodyMoved(pRigidBody);
+			m_pQuadTree->OnBodyMoved(pRigidBody);
 		}
 	}
 }
@@ -153,24 +153,9 @@ void cPhysics::InternalStep()
 	for(auto IterA = m_RigidBodyMap.begin(); IterA != m_RigidBodyMap.end(); IterA++)
 	{
 		cRigidBody * pRigidBodyA = dynamic_cast<cRigidBody*>(IterA->second);
-		if(pRigidBodyA->GetInitialized())
+		if(pRigidBodyA->GetInitialized() && pRigidBodyA->GetKinematic() )
 		{
 			m_pQuadTree->Collides(pRigidBodyA, collisions);
-			//auto IterB = IterA;
-			//IterB++;
-			//for(; IterB != m_RigidBodyMap.end(); IterB++)
-			//{
-			//	cRigidBody * pRigidBodyB = dynamic_cast<cRigidBody*>(IterB->second);
-			//	if(pRigidBodyB->GetInitialized())
-			//	{
-			//		cCollisionInfo c(pRigidBodyA, pRigidBodyB);
-			//		c.Solve();
-			//		if(c.GetCollided())
-			//		{
-			//			collisions.emplace_back(c);
-			//		}
-			//	}
-			//}
 		}
 	}
 

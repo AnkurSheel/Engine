@@ -17,6 +17,7 @@ cRigidBody::cRigidBody()
 	, m_TopSpeed(0.0f)
 	, m_Initialized(false)
 	, m_pNode(NULL)
+	, m_Kinematic(false)
 	, m_ID(-1)
 {
 }
@@ -40,6 +41,7 @@ cRigidBody::cRigidBody(const cRigidBody & other)
 	, m_Force(other.m_Force)
 	, m_PreviousPosition(other.m_PreviousPosition)
 	, m_RenderPosition(other.m_RenderPosition)
+	, m_Kinematic(other.m_Kinematic)
 {
 }
 
@@ -57,7 +59,7 @@ cRigidBody & cRigidBody::operator =(const cRigidBody & other)
 	m_Force = other.m_Force;
 	m_PreviousPosition = other.m_PreviousPosition;
 	m_RenderPosition = other.m_RenderPosition;
-
+	m_Kinematic = other.m_Kinematic;
 	return *this;
 }
 
@@ -67,6 +69,7 @@ void cRigidBody::VInitialize(const cVector3 & position)
 	if(!m_Initialized)
 	{
 		m_Initialized = true;
+		m_PreviousPosition = position;
 		m_Position = position;
 	}
 }
@@ -112,6 +115,7 @@ void cRigidBody::OnCreated(shared_ptr<const stRigidBodyDef> pDef, const int ID)
 		m_pCollisionShape->VInitialize(pDef->m_MinBound, pDef->m_MaxBound);
 	}
 	m_MaterialData = cPhysics::LookUpMaterialData(pDef->m_Material);
+	m_Kinematic = pDef->m_Kinematic;
 }
 
 // *****************************************************************************

@@ -126,9 +126,9 @@ bool cQuadTree::RRemove(const IRigidBody * const pBody,
 		return false;
 	}
 
-	if(pNode->IsLeaf())
+	if(pNode->RemoveObject(pBody))
 	{
-		return pNode->RemoveObject(pBody);
+		return true;
 	}
 	else // already has children
 	{
@@ -144,7 +144,7 @@ bool cQuadTree::RRemove(const IRigidBody * const pBody,
 }
 
 // *****************************************************************************
-const cRigidBody * const cQuadTree::CheckLeaf(cRigidBody * const pBody, 
+const cRigidBody * const cQuadTree::RCollides(cRigidBody * const pBody, 
 	const cQTNode * const pNode, std::vector<cCollisionInfo> & collisions)
 {
 	if(pNode == NULL)
@@ -171,9 +171,24 @@ const cRigidBody * const cQuadTree::CheckLeaf(cRigidBody * const pBody,
 	}
 	else
 	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
+		for(auto iter = pNode->GetObjects().cbegin(); 	iter != pNode->GetObjects().cend(); iter++)
+		{
+			cRigidBody * const pOtherRigidBody = dynamic_cast<cRigidBody * const >(*iter);
+			if(pOtherRigidBody->GetInitialized())
+			{
+				cCollisionInfo c(pBody, pOtherRigidBody);
+				c.Solve();
+				if(c.GetCollided())
+				{
+					collisions.emplace_back(c);
+				}
+			}
+		}
+
 		for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
 		{
-			const cRigidBody * const pResult = CheckLeaf(pBody, pNode->GetChild(i), collisions);
+			const cRigidBody * const pResult = RCollides(pBody, pNode->GetChild(i), collisions);
 			if(pResult != NULL)
 			{
 				return pResult;
