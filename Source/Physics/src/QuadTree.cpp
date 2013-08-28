@@ -56,36 +56,56 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 	{
 		return false;
 	}
+
 	cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-	if(pNode->IsLeaf())
+	
+	if(pNode->HasChildren())
 	{
-		// if the quad is full
-		if(!pNode->AddObject(pBody, false))
-		{
-			if(pNode->CanSplit(m_MaxDepth))
-			{
-				pNode->Split();
-				return RInsert(pBody, pNode);
-			}
-			else // force add
-			{
-				pNode->AddObject(pBody, true);
-				pRigidBody->SetNode(pNode);
-				return true;
-			}
-		}
-		pRigidBody->SetNode(pNode);
-		return true;
-	}
-	else // already has children
-	{
+		bool inserted = false;
 		for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
 		{
 			cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-			if(pNode->GetChild(i)->CheckCollision(pRigidBody))
+			cQTNode * pChildNode = pNode->GetChild(i);
+			inserted = RInsert(pBody, pChildNode);
+			if(inserted)
 			{
-				return RInsert(pBody, pNode->GetChild(i));
+				return true;
 			}
+		}
+		if(!inserted)
+		{
+			pNode->AddObject(pBody, true);
+			pRigidBody->SetNode(pNode);
+			return true;
+		}
+	}
+	else
+	{
+		// if part of the body is on screen or if the body is completley contained by a child node add it
+		if((pNode->GetParent() == NULL && pNode->CheckCollision(pRigidBody))
+			|| pNode->Contains(pRigidBody))
+		{
+			// if the quad is full
+			if(!pNode->AddObject(pBody, false))
+			{
+				if(pNode->CanSplit(m_MaxDepth))
+				{
+					pNode->Split();
+					return RInsert(pBody, pNode);
+				}
+				else // force add
+				{
+					pNode->AddObject(pBody, true);
+					pRigidBody->SetNode(pNode);
+					return true;
+				}
+			}
+			pRigidBody->SetNode(pNode);
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 

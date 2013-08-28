@@ -115,7 +115,7 @@ void cQTNode::Split()
 		for(auto iter = m_Items.begin(); iter != m_Items.end();)
 		{
 			cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(*iter);
-			if(pCurrent->CheckCollision(pRigidBody))
+			if(pCurrent->Contains(pRigidBody))
 			{
 				pCurrent->AddObject(*iter, false);
 				iter = m_Items.erase(iter);
@@ -154,6 +154,20 @@ bool cQTNode::CheckCollision(IRigidBody * const pBody)
 	overlap = halfExtentSum - overlap;
 
 	return (overlap.x > 0 && overlap.y > 0);
+}
+
+// *****************************************************************************
+bool cQTNode::Contains(IRigidBody * const pBody)
+{
+	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody* const>(pBody);
+
+	cVector3 NodeMinBounds = m_pRect->VGetMinBound();
+	cVector3 NodeMaxBounds = m_pRect->VGetMaxBound();
+	cVector3 BodyMinBounds = pRigidBody->GetCollisionShape()->VGetMinBound();
+	cVector3 BodyMaxBounds = pRigidBody->GetCollisionShape()->VGetMaxBound();
+
+	return (NodeMinBounds.x <= BodyMinBounds .x && NodeMinBounds.y <= BodyMinBounds.y
+		&& NodeMaxBounds.x >= BodyMaxBounds.x && NodeMaxBounds.y >= BodyMaxBounds.y);
 }
 
 // *****************************************************************************

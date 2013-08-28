@@ -30,6 +30,7 @@ namespace Physics
 		bool AddObject(IRigidBody * const pBody, const bool force);
 		bool RemoveObject(const IRigidBody * const pBody);
 		void Split();
+		bool Contains(IRigidBody * const pBody);
 		bool CheckCollision(IRigidBody * const pBody);
 		bool CheckCollisionWithChildren(IRigidBody * const pBody);
 		void KillChildren();
@@ -44,6 +45,7 @@ namespace Physics
 		const std::list<IRigidBody * const> & GetObjects() const { return m_Items; }
 		static unsigned int	GetSplitSize() { return m_sSplitSize; }
 		void Print() const;
+
 	private:
 		cQTNode	*				m_pParent;
 		IShape *				m_pRect;
