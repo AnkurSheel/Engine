@@ -10,10 +10,10 @@ using namespace std;
 using namespace Utilities;
 
 unsigned int cQuadTree::m_sMaxObjects = 8;
+unsigned int cQuadTree::m_sMaxDepth= 6;
 
 // *****************************************************************************
 cQuadTree::cQuadTree(const cVector3 & maxBound)
-	: m_MaxDepth(6)
 {
 	m_pRoot = DEBUG_NEW cQTNode();
 	m_pRoot->CreateRect(cVector3::Zero(), maxBound);
@@ -74,8 +74,7 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 		}
 		if(!inserted)
 		{
-			pNode->AddObject(pBody, true);
-			pRigidBody->SetNode(pNode);
+			pNode->AddObject(pBody);
 			return true;
 		}
 	}
@@ -85,22 +84,7 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 		if((pNode->GetParent() == NULL && pNode->CheckCollision(pRigidBody))
 			|| pNode->Contains(pRigidBody))
 		{
-			// if the quad is full
-			if(!pNode->AddObject(pBody, false))
-			{
-				if(pNode->CanSplit(m_MaxDepth))
-				{
-					pNode->Split();
-					return RInsert(pBody, pNode);
-				}
-				else // force add
-				{
-					pNode->AddObject(pBody, true);
-					pRigidBody->SetNode(pNode);
-					return true;
-				}
-			}
-			pRigidBody->SetNode(pNode);
+			pNode->AddObject(pBody);
 			return true;
 		}
 		else

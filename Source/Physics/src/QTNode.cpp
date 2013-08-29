@@ -73,15 +73,36 @@ const cQTNode * const cQTNode::GetChild(unsigned int index) const
 }
 
 // *****************************************************************************
-bool cQTNode::AddObject(IRigidBody * const pBody, const bool force)
+void cQTNode::AddObject(IRigidBody * const pBody)
 {
-	if(m_Full && !force)
-	{
-		return false;
-	}
 	m_Items.push_back(pBody);
+
+	cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
+	pRigidBody->SetNode(this);
+
+	if(m_Full)
+	{
+		if(CanSplit(cQuadTree::GetMaxDepth()))
+		{
+			Split();
+
+			for(auto iter = m_Items.begin(); iter != m_Items.end();)
+			{
+				cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(*iter);
+				cQTNode * pChildNode = GetChildQuadrant(*iter);
+				if(pChildNode != NULL)
+				{
+					pChildNode->AddObject(*iter);
+					iter = m_Items.erase(iter);
+				}
+				else
+				{
+					iter++;
+				}
+			}
+		}
+	}
 	m_Full = m_Items.size() >= cQuadTree::GetMaxObjects();
-	return true;
 }
 
 // *****************************************************************************
@@ -103,7 +124,7 @@ void cQTNode::Split()
 {
 	if(!IsLeaf())
 	{
-		KillChildren();
+		return;
 	}
 
 	m_Children.resize(m_sSplitSize);
@@ -119,22 +140,6 @@ void cQTNode::Split()
 
 		// node becomes half the size
 		pCurrent->CreateRect(start, end);
-
-		// Move the proper objects into the new leaf nodes that they belong in,
-		// removing them from the current node.
-		for(auto iter = m_Items.begin(); iter != m_Items.end();)
-		{
-			cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(*iter);
-			if(pCurrent->Contains(pRigidBody))
-			{
-				pCurrent->AddObject(*iter, false);
-				iter = m_Items.erase(iter);
-			}
-			else
-			{
-				iter++;
-			}
-		}
 
 		m_Children[i] = pCurrent;
 		start.x += m_pRect->VGetHalfExtents().x;
@@ -181,32 +186,6 @@ bool cQTNode::Contains(IRigidBody * const pBody)
 }
 
 // *****************************************************************************
-bool cQTNode::CheckCollisionWithChildren(IRigidBody * const pBody)
-{
-	if(!HasChildren())
-	{
-		return false;
-	}
-
-	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody* const>(pBody);
-	for(unsigned int i = 0; i < m_sSplitSize; i++)
-	{
-		cVector3 centerDelta = pRigidBody->GetCollisionShape()->VGetCenter() - m_Children[i]->m_pRect->VGetCenter();
-		cVector3 overlap = centerDelta;
-		overlap.AbsTo();
-
-		cVector3 halfExtentSum = pRigidBody->GetCollisionShape()->VGetHalfExtents() + m_Children[i]->m_pRect->VGetHalfExtents();
-		overlap = halfExtentSum - overlap;
-
-		if(overlap.x > 0 && overlap.y > 0)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-// *****************************************************************************
 void cQTNode::KillChildren()
 {
 	for(unsigned int i = 0; i < m_sSplitSize; i++)
@@ -242,4 +221,19 @@ void cQTNode::Print() const
 	str += cString(30, "objCount (%u) ", m_Items.size());
 	str += cString(100, "rect (left: %f, right: %f, top: %f bottom: %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMaxBound().x, m_pRect->VGetMinBound().y, m_pRect->VGetMaxBound().y);
 	Log_Write(ILogger::LT_DEBUG, 2, str);
+}
+
+// *****************************************************************************
+cQTNode * const cQTNode::GetChildQuadrant(IRigidBody * const pBody)
+{
+	for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
+	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
+		cQTNode * pChildNode = GetChild(i);
+		if(pChildNode->Contains(pBody))
+		{
+			return pChildNode;
+		}
+	}
+	return NULL;
 }

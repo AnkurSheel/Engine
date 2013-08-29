@@ -34,6 +34,7 @@ namespace Physics
 		bool Remove(const IRigidBody * const pBody) { return RRemove(pBody, m_pRoot); }
 		const cRigidBody * const Collides(cRigidBody * const pBody, std::vector<cCollisionInfo> & collisions) { return RCollides(pBody, m_pRoot, collisions); }
 		static unsigned int GetMaxObjects() { return m_sMaxObjects; }
+		static unsigned int GetMaxDepth() { return m_sMaxDepth; }
 		void Print() const;
 
 	private:
@@ -42,10 +43,11 @@ namespace Physics
 		const cRigidBody * const RCollides(cRigidBody * const pBody,
 			const cQTNode * const pNode, std::vector<cCollisionInfo> & collisions);
 		void RPrintNode(const cQTNode * const  pNode) const;
+		cQTNode * const GetQuadrant(IRigidBody * const pBody, cQTNode * const pNode);
 
 	private:
 		static unsigned int m_sMaxObjects;
-		const unsigned int m_MaxDepth;
+		static unsigned int m_sMaxDepth;
 		cQTNode	*	m_pRoot;
 		std::vector<const IRigidBody * const> m_Items; ;
 	};
