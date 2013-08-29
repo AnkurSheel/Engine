@@ -2,7 +2,6 @@
 #include "QuadTree.h"
 #include "RigidBody.h"
 #include "QTNode.h"
-#include "collisionInfo.h"
 
 using namespace Physics;
 using namespace Base;
@@ -88,38 +87,15 @@ bool cQuadTree::Remove(IRigidBody * const pBody)
 }
 
 // *****************************************************************************
-void cQuadTree::RCollides(cRigidBody * const pBody, const cQTNode * const pNode,
+void cQuadTree::CreateCollisionPairs(IRigidBody * const pBody,
 	std::vector<cCollisionInfo> & collisions)
 {
-	if(pNode == NULL)
+	if(m_pRoot == NULL)
 	{
 		return;
 	}
 
-	if(pNode->CheckCollision(pBody))
-	{
-		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-		for(auto iter = pNode->GetObjects().cbegin(); 	iter != pNode->GetObjects().cend(); iter++)
-		{
-			cRigidBody * const pOtherRigidBody = dynamic_cast<cRigidBody * const >(*iter);
-			if(pOtherRigidBody->GetInitialized())
-			{
-				cCollisionInfo c(pBody, pOtherRigidBody);
-				c.Solve();
-				if(c.GetCollided())
-				{
-					collisions.emplace_back(c);
-				}
-			}
-		}
-		if(pNode->HasChildren())
-		{
-			for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
-			{
-				RCollides(pBody, pNode->GetChild(i), collisions);
-			}
-		}
-	}
+	m_pRoot->CreateCollisionPairs(pBody, collisions);
 }
 
 // *****************************************************************************

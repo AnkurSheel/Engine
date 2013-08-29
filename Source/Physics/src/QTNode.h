@@ -16,6 +16,7 @@ namespace Physics
 {
 	class IRigidBody;
 	class IShape;
+	class cCollisionInfo;
 }
 
 namespace Physics
@@ -32,6 +33,7 @@ namespace Physics
 		void CreateRect(const Base::cVector3 & minBound, const Base::cVector3 & maxBound);
 		bool Contains(IRigidBody * const pBody);
 		void Print() const;
+		void CreateCollisionPairs(IRigidBody * const pBody, std::vector<cCollisionInfo> & collisions);
 		cQTNode * const GetChild(unsigned int index);
         const cQTNode * const GetChild(unsigned int index) const;
 		bool HasChildren() const { return !m_Children.empty(); }

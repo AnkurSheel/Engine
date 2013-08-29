@@ -4,6 +4,7 @@
 #include "vector3.h"
 #include "Shape.hxx"
 #include "RigidBody.h"
+#include "collisionInfo.h"
 
 using namespace Physics;
 using namespace Base;
@@ -246,4 +247,34 @@ cQTNode * const cQTNode::GetChildQuadrant(IRigidBody * const pBody)
 		}
 	}
 	return NULL;
+}
+
+// *****************************************************************************
+void cQTNode::CreateCollisionPairs(IRigidBody * const pBody, std::vector<cCollisionInfo> & collisions)
+{
+	if(CheckCollision(pBody))
+	{
+		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
+		for(auto iter = m_Items.cbegin(); 	iter != m_Items.cend(); iter++)
+		{
+			cRigidBody * const pOtherRigidBody = dynamic_cast<cRigidBody * const >(*iter);
+			if(pOtherRigidBody->GetInitialized())
+			{
+				cCollisionInfo c(pRigidBody, pOtherRigidBody);
+				c.Solve();
+				if(c.GetCollided())
+				{
+					collisions.emplace_back(c);
+				}
+			}
+		}
+		if(HasChildren())
+		{
+			for(unsigned int i = 0; i < m_sSplitSize; i++)
+			{
+				cQTNode * pChildNode = GetChild(i);
+				pChildNode->CreateCollisionPairs(pBody, collisions);
+			}
+		}
+	}
 }
