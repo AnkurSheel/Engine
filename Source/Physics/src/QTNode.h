@@ -39,8 +39,7 @@ namespace Physics
 		bool HasChildren() const { return !m_Children.empty(); }
 		cQTNode * const GetParent() const { return m_pParent; }
 		bool CheckCollision(cRigidBody * const pBody) const;
-		static unsigned int	GetSplitSize() { return m_sSplitSize; }
-
+		
 	private:
 		bool IsLeaf() const{ return m_Children.empty(); }
 		void KillChildren();

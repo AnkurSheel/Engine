@@ -38,13 +38,12 @@ namespace Physics
 
 	private:
 		bool RInsert(cRigidBody * const pBody, cQTNode * const pNode);
-		void RPrintNode(const cQTNode * const  pNode) const;
 
 	private:
 		static unsigned int m_sMaxObjects;
 		static unsigned int m_sMaxDepth;
-		cQTNode	*	m_pRoot;
-		std::vector<const cRigidBody * const> m_Items;
+		unsigned int		m_NoOfItems;
+		cQTNode	*			m_pRoot;
 	};
 }
 #endif //QuadTree_h

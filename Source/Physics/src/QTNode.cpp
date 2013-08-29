@@ -227,12 +227,20 @@ void cQTNode::Print() const
 	str += cString(30, "objCount (%u) ", m_Items.size());
 	str += cString(100, "rect (left: %f, right: %f, top: %f bottom: %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMaxBound().x, m_pRect->VGetMinBound().y, m_pRect->VGetMaxBound().y);
 	Log_Write(ILogger::LT_DEBUG, 2, str);
+
+	if(HasChildren())
+	{
+		for(size_t i = 0; i < m_sSplitSize; i++)
+		{
+			GetChild(i)->Print();
+		}
+	}
 }
 
 // *****************************************************************************
 cQTNode * const cQTNode::GetChildQuadrant(cRigidBody * const pBody)
 {
-	for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
+	for(unsigned int i = 0; i < m_sSplitSize; i++)
 	{
 		cQTNode * pChildNode = GetChild(i);
 		if(pChildNode->Contains(pBody))

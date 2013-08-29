@@ -13,6 +13,7 @@ unsigned int cQuadTree::m_sMaxDepth= 6;
 
 // *****************************************************************************
 cQuadTree::cQuadTree(const cVector3 & maxBound)
+	: m_NoOfItems(0)
 {
 	m_pRoot = DEBUG_NEW cQTNode();
 	m_pRoot->CreateRect(cVector3::Zero(), maxBound);
@@ -27,12 +28,8 @@ cQuadTree::~cQuadTree()
 // *****************************************************************************
 bool cQuadTree::Insert(cRigidBody * const pBody)
 {
-	if(RInsert(pBody, m_pRoot))
-	{
-		m_Items.push_back(pBody);
-		return true;
-	}
-	return false;
+	m_NoOfItems++;
+	return RInsert(pBody, m_pRoot);
 }
 
 // *****************************************************************************
@@ -75,7 +72,6 @@ bool cQuadTree::RInsert(cRigidBody * const pBody,
 bool cQuadTree::Remove(cRigidBody * const pBody)
 {
 	cQTNode * pNode = pBody->GetNode();
-	
 	if(pNode == NULL)
 	{
 		return false;
@@ -97,27 +93,8 @@ void cQuadTree::CreateCollisionPairs(cRigidBody * const pBody,
 // *****************************************************************************
 void cQuadTree::Print() const
 {
-	Log_Write(ILogger::LT_COMMENT, 2, cString(40, "Printing QuadTree with %d objects", m_Items.size()));
-	RPrintNode(m_pRoot);
-}
-
-// *****************************************************************************
-void cQuadTree::RPrintNode(const cQTNode * const  pNode) const
-{
 #ifdef _DEBUG
-	if(pNode == NULL) 
-	{
-		return;
-	}
-
-	pNode->Print();
-
-	if(pNode->HasChildren())
-	{
-		for(size_t i = 0; i < cQTNode::GetSplitSize(); i++)
-		{
-			RPrintNode(pNode->GetChild(i));
-		}
-	}
+	Log_Write(ILogger::LT_COMMENT, 2, cString(40, "Printing QuadTree with %u objects", m_NoOfItems));
+	m_pRoot->Print();
 #endif
 }
