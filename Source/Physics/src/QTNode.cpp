@@ -74,12 +74,11 @@ const cQTNode * const cQTNode::GetChild(unsigned int index) const
 }
 
 // *****************************************************************************
-void cQTNode::AddObject(IRigidBody * const pBody)
+void cQTNode::AddObject(cRigidBody * const pBody)
 {
 	m_Items.push_back(pBody);
 
-	cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-	pRigidBody->SetNode(this);
+	pBody->SetNode(this);
 
 	if(HasChildren())
 	{
@@ -116,14 +115,13 @@ void cQTNode::AddObject(IRigidBody * const pBody)
 }
 
 // *****************************************************************************
-bool cQTNode::RemoveObject(IRigidBody * const pBody)
+bool cQTNode::RemoveObject(cRigidBody * const pBody)
 {
 	for(auto iter = m_Items.begin(); iter != m_Items.end(); iter++)
 	{
 		if(*iter == pBody)
 		{
-			cRigidBody * const pRigidBody = dynamic_cast<cRigidBody * const >(pBody);
-			pRigidBody->SetNode(NULL);
+			pBody->SetNode(NULL);
 			m_Items.erase(iter);
 			return true;
 		}
@@ -168,29 +166,26 @@ void cQTNode::Split()
 }
 
 // *****************************************************************************
-bool cQTNode::CheckCollision(IRigidBody * const pBody) const
+bool cQTNode::CheckCollision(cRigidBody * const pBody) const
 {
-	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody* const>(pBody);
 	// use existing function
-	cVector3 centerDelta = pRigidBody->GetCollisionShape()->VGetCenter() - m_pRect->VGetCenter();
+	cVector3 centerDelta = pBody->GetCollisionShape()->VGetCenter() - m_pRect->VGetCenter();
 	cVector3 overlap = centerDelta;
 	overlap.AbsTo();
 
-	cVector3 halfExtentSum = pRigidBody->GetCollisionShape()->VGetHalfExtents() + m_pRect->VGetHalfExtents();
+	cVector3 halfExtentSum = pBody->GetCollisionShape()->VGetHalfExtents() + m_pRect->VGetHalfExtents();
 	overlap = halfExtentSum - overlap;
 
 	return (overlap.x > 0 && overlap.y > 0);
 }
 
 // *****************************************************************************
-bool cQTNode::Contains(IRigidBody * const pBody)
+bool cQTNode::Contains(cRigidBody * const pBody)
 {
-	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody* const>(pBody);
-
 	cVector3 NodeMinBounds = m_pRect->VGetMinBound();
 	cVector3 NodeMaxBounds = m_pRect->VGetMaxBound();
-	cVector3 BodyMinBounds = pRigidBody->GetCollisionShape()->VGetMinBound();
-	cVector3 BodyMaxBounds = pRigidBody->GetCollisionShape()->VGetMaxBound();
+	cVector3 BodyMinBounds = pBody->GetCollisionShape()->VGetMinBound();
+	cVector3 BodyMaxBounds = pBody->GetCollisionShape()->VGetMaxBound();
 
 	return (NodeMinBounds.x <= BodyMinBounds .x && NodeMinBounds.y <= BodyMinBounds.y
 		&& NodeMaxBounds.x >= BodyMaxBounds.x && NodeMaxBounds.y >= BodyMaxBounds.y);
@@ -235,11 +230,10 @@ void cQTNode::Print() const
 }
 
 // *****************************************************************************
-cQTNode * const cQTNode::GetChildQuadrant(IRigidBody * const pBody)
+cQTNode * const cQTNode::GetChildQuadrant(cRigidBody * const pBody)
 {
 	for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
 	{
-		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
 		cQTNode * pChildNode = GetChild(i);
 		if(pChildNode->Contains(pBody))
 		{
@@ -250,17 +244,17 @@ cQTNode * const cQTNode::GetChildQuadrant(IRigidBody * const pBody)
 }
 
 // *****************************************************************************
-void cQTNode::CreateCollisionPairs(IRigidBody * const pBody, std::vector<cCollisionInfo> & collisions)
+void cQTNode::CreateCollisionPairs(cRigidBody * const pBody,
+	std::vector<cCollisionInfo> & collisions)
 {
 	if(CheckCollision(pBody))
 	{
-		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
 		for(auto iter = m_Items.cbegin(); 	iter != m_Items.cend(); iter++)
 		{
-			cRigidBody * const pOtherRigidBody = dynamic_cast<cRigidBody * const >(*iter);
+			cRigidBody * const pOtherRigidBody = (*iter);
 			if(pOtherRigidBody->GetInitialized())
 			{
-				cCollisionInfo c(pRigidBody, pOtherRigidBody);
+				cCollisionInfo c(pBody, pOtherRigidBody);
 				c.Solve();
 				if(c.GetCollided())
 				{

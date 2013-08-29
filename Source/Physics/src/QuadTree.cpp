@@ -25,7 +25,7 @@ cQuadTree::~cQuadTree()
 }
 
 // *****************************************************************************
-bool cQuadTree::Insert(IRigidBody * const pBody)
+bool cQuadTree::Insert(cRigidBody * const pBody)
 {
 	if(RInsert(pBody, m_pRoot))
 	{
@@ -39,24 +39,23 @@ bool cQuadTree::Insert(IRigidBody * const pBody)
 void cQuadTree::OnBodyMoved(cRigidBody * const pBody)
 {
 	cQTNode * pParent = pBody->GetNode();
-	if(pBody->GetNode()->GetParent() != NULL)
+	if(pParent->GetParent() != NULL)
 	{
-		pParent = pBody->GetNode()->GetParent();
+		pParent = pParent->GetParent();
 	}
 	Remove(pBody);
 	RInsert(pBody, pParent);
 }
 
 // *****************************************************************************
-bool cQuadTree::RInsert(IRigidBody * const pBody,
+bool cQuadTree::RInsert(cRigidBody * const pBody,
 	cQTNode * const pNode)
 {
 	if(pNode == NULL)
 	{
 		return false;
 	}
-
-	// if part of the body is on screen or if the body is completley contained by a child node add it
+	// if part of the body is on screen or if the body is completely contained by a child node add it
 	if((pNode->GetParent() == NULL && pNode->CheckCollision(pBody))
 		|| pNode->Contains(pBody))
 	{
@@ -73,28 +72,25 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 }
 
 // *****************************************************************************
-bool cQuadTree::Remove(IRigidBody * const pBody)
+bool cQuadTree::Remove(cRigidBody * const pBody)
 {
-	const cRigidBody * const pRigidBody = dynamic_cast<const cRigidBody * const>(pBody);
-	cQTNode * pNode = pRigidBody->GetNode();
+	cQTNode * pNode = pBody->GetNode();
 	
 	if(pNode == NULL)
 	{
 		return false;
 	}
-
 	return pNode->RemoveObject(pBody);
 }
 
 // *****************************************************************************
-void cQuadTree::CreateCollisionPairs(IRigidBody * const pBody,
+void cQuadTree::CreateCollisionPairs(cRigidBody * const pBody,
 	std::vector<cCollisionInfo> & collisions)
 {
 	if(m_pRoot == NULL)
 	{
 		return;
 	}
-
 	m_pRoot->CreateCollisionPairs(pBody, collisions);
 }
 

@@ -18,6 +18,7 @@ namespace Physics
 {
 	struct stMaterialData;
 	class cQuadTree;
+	class cRigidBody;
 }
 
 namespace Physics
@@ -37,13 +38,13 @@ namespace Physics
 		IRigidBody * const VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef);
 		void VRemoveRigidBody(const int ID);
 		void VOnRigidBodyAdded(const int ID);
-		IRigidBody* FindRigidBody(const int ID) const;
+		cRigidBody* FindRigidBody(const int ID) const;
 		void InternalStep();
 		void LoadMaterialData(shared_ptr<Utilities::IXMLNode> pParentNode);
 		const CollisionPairs & VGetCollsionPairs() const { return m_CollisionPairs; }
 
 	private:
-		typedef std::map<int, IRigidBody * const > RigidBodyMap;
+		typedef std::map<int, cRigidBody * const > RigidBodyMap;
 		typedef std::map<unsigned long, stMaterialData> MaterialMap;
 		
 		static cPhysics *	s_pPhysics;	/*!< static object of this class */

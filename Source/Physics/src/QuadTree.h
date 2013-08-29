@@ -14,7 +14,6 @@ namespace Base
 
 namespace Physics
 {
-	class IRigidBody;
 	class cRigidBody;
 	class cQTNode;
 	class cCollisionInfo;
@@ -28,25 +27,24 @@ namespace Physics
 	public:
 		cQuadTree(const Base::cVector3 & maxBound);
 		~cQuadTree();
-		bool Insert(IRigidBody * const pBody);
+		bool Insert(cRigidBody * const pBody);
 		void OnBodyMoved(cRigidBody * const pBody);
-
-		bool Remove(IRigidBody * const pBody);
-		void CreateCollisionPairs(IRigidBody * const pBody,
+		bool Remove(cRigidBody * const pBody);
+		void CreateCollisionPairs(cRigidBody * const pBody,
 			std::vector<cCollisionInfo> & collisions);
+		void Print() const;
 		static unsigned int GetMaxObjects() { return m_sMaxObjects; }
 		static unsigned int GetMaxDepth() { return m_sMaxDepth; }
-		void Print() const;
 
 	private:
-		bool RInsert(IRigidBody * const pBody, cQTNode * const pNode);
+		bool RInsert(cRigidBody * const pBody, cQTNode * const pNode);
 		void RPrintNode(const cQTNode * const  pNode) const;
 
 	private:
 		static unsigned int m_sMaxObjects;
 		static unsigned int m_sMaxDepth;
 		cQTNode	*	m_pRoot;
-		std::vector<const IRigidBody * const> m_Items; ;
+		std::vector<const cRigidBody * const> m_Items;
 	};
 }
 #endif //QuadTree_h

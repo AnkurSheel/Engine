@@ -14,7 +14,7 @@ namespace Base
 
 namespace Physics
 {
-	class IRigidBody;
+	class cRigidBody;
 	class IShape;
 	class cCollisionInfo;
 }
@@ -28,24 +28,23 @@ namespace Physics
 		cQTNode();
 		cQTNode(const unsigned int depth);
 		~cQTNode();
-		void AddObject(IRigidBody * const pBody);
-		bool RemoveObject(IRigidBody * const pBody);
+		void AddObject(cRigidBody * const pBody);
+		bool RemoveObject(cRigidBody * const pBody);
 		void CreateRect(const Base::cVector3 & minBound, const Base::cVector3 & maxBound);
-		bool Contains(IRigidBody * const pBody);
+		bool Contains(cRigidBody * const pBody);
 		void Print() const;
-		void CreateCollisionPairs(IRigidBody * const pBody, std::vector<cCollisionInfo> & collisions);
+		void CreateCollisionPairs(cRigidBody * const pBody, std::vector<cCollisionInfo> & collisions);
 		cQTNode * const GetChild(unsigned int index);
         const cQTNode * const GetChild(unsigned int index) const;
 		bool HasChildren() const { return !m_Children.empty(); }
 		cQTNode * const GetParent() const { return m_pParent; }
-		bool CheckCollision(IRigidBody * const pBody) const;
-		const std::list<IRigidBody * const> & GetObjects() const { return m_Items; }
+		bool CheckCollision(cRigidBody * const pBody) const;
 		static unsigned int	GetSplitSize() { return m_sSplitSize; }
 
 	private:
 		bool IsLeaf() const{ return m_Children.empty(); }
 		void KillChildren();
-		cQTNode * const GetChildQuadrant(IRigidBody * const pBody);
+		cQTNode * const GetChildQuadrant(cRigidBody * const pBody);
 		bool CanSplit(const unsigned int maxDepth) { return m_Depth < maxDepth; }
 		void Split();
 
@@ -55,7 +54,7 @@ namespace Physics
 		cQTNode	*						m_pParent;
 		IShape *						m_pRect;
 		std::vector<cQTNode*>			m_Children;
-		std::list<IRigidBody * const>	m_Items;
+		std::list<cRigidBody * const>	m_Items;
 		bool							m_Full;
 	};
 }

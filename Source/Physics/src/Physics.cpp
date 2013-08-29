@@ -111,15 +111,16 @@ void cPhysics::VUpdate(const float DeltaTime)
 // *****************************************************************************
 IRigidBody * const cPhysics::VAddRigidBody(const int ID, shared_ptr<const stRigidBodyDef> pDef)
 {
-	IRigidBody * pRigidBody = IRigidBody::Create(pDef, ID);
+	IRigidBody * pBody = IRigidBody::Create(pDef, ID);
+	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody * const>(pBody);
 	m_RigidBodyMap.insert(std::make_pair(ID, pRigidBody));
-	return pRigidBody;
+	return pBody;
 }
 
 // *****************************************************************************
 void cPhysics::VRemoveRigidBody(const int ID)
 {
-	IRigidBody * pRigidBody = FindRigidBody(ID);
+	cRigidBody * pRigidBody = FindRigidBody(ID);
 	if (pRigidBody != NULL)
 	{
 		m_RigidBodyMap.erase(ID);
@@ -131,16 +132,16 @@ void cPhysics::VRemoveRigidBody(const int ID)
 // *****************************************************************************
 void cPhysics::VOnRigidBodyAdded(const int ID)
 {
-	IRigidBody * pRigidBody = FindRigidBody(ID);
+	cRigidBody * pRigidBody = FindRigidBody(ID);
 	if (pRigidBody != NULL)
 	{
 		m_pQuadTree->Insert(pRigidBody);
-		m_pQuadTree->Print();
+		//m_pQuadTree->Print();
 	}
 }
 
 // *****************************************************************************
-IRigidBody* cPhysics::FindRigidBody(const int ID) const
+cRigidBody* cPhysics::FindRigidBody(const int ID) const
 {
 	RigidBodyMap::const_iterator Iter = m_RigidBodyMap.find(ID);
 	if(Iter != m_RigidBodyMap.end())
