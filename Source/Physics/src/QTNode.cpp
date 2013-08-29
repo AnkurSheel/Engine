@@ -80,6 +80,16 @@ void cQTNode::AddObject(IRigidBody * const pBody)
 	cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
 	pRigidBody->SetNode(this);
 
+	if(HasChildren())
+	{
+		cQTNode * pChildNode = GetChildQuadrant(pBody);
+		if(pChildNode != NULL)
+		{
+			RemoveObject(pBody);
+			pChildNode->AddObject(pBody);
+		}
+	}
+
 	if(m_Full)
 	{
 		if(CanSplit(cQuadTree::GetMaxDepth()))
@@ -88,7 +98,6 @@ void cQTNode::AddObject(IRigidBody * const pBody)
 
 			for(auto iter = m_Items.begin(); iter != m_Items.end();)
 			{
-				cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(*iter);
 				cQTNode * pChildNode = GetChildQuadrant(*iter);
 				if(pChildNode != NULL)
 				{
@@ -106,12 +115,14 @@ void cQTNode::AddObject(IRigidBody * const pBody)
 }
 
 // *****************************************************************************
-bool cQTNode::RemoveObject(const IRigidBody * const pBody)
+bool cQTNode::RemoveObject(IRigidBody * const pBody)
 {
 	for(auto iter = m_Items.begin(); iter != m_Items.end(); iter++)
 	{
 		if(*iter == pBody)
 		{
+			cRigidBody * const pRigidBody = dynamic_cast<cRigidBody * const >(pBody);
+			pRigidBody->SetNode(NULL);
 			m_Items.erase(iter);
 			return true;
 		}
@@ -129,7 +140,7 @@ void cQTNode::Split()
 
 	m_Children.resize(m_sSplitSize);
 	cVector3 start = m_pRect->VGetMinBound();
-	cVector3 end = m_pRect->VGetHalfExtents();
+	cVector3 end = start + m_pRect->VGetHalfExtents();
 
 	int depth = m_Depth + 1;
 
@@ -148,16 +159,15 @@ void cQTNode::Split()
 		if(start.x >= m_pRect->VGetMaxBound().x)
 		{
 			start.x = m_pRect->VGetMinBound().x;
-			end.x = m_pRect->VGetHalfExtents().x;
+			end.x = start.x + m_pRect->VGetHalfExtents().x;
 			start.y += m_pRect->VGetHalfExtents().y;
 			end.y += m_pRect->VGetHalfExtents().y;
 		}
 	}
-
 }
 
 // *****************************************************************************
-bool cQTNode::CheckCollision(IRigidBody * const pBody)
+bool cQTNode::CheckCollision(IRigidBody * const pBody) const
 {
 	cRigidBody * const pRigidBody = dynamic_cast<cRigidBody* const>(pBody);
 	// use existing function

@@ -39,12 +39,12 @@ bool cQuadTree::Insert(IRigidBody * const pBody)
 // *****************************************************************************
 void cQuadTree::OnBodyMoved(cRigidBody * const pBody)
 {
-	RRemove(pBody, pBody->GetNode());
 	cQTNode * pParent = pBody->GetNode();
 	if(pBody->GetNode()->GetParent() != NULL)
 	{
 		pParent = pBody->GetNode()->GetParent();
 	}
+	Remove(pBody);
 	RInsert(pBody, pParent);
 }
 
@@ -57,40 +57,12 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 		return false;
 	}
 
-	cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-	
-	if(pNode->HasChildren())
+	// if part of the body is on screen or if the body is completley contained by a child node add it
+	if((pNode->GetParent() == NULL && pNode->CheckCollision(pBody))
+		|| pNode->Contains(pBody))
 	{
-		bool inserted = false;
-		for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
-		{
-			cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-			cQTNode * pChildNode = pNode->GetChild(i);
-			inserted = RInsert(pBody, pChildNode);
-			if(inserted)
-			{
-				return true;
-			}
-		}
-		if(!inserted)
-		{
-			pNode->AddObject(pBody);
-			return true;
-		}
-	}
-	else
-	{
-		// if part of the body is on screen or if the body is completley contained by a child node add it
-		if((pNode->GetParent() == NULL && pNode->CheckCollision(pRigidBody))
-			|| pNode->Contains(pRigidBody))
-		{
-			pNode->AddObject(pBody);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		pNode->AddObject(pBody);
+		return true;
 	}
 
 	if(pNode->GetParent() == NULL)
@@ -102,41 +74,29 @@ bool cQuadTree::RInsert(IRigidBody * const pBody,
 }
 
 // *****************************************************************************
-bool cQuadTree::RRemove(const IRigidBody * const pBody,
-	cQTNode * const pNode)
+bool cQuadTree::Remove(IRigidBody * const pBody)
 {
+	const cRigidBody * const pRigidBody = dynamic_cast<const cRigidBody * const>(pBody);
+	cQTNode * pNode = pRigidBody->GetNode();
+	
 	if(pNode == NULL)
 	{
 		return false;
 	}
 
-	if(pNode->RemoveObject(pBody))
-	{
-		return true;
-	}
-	else // already has children
-	{
-		for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
-		{
-			if(RRemove(pBody, pNode->GetChild(i)))
-			{
-				return true;
-			}
-		}
-	}
-	return false;
+	return pNode->RemoveObject(pBody);
 }
 
 // *****************************************************************************
-const cRigidBody * const cQuadTree::RCollides(cRigidBody * const pBody, 
-	const cQTNode * const pNode, std::vector<cCollisionInfo> & collisions)
+void cQuadTree::RCollides(cRigidBody * const pBody, const cQTNode * const pNode,
+	std::vector<cCollisionInfo> & collisions)
 {
 	if(pNode == NULL)
 	{
-		return false;
+		return;
 	}
 
-	if(pNode->IsLeaf())
+	if(pNode->CheckCollision(pBody))
 	{
 		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
 		for(auto iter = pNode->GetObjects().cbegin(); 	iter != pNode->GetObjects().cend(); iter++)
@@ -152,35 +112,14 @@ const cRigidBody * const cQuadTree::RCollides(cRigidBody * const pBody,
 				}
 			}
 		}
-	}
-	else
-	{
-		cRigidBody * pRigidBody = dynamic_cast<cRigidBody*>(pBody);
-		for(auto iter = pNode->GetObjects().cbegin(); 	iter != pNode->GetObjects().cend(); iter++)
+		if(pNode->HasChildren())
 		{
-			cRigidBody * const pOtherRigidBody = dynamic_cast<cRigidBody * const >(*iter);
-			if(pOtherRigidBody->GetInitialized())
+			for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
 			{
-				cCollisionInfo c(pBody, pOtherRigidBody);
-				c.Solve();
-				if(c.GetCollided())
-				{
-					collisions.emplace_back(c);
-				}
-			}
-		}
-
-		for(unsigned int i = 0; i < cQTNode::GetSplitSize(); i++)
-		{
-			const cRigidBody * const pResult = RCollides(pBody, pNode->GetChild(i), collisions);
-			if(pResult != NULL)
-			{
-				return pResult;
+				RCollides(pBody, pNode->GetChild(i), collisions);
 			}
 		}
 	}
-
-	return NULL;
 }
 
 // *****************************************************************************
