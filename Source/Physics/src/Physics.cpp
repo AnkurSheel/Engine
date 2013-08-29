@@ -170,7 +170,7 @@ void cPhysics::InternalStep()
 		{
 			if(m_UseQuadTree)
 			{
-				m_pQuadTree->Collides(pRigidBodyA, collisions);
+				m_pQuadTree->CreateCollisionPairs(pRigidBodyA, collisions);
 			}
 			else
 			{
