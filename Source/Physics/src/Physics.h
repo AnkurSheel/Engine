@@ -46,6 +46,7 @@ namespace Physics
 		typedef std::map<int, IRigidBody * const > RigidBodyMap;
 		typedef std::map<unsigned long, stMaterialData> MaterialMap;
 		
+		static cPhysics *	s_pPhysics;	/*!< static object of this class */
 		float				m_Gravity;
 		float				m_TimeStep;
 		float				m_Accumalator;
@@ -53,7 +54,7 @@ namespace Physics
 		RigidBodyMap		m_RigidBodyMap;
 		MaterialMap			m_MaterialMap;
 		CollisionPairs		m_CollisionPairs;
-		static cPhysics *	s_pPhysics;	/*!< static object of this class */
+		bool				m_bUseQuadTree;
 
 	private:
 		friend static IPhysics * IPhysics::GetInstance();

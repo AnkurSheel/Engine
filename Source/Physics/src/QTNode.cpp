@@ -40,6 +40,14 @@ cQTNode::cQTNode(const unsigned int depth)
 cQTNode::~cQTNode()
 {
 	SafeDelete(&m_pRect);
+	if(HasChildren())
+	{
+		for(unsigned int i = 0; i < m_sSplitSize; i++)
+		{
+			SafeDelete(&(m_Children[i]));
+		}
+	}
+	m_Items.clear();
 }
 
 // *****************************************************************************
