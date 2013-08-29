@@ -22,6 +22,8 @@ cPhysics::cPhysics()
 	, m_TimeStep(1.0f/60.0f)
 	, m_Accumalator(0.0f)
 	, m_pQuadTree(NULL)
+	, m_UseQuadTree(true)
+	, m_Looseningfactor(0.0f)
 {
 }
 
@@ -63,6 +65,17 @@ void cPhysics::VInitialize(const cString & FileName)
 		m_TimeStep = 1.0f /(*frequency);
 	}
 
+	shared_ptr<IXMLNode> pQuadTreeNode(pRoot->VGetChild("UseQuadTree"));
+	if(pQuadTreeNode != NULL)
+	{
+		tOptional<bool> useQuadTree = pQuadTreeNode->VGetNodeValue().ToBool();
+		if(useQuadTree.IsValid())
+		{
+			m_UseQuadTree = *useQuadTree;
+		}
+		m_Looseningfactor = pQuadTreeNode->VGetNodeAttributeAsFloat("LooseningFactor", 0.0f);
+	}
+
 	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
 
 	m_Accumalator = 0.0f;
@@ -83,7 +96,7 @@ void cPhysics::VUpdate(const float DeltaTime)
 		InternalStep();
 		m_Accumalator -= m_TimeStep;
 	}
-	
+
 	float alpha = m_Accumalator / m_TimeStep;
 	for(auto Iter = m_RigidBodyMap.begin(); Iter != m_RigidBodyMap.end(); Iter++)
 	{
@@ -155,7 +168,26 @@ void cPhysics::InternalStep()
 		cRigidBody * pRigidBodyA = dynamic_cast<cRigidBody*>(IterA->second);
 		if(pRigidBodyA->GetInitialized() && pRigidBodyA->GetKinematic() )
 		{
-			m_pQuadTree->Collides(pRigidBodyA, collisions);
+			if(m_UseQuadTree)
+			{
+				m_pQuadTree->Collides(pRigidBodyA, collisions);
+			}
+			else
+			{
+				for(auto IterB = m_RigidBodyMap.begin(); IterB != m_RigidBodyMap.end(); IterB++)
+				{
+					cRigidBody * pRigidBodyB = dynamic_cast<cRigidBody*>(IterB->second);
+					if(pRigidBodyB->GetInitialized())
+					{
+						cCollisionInfo c(pRigidBodyA, pRigidBodyB);
+						c.Solve();
+						if(c.GetCollided())
+						{
+							collisions.emplace_back(c);
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -207,7 +239,7 @@ void cPhysics::LoadMaterialData(shared_ptr<IXMLNode> pParentNode)
 		stMaterialData data;
         data.restitution = pNode->VGetNodeAttributeAsFloat("restitution", 1.0f);
         data.friction = pNode->VGetNodeAttributeAsFloat("friction", 0.0f);
-		
+
 		m_MaterialMap[cHashedString::CalculateHash(pNode->VGetName().GetInLowerCase())] = data;
 	}
 }

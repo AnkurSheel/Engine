@@ -114,7 +114,7 @@ void cQTNode::Split()
 
 	for(unsigned int i = 0; i< m_sSplitSize; i++)
 	{
-		cQTNode * pCurrent = new cQTNode(depth);
+		cQTNode * pCurrent = DEBUG_NEW cQTNode(depth);
 		pCurrent->m_pParent = this;
 
 		// node becomes half the size
@@ -203,7 +203,6 @@ bool cQTNode::CheckCollisionWithChildren(IRigidBody * const pBody)
 			return true;
 		}
 	}
-
 	return false;
 }
 
