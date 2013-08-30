@@ -36,6 +36,10 @@ bool cQuadTree::Insert(cRigidBody * const pBody)
 void cQuadTree::OnBodyMoved(cRigidBody * const pBody)
 {
 	cQTNode * pParent = pBody->GetNode();
+	if (pParent == NULL)
+	{
+		pParent = m_pRoot;
+	}
 	if(pParent->GetParent() != NULL)
 	{
 		pParent = pParent->GetParent();
