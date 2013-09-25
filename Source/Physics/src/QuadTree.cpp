@@ -8,15 +8,13 @@ using namespace Base;
 using namespace std;
 using namespace Utilities;
 
-unsigned int cQuadTree::m_sMaxObjects = 8;
-unsigned int cQuadTree::m_sMaxDepth= 6;
-
 // *****************************************************************************
-cQuadTree::cQuadTree(const cVector3 & maxBound)
+cQuadTree::cQuadTree()
 	: m_NoOfItems(0)
+	, m_MaxDepth(6)
+	, m_MaxObjects(8)
+	, m_LooseningFactor(0.0f)
 {
-	m_pRoot = DEBUG_NEW cQTNode();
-	m_pRoot->CreateRect(cVector3::Zero(), maxBound);
 }
 
 // *****************************************************************************
@@ -24,6 +22,22 @@ cQuadTree::~cQuadTree()
 {
 	SafeDelete(&m_pRoot);
 }
+
+void cQuadTree::Initialize(shared_ptr<const stQuadTreeDef> pDef)
+{
+	if(pDef == NULL)
+	{
+		Log_Write(ILogger::LT_ERROR, 1, "QuadTree Def is null");
+		return;
+	}
+
+	m_pRoot = DEBUG_NEW cQTNode(this);
+	m_pRoot->CreateRect(pDef->m_MinBounds, pDef->m_MaxBounds);
+	m_MaxDepth = pDef->m_MaxDepth;
+	m_MaxObjects = pDef->m_MaxObjects;
+	m_LooseningFactor = pDef->m_LooseningFactor;
+}
+
 
 // *****************************************************************************
 bool cQuadTree::Insert(cRigidBody * const pBody)

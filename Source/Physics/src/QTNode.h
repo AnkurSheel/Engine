@@ -17,6 +17,7 @@ namespace Physics
 	class cRigidBody;
 	class IShape;
 	class cCollisionInfo;
+	class cQuadTree;
 }
 
 namespace Physics
@@ -25,8 +26,8 @@ namespace Physics
 		: public Base::cNonCopyable
 	{
 	public:
-		cQTNode();
-		cQTNode(const unsigned int depth);
+		cQTNode(const cQuadTree * const pQuadTree);
+		cQTNode(const unsigned int depth, const cQuadTree * const pQuadTree);
 		~cQTNode();
 		void AddObject(cRigidBody * const pBody);
 		bool RemoveObject(cRigidBody * const pBody);
@@ -52,6 +53,7 @@ namespace Physics
 		unsigned int					m_Depth;
 		cQTNode	*						m_pParent;
 		IShape *						m_pRect;
+		const cQuadTree *				m_pQuadTree;
 		std::vector<cQTNode*>			m_Children;
 		std::list<cRigidBody * const>	m_Items;
 		bool							m_Full;

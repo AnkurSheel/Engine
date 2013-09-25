@@ -5,6 +5,7 @@
 #include "Shape.hxx"
 #include "RigidBody.h"
 #include "collisionInfo.h"
+#include "QuadTree.h"
 
 using namespace Physics;
 using namespace Base;
@@ -13,22 +14,24 @@ using namespace Utilities;
 const unsigned int cQTNode::m_sSplitSize = 4;
 
 // *****************************************************************************
-cQTNode::cQTNode()
+cQTNode::cQTNode(const cQuadTree * const pQuadTree)
 	: m_pParent(NULL)
 	, m_pRect(NULL)
 	, m_Depth(0)
 	, m_Full(false)
+	, m_pQuadTree(pQuadTree)
 {
 	m_Children.reserve(m_sSplitSize);
 	m_Items.clear();
 }
 
 // *****************************************************************************
-cQTNode::cQTNode(const unsigned int depth)
+cQTNode::cQTNode(const unsigned int depth, const cQuadTree * const pQuadTree)
 	: m_pParent(NULL)
 	, m_pRect(NULL)
 	, m_Depth(depth)
 	, m_Full(false)
+	, m_pQuadTree(pQuadTree)
 {
 	if(HasChildren())
 	{
@@ -92,7 +95,7 @@ void cQTNode::AddObject(cRigidBody * const pBody)
 
 	if(m_Full)
 	{
-		if(CanSplit(cQuadTree::GetMaxDepth()))
+		if(CanSplit(m_pQuadTree->GetMaxDepth()))
 		{
 			Split();
 
@@ -111,7 +114,7 @@ void cQTNode::AddObject(cRigidBody * const pBody)
 			}
 		}
 	}
-	m_Full = m_Items.size() >= cQuadTree::GetMaxObjects();
+	m_Full = m_Items.size() >= m_pQuadTree->GetMaxObjects();
 }
 
 // *****************************************************************************
@@ -145,7 +148,7 @@ void cQTNode::Split()
 
 	for(unsigned int i = 0; i< m_sSplitSize; i++)
 	{
-		cQTNode * pCurrent = DEBUG_NEW cQTNode(depth);
+		cQTNode * pCurrent = DEBUG_NEW cQTNode(depth, m_pQuadTree);
 		pCurrent->m_pParent = this;
 
 		// node becomes half the size

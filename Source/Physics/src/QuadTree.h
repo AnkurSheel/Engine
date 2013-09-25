@@ -7,10 +7,7 @@
 #ifndef QuadTree_h
 #define QuadTree_h
 
-namespace Base
-{
-	class cVector3;
-}
+#include "vector3.h"
 
 namespace Physics
 {
@@ -21,29 +18,48 @@ namespace Physics
 
 namespace Physics
 {
+	struct	stQuadTreeDef
+	{
+		Base::cVector3	m_MinBounds;
+		Base::cVector3	m_MaxBounds;
+		unsigned int	m_MaxObjects;
+		unsigned int	m_MaxDepth;
+		float			m_LooseningFactor;
+
+		stQuadTreeDef()
+			: m_MaxObjects(8)
+			, m_MaxDepth(6)
+			, m_LooseningFactor(0.0f)
+		{
+		}
+	};
+
 	class cQuadTree
 		: public Base::cNonCopyable
 	{
 	public:
-		cQuadTree(const Base::cVector3 & maxBound);
+		cQuadTree();
 		~cQuadTree();
+		void Initialize(shared_ptr<const stQuadTreeDef> pDef);
 		bool Insert(cRigidBody * const pBody);
 		void OnBodyMoved(cRigidBody * const pBody);
 		bool Remove(cRigidBody * const pBody);
 		void CreateCollisionPairs(cRigidBody * const pBody,
 			std::vector<cCollisionInfo> & collisions);
 		void Print() const;
-		static unsigned int GetMaxObjects() { return m_sMaxObjects; }
-		static unsigned int GetMaxDepth() { return m_sMaxDepth; }
-
+		unsigned int GetMaxObjects() const { return m_MaxObjects; }
+		unsigned int GetMaxDepth() const { return m_MaxDepth; }
+		float GetLooseningFactor() const { return m_LooseningFactor; }
+		
 	private:
 		bool RInsert(cRigidBody * const pBody, cQTNode * const pNode);
 
 	private:
-		static unsigned int m_sMaxObjects;
-		static unsigned int m_sMaxDepth;
-		unsigned int		m_NoOfItems;
-		cQTNode	*			m_pRoot;
+		unsigned int	m_MaxObjects;
+		unsigned int	m_MaxDepth;
+		unsigned int	m_NoOfItems;
+		float			m_LooseningFactor;
+		cQTNode	*		m_pRoot;
 	};
 }
 #endif //QuadTree_h

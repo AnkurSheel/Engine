@@ -41,6 +41,7 @@ namespace Physics
 		cRigidBody* FindRigidBody(const int ID) const;
 		void InternalStep();
 		void LoadMaterialData(shared_ptr<Utilities::IXMLNode> pParentNode);
+		void CreateQuadTree(shared_ptr<Utilities::IXMLNode> pParentNode);
 		const CollisionPairs & VGetCollsionPairs() const { return m_CollisionPairs; }
 
 	private:
@@ -51,7 +52,6 @@ namespace Physics
 		float				m_Gravity;
 		float				m_TimeStep;
 		float				m_Accumalator;
-		float				m_Looseningfactor;
 		cQuadTree *			m_pQuadTree;		
 		RigidBodyMap		m_RigidBodyMap;
 		MaterialMap			m_MaterialMap;

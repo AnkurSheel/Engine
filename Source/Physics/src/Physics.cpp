@@ -23,7 +23,6 @@ cPhysics::cPhysics()
 	, m_Accumalator(0.0f)
 	, m_pQuadTree(NULL)
 	, m_UseQuadTree(true)
-	, m_Looseningfactor(0.0f)
 {
 }
 
@@ -65,21 +64,10 @@ void cPhysics::VInitialize(const cString & FileName)
 		m_TimeStep = 1.0f /(*frequency);
 	}
 
-	shared_ptr<IXMLNode> pQuadTreeNode(pRoot->VGetChild("UseQuadTree"));
-	if(pQuadTreeNode != NULL)
-	{
-		tOptional<bool> useQuadTree = pQuadTreeNode->VGetNodeValue().ToBool();
-		if(useQuadTree.IsValid())
-		{
-			m_UseQuadTree = *useQuadTree;
-		}
-		m_Looseningfactor = pQuadTreeNode->VGetNodeAttributeAsFloat("LooseningFactor", 0.0f);
-	}
-
 	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
-
+	CreateQuadTree(pRoot->VGetChild("QuadTree"));
+	
 	m_Accumalator = 0.0f;
-	m_pQuadTree = DEBUG_NEW cQuadTree(cVector3(1280, 768, 0));
 }
 
 // *****************************************************************************
@@ -246,6 +234,48 @@ void cPhysics::LoadMaterialData(shared_ptr<IXMLNode> pParentNode)
 }
 
 // ****************************************************************************
+void cPhysics::CreateQuadTree(shared_ptr<Utilities::IXMLNode> pParentNode)
+{
+	if(pParentNode == NULL)
+	{
+		return;
+	}
+
+	shared_ptr<Physics::stQuadTreeDef> pDef = shared_ptr<Physics::stQuadTreeDef>(DEBUG_NEW stQuadTreeDef());
+	cString value = pParentNode->VGetChildValue("UseQuadTree");
+	tOptional<bool> useQuadTree = value.ToBool();
+	if(useQuadTree.IsValid())
+	{
+		m_UseQuadTree = *useQuadTree;
+	}
+
+	value = pParentNode->VGetChildValue("LooseningFactor");
+	tOptional<float> looseningFactor = value.ToFloat();
+	if(looseningFactor.IsValid())
+	{
+		pDef->m_LooseningFactor = *looseningFactor;
+	}
+	
+	value = pParentNode->VGetChildValue("MaxDepth");
+	tOptional<int> maxDepth = value.ToInt();
+	if(maxDepth.IsValid())
+	{
+		pDef->m_MaxDepth = *maxDepth;
+	}
+
+	value = pParentNode->VGetChildValue("MaxObjects");
+	tOptional<int> maxObjects = value.ToInt();
+	if(maxObjects.IsValid())
+	{
+		pDef->m_MaxObjects = *maxObjects;
+	}
+
+	pDef->m_MaxBounds = cVector3(1280, 768, 0);
+	m_pQuadTree = DEBUG_NEW cQuadTree();
+	m_pQuadTree->Initialize(pDef);
+}
+
+// ****************************************************************************
 stMaterialData cPhysics::LookUpMaterialData(const cString & materialName)
 {
 	if(s_pPhysics == NULL)
@@ -284,4 +314,3 @@ void IPhysics::Destroy()
 {
 	SafeDelete(&cPhysics::s_pPhysics);
 }
-

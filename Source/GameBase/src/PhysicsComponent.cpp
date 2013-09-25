@@ -82,6 +82,7 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	{
 		m_pDef->m_Mass = *mass;
 	}
+	
 	value = pXMLNode->VGetChildValue("Kinematic");
 	tOptional<bool> Kinematic = value.ToBool();
 	if(Kinematic.IsValid())
