@@ -24,6 +24,7 @@ IEntityManager * cEntityManager::s_pEntityManager = NULL;
 cEntityManager::cEntityManager()
 {
 	m_EntityMap.clear();
+	m_DeletedEntities.clear();
 }
 
 // *****************************************************************************
@@ -79,7 +80,7 @@ IBaseEntity * const cEntityManager::VAddEntity(const cString & Type)
 }
 
 // *****************************************************************************
-void cEntityManager::VDeleteEntity( IBaseEntity * const pNewEntity )
+void cEntityManager::VDeleteEntity(IBaseEntity * const pNewEntity)
 {
 	cBaseEntity * pEntity = dynamic_cast<cBaseEntity *>(pNewEntity);
 	if (pEntity != NULL)
@@ -98,6 +99,7 @@ void cEntityManager::VDeleteEntity( IBaseEntity * const pNewEntity )
 		{
 			VRemoveComponent(pNewEntity, (*iter)->VGetID());
 		}
+		m_DeletedEntities.push_back(pEntity);
 		m_EntityMap.erase(pEntity->VGetEntityID());
 	}
 }
@@ -241,6 +243,7 @@ void cEntityManager::VUpdate(const float deltaTime)
 		IBaseEntity * pEntity = iter->second;
 		pEntity->VOnUpdate(deltaTime);
 	}
+	RemoveDeletedEntities();
 }
 
 // *****************************************************************************
@@ -281,6 +284,18 @@ void cEntityManager::Cleanup()
 		iter->second.clear();
 	}
 	m_ComponentMap.clear();
+	m_DeletedEntities.clear();
+}
+
+// *****************************************************************************
+void cEntityManager::RemoveDeletedEntities()
+{
+	for(auto iter = m_DeletedEntities.begin(); iter != m_DeletedEntities.end(); iter++)
+	{
+		IBaseEntity * pEntity = (*iter);
+		SafeDelete(&pEntity);
+	}
+	m_DeletedEntities.clear();
 }
 
 // *****************************************************************************

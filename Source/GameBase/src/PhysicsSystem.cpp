@@ -83,7 +83,11 @@ void cPhysicsSystem::VUpdate(const float deltaTime)
 		const CollisionPair pair = *Iter;
 		IBaseEntity * pEntity1 = IEntityManager::GetInstance()->VGetEntityFromID(pair.first);
 		IBaseEntity * pEntity2 = IEntityManager::GetInstance()->VGetEntityFromID(pair.second);
-		pEntity1->VOnCollided(pEntity2);
+		if(pEntity1 != NULL && pEntity2 != NULL)
+		{
+			pEntity1->VOnCollided(pEntity2);
+			pEntity2->VOnCollided(pEntity1);
+		}
 	}
 }
 

@@ -47,6 +47,7 @@ namespace GameBase
 		int VGetEntityID(const IBaseEntity * const pEntity) const;
 		void VUpdate(const float deltaTime);
 		void InitializeEntity(IBaseEntity * const pEntity);
+		void RemoveDeletedEntities();
 		void Cleanup();
 
 		cEntityManager();
@@ -58,6 +59,7 @@ namespace GameBase
 		EntityComponentMap				m_ComponentMap;
 		shared_ptr<cEntityFactory>		m_pEntityFactory;
 		shared_ptr<cComponentFactory>	m_pComponentFactory;
+		EntityList						m_DeletedEntities;
 
 	private:
 		friend static IEntityManager * IEntityManager::GetInstance();
