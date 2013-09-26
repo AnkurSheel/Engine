@@ -31,13 +31,13 @@ void cQuadTree::Initialize(shared_ptr<const stQuadTreeDef> pDef)
 		return;
 	}
 
-	m_pRoot = DEBUG_NEW cQTNode(this);
-	m_pRoot->CreateRect(pDef->m_MinBounds, pDef->m_MaxBounds);
 	m_MaxDepth = pDef->m_MaxDepth;
 	m_MaxObjects = pDef->m_MaxObjects;
 	m_LooseningFactor = pDef->m_LooseningFactor;
-}
 
+	m_pRoot = DEBUG_NEW cQTNode(this);
+	m_pRoot->CreateRect(pDef->m_MinBounds, pDef->m_MaxBounds);
+}
 
 // *****************************************************************************
 bool cQuadTree::Insert(cRigidBody * const pBody)
@@ -49,17 +49,23 @@ bool cQuadTree::Insert(cRigidBody * const pBody)
 // *****************************************************************************
 void cQuadTree::OnBodyMoved(cRigidBody * const pBody)
 {
-	cQTNode * pParent = pBody->GetNode();
-	if (pParent == NULL)
+
+	cQTNode * pNode = pBody->GetNode();
+	cQTNode * pParent = NULL;
+	if (pNode == NULL || pNode->GetParent() == NULL)
 	{
 		pParent = m_pRoot;
 	}
-	if(pParent->GetParent() != NULL)
+	else
 	{
-		pParent = pParent->GetParent();
+		pParent = pNode->GetParent();
 	}
-	Remove(pBody);
-	RInsert(pBody, pParent);
+	
+	if(pParent->GetChildQuadrant(pBody) != pNode)
+	{
+		pNode->RemoveObject(pBody);
+		pParent->AddObject(pBody);
+	}
 }
 
 // *****************************************************************************
@@ -94,6 +100,7 @@ bool cQuadTree::Remove(cRigidBody * const pBody)
 	{
 		return false;
 	}
+	m_NoOfItems--;
 	return pNode->RemoveObject(pBody);
 }
 

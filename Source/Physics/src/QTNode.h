@@ -40,11 +40,11 @@ namespace Physics
 		bool HasChildren() const { return !m_Children.empty(); }
 		cQTNode * const GetParent() const { return m_pParent; }
 		bool CheckCollision(cRigidBody * const pBody) const;
+		cQTNode * const GetChildQuadrant(cRigidBody * const pBody);
 		
 	private:
 		bool IsLeaf() const{ return m_Children.empty(); }
 		void KillChildren();
-		cQTNode * const GetChildQuadrant(cRigidBody * const pBody);
 		bool CanSplit(const unsigned int maxDepth) { return m_Depth < maxDepth; }
 		void Split();
 
@@ -52,7 +52,8 @@ namespace Physics
 		static const unsigned int		m_sSplitSize;
 		unsigned int					m_Depth;
 		cQTNode	*						m_pParent;
-		IShape *						m_pRect;
+		IShape *						m_pActualRect;
+		IShape *						m_pLooseRect;
 		const cQuadTree *				m_pQuadTree;
 		std::vector<cQTNode*>			m_Children;
 		std::list<cRigidBody * const>	m_Items;

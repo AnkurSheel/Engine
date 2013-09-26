@@ -31,6 +31,7 @@ namespace Physics
 		virtual void VOnMoved(const Base::cVector3 & deltaPosition) = 0;
 		virtual Base::cHashedString VGetName() = 0;
 		virtual IShape * VDuplicate() = 0;
+		virtual void VScale(const float scaleFactor) = 0;
 		static IShape * CreateRectangleShape();
 	};
 }

@@ -16,7 +16,8 @@ const unsigned int cQTNode::m_sSplitSize = 4;
 // *****************************************************************************
 cQTNode::cQTNode(const cQuadTree * const pQuadTree)
 	: m_pParent(NULL)
-	, m_pRect(NULL)
+	, m_pActualRect(NULL)
+	, m_pLooseRect(NULL)
 	, m_Depth(0)
 	, m_Full(false)
 	, m_pQuadTree(pQuadTree)
@@ -28,7 +29,8 @@ cQTNode::cQTNode(const cQuadTree * const pQuadTree)
 // *****************************************************************************
 cQTNode::cQTNode(const unsigned int depth, const cQuadTree * const pQuadTree)
 	: m_pParent(NULL)
-	, m_pRect(NULL)
+	, m_pActualRect(NULL)
+	, m_pLooseRect(NULL)
 	, m_Depth(depth)
 	, m_Full(false)
 	, m_pQuadTree(pQuadTree)
@@ -43,7 +45,8 @@ cQTNode::cQTNode(const unsigned int depth, const cQuadTree * const pQuadTree)
 // *****************************************************************************
 cQTNode::~cQTNode()
 {
-	SafeDelete(&m_pRect);
+	SafeDelete(&m_pActualRect);
+	SafeDelete(&m_pLooseRect);
 	if(HasChildren())
 	{
 		for(unsigned int i = 0; i < m_sSplitSize; i++)
@@ -141,8 +144,8 @@ void cQTNode::Split()
 	}
 
 	m_Children.resize(m_sSplitSize);
-	cVector3 start = m_pRect->VGetMinBound();
-	cVector3 end = start + m_pRect->VGetHalfExtents();
+	cVector3 start = m_pActualRect->VGetMinBound();
+	cVector3 end = start + m_pActualRect->VGetHalfExtents();
 
 	int depth = m_Depth + 1;
 
@@ -155,15 +158,15 @@ void cQTNode::Split()
 		pCurrent->CreateRect(start, end);
 
 		m_Children[i] = pCurrent;
-		start.x += m_pRect->VGetHalfExtents().x;
-		end.x += m_pRect->VGetHalfExtents().x;
+		start.x += m_pActualRect->VGetHalfExtents().x;
+		end.x += m_pActualRect->VGetHalfExtents().x;
 
-		if(start.x >= m_pRect->VGetMaxBound().x)
+		if(start.x >= m_pActualRect->VGetMaxBound().x)
 		{
-			start.x = m_pRect->VGetMinBound().x;
-			end.x = start.x + m_pRect->VGetHalfExtents().x;
-			start.y += m_pRect->VGetHalfExtents().y;
-			end.y += m_pRect->VGetHalfExtents().y;
+			start.x = m_pActualRect->VGetMinBound().x;
+			end.x = start.x + m_pActualRect->VGetHalfExtents().x;
+			start.y += m_pActualRect->VGetHalfExtents().y;
+			end.y += m_pActualRect->VGetHalfExtents().y;
 		}
 	}
 }
@@ -172,11 +175,11 @@ void cQTNode::Split()
 bool cQTNode::CheckCollision(cRigidBody * const pBody) const
 {
 	// use existing function
-	cVector3 centerDelta = pBody->GetCollisionShape()->VGetCenter() - m_pRect->VGetCenter();
+	cVector3 centerDelta = pBody->GetCollisionShape()->VGetCenter() - m_pLooseRect->VGetCenter();
 	cVector3 overlap = centerDelta;
 	overlap.AbsTo();
 
-	cVector3 halfExtentSum = pBody->GetCollisionShape()->VGetHalfExtents() + m_pRect->VGetHalfExtents();
+	cVector3 halfExtentSum = pBody->GetCollisionShape()->VGetHalfExtents() + m_pLooseRect->VGetHalfExtents();
 	overlap = halfExtentSum - overlap;
 
 	return (overlap.x > 0 && overlap.y > 0);
@@ -185,10 +188,10 @@ bool cQTNode::CheckCollision(cRigidBody * const pBody) const
 // *****************************************************************************
 bool cQTNode::Contains(cRigidBody * const pBody)
 {
-	cVector3 NodeMinBounds = m_pRect->VGetMinBound();
-	cVector3 NodeMaxBounds = m_pRect->VGetMaxBound();
 	cVector3 BodyMinBounds = pBody->GetCollisionShape()->VGetMinBound();
 	cVector3 BodyMaxBounds = pBody->GetCollisionShape()->VGetMaxBound();
+	cVector3 NodeMinBounds = m_pLooseRect->VGetMinBound();
+	cVector3 NodeMaxBounds = m_pLooseRect->VGetMaxBound();
 
 	return (NodeMinBounds.x <= BodyMinBounds .x && NodeMinBounds.y <= BodyMinBounds.y
 		&& NodeMaxBounds.x >= BodyMaxBounds.x && NodeMaxBounds.y >= BodyMaxBounds.y);
@@ -211,8 +214,11 @@ void cQTNode::KillChildren()
 // *****************************************************************************
 void cQTNode::CreateRect(const cVector3 & minBound, const cVector3 & maxBound)
 {
-	m_pRect = IShape::CreateRectangleShape();
-	m_pRect->VInitialize(minBound, maxBound);
+	m_pActualRect= IShape::CreateRectangleShape();
+	m_pActualRect->VInitialize(minBound, maxBound);
+	
+	m_pLooseRect = m_pActualRect->VDuplicate();
+	m_pLooseRect->VScale(1.0f + m_pQuadTree->GetLooseningFactor());
 }
 
 // *****************************************************************************
@@ -228,7 +234,8 @@ void cQTNode::Print() const
 	}
 	str += cString(30, "Children (%d) ", children);
 	str += cString(30, "objCount (%u) ", m_Items.size());
-	str += cString(100, "rect (left: %f, right: %f, top: %f bottom: %f)", m_pRect->VGetMinBound().x, m_pRect->VGetMaxBound().x, m_pRect->VGetMinBound().y, m_pRect->VGetMaxBound().y);
+	str += cString(100, "ActualRect (left: %f, right: %f, top: %f bottom: %f) ", m_pActualRect->VGetMinBound().x, m_pActualRect->VGetMaxBound().x, m_pActualRect->VGetMinBound().y, m_pActualRect->VGetMaxBound().y);
+	str += cString(100, "LooseRect (left: %f, right: %f, top: %f bottom: %f) ", m_pLooseRect->VGetMinBound().x, m_pLooseRect->VGetMaxBound().x, m_pLooseRect->VGetMinBound().y, m_pLooseRect->VGetMaxBound().y);
 	Log_Write(ILogger::LT_DEBUG, 2, str);
 
 	if(HasChildren())
@@ -243,15 +250,22 @@ void cQTNode::Print() const
 // *****************************************************************************
 cQTNode * const cQTNode::GetChildQuadrant(cRigidBody * const pBody)
 {
+	float bestSquaredDistance = MaxFloat;
+	cQTNode * pBestNode = NULL;
 	for(unsigned int i = 0; i < m_sSplitSize; i++)
 	{
 		cQTNode * pChildNode = GetChild(i);
 		if(pChildNode->Contains(pBody))
 		{
-			return pChildNode;
+			float distance = pBody->GetCollisionShape()->VGetCenter().DistanceSquared(pChildNode->m_pActualRect->VGetCenter());
+			if(distance < bestSquaredDistance)
+			{
+				bestSquaredDistance = distance;
+				pBestNode = pChildNode;
+			}
 		}
 	}
-	return NULL;
+	return pBestNode;
 }
 
 // *****************************************************************************
@@ -260,7 +274,7 @@ void cQTNode::CreateCollisionPairs(cRigidBody * const pBody,
 {
 	if(CheckCollision(pBody))
 	{
-		for(auto iter = m_Items.cbegin(); 	iter != m_Items.cend(); iter++)
+		for(auto iter = m_Items.cbegin(); iter != m_Items.cend(); iter++)
 		{
 			cRigidBody * const pOtherRigidBody = (*iter);
 			if(pOtherRigidBody->GetInitialized())
