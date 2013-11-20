@@ -745,7 +745,10 @@ void cDXBase::Cleanup()
 	SafeRelease(&m_pAlphaDisableBlendingState);
 
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
-	m_pSwapChain->SetFullscreenState(false, NULL);
+	if(m_pSwapChain != NULL)
+	{
+		m_pSwapChain->SetFullscreenState(false, NULL);
+	}
 	SafeRelease(&m_pSwapChain);
 	SafeRelease(&m_pDeviceContext);
 	DumpDirectXInfo();
