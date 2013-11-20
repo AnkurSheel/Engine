@@ -87,7 +87,7 @@
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)$(TargetName)</MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <OutputFile>$(OutDir)$(ProjectName)_D.dll</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Base_D.lib;Utilities_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -111,7 +111,7 @@
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)$(TargetName)</MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\bin\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Base.lib;Utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
