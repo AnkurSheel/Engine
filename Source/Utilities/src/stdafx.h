@@ -38,3 +38,4 @@
 #pragma comment(lib, "tinyxml2.lib")
 #endif
 #pragma comment(lib, "zlibwapi.lib")
+#pragma comment(lib, "Winmm.lib")

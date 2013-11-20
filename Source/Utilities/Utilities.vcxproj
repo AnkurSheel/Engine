@@ -60,7 +60,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Winmm.lib;Base_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Base_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_D.dll</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -87,7 +87,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Winmm.lib;Base.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Base.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
