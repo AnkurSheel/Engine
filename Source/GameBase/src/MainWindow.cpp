@@ -1,12 +1,12 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
-//  ----------------------------------------------------------------------------
+//  -------------------------------------------------------------------------------------------------------------------
 //
-//  ----------------------------------------------------------------------------
+//  -------------------------------------------------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *****************************************************************************
+//  *******************************************************************************************************************
 //
-// *****************************************************************************
+//  *******************************************************************************************************************
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "GraphicsClass.hxx"
@@ -22,7 +22,7 @@ using namespace Graphics;
 
 static IMainWindow * s_pWindow = NULL;
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 cMainWindow::cMainWindow()
 : m_Hwnd(NULL)
 , m_hInstance(NULL)
@@ -31,25 +31,24 @@ cMainWindow::cMainWindow()
 {
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 cMainWindow::~cMainWindow()
 {
 }
 
-// *****************************************************************************
-HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
-									const int & nCmdShow, IBaseApp * const pGame)
+//  *******************************************************************************************************************
+HWND cMainWindow::VOnInitialization(const HINSTANCE & hInstance, const int & nCmdShow, IBaseApp * const pGame)
 {
 	m_hInstance = hInstance;
-	RegisterWin();
-
 	m_pGame = pGame;
+
+	RegisterWin();
 
 	cString strGameTitle = "GameTitle";
 
-	if (pGame)
+	if (m_pGame != NULL)
 	{
-		strGameTitle = pGame->VGetName();
+		strGameTitle = m_pGame->VGetName();
 	}
 
 	if(!CreateMyWindow(nCmdShow, strGameTitle))
@@ -66,7 +65,7 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	return m_Hwnd;
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::VOnWindowResized(const int iNewWidth, const int iNewHeight)
 {
 	tOptional<bool> bFullScreen = IGraphicsClass::GetInstance()->VOnWindowResized(iNewWidth, iNewHeight);
@@ -85,7 +84,7 @@ void cMainWindow::VOnWindowResized(const int iNewWidth, const int iNewHeight)
 	}
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::RegisterWin()
 {
 	WNDCLASSEX	wc;
@@ -109,8 +108,8 @@ void cMainWindow::RegisterWin()
 	}
 }
 
-// *****************************************************************************
-bool cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
+//  *******************************************************************************************************************
+bool cMainWindow::CreateMyWindow(const int &nCmdShow, const cString & lpWindowTitle)
 {
 	
 	CalculateWindowRect();
@@ -145,9 +144,8 @@ bool cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	return true;
 }
 
-// *****************************************************************************
-LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
-											LPARAM lParam )
+//  *******************************************************************************************************************
+LRESULT CALLBACK cMainWindow::StaticWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if ( msg == WM_CREATE )
 	{
@@ -168,9 +166,8 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-// *****************************************************************************
-LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
-									  LPARAM lParam)
+//  *******************************************************************************************************************
+LRESULT CALLBACK cMainWindow::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT		ps ;
 	HDC				hdc ;
@@ -244,7 +241,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 	}
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::OnWindowDestroyed()
 {
     // return to the default mode
@@ -256,7 +253,7 @@ void cMainWindow::OnWindowDestroyed()
 	PostQuitMessage(0);
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::SetDisplayResolution()
 {
 	if (cGameOptions::GameOptions().bFullScreen)
@@ -292,7 +289,7 @@ void cMainWindow::SetDisplayResolution()
 	return;
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::CalculateWindowRect()
 {
 	m_windowRect.left = 0;
@@ -304,13 +301,13 @@ void cMainWindow::CalculateWindowRect()
 	AdjustWindowRectEx(&m_windowRect, m_kdwWindowedStyle, false, 0);
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cMainWindow::VCleanup()
 {
 	DestroyWindow(m_Hwnd);
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 IMainWindow * const IMainWindow::GetInstance()
 {
 	if(s_pWindow == NULL)
@@ -318,7 +315,7 @@ IMainWindow * const IMainWindow::GetInstance()
 	return s_pWindow;
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void IMainWindow::Destroy()
 {
 	if(s_pWindow != NULL)
