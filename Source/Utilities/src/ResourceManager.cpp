@@ -30,18 +30,31 @@ cResourceManager::~cResourceManager()
 }
 
 // ****************************************************************************
-bool cResourceManager::VInitialize(const int SizeInMB,
-	const cString & FileName, const bool UseDevelopmentDirectory)
+bool cResourceManager::VInitialize(const int SizeInMB, const Base::cString & AssetsPath, const Base::cString & ResourceFileName, const bool UseDevelopmentDirectory)
 {
-	if (FileName.IsEmpty())
+	if (AssetsPath.IsEmpty())
 	{	
 		Log_Write(ILogger::LT_ERROR, 1, "Empty Assets Path");
-		m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, "resources.zip", UseDevelopmentDirectory);
+		PostQuitMessage(0);
+		return false;
 	}
 	else
 	{
-		m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, FileName, UseDevelopmentDirectory);
+		if(UseDevelopmentDirectory)
+		{
+			m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, AssetsPath, UseDevelopmentDirectory);
+		}
+		else
+		{
+			cString fileName = ResourceFileName;;
+			if(fileName.IsEmpty())
+			{
+				fileName = "resources.zip";
+			}
+			m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, AssetsPath + fileName, UseDevelopmentDirectory);
+		}
 	}
+
 	if(!m_pResourceCache->Init())
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Could not create Resource Cache.\n");

@@ -83,7 +83,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	cString AssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
 	cString ResourceFile = m_pParamLoader->VGetParameterValueAsString("-ResourceFile", "");
 	bool UseDevelopmentDirectory = m_pParamLoader->VGetParameterValueAsBool("-UseDevelopmentDirectory", false);
-	if(!IResourceManager::GetInstance()->VInitialize(30, AssetsPath + ResourceFile, UseDevelopmentDirectory))
+	if(!IResourceManager::GetInstance()->VInitialize(30, AssetsPath, ResourceFile, UseDevelopmentDirectory))
 	{
 		m_Quitting = true;
 		return;
