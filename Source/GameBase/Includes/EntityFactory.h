@@ -29,7 +29,7 @@ namespace GameBase
 		GAMEBASE_API static cEntityFactory * Instance() { return m_pInstance; }
 
 	protected:
-		GenericObjectFactory<IBaseEntity, unsigned long>	m_RegisteredEntities;
+		Base::GenericObjectFactory<IBaseEntity, unsigned long>	m_RegisteredEntities;
 		GAMEBASE_API static cEntityFactory *				m_pInstance;
 	};
 

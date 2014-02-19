@@ -23,7 +23,7 @@ namespace GameBase
 		static cEventFactory * Instance() { return m_pInstance; }
 
 	private:
-		GenericObjectFactory<IEventData, unsigned long>	m_RegisteredEvents;
+		Base::GenericObjectFactory<IEventData, unsigned long>	m_RegisteredEvents;
 		GAMEBASE_API static cEventFactory *				m_pInstance;
 	};
 }

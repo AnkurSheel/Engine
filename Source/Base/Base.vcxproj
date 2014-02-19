@@ -19,6 +19,7 @@
   <ItemGroup>
     <ClInclude Include="Includes\BaseDefines.h" />
     <ClInclude Include="Includes\Color.h" />
+    <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\HashedString.h" />
     <ClInclude Include="Includes\Includes.h" />
     <ClInclude Include="Includes\Macros.h" />

@@ -28,7 +28,7 @@ namespace GameBase
 		static cComponentFactory * Instance() { return m_pInstance; }
 
 	private:
-		GenericObjectFactory<IBaseComponent, unsigned long>	m_RegisteredComponents;
+		Base::GenericObjectFactory<IBaseComponent, unsigned long>	m_RegisteredComponents;
 		GAMEBASE_API static cComponentFactory *				m_pInstance;
 	};
 }

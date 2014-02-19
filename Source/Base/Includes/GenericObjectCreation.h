@@ -6,7 +6,7 @@
 #ifndef GenericObjectCreation_h__
 #define GenericObjectCreation_h__
 
-namespace GameBase
+namespace Base
 {
 	template <class BaseType, class SubType>
 	BaseType * GenericObjectCreationFunction() 

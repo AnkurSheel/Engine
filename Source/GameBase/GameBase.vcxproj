@@ -143,7 +143,6 @@
     <ClInclude Include="Includes\EventFactory.h" />
     <ClInclude Include="Includes\EventManager.hxx" />
     <ClInclude Include="Includes\GameControls.h" />
-    <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\HighScoreTable.h" />
     <ClInclude Include="Includes\InputSystem.h" />
     <ClInclude Include="Includes\KeyboardController.hxx" />

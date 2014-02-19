@@ -119,7 +119,6 @@
     <ClInclude Include="Includes\SpriteComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\GenericObjectCreation.h" />
     <ClInclude Include="Includes\EntityFactory.h">
       <Filter>Entity</Filter>
     </ClInclude>
