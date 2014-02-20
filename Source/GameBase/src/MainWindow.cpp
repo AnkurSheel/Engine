@@ -111,7 +111,6 @@ void cMainWindow::RegisterWin()
 //  *******************************************************************************************************************
 bool cMainWindow::CreateMyWindow(const int &nCmdShow, const cString & lpWindowTitle)
 {
-	
 	CalculateWindowRect();
 
 	int x = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth)  / 2;
@@ -169,14 +168,14 @@ LRESULT CALLBACK cMainWindow::StaticWndProc(HWND hwnd, UINT msg, WPARAM wParam, 
 //  *******************************************************************************************************************
 LRESULT CALLBACK cMainWindow::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT		ps ;
-	HDC				hdc ;
+	PAINTSTRUCT ps;
+	HDC hdc;
 
 	switch(uMsg)
 	{
 	case WM_PAINT:
-		hdc = BeginPaint (hwnd, &ps) ;
-		EndPaint (hwnd, &ps) ;
+		hdc = BeginPaint (hwnd, &ps);
+		EndPaint (hwnd, &ps);
 		return 0 ;
 
 	case WM_CLOSE:
@@ -286,7 +285,6 @@ void cMainWindow::SetDisplayResolution()
 
 	// return to the default mode
 	ChangeDisplaySettings(NULL, 0);
-	return;
 }
 
 //  *******************************************************************************************************************

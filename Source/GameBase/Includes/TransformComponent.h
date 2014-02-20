@@ -10,6 +10,12 @@
 #include "BaseComponent.h"
 #include "Vector3.h"
 
+namespace Base
+{
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+}
+
 namespace Utilities
 {
 	class IXMLNode;
@@ -21,8 +27,6 @@ namespace GameBase
 		: public cBaseComponent
 	{
 	public:
-		cTransformComponent();
-		~cTransformComponent();
 		void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VCleanup();
 		static Base::cHashedString	GetName()  {return m_Name; }
@@ -35,6 +39,11 @@ namespace GameBase
 		Base::cVector3 GetLookAt() const { return m_LookAt; }
 
 	private:
+		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		cTransformComponent();
+		~cTransformComponent();
+
+	private:
 		GAMEBASE_API static Base::cHashedString	m_Name;	///< The component name
 		Base::cVector3	m_Position;	///< The position of the game element.
 		Base::cVector3	m_Rotation;	///< The rotation of the game element.
@@ -42,7 +51,8 @@ namespace GameBase
 		Base::cVector3	m_LookAt;
 
 	private:
-		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
 	};
 }
 #endif // TransformComponent_h__

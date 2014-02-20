@@ -24,6 +24,12 @@ namespace Graphics
 namespace Base
 {
 	class cVector3;
+
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectDuplicationFunction(const BaseType * const pObject);
 }
 
 namespace GameBase
@@ -33,11 +39,6 @@ namespace GameBase
 		, public IRenderableComponent
 	{
 	public:
-		GAMEBASE_API cSpriteComponent();
-		GAMEBASE_API ~cSpriteComponent();
-		GAMEBASE_API cSpriteComponent(const cSpriteComponent & other);
-		GAMEBASE_API cSpriteComponent & operator =(const cSpriteComponent & other);
-
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		GAMEBASE_API void VCleanup();
 		void VSetPosition(const Base::cVector3 & position);
@@ -48,11 +49,22 @@ namespace GameBase
 		GAMEBASE_API static Base::cHashedString	GetName()  {return m_Name; }
 		
 	private:
+		cSpriteComponent();
+		~cSpriteComponent();
+		cSpriteComponent(const cSpriteComponent & other);
+		cSpriteComponent & operator =(const cSpriteComponent & other);
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
 		GAMEBASE_API static Base::cHashedString		m_Name;	///< The component name
 		shared_ptr<Graphics::ISprite>	m_pSprite;	///< The 2d Sprite
+
+	private:
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
+		
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectDuplicationFunction(const BaseType * const pObject);
 	};
 }
 #endif // SpriteComponent_h__

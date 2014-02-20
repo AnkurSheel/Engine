@@ -34,8 +34,7 @@ namespace GameBase
 	public:
 		virtual ~IMainWindow() {}
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// Initializes, Registers and creates the window. Returns a handle to 
-		/// the created window.
+		/// Initializes, Registers and creates the window. Returns a handle to the created window.
 		///
 		/// @param[in] hInstance A handle to the current instance of the application
 		/// @param[in] nCmdShow Controls how the window is to be shown
@@ -45,8 +44,7 @@ namespace GameBase
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual HWND VOnInitialization(const HINSTANCE & hInstance,	const int & nCmdShow, IBaseApp* const pGame) = 0;
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// Handler for when the window is resized i.e WM_SIZE message is 
-		/// recieved
+		/// Handler for when the window is resized i.e WM_SIZE message is received
 		///
 		/// @param[in] iNewWidth The new width of the window
 		/// @param[in] iNewHeight The new height of the window

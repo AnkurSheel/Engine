@@ -10,6 +10,12 @@
 #include "BaseComponent.h"
 #include "vector3.h"
 
+namespace Base
+{
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+}
+
 namespace Physics
 {
 	class IRigidBody;
@@ -22,8 +28,6 @@ namespace GameBase
 		: public cBaseComponent
 	{
 	public:
-		GAMEBASE_API cPhysicsComponent();
-		GAMEBASE_API ~cPhysicsComponent();
 		GAMEBASE_API void VInitialize(const Utilities::IXMLNode * const pXMLNode);
 		void VOnAttached(IBaseEntity * const pOwner);
 		GAMEBASE_API void VCleanup();
@@ -37,6 +41,8 @@ namespace GameBase
 		void OnSizeUpdated();
 
 	private:
+		cPhysicsComponent();
+		~cPhysicsComponent();
 		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 		void GetBounds(Base::cVector3 & minBound, Base::cVector3 & maxBound);
 
@@ -48,6 +54,11 @@ namespace GameBase
 		bool								m_Initialized;
 		bool								m_ApplyForce;
 		static Base::cHashedString			m_Name;	///< The component name
+
+	private:
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
+
 	};
 }
 #endif // PhysicsComponent_h__

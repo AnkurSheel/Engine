@@ -74,7 +74,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.strControlName = "FPSLabel";
 	fpsLabelDef.strFont= "arial"; 
-	fpsLabelDef.textColor = cColor::RED;
+	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
 	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);
 	fpsLabelDef.bAutoSize = false;
