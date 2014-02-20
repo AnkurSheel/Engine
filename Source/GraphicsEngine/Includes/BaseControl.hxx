@@ -1,12 +1,8 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  BaseControl   version:  1.0   Ankur Sheel  date: 2011/11/22
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// *****************************************************************************
-// 
-// *****************************************************************************
+//  *******************************************************************************************************************
+//  purpose:	
+//  *******************************************************************************************************************
 #ifndef BaseControl_hxx__
 #define BaseControl_hxx__
 
@@ -29,6 +25,11 @@ namespace Graphics
 	class IMyFont;
 }
 
+namespace Utilities
+{
+	class IXMLNode;
+}
+
 namespace Graphics
 {
 	typedef function<void (const stUIEventCallbackParam &)> UIEventCallBackFn;
@@ -45,6 +46,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~IBaseControl(){}
+		virtual void VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode) = 0;
 		/********************************************//**
  		 * @param[in] msg The window message that needs to be processed
 		 * return True if the message is handled by this control or one of its children

@@ -1,12 +1,8 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  BaseControl   version:  1.0   Ankur Sheel  date: 2011/07/21
-//  ----------------------------------------------------------------------------
-//  
-//  ----------------------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// *****************************************************************************
-// 
-// *****************************************************************************
+//  *******************************************************************************************************************
+//  purpose:	
+//  *******************************************************************************************************************
 #ifndef BaseControl_h__
 #define BaseControl_h__
 
@@ -31,7 +27,6 @@ namespace Graphics
      ***********************************************/
 	class cBaseControl
 		: public IBaseControl
-		, public Base::cNonCopyable
 	{
 	public:
 		virtual ~cBaseControl();
@@ -39,7 +34,9 @@ namespace Graphics
 
 	protected:
 		cBaseControl();
-		void Initialize(const cBaseControlDef & def);
+		virtual unsigned long VGetHashedID() const {return 0;} // remove later
+		void VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode);
+		void Initialize(const cBaseControlDef & def); // remove later
 		void VRender(const ICamera * const pCamera );
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);

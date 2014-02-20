@@ -1,8 +1,8 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  GameDirectories   version:  1.0   Ankur Sheel  date: 2013/01/22
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  purpose:	
-// *****************************************************************************
+//  *******************************************************************************************************************
 #include "stdafx.h"
 #include "GameDirectories.h"
 #include "ParamLoaders.hxx"
@@ -21,18 +21,19 @@ cString cGameDirectories::SoundSFXDirectory;
 cString cGameDirectories::SoundMusicDirectory;
 cString cGameDirectories::ModelDirectory;
 cString cGameDirectories::DesignDirectory;
+cString cGameDirectories::UiDirectory;
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 cGameDirectories::cGameDirectories()
 {
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 cGameDirectories::~cGameDirectories()
 {
 }
 
-// *****************************************************************************
+//  *******************************************************************************************************************
 void cGameDirectories::Initialize(const Base::cString & AssetsPath)
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
@@ -52,6 +53,7 @@ void cGameDirectories::Initialize(const Base::cString & AssetsPath)
 		SoundMusicDirectory = SoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
 		ModelDirectory = pFile->VGetNodeValue("ModelDirectory");
 		DesignDirectory = pFile->VGetNodeValue("DesignDirectory");
+		UiDirectory = pFile->VGetNodeValue("UiDirectory");
 	}
 	SafeDelete(&pResource);
 	SafeDelete(&pFile);

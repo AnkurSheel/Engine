@@ -1,16 +1,18 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  WindowControl   version:  1.0   Ankur Sheel  date: 2011/11/21
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+//  *******************************************************************************************************************
+//  purpose:	
+//  *******************************************************************************************************************
 #ifndef WindowControl_h__
 #define WindowControl_h__
 
 #include "BaseControl.h"
+
+namespace Base
+{
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+}
 
 namespace Graphics
 {
@@ -21,24 +23,33 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-		cWindowControl();
 		/********************************************//**
 		 * @param[in] def The parameter definition to create a window control
 		 *
 		 * Initializes the window control as per the parameters
 		 ***********************************************/
 		void Initialize(const cWindowControlDef & def);
+		static Base::cHashedString	GetName()  {return m_Name; }
 
 	private:
+		cWindowControl();
 		~cWindowControl();
-	
+		void VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode);
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
 		void VSetAbsolutePosition();
+		unsigned long VGetHashedID() const { return m_Name.GetHash(); }
 
 	private:
-		cWindowControlDef::WINDOWTYPE	m_eWindowType;	/*!< The window type. */
+		GRAPHIC_API static Base::cHashedString	m_Name;	///< The control name
+		cWindowControlDef::WINDOWTYPE	m_eWindowType;	///< The window type.
+
+	private:
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
+
+		friend class IBaseControl;
 	};
 }
 

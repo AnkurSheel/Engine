@@ -1,35 +1,46 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  WindowControl   version:  1.0   Ankur Sheel  date: 2011/11/21
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+//  *******************************************************************************************************************
+//  purpose:	
+//  *******************************************************************************************************************
 #include "stdafx.h"
 #include "WindowControl.h"
 #include "Sprite.hxx"
 #include "DxBase.hxx"
+#include "XMLNode.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 using namespace std;
 
-// ***************************************************************
+cHashedString cWindowControl::m_Name = cHashedString("windowcontrol");
+
+//  *******************************************************************************************************************
 cWindowControl::cWindowControl()
 	: m_eWindowType(cWindowControlDef::WT_DESKTOP)
 {
 	
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 cWindowControl::~cWindowControl()
 {
 }
 
-// ***************************************************************
+void cWindowControl::VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode) 
+{
+	if(pXMLNode == NULL)
+	{
+		return;
+	}
+	
+	m_eWindowType = cWindowControlDef::WT_STANDARD;
+
+	cBaseControl::VInitialize(pXMLNode);
+}
+
+//  *******************************************************************************************************************
 void cWindowControl::Initialize(const cWindowControlDef & def)
 {
 	m_bAllowMovingControls = def.bAllowMovingControls;
@@ -42,7 +53,7 @@ void cWindowControl::Initialize(const cWindowControlDef & def)
 	cBaseControl::Initialize(def);
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 bool cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
@@ -52,7 +63,7 @@ bool cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 bool cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
@@ -62,7 +73,7 @@ bool cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 bool cWindowControl::VOnMouseMove( const int X, const int Y )
 {
 	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
@@ -72,7 +83,7 @@ bool cWindowControl::VOnMouseMove( const int X, const int Y )
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 void cWindowControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
@@ -82,7 +93,7 @@ void cWindowControl::VSetAbsolutePosition()
 	}
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 IBaseControl * IBaseControl::CreateWindowControl(const cWindowControlDef & def)
 {
 	cWindowControl * pControl = DEBUG_NEW cWindowControl();

@@ -142,6 +142,8 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\TextureShader.cpp" />
+    <ClCompile Include="src\UiControlFactory.cpp" />
+    <ClCompile Include="src\UiManager.cpp" />
     <ClCompile Include="src\VertexStruct.cpp" />
     <ClCompile Include="src\VScrollBar.cpp" />
     <ClCompile Include="src\WindowControl.cpp" />
@@ -161,6 +163,7 @@
     <ClInclude Include="Includes\ScreenElement.hxx" />
     <ClInclude Include="Includes\Sentence.hxx" />
     <ClInclude Include="Includes\Sprite.hxx" />
+    <ClInclude Include="Includes\UiManager.hxx" />
     <ClInclude Include="Includes\vertexstruct.h" />
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\BaseControl.h" />
@@ -199,11 +202,10 @@
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\TextureManager.hxx" />
     <ClInclude Include="src\TextureShader.h" />
+    <ClInclude Include="src\UiControlFactory.h" />
+    <ClInclude Include="src\UiManager.h" />
     <ClInclude Include="src\VScrollBar.h" />
     <ClInclude Include="src\WindowControl.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\WindowControl.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
