@@ -1,8 +1,8 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  XMLNode   version:  1.0   Ankur Sheel  date: 2013/05/02
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  purpose:	
-// *****************************************************************************
+//  *******************************************************************************************************************
 
 #ifndef XMLNode_h__
 #define XMLNode_h__
@@ -62,6 +62,13 @@ namespace Utilities
 		void VGetChildren(XMLNodeList & ChildrenList) const;
 		const shared_ptr<IXMLNode> VGetChild(const Base::cString & Name) const;
 		Base::cString VGetChildValue(const Base::cString & Name) const;
+		Base::tOptional<int> VGetChildValueAsInt(const Base::cString & Name) const;
+		int VGetChildValueAsInt(const Base::cString & Name, const int DefaultValue) const;
+		Base::tOptional<float> VGetChildValueAsFloat(const Base::cString & Name) const;
+		float VGetChildValueAsFloat(const Base::cString & Name, const float DefaultValue) const;
+		Base::tOptional<bool> VGetChildValueAsBool(const Base::cString & Name) const;
+		bool VGetChildValueAsBool(const Base::cString & Name, const bool DefaultValue) const;
+
 		////////////////////////////////////////////////////////////////////////
 		/// @brief Adds all the child elements for the parent element to the
 		/// child list

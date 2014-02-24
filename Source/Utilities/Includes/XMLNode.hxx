@@ -1,8 +1,8 @@
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  XMLNode   version:  1.0   Ankur Sheel  date: 2013/05/02
-// *****************************************************************************
+//  *******************************************************************************************************************
 //  purpose:	
-// *****************************************************************************
+//  *******************************************************************************************************************
 
 #ifndef XMLNode_hxx__
 #define XMLNode_hxx__
@@ -194,6 +194,12 @@ namespace Utilities
 		///
 		////////////////////////////////////////////////////////////////////////
 		virtual Base::cString VGetChildValue(const Base::cString & Name) const = 0;
+		virtual Base::tOptional<int> VGetChildValueAsInt(const Base::cString & Name) const = 0;
+		virtual int VGetChildValueAsInt(const Base::cString & Name, const int DefaultValue) const = 0;
+		virtual Base::tOptional<float> VGetChildValueAsFloat(const Base::cString & Name) const = 0;
+		virtual float VGetChildValueAsFloat(const Base::cString & Name, const float DefaultValue) const = 0;
+		virtual Base::tOptional<bool> VGetChildValueAsBool(const Base::cString & Name) const = 0;
+		virtual bool VGetChildValueAsBool(const Base::cString & Name, const bool DefaultValue) const = 0;
 	};
 }
 #endif // XMLNode_h__

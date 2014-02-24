@@ -40,12 +40,7 @@ void cLabelControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 	if(!font.IsEmpty())
 	{
 		cString text = pXMLNode->VGetChildValue("Text");
-		cString value = pXMLNode->VGetChildValue("Height");
-		tOptional<float> height = value.ToFloat();
-		if(!height.IsValid())
-		{
-			height = 8.0f;
-		}
+		float height = pXMLNode->VGetChildValueAsFloat("Height", 8.0f);
 
 		cColor textColor;
 		shared_ptr<IXMLNode> ptextColor(pXMLNode->VGetChild("TextColor"));
@@ -59,19 +54,17 @@ void cLabelControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 
 		m_pSentence = ISentence::CreateSentence();
 		m_pSentence->VInitialize(font, text, textColor);
-		m_pSentence->VSetHeight(*height);
+		m_pSentence->VSetHeight(height);
 	}
 
 	cBaseControl::VInitialize(pXMLNode);
 
-	cString value = pXMLNode->VGetChildValue("AutoSize");
-	tOptional<bool> autoSize = value.ToBool();
+	bool autoSize = pXMLNode->VGetChildValueAsBool("AutoSize", false);
 	
-	if(m_pSentence != NULL && autoSize.IsValid() && *autoSize == true)
+	if(m_pSentence != NULL && autoSize == true)
 	{
 		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 	}
-
 }
 
 //  *******************************************************************************************************************

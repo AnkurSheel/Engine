@@ -50,19 +50,10 @@ void cPhysics::VInitialize(const cString & FileName)
 		return;
 	}
 
-	cString value = pRoot->VGetChildValue("Gravity");
-	tOptional<float> gravity = value.ToFloat();
-	if(gravity.IsValid())
-	{
-		m_Gravity = *gravity;
-	}
+	m_Gravity = pRoot->VGetChildValueAsFloat("Gravity", 0.0f);
 
-	value = pRoot->VGetChildValue("TimeStepFrequency");
-	tOptional<float> frequency = value.ToFloat();
-	if(frequency.IsValid())
-	{
-		m_TimeStep = 1.0f /(*frequency);
-	}
+	float frequency = pRoot->VGetChildValueAsFloat("TimeStepFrequency", 60.0f);
+	m_TimeStep = 1.0f /(frequency);
 
 	LoadMaterialData(pRoot->VGetChild("PhysicsMaterials"));
 	CreateQuadTree(pRoot->VGetChild("QuadTree"));
@@ -242,34 +233,10 @@ void cPhysics::CreateQuadTree(shared_ptr<Utilities::IXMLNode> pParentNode)
 	}
 
 	shared_ptr<Physics::stQuadTreeDef> pDef = shared_ptr<Physics::stQuadTreeDef>(DEBUG_NEW stQuadTreeDef());
-	cString value = pParentNode->VGetChildValue("UseQuadTree");
-	tOptional<bool> useQuadTree = value.ToBool();
-	if(useQuadTree.IsValid())
-	{
-		m_UseQuadTree = *useQuadTree;
-	}
-
-	value = pParentNode->VGetChildValue("LooseningFactor");
-	tOptional<float> looseningFactor = value.ToFloat();
-	if(looseningFactor.IsValid())
-	{
-		pDef->m_LooseningFactor = *looseningFactor;
-	}
-	
-	value = pParentNode->VGetChildValue("MaxDepth");
-	tOptional<int> maxDepth = value.ToInt();
-	if(maxDepth.IsValid())
-	{
-		pDef->m_MaxDepth = *maxDepth;
-	}
-
-	value = pParentNode->VGetChildValue("MaxObjects");
-	tOptional<int> maxObjects = value.ToInt();
-	if(maxObjects.IsValid())
-	{
-		pDef->m_MaxObjects = *maxObjects;
-	}
-
+	m_UseQuadTree = pParentNode->VGetChildValueAsBool("UseQuadTree", true);
+	pDef->m_LooseningFactor = pParentNode->VGetChildValueAsFloat("LooseningFactor", 0.0f);
+	pDef->m_MaxDepth = pParentNode->VGetChildValueAsInt("MaxDepth", 6);
+	pDef->m_MaxObjects = pParentNode->VGetChildValueAsInt("MaxObjects", 8);
 	pDef->m_MaxBounds = cVector3(1280, 768, 0);
 	m_pQuadTree = DEBUG_NEW cQuadTree();
 	m_pQuadTree->Initialize(pDef);

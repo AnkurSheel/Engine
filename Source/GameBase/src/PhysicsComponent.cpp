@@ -49,49 +49,20 @@ void cPhysicsComponent::VInitialize(const IXMLNode * const pXMLNode)
 	m_pDef = shared_ptr<Physics::stRigidBodyDef>(DEBUG_NEW stRigidBodyDef());
 	m_pDef->m_ApplyGravity = pXMLNode->VGetNodeAttributeAsBool("ApplyGravity");
 	
-	cString value = pXMLNode->VGetChildValue("TopSpeed");
-	tOptional<float> speed = value.ToFloat();
-	if(speed.IsValid())
-	{
-		m_pDef->m_TopSpeed = *speed;
-	}
+	m_pDef->m_TopSpeed = pXMLNode->VGetChildValueAsInt("TopSpeed", 0.0f);
 
-	value = pXMLNode->VGetChildValue("LinearDamping");
-	tOptional<float> LinearDamping = value.ToFloat();
-	if(LinearDamping.IsValid())
-	{
-		m_pDef->m_LinearDamping = *LinearDamping;
-	}
+	m_pDef->m_LinearDamping = pXMLNode->VGetChildValueAsFloat("LinearDamping", 1.0f);
+	m_pDef->m_Mass = pXMLNode->VGetChildValueAsFloat("Mass",0.0f);
+	m_pDef->m_Kinematic = pXMLNode->VGetChildValueAsBool("Kinematic", false);
+	m_pDef->m_Material = pXMLNode->VGetChildValue("Material");
 
-	value = pXMLNode->VGetChildValue("Force");
-	tOptional<float> Force = value.ToFloat();
-	if(Force.IsValid())
-	{
-		m_Force = *Force;
-	}
+	m_Force = pXMLNode->VGetChildValueAsFloat("Force", 0.0f);
 
-	value = pXMLNode->VGetChildValue("Shape");
+	cString value = pXMLNode->VGetChildValue("Shape");
 	if(!value.IsEmpty())
 	{
 		m_pDef->m_Shape = cHashedString(value.GetInLowerCase());
 	}
-	
-	value = pXMLNode->VGetChildValue("Mass");
-	tOptional<float> mass = value.ToFloat();
-	if(mass.IsValid())
-	{
-		m_pDef->m_Mass = *mass;
-	}
-	
-	value = pXMLNode->VGetChildValue("Kinematic");
-	tOptional<bool> Kinematic = value.ToBool();
-	if(Kinematic.IsValid())
-	{
-		m_pDef->m_Kinematic = *Kinematic;
-	}
-
-	m_pDef->m_Material = pXMLNode->VGetChildValue("Material");
-
 }
 
 // *****************************************************************************
