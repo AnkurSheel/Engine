@@ -1,12 +1,8 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  StateMachine   version:  1.0   Ankur Sheel  date: 05/23/2008
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+//  *******************************************************************************************************************
+//  purpose
+//  *******************************************************************************************************************
 #ifndef StateMachine_h__
 #define StateMachine_h__
 
@@ -24,15 +20,15 @@ namespace AI
 		: public Base::cNonCopyable
 	{
 	public:
-		cStateMachine(entity_type *owner);
+		cStateMachine(entity_type * pOwner);
 		virtual ~cStateMachine();
-		void SetCurrentState(cState<entity_type>* state);
-		void Update();
+		void SetCurrentState(cState<entity_type> * pState);
+		void Update(const TICK currentTick, const float deltaTime);
 		cState<entity_type>* GetCurrentState();
-		bool IsInState(const cState<entity_type>& state);
-		bool HandleMessage(const Telegram& msg);
-		void RequestChangeState(cState<entity_type>* pNewState);
-		void RequestPushState(cState<entity_type>* pNewState);
+		bool IsInState(const cState<entity_type> & state);
+		bool HandleMessage(const Telegram & msg);
+		void RequestChangeState(cState<entity_type> * pNewState);
+		void RequestPushState(cState<entity_type> * pNewState);
 		void RequestPopState();
 
 	private:
@@ -41,15 +37,15 @@ namespace AI
 		void PopState();
 
 	protected:
-		entity_type *						m_pOwner;
-		cState<entity_type> *				m_pCurrentState;
-		cState<entity_type> *				m_pNextState;
-		std::deque<cState<entity_type> *>	m_vPushedStates;
+		entity_type *	m_pOwner;
+		cState<entity_type> *	m_pCurrentState;
+		cState<entity_type> *	m_pNextState;
+		std::deque<cState<entity_type> *>	m_PushedStates;
 	
 	private:
-		bool								m_bRequestedStateChange;
-		bool								m_bRequestedPushState;
-		bool								m_bRequestedPopState;
+		bool	m_RequestedStateChange;
+		bool	m_RequestedPushState;
+		bool	m_RequestedPopState;
 	};
 
 #include "Statemachine.inl"

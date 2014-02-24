@@ -1,30 +1,25 @@
-// ***************************************************************
-// Construction and Destruction
-// ***************************************************************
+//  *******************************************************************************************************************
 template <class entity_type>
 inline cStateMachine<entity_type>::cStateMachine(entity_type *owner)
 : m_pOwner(owner)
 , m_pCurrentState(NULL)
 , m_pNextState(NULL)
-, m_bRequestedStateChange(false)
-, m_bRequestedPushState(false)
-, m_bRequestedPopState(false)
+, m_RequestedStateChange(false)
+, m_RequestedPushState(false)
+, m_RequestedPopState(false)
 {
-	m_vPushedStates.clear();
+	m_PushedStates.clear();
 }
-// ***************************************************************
 
+//  *******************************************************************************************************************
 template <class entity_type>
 inline cStateMachine<entity_type>::~cStateMachine()
 {
 }
-// ***************************************************************
 
-// ***************************************************************
-// Sets Current State
-// ***************************************************************
+//  *******************************************************************************************************************
 template<class entity_type>
-inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type>* state)
+inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type> * pState)
 {
 	// if there is an existing state, then call the current state exists and set it to the previous state 
 	if (m_pCurrentState)
@@ -32,88 +27,75 @@ inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type>* sta
 		m_pCurrentState->VOnExit();
 	}
 	
-	m_pCurrentState = state;
+	m_pCurrentState = pState;
 	m_pCurrentState->VOnEnter(m_pOwner);
 
 }
-// ***************************************************************
 
-// ***************************************************************
-// Update
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
-inline void cStateMachine<entity_type>::Update()
+inline void cStateMachine<entity_type>::Update(const TICK currentTick, const float deltaTime)
 {
-	if(m_bRequestedPushState)
+	if(m_RequestedPushState)
 	{
 		PushState();
 	}
-	else if(m_bRequestedPopState)
+	else if(m_RequestedPopState)
 	{
 		PopState();
 	}
-	else if(m_bRequestedStateChange)
+	else if(m_RequestedStateChange)
 	{
 		ChangeState();
 	}
 	else if(m_pCurrentState && !m_pCurrentState->IsPaused())
 	{
-		m_pCurrentState->VOnUpdate();
+		m_pCurrentState->VOnUpdate(currentTick, deltaTime);
 	}
 }
-// ***************************************************************
 
-// ***************************************************************
-// Changes the state of the owner
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
-inline void cStateMachine<entity_type>::RequestChangeState(cState<entity_type>* pNewState)
+inline void cStateMachine<entity_type>::RequestChangeState(cState<entity_type> * pNewState)
 {
 	m_pNextState = pNewState;
-	m_bRequestedStateChange = true;
+	m_RequestedStateChange = true;
 }
-// ***************************************************************
 
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
 inline void cStateMachine<entity_type>::ChangeState()
 {
 	if(m_pNextState == NULL)
 		return;
 
-	m_bRequestedStateChange = false;
+	m_RequestedStateChange = false;
 
 	m_pCurrentState->VOnExit();
 	m_pCurrentState = m_pNextState;
 	m_pCurrentState->VOnEnter(m_pOwner);
 }
-// ***************************************************************
 
-// ***************************************************************
-// Returns the current state
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
-inline cState<entity_type>* cStateMachine<entity_type>::GetCurrentState()
+inline cState<entity_type> * cStateMachine<entity_type>::GetCurrentState()
 {
 	return m_pCurrentState;
 }
-// ***************************************************************
+//  *******************************************************************************************************************
 
-// ***************************************************************
+//  *******************************************************************************************************************
 // returns true if it is in the state
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
 inline bool cStateMachine<entity_type>::IsInState(const cState<entity_type>& state)
 {
 	return typeid(*m_pCurrentState) == typeid(state);
 }
-// ***************************************************************
 
-// ***************************************************************
-// Message Handler
-// ***************************************************************
+//  *******************************************************************************************************************
 template<typename entity_type>
-inline bool cStateMachine<entity_type>::HandleMessage(const Telegram &msg)
+inline bool cStateMachine<entity_type>::HandleMessage(const Telegram & msg)
 {
 	if(m_pCurrentState && m_pCurrentState->VOnMessage(msg))
 	{
@@ -122,19 +104,19 @@ inline bool cStateMachine<entity_type>::HandleMessage(const Telegram &msg)
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 template <class entity_type>
-void AI::cStateMachine<entity_type>::RequestPushState(cState<entity_type>* pNewState)
+void AI::cStateMachine<entity_type>::RequestPushState(cState<entity_type> * pNewState)
 {
 	m_pNextState = pNewState;
-	m_bRequestedPushState = true;
+	m_RequestedPushState = true;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 template <class entity_type>
 void AI::cStateMachine<entity_type>::PushState()
 {	
-	m_bRequestedPushState = false;
+	m_RequestedPushState = false;
 	if(m_pNextState == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Push for Null State");
@@ -148,7 +130,7 @@ void AI::cStateMachine<entity_type>::PushState()
 	}
 
 	m_pCurrentState->VOnPause();
-	m_vPushedStates.push_back(m_pCurrentState);
+	m_PushedStates.push_back(m_pCurrentState);
 	Log_Write(ILogger::LT_DEBUG, 2, "Pushed State : " + m_pCurrentState->GetName() + " New State : " + m_pNextState->GetName()); 
 	m_pCurrentState = m_pNextState;
 	m_pNextState = NULL;
@@ -156,25 +138,25 @@ void AI::cStateMachine<entity_type>::PushState()
 }
 
 
-// ***************************************************************
+//  *******************************************************************************************************************
 template <class entity_type>
 void AI::cStateMachine<entity_type>::RequestPopState()
 {
-	m_bRequestedPopState = true;
+	m_RequestedPopState = true;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 template <class entity_type>
 void AI::cStateMachine<entity_type>::PopState()
 {
-	m_bRequestedPopState = false;
-	if (m_vPushedStates.empty())
+	m_RequestedPopState = false;
+	if (m_PushedStates.empty())
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Popping Null State");
 		return;
 	}
-	cState<entity_type> * pNewState = m_vPushedStates.back();
-	m_vPushedStates.pop_back();
+	cState<entity_type> * pNewState = m_PushedStates.back();
+	m_PushedStates.pop_back();
 	if (pNewState == NULL)
 	{
 		Log_Write(ILogger::LT_ERROR, 1, "Popped state is Null");
