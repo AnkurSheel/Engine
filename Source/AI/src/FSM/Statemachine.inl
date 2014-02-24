@@ -15,6 +15,11 @@ inline cStateMachine<entity_type>::cStateMachine(entity_type *owner)
 template <class entity_type>
 inline cStateMachine<entity_type>::~cStateMachine()
 {
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->VOnExit();
+	}
+	m_pCurrentState = NULL;
 }
 
 //  *******************************************************************************************************************
