@@ -20,6 +20,16 @@ inline cStateMachine<entity_type>::~cStateMachine()
 		m_pCurrentState->VOnExit();
 	}
 	m_pCurrentState = NULL;
+
+	std::deque<cState<entity_type> *>::iterator it = m_PushedStates.begin();
+
+	while (it != m_PushedStates.end())
+	{
+		cState<entity_type> * pState = (*it);
+		pState->VOnExit();
+		it++;
+	}
+	m_PushedStates.clear();
 }
 
 //  *******************************************************************************************************************
@@ -34,7 +44,6 @@ inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type> * pS
 	
 	m_pCurrentState = pState;
 	m_pCurrentState->VOnEnter(m_pOwner);
-
 }
 
 //  *******************************************************************************************************************
