@@ -32,7 +32,6 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-	public:
 		static Base::cHashedString	GetName()  {return m_Name; }
 
 	private:

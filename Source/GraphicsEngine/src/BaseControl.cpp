@@ -86,6 +86,11 @@ void cBaseControl::Initialize(const cBaseControlDef & def)
 //  *******************************************************************************************************************
 bool cBaseControl::VPostMsg( const AppMsg & msg )
 {
+	if(!m_bVisible)
+	{
+		return false;
+	}
+
 	switch(msg.m_uMsg)
 	{
 	case WM_LBUTTONDOWN:

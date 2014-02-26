@@ -45,7 +45,7 @@ void cButtonControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 		m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + defaultImage);
 	}
 
-	cString pressedImage = pXMLNode->VGetChildValue("DefaultImage");
+	cString pressedImage = pXMLNode->VGetChildValue("PressedImage");
 	if(!pressedImage.IsEmpty() && m_pPressedTexture == NULL)
 	{
 		m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + pressedImage);
