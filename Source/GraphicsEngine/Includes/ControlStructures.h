@@ -128,24 +128,6 @@ namespace Graphics
 	};
 	
 	/********************************************//**
-     * @brief Definition for creating a check box control
-     ***********************************************/
-	class cCheckBoxControlDef
-		: public cBaseControlDef
-	{
-	public:
-		cButtonControlDef	buttonControlDef;	/*!< Params for The button of the checkbox */ 
-		cLabelControlDef	labelControlDef;	/*!< Params for The label of the checkbox */ 
-		int					iSpaceCaption;		/*!< The space between the button and the label */ 
-		bool				bChecked;			/*!< True, if the the checkbox is set by default*/ 
-
-		cCheckBoxControlDef()
-			: iSpaceCaption(0)
-		{
-		}
-	};
-
-	/********************************************//**
      * @brief Definition for creating a text box control
      ***********************************************/
 	class cTextBoxControlDef

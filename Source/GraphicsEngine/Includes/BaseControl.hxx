@@ -176,13 +176,6 @@ namespace Graphics
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateButtonControl(const cButtonControlDef & def);
 		/********************************************//**
-		 * @param[in] def The params to create the checkbox control  
-		 * @return Pointer to a checkbox control object
-		 *
-		 * Returns a pointer to a checkbox control object
-		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const cCheckBoxControlDef & def);
-		/********************************************//**
 		 * @param[in] def The params to create the textbox control  
 		 * @return Pointer to a textbox control object
 		 *

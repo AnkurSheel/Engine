@@ -9,6 +9,7 @@
 #include "WindowControl.h"
 #include "LabelControl.h"
 #include "ButtonControl.h"
+#include "CheckboxControl.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -33,6 +34,7 @@ void cUiControlFactory::VRegisterUiControls()
 	m_RegisteredControls.Register<cWindowControl>(cWindowControl::GetName().GetHash());
 	m_RegisteredControls.Register<cLabelControl>(cLabelControl::GetName().GetHash());
 	m_RegisteredControls.Register<cButtonControl>(cButtonControl::GetName().GetHash());
+	m_RegisteredControls.Register<cCheckBoxControl>(cCheckBoxControl::GetName().GetHash());
 }
 
 //  *******************************************************************************************************************
