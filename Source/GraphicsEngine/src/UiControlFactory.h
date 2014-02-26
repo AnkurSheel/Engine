@@ -7,7 +7,6 @@
 #ifndef UiControlFactory_h__
 #define UiControlFactory_h__
 
-#include "GraphicEngineDefines.h"
 #include "GenericObjectCreation.h"
 
 namespace Graphics
@@ -20,15 +19,18 @@ namespace Graphics
 	class cUiControlFactory
 	{
 	public:
-		GRAPHIC_API cUiControlFactory();
-		GRAPHIC_API ~cUiControlFactory();
-		GRAPHIC_API void VRegisterUiControls();
+		~cUiControlFactory();
+		void VRegisterUiControls();
 		IBaseControl * CreateUiControl(const Base::cHashedString & Type);
-		static cUiControlFactory * Instance() { return m_pInstance; }
+		static cUiControlFactory * Instance();
+		static void Destroy();
+
+	private:
+		cUiControlFactory();
 
 	private:
 		Base::GenericObjectFactory<IBaseControl, unsigned long>	m_RegisteredControls;
-		GRAPHIC_API static cUiControlFactory *				m_pInstance;
+		static cUiControlFactory *	m_pInstance;
 	};
 }
 #endif // UiControlFactory_h__

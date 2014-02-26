@@ -79,7 +79,7 @@ namespace Graphics
 		 *
 		 * Returns the child control
 		 ***********************************************/
-		virtual Graphics::IBaseControl * const VFindChildControl(const Base::cString & strControlName) = 0;
+		virtual const shared_ptr<Graphics::IBaseControl> VFindChildControl(const Base::cString & strControlName) = 0;
 		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *

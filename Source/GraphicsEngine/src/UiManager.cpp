@@ -5,7 +5,7 @@
 //  *******************************************************************************************************************
 #include "stdafx.h"
 #include "UiManager.h"
-#include "UiCOntrolFactory.h"
+#include "UiControlFactory.h"
 #include "BaseControl.hxx"
 #include "GameDirectories.h"
 #include "ResCache.hxx"
@@ -26,13 +26,13 @@ cUiManager::cUiManager()
 //  *******************************************************************************************************************
 cUiManager::~cUiManager()
 {
+	cUiControlFactory::Destroy();
 }
 
 //  *******************************************************************************************************************
 void cUiManager::Initialize()
 {
-	m_pUiFactory = shared_ptr<cUiControlFactory>(DEBUG_NEW cUiControlFactory());
-	m_pUiFactory->VRegisterUiControls();
+	cUiControlFactory::Instance()->VRegisterUiControls();
 }
 
 //  *******************************************************************************************************************
@@ -61,7 +61,7 @@ const shared_ptr<IBaseControl> cUiManager::VCreateUI(const Base::cString & FileN
 		return NULL;
 	}
 
-	pUi = shared_ptr<IBaseControl>(m_pUiFactory->CreateUiControl(cHashedString("windowcontrol")));
+	pUi = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("windowcontrol")));
 	pUi->VInitialize(pRoot);
 
 	shared_ptr<IXMLNode> pControls = pRoot->VGetChild("Controls");
@@ -76,7 +76,7 @@ const shared_ptr<IBaseControl> cUiManager::VCreateUI(const Base::cString & FileN
 		type = pControlDefNode->VGetName();
 		Log_Write(ILogger::LT_COMMENT, 2, "Element Name : " + type);
 
-		shared_ptr<IBaseControl> pControl(m_pUiFactory->CreateUiControl(cHashedString(type.GetInLowerCase())));
+		shared_ptr<IBaseControl> pControl(cUiControlFactory::Instance()->CreateUiControl(cHashedString(type.GetInLowerCase())));
 
 		if (pControl == NULL)
 		{

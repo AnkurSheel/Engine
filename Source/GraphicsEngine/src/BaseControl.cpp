@@ -25,6 +25,7 @@ cBaseControl::cBaseControl()
 , m_pFocusControl(NULL)
 , m_bIsLeftMouseDown(false)
 , m_bAllowMovingControls(false)
+, m_ConstrainInParent(true)
 {
 
 }
@@ -53,14 +54,7 @@ void cBaseControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 		m_pBGSprite->VInitialize(bgImageFileName);
 	}
 
-	cVector2 position;
-	shared_ptr<IXMLNode> pPositionNode(pXMLNode->VGetChild("Position"));
-	if(pPositionNode != NULL)
-	{
-		position.x = pPositionNode->VGetNodeAttributeAsFloat("x", 0.0f);
-		position.y = pPositionNode->VGetNodeAttributeAsFloat("y", 0.0f);
-	}
-	VSetPosition(position);
+	m_ConstrainInParent = pXMLNode->VGetChildValueAsBool("ConstrainInParent", true);
 
 	cVector2 size(8.0f, 8.0f);
 	shared_ptr<IXMLNode> pSizeNode(pXMLNode->VGetChild("ScaleInPixels"));
@@ -70,6 +64,15 @@ void cBaseControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 		size.y = pSizeNode->VGetNodeAttributeAsFloat("y", 8.0f);
 	}
 	VSetSize(size);
+
+	cVector2 position;
+	shared_ptr<IXMLNode> pPositionNode(pXMLNode->VGetChild("Position"));
+	if(pPositionNode != NULL)
+	{
+		position.x = pPositionNode->VGetNodeAttributeAsFloat("x", 0.0f);
+		position.y = pPositionNode->VGetNodeAttributeAsFloat("y", 0.0f);
+	}
+	VSetPosition(position);
 }
 
 //  *******************************************************************************************************************
@@ -202,7 +205,7 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 }
 
 //  *******************************************************************************************************************
-IBaseControl * const cBaseControl::VFindChildControl(const Base::cString & strControlName)
+const shared_ptr<Graphics::IBaseControl> cBaseControl::VFindChildControl(const Base::cString & strControlName)
 {
 	ControlList::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
@@ -219,7 +222,7 @@ IBaseControl * const cBaseControl::VFindChildControl(const Base::cString & strCo
 	}
 	else
 	{
-		return (*iter).get();
+		return (*iter);
 	}
 }
 
@@ -354,8 +357,10 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 	{
 		float x = m_vPosition.x + (X - (int)m_vControlAbsolutePosition.x) - m_iMouseDownXPos;
 		float y = m_vPosition.y + (Y - (int)m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
-
-		ConstrainChildControl(x, y);
+		if(m_ConstrainInParent)
+		{
+			ConstrainChildControl(x, y);
+		}
 		VSetPosition(cVector2(x, y));
 		return true;
 	}
@@ -365,7 +370,10 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 //  *******************************************************************************************************************
 void cBaseControl::VSetAbsolutePosition()
 {
-	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
+	if(m_ConstrainInParent)
+	{
+		ConstrainChildControl(m_vPosition.x, m_vPosition.y);
+	}
 	m_vControlAbsolutePosition = m_vPosition;
 	if (m_pParentControl)
 	{

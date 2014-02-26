@@ -31,7 +31,6 @@ namespace Graphics
 
 	private:
 		static cUiManager *	s_pUiManager;
-		shared_ptr<cUiControlFactory> m_pUiFactory;
 
 	private:
 		friend static IUiManager * IUiManager::GetInstance();

@@ -22,9 +22,11 @@ namespace Graphics
 
 namespace Graphics
 {
-	/********************************************//**
-	 * @brief Class Declaration for a Label UI Control
-	 ***********************************************/
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// @brief Class Declaration for a Label UI Control
+	///
+	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	class cLabelControl
 		: public cBaseControl
 	{
@@ -35,11 +37,12 @@ namespace Graphics
 		cLabelControl();
 		~cLabelControl();
 		void VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode);
-		/********************************************//**
-		 * @param[in] def The parameter definition to create a label control
-		 *
-		 * Initializes the label control as per the parameters
-		 ***********************************************/
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// Initializes the label control as per the parameters
+		///
+		/// @param[in] def The parameter definition to create a label control
+		///
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Initialize(const cLabelControlDef & def);
 		void VRender(const ICamera * const pCamera);
 		void VSetAbsolutePosition();
@@ -48,8 +51,8 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		ISentence *		m_pSentence;	/*!< The text/sentence of the label. */ 
-		static Base::cHashedString	m_Name;	///< The control name
+		ISentence *		m_pSentence;	/// The text/sentence of the label.
+		static Base::cHashedString	m_Name;	/// The control name
 
 	private:
 		template<class BaseType, class SubType> 

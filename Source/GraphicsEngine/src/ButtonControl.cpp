@@ -1,12 +1,8 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  ButtonControl   version:  1.0   Ankur Sheel  date: 2011/11/23
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
+//  *******************************************************************************************************************
+//	purpose 
+//  *******************************************************************************************************************
 #include "stdafx.h"
 #include "ButtonControl.h"
 #include "TextureManager.hxx"
@@ -14,24 +10,70 @@
 #include "Font.hxx"
 #include "Sprite.hxx"
 #include "GameDirectories.h"
+#include "XMLNode.hxx"
+#include "UiControlFactory.h"
 
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 
-// ***************************************************************
+cHashedString cButtonControl::m_Name = cHashedString("buttoncontrol");
+
+//  *******************************************************************************************************************
 cButtonControl::cButtonControl()
-: m_bPressed(false)
+: m_Pressed(false)
 {
 
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 cButtonControl::~cButtonControl()
 {
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
+void cButtonControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode) 
+{
+	if(pXMLNode == NULL)
+	{
+		return;
+	}
+	
+	cString defaultImage = pXMLNode->VGetChildValue("DefaultImage");
+	if(!defaultImage.IsEmpty() && m_pDefaultTexture == NULL)
+	{
+		m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + defaultImage);
+	}
+
+	cString pressedImage = pXMLNode->VGetChildValue("DefaultImage");
+	if(!pressedImage.IsEmpty() && m_pPressedTexture == NULL)
+	{
+		m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + pressedImage);
+	}
+
+	if (m_pDefaultTexture)
+	{
+		m_pBGSprite = ISprite::CreateSprite();
+		m_pBGSprite->VInitialize(m_pDefaultTexture);
+	}
+
+	shared_ptr<IXMLNode> pLabelControl = pXMLNode->VGetChild("LabelControl");
+	if(pLabelControl != NULL)
+	{
+		m_pLabel = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("labelcontrol")));
+		m_pLabel->VInitialize(pLabelControl);
+	}
+	
+	cBaseControl::VInitialize(pXMLNode);
+
+	bool autoSize = pXMLNode->VGetChildValueAsBool("AutoSize", false);
+	if(autoSize == true)
+	{
+		VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
+	}
+}
+
+//  *******************************************************************************************************************
 void cButtonControl::Initialize(const cButtonControlDef & def)
 {
 	if (!def.strDefaultImage.IsEmpty())
@@ -69,7 +111,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 
 }
 
-// *************************************************************************
+//  *****************************************************************************************************************************
 void cButtonControl::VRender(const ICamera * const pCamera)
 {
 	if(m_bVisible)
@@ -82,13 +124,13 @@ void cButtonControl::VRender(const ICamera * const pCamera)
 	}
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(m_bIsLeftMouseDown)
 	{
 		Log_Write(ILogger::LT_COMMENT, 3, "cButtonControl :Button Released");
-		m_bPressed = false;
+		m_Pressed = false;
 		if(m_pDefaultTexture)
 		{
 			m_pBGSprite->VSetTexture(m_pDefaultTexture);
@@ -103,11 +145,11 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	Log_Write(ILogger::LT_COMMENT, 3, "cButtonControl: Button Pressed");
-	m_bPressed = true;
+	m_Pressed = true;
 	if (m_pPressedTexture)
 	{
 		m_pBGSprite->VSetTexture(m_pPressedTexture);
@@ -120,7 +162,7 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
 
-// *************************************************************************
+//  *****************************************************************************************************************************
 void cButtonControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
@@ -132,7 +174,7 @@ void cButtonControl::VSetAbsolutePosition()
 	}
 }
 
-// *****************************************************************************
+//  *********************************************************************************************************************************
 void cButtonControl::VSetText(const Base::cString & strText)
 {
 	if(m_pLabel)
@@ -142,7 +184,7 @@ void cButtonControl::VSetText(const Base::cString & strText)
 	}
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 IBaseControl * IBaseControl::CreateButtonControl(const cButtonControlDef & def)
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
