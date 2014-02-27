@@ -47,9 +47,9 @@ void cScrollBarControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 		return;
 	}
 
-	m_MinPos = pXMLNode->VGetChildValueAsInt("MinValue", 0.0f);
-	m_MaxPos = pXMLNode->VGetChildValueAsInt("MaxValue", 0.0f);
-	m_ThumbPos = pXMLNode->VGetChildValueAsInt("InitialThumbPosition", 0.0f) - m_MinPos;
+	m_MinPos = pXMLNode->VGetChildValueAsInt("MinValue", 0);
+	m_MaxPos = pXMLNode->VGetChildValueAsInt("MaxValue", 0);
+	m_ThumbPos = pXMLNode->VGetChildValueAsInt("InitialThumbPosition", 0) - m_MinPos;
 	m_NoOfIncrements = m_MaxPos - m_MinPos;
 
 	shared_ptr<IXMLNode> pButtonControl = pXMLNode->VGetChild("ThumbButton");

@@ -8,7 +8,6 @@
 #include "Sentence.hxx"
 #include "Sprite.hxx"
 #include "XMLNode.hxx"
-#include "Optional.h"
 
 using namespace Base;
 using namespace Utilities;

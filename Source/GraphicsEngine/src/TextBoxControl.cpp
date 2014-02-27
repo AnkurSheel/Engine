@@ -1,12 +1,12 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  TextBoxControl   version:  1.0   Ankur Sheel  date: 2011/12/01
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+//  *******************************************************************************************************************
 // 
-// ***************************************************************
+//  *******************************************************************************************************************
 #include "stdafx.h"
 #include "TextBoxControl.h"
 #include "Sentence.hxx"
@@ -14,55 +14,76 @@
 #include "Structures.h"
 #include "Sprite.hxx"
 #include "Timer.hxx"
+#include "XMLNode.hxx"
 
 using namespace Graphics;
 using namespace Base;
 using namespace Utilities;
 
-// ***************************************************************
+cHashedString cTextBoxControl::m_Name = cHashedString("textboxcontrol");
+
+//  *******************************************************************************************************************
 cTextBoxControl::cTextBoxControl()
-: m_fCaretPosInTextBox(0.0f)
-, m_fLastCaretUpdateTime(0.0f)
-, m_fCaretUpdateTime(0.0f)
-, m_iCaretPosInText(0)
-, m_bTextBoxFull(false)
-, m_bIsCaretVisible(false)
+	: m_CaretPosInTextBox(0.0f)
+	, m_LastCaretUpdateTime(0.0f)
+	, m_CaretUpdateTime(0.0f)
+	, m_CaretPosInText(0)
+	, m_TextBoxFull(false)
+	, m_IsCaretVisible(false)
 {
 
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 cTextBoxControl::~cTextBoxControl()
 {
 	VCleanup();
 }
 
-// ***************************************************************
-void cTextBoxControl::Initialize(const cTextBoxControlDef & def)
+//  *******************************************************************************************************************
+void cTextBoxControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode) 
 {
-	if(!def.strFont.IsEmpty())
+	if(pXMLNode == NULL)
 	{
+		return;
+	}	
+
+	cString font = pXMLNode->VGetChildValue("Font");
+	if(!font.IsEmpty())
+	{
+		cString text = pXMLNode->VGetChildValue("Text");
+		float height = pXMLNode->VGetChildValueAsFloat("Height", 8.0f);
+
+		cColor textColor;
+		shared_ptr<IXMLNode> ptextColor(pXMLNode->VGetChild("TextColor"));
+		if(ptextColor != NULL)
+		{
+			textColor.m_iRed = ptextColor->VGetNodeAttributeAsInt("r");
+			textColor.m_iBlue = ptextColor->VGetNodeAttributeAsInt("b");
+			textColor.m_iGreen = ptextColor->VGetNodeAttributeAsInt("g");
+			textColor.m_iAlpha = ptextColor->VGetNodeAttributeAsInt("a");
+		}
+
 		m_pSentence = ISentence::CreateSentence();
-		m_pSentence->VInitialize(def.strFont, def.strText, def.textColor);
-		m_pSentence->VSetHeight(def.fTextHeight);
+		m_pSentence->VInitialize(font, text, textColor);
+		m_pSentence->VSetHeight(height);
+
+		cString CaretImageFileName = pXMLNode->VGetChildValue("CaretImage");
+		if(!CaretImageFileName.IsEmpty())
+		{
+			m_pCaretSprite = ISprite::CreateSprite();
+			m_pCaretSprite->VInitialize(CaretImageFileName);
+			float caretWidth = pXMLNode->VGetChildValueAsFloat("CaretWidth", 8.0f);
+			m_pCaretSprite->VSetSize(cVector2(static_cast<float>(caretWidth), height));	
+		}
+
+		m_CaretUpdateTime = pXMLNode->VGetChildValueAsFloat("CaretUpdateTime", 0.5f);
+		m_pTimer = ITimer::CreateTimer();
 	}
-	if (!def.strBGImage.IsEmpty())
-	{
-		m_pBGSprite = ISprite::CreateSprite();
-		m_pBGSprite->VInitialize(def.strBGImage);
-	}
-	if (!def.strCaretImage.IsEmpty())
-	{
-		m_pCaretSprite = ISprite::CreateSprite();
-		m_pCaretSprite->VInitialize(def.strCaretImage);
-		m_pCaretSprite->VSetSize(cVector2(static_cast<float>(def.iCaretWidth), def.fTextHeight));
-	}
-	m_fCaretUpdateTime = def.fCaretUpdateTime;
-	m_pTimer = ITimer::CreateTimer();
-	cBaseControl::Initialize(def);
+	cBaseControl::VInitialize(pXMLNode);
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 void cTextBoxControl::VRender(const ICamera * const pCamera )
 {
 	if(!m_bVisible)
@@ -76,17 +97,17 @@ void cTextBoxControl::VRender(const ICamera * const pCamera )
 		m_pSentence->VRender(pCamera);
 	}
 	m_pTimer->VOnUpdate();	
-	m_fLastCaretUpdateTime += m_pTimer->VGetDeltaTime();
-	
-	if (m_fLastCaretUpdateTime >= m_fCaretUpdateTime)
+	m_LastCaretUpdateTime += m_pTimer->VGetDeltaTime();
+
+	if (m_LastCaretUpdateTime >= m_CaretUpdateTime)
 	{
-		m_fLastCaretUpdateTime = 0.0f;
-		m_bIsCaretVisible = !m_bIsCaretVisible;
+		m_LastCaretUpdateTime = 0.0f;
+		m_IsCaretVisible = !m_IsCaretVisible;
 	}
 
 	if(m_bFocus)
 	{
-		if(m_bIsCaretVisible)
+		if(m_IsCaretVisible)
 		{
 			if (m_pCaretSprite)
 			{
@@ -96,12 +117,12 @@ void cTextBoxControl::VRender(const ICamera * const pCamera )
 	}
 }
 
-// ***************************************************************
-bool cTextBoxControl::VOnCharPress(const unsigned int iCharID)
+//  *******************************************************************************************************************
+bool cTextBoxControl::VOnCharPress(const unsigned int CharID)
 {
-	cBaseControl::VOnCharPress(iCharID);
+	cBaseControl::VOnCharPress(CharID);
 
-	switch (iCharID)
+	switch (CharID)
 	{
 	case VK_BACK:
 		RemoveText(1);
@@ -112,48 +133,48 @@ bool cTextBoxControl::VOnCharPress(const unsigned int iCharID)
 		return true;
 
 	default:
-		InsertText((char *)&iCharID);
+		InsertText((char *)&CharID);
 		return true;
 	}
 	return false;
 }
 
 
-// ***************************************************************
-bool cTextBoxControl::VOnKeyDown(const unsigned int iCharID)
+//  *******************************************************************************************************************
+bool cTextBoxControl::VOnKeyDown(const unsigned int CharID)
 {
-	cBaseControl::VOnKeyDown(iCharID);
-	
-	switch (iCharID)
+	cBaseControl::VOnKeyDown(CharID);
+
+	switch (CharID)
 	{
 	case VK_DELETE:
-		if(SetCaratPosition(m_iCaretPosInText + 1))
+		if(SetCaratPosition(m_CaretPosInText + 1))
 		{
 			RemoveText(1);
 		}
 		return true;
 
 	case VK_LEFT:
-		SetCaratPosition(m_iCaretPosInText - 1);
+		SetCaratPosition(m_CaretPosInText - 1);
 		return true;
 
 	case VK_RIGHT:
-		SetCaratPosition(m_iCaretPosInText + 1);
+		SetCaratPosition(m_CaretPosInText + 1);
 		return true;
 	}
 	return false;
 }
 
-// *****************************************************************************
-void cTextBoxControl::VSetText(const Base::cString & strText)
+//  *********************************************************************************************************************************
+void cTextBoxControl::VSetText(const Base::cString & Text)
 {
 	if(m_pSentence != NULL)
 	{
-		m_pSentence->VSetText(strText);
+		m_pSentence->VSetText(Text);
 	}
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 void cTextBoxControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
@@ -164,19 +185,19 @@ void cTextBoxControl::VSetAbsolutePosition()
 	SetCaratAbsolutePosition();
 }
 
-// *************************************************************************
+//  *****************************************************************************************************************************
 void cTextBoxControl::VOnFocusChanged()
 {
 	if (m_bFocus)
 	{
 		m_pTimer->VStartTimer();
-		m_bIsCaretVisible = true;
-		m_fLastCaretUpdateTime = 0.0f;
+		m_IsCaretVisible = true;
+		m_LastCaretUpdateTime = 0.0f;
 	}
 	else
 	{
 		m_pTimer->VStopTimer();	
-		m_bIsCaretVisible = false;
+		m_IsCaretVisible = false;
 		if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_FOCUSLOST))
 		{
 			stUIEventCallbackParam param;
@@ -186,7 +207,7 @@ void cTextBoxControl::VOnFocusChanged()
 	}
 }
 
-// *************************************************************************
+//  *****************************************************************************************************************************
 void cTextBoxControl::VCleanup()
 {
 	cBaseControl::VCleanup();
@@ -194,37 +215,36 @@ void cTextBoxControl::VCleanup()
 	SafeDelete(&m_pTimer);
 }
 
-// ***************************************************************
-bool cTextBoxControl::InsertText( const Base::cString & strText )
+//  *******************************************************************************************************************
+bool cTextBoxControl::InsertText( const Base::cString & Text )
 {
-	if(!m_bTextBoxFull 
-		&& (GetStringWidth() + GetStringWidth(strText)) <= m_vSize.x)
+	if(!m_TextBoxFull && (GetStringWidth() + GetStringWidth(Text)) <= m_vSize.x)
 	{
-		cString strExistingText;
-		m_pSentence->VGetText(strExistingText);
-		strExistingText.Insert(m_iCaretPosInText, strText);
-		SetText(strExistingText);
-		SetCaratPosition(m_iCaretPosInText + strText.GetLength());
+		cString existingText;
+		m_pSentence->VGetText(existingText);
+		existingText.Insert(m_CaretPosInText, Text);
+		SetText(existingText);
+		SetCaratPosition(m_CaretPosInText + Text.GetLength());
 		return true;
 	}
-	m_bTextBoxFull = true;
+	m_TextBoxFull = true;
 	return false;
 }
 
-// ***************************************************************
-void cTextBoxControl::RemoveText(const unsigned int uiQuantity)
+//  *******************************************************************************************************************
+void cTextBoxControl::RemoveText(const unsigned int Quantity)
 {
-	if(SetCaratPosition(m_iCaretPosInText - uiQuantity))
+	if(SetCaratPosition(m_CaretPosInText - Quantity))
 	{
-		cString strText;
-		m_pSentence->VGetText(strText);
-		strText.Remove(m_iCaretPosInText, uiQuantity);
-		SetText(strText);
-		m_bTextBoxFull = false;
+		cString text;
+		m_pSentence->VGetText(text);
+		text.Remove(m_CaretPosInText, Quantity);
+		SetText(text);
+		m_TextBoxFull = false;
 	}
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 float cTextBoxControl::GetStringWidth()
 {
 	if (m_pSentence)
@@ -234,56 +254,48 @@ float cTextBoxControl::GetStringWidth()
 	return 0;
 }
 
-// ***************************************************************
-float cTextBoxControl::GetStringWidth( const Base::cString & strText )
+//  *******************************************************************************************************************
+float cTextBoxControl::GetStringWidth( const Base::cString & Text )
 {
 	if (m_pSentence)
 	{
-		return m_pSentence->VGetWidth(strText);
+		return m_pSentence->VGetWidth(Text);
 	}
 	return 0;
 }
 
-// ***************************************************************
-void cTextBoxControl::SetText( const Base::cString & strText )
+//  *******************************************************************************************************************
+void cTextBoxControl::SetText( const Base::cString & Text )
 {
 	if (m_pSentence)
 	{
-		m_pSentence->VSetText(strText);
+		m_pSentence->VSetText(Text);
 	}
 }
 
-// ***************************************************************
-bool cTextBoxControl::SetCaratPosition(const unsigned int iPos )
+//  *******************************************************************************************************************
+bool cTextBoxControl::SetCaratPosition(const unsigned int Pos )
 {
-	cString strText;
-	m_pSentence->VGetText(strText);
-	if (iPos >= 0 && iPos <= strText.GetLength())
+	cString text;
+	m_pSentence->VGetText(text);
+	if (Pos >= 0 && Pos <= text.GetLength())
 	{
-		cString subStr = strText.GetSubString(0, iPos);
-		m_fCaretPosInTextBox = GetStringWidth(subStr);
-		m_iCaretPosInText = iPos;
+		cString subStr = text.GetSubString(0, Pos);
+		m_CaretPosInTextBox = GetStringWidth(subStr);
+		m_CaretPosInText = Pos;
 		SetCaratAbsolutePosition();
 		return true;
 	}
 	return false;
 }
 
-// ***************************************************************
+//  *******************************************************************************************************************
 void cTextBoxControl::SetCaratAbsolutePosition()
 {
 	if (m_pCaretSprite)
 	{
 		cVector2 vec = m_vControlAbsolutePosition;
-		vec.x += m_fCaretPosInTextBox;
+		vec.x += m_CaretPosInTextBox;
 		m_pCaretSprite->VSetPosition(vec);
 	}
-}
-
-// ***************************************************************
-IBaseControl * IBaseControl::CreateTextBoxControl(const cTextBoxControlDef & def)
-{
-	cTextBoxControl * pControl = DEBUG_NEW cTextBoxControl();
-	pControl->Initialize(def);
-	return pControl;
 }

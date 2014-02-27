@@ -12,6 +12,7 @@
 #include "CheckboxControl.h"
 #include "HScrollBar.h"
 #include "VScrollBar.h"
+#include "TextBoxControl.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -39,6 +40,7 @@ void cUiControlFactory::VRegisterUiControls()
 	m_RegisteredControls.Register<cCheckBoxControl>(cCheckBoxControl::GetName().GetHash());
 	m_RegisteredControls.Register<cHScrollBar>(cHScrollBar::GetName().GetHash());
 	m_RegisteredControls.Register<cVScrollBar>(cVScrollBar::GetName().GetHash());
+	m_RegisteredControls.Register<cTextBoxControl>(cTextBoxControl::GetName().GetHash());
 }
 
 //  *******************************************************************************************************************

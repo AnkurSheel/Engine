@@ -168,13 +168,6 @@ namespace Graphics
 		 * Returns a pointer to a label control object
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateLabelControl(const cLabelControlDef & def);
-		/********************************************//**
-		 * @param[in] def The params to create the textbox control  
-		 * @return Pointer to a textbox control object
-		 *
-		 * Returns a pointer to a textbox control object
-		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateTextBoxControl(const cTextBoxControlDef & def);
 	};
 }
 #endif // BaseControl_hxx__
