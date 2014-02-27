@@ -60,6 +60,7 @@ bool cSentence::VInitialize(const Base::cString & strFont,
 	VSetText(strText);
 	VSetTextColor(textColor);
 	ReInitializeVertexBuffer(NULL);
+	m_fHeight = static_cast<float>(m_pFont->VGetFontHeight());
 	m_bIsDirty = true;
 	return true;
 }
@@ -169,11 +170,9 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 	int istrLength = m_strText.GetLength();
 	int iPos = 0;
 	float fWidth = 0;
-	float fHeight = m_fScale * m_pFont->VGetFontHeight();
 	cVector2 vPos = m_vPosition;
 
 	m_fWidth = 0.0f;
-	m_fHeight = 0.0f;
 	m_iIndexCount = istrLength * 6;
 	m_iVertexCount = istrLength * 4;
 
@@ -198,8 +197,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 			m_fWidth = fWidth;
 		}
 		iPos += *iLineLength + 1;
-		vPos.y += fHeight;
-		m_fHeight += fHeight;
+		vPos.y += VGetHeight();
 		tOptional<int> iEndPos = m_strText.FindFirstOf("\n", iPos);
 		if(iEndPos.IsValid())
 		{
