@@ -108,24 +108,6 @@ namespace Graphics
 		{
 		}
 	};
-
-	/********************************************//**
-     * @brief Definition for creating a button control
-     ***********************************************/
-	struct cButtonControlDef
-		: public cBaseControlDef
-	{
-	public:
-		Base::cString		strDefaultImage;	/*!< The filename of the default texture for the button */ 
-		Base::cString		strPressedImage;	/*!< The filename of the pressed texture for the button */ 
-		cLabelControlDef	labelControlDef;	/*!< Optional. Params for The label/text associated with this button */ 
-		bool				bAutoSize;			/*!< If true, autosizes the button based on the text width and height */ 
-
-		cButtonControlDef()
-			: bAutoSize(false)
-		{
-		}
-	};
 	
 	/********************************************//**
      * @brief Definition for creating a text box control
@@ -150,30 +132,5 @@ namespace Graphics
 		{
 		}
 	};
-
-	/********************************************//**
-     * @brief Definition for creating a vertical or a 
-	 * horizontal scrollbar control
-     ***********************************************/
-	class cScrollBarControlDef
-		: public cBaseControlDef
-	{
-	public:
-		Base::cString		strBGImage;				/*!< The background image of the textbox */ 	
-		cButtonControlDef	thumbBtnDef;			/*!< Params for The thumb button of the scrollbar */ 
-		cButtonControlDef	TopLeftArrowDef;		/*!< Params for The top or left arrow button of the scrollbar */ 
-		cButtonControlDef	BottomRightArrowDef;	/*!< Params for The bottom or right arrow button of the scrollbar */ 
-		int					iMinPos;				/*!< The minimum value that the scrollbar can go to */ 
-		int					iMaxPos;				/*!< The maximum value that the scrollbar can go to */ 
-		int					iInitialThumbPosition;	/*!< The initial position of the thumb */ 
-
-		cScrollBarControlDef()
-			: iMinPos(0)
-			, iMaxPos(0)
-			, iInitialThumbPosition(0)
-		{
-		}
-	};
-		
 }
 #endif // ControlStructures_h__

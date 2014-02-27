@@ -1,33 +1,35 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  VScrollBar   version:  1.0   Ankur Sheel  date: 2012/04/29
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+//  *******************************************************************************************************************
 // 
-// ***************************************************************
+//  *******************************************************************************************************************
 #ifndef VScrollBar_h__
 #define VScrollBar_h__
 
 #include "ScrollBarControl.h"
 
+namespace Base
+{
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+}
+
 namespace Graphics
 {
-	/********************************************//**
-     * @brief Class Declaration for a Vertical Scrollbar
-	 * UI Control
-     ***********************************************/
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// @brief Class Declaration for a Vertical Scrollbar UI Control
+	///
+	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	class cVScrollBar
 		: public cScrollBarControl
 	{
 	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static cVScrollBar* Create();
+		static Base::cHashedString	GetName()  {return m_Name; }
 
 	private:
 		cVScrollBar();
@@ -36,12 +38,14 @@ namespace Graphics
 		void VSetAbsolutePosition();
 		void VSetSize(const Base::cVector2 & vSize);
 		void VSetThumbPosition(const int iNewPosition);
-		/********************************************//**
-		 *
-		 * Resizes the thumb depending on the number of increments
-		 * and the total size of the scrollbar
-		 ***********************************************/
-		void AutoSizeThumb();
+		void VAutoSizeThumb();
+
+	private:
+		static Base::cHashedString	m_Name;	///< The control name
+
+	private:
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
 	};
 }
 #endif // VScrollBar_h__

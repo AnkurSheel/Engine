@@ -38,13 +38,6 @@ namespace Graphics
 		cButtonControl();
 		~cButtonControl();
 		void VInitialize(const shared_ptr<Utilities::IXMLNode const> pXMLNode);
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// Initializes the button control as per the parameters
-		///
-		/// @param[in] def The parameter definition to create a button control
-		///
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		void Initialize(const cButtonControlDef & def);
 		void VRender(const ICamera * const pCamera);
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);

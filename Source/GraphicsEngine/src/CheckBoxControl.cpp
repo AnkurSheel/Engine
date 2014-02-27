@@ -39,7 +39,7 @@ void cCheckBoxControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 	float width = spaceCaption;
 	float height = 8.0f;
 
-	shared_ptr<IXMLNode> pButtonControl = pXMLNode->VGetChild("ButtonControl");
+	shared_ptr<IXMLNode> pButtonControl = pXMLNode->VGetChild("TickBox");
 	if(pButtonControl != NULL)
 	{
 		m_pTickBox = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("buttoncontrol")));

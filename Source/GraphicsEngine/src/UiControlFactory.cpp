@@ -10,6 +10,8 @@
 #include "LabelControl.h"
 #include "ButtonControl.h"
 #include "CheckboxControl.h"
+#include "HScrollBar.h"
+#include "VScrollBar.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -35,6 +37,8 @@ void cUiControlFactory::VRegisterUiControls()
 	m_RegisteredControls.Register<cLabelControl>(cLabelControl::GetName().GetHash());
 	m_RegisteredControls.Register<cButtonControl>(cButtonControl::GetName().GetHash());
 	m_RegisteredControls.Register<cCheckBoxControl>(cCheckBoxControl::GetName().GetHash());
+	m_RegisteredControls.Register<cHScrollBar>(cHScrollBar::GetName().GetHash());
+	m_RegisteredControls.Register<cVScrollBar>(cVScrollBar::GetName().GetHash());
 }
 
 //  *******************************************************************************************************************

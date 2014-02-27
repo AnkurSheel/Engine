@@ -1,4 +1,4 @@
-// ***************************************************************
+//  *******************************************************************************************************************
 //  HScrollBar   version:  1.0   Ankur Sheel  date: 2012/04/29
 //  -------------------------------------------------------------
 //  
@@ -12,22 +12,24 @@
 
 #include "ScrollBarControl.h"
 
+namespace Base
+{
+	template<class BaseType, class SubType> 
+	BaseType * GenericObjectCreationFunction();
+}
+
 namespace Graphics
 {
-	/********************************************//**
-     * @brief Class Declaration for a Horizontal Scrollbar
-	 * UI Control
-     ***********************************************/
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// @brief Class Declaration for a Horizontal Scrollbar UI Control
+	///
+	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	class cHScrollBar
 		: public cScrollBarControl
 	{
 	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static cHScrollBar* Create();
+		static Base::cHashedString	GetName()  {return m_Name; }
 
 	private:
 		cHScrollBar();
@@ -36,12 +38,14 @@ namespace Graphics
 		void VSetAbsolutePosition();
 		void VSetSize(const Base::cVector2 & vSize);
 		void VSetThumbPosition(const int iNewPosition);
-		/********************************************//**
-		 *
-		 * Resizes the thumb depending on the number of increments
-		 * and the total size of the scrollbar
-		 ***********************************************/
-		void AutoSizeThumb();
+		void VAutoSizeThumb();
+
+	private:
+		static Base::cHashedString	m_Name;	///< The control name
+
+	private:
+		template<class BaseType, class SubType> 
+		friend BaseType * Base::GenericObjectCreationFunction();
 	};
 }
 #endif // HScrollBar_h__

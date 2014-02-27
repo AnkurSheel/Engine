@@ -169,33 +169,12 @@ namespace Graphics
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateLabelControl(const cLabelControlDef & def);
 		/********************************************//**
-		 * @param[in] def The params to create the button control  
-		 * @return Pointer to a button control object
-		 *
-		 * Returns a pointer to a button control object
-		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateButtonControl(const cButtonControlDef & def);
-		/********************************************//**
 		 * @param[in] def The params to create the textbox control  
 		 * @return Pointer to a textbox control object
 		 *
 		 * Returns a pointer to a textbox control object
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateTextBoxControl(const cTextBoxControlDef & def);
-		/********************************************//**
-		 * @param[in] def The params to create the vertical scrollbar control  
-		 * @return Pointer to a vertical scrollbar control object
-		 *
-		 * Returns a pointer to a vertical scrollbar control object
-		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const cScrollBarControlDef & def);
-		/********************************************//**
-		 * @param[in] def The params to create the horizontal scrollbar control  
-		 * @return Pointer to a horizontal scrollbar control object
-		 *
-		 * Returns a pointer to a horizontal scrollbar control object
-		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateHScrollBarControl(const cScrollBarControlDef & def);
 	};
 }
 #endif // BaseControl_hxx__

@@ -1,30 +1,31 @@
-// ****************************************************************************
+//  ********************************************************************************************************************************
 //  ScrollBarControl   version:  1.0   Ankur Sheel  date: 2012/04/24
 //  ---------------------------------------------------------------------------
 //  
 //  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ****************************************************************************
+//  ********************************************************************************************************************************
 // 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 #include "stdafx.h"
 #include "ScrollBarControl.h"
 #include "ButtonControl.h"
-#include "DxBase.hxx"
 #include "Sprite.hxx"
 #include "Structures.h"
+#include "XMLNode.hxx"
+#include "UiControlFactory.h"
 
 using namespace Base;
 using namespace Graphics;
 using namespace Utilities;
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 cScrollBarControl::cScrollBarControl()
-: m_iMinPos(0)
-, m_iMaxPos(0)
-, m_iThumbPos(0)
-, m_iNoOfIncrements(0)
-, m_bDragMode(false)
+: m_MinPos(0)
+, m_MaxPos(0)
+, m_ThumbPos(0)
+, m_NoOfIncrements(0)
+, m_DragMode(false)
 , m_pBtnThumb(NULL)
 , m_pBtnDecrementArrow(NULL)
 , m_pBtnIncrementArrow(NULL)
@@ -32,26 +33,49 @@ cScrollBarControl::cScrollBarControl()
 
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 cScrollBarControl::~cScrollBarControl()
 {
 	VCleanup();
 }
 
-// ****************************************************************************
-void cScrollBarControl::Initialize(const cScrollBarControlDef & def)
+//  ********************************************************************************************************************************
+void cScrollBarControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode) 
 {
-	m_pBGSprite = ISprite::CreateSprite();
-	m_pBGSprite->VInitialize(def.strBGImage);
+	if(pXMLNode == NULL)
+	{
+		return;
+	}
 
-	m_pBtnThumb = IBaseControl::CreateButtonControl(def.thumbBtnDef);
-	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(def.TopLeftArrowDef);
-	m_pBtnIncrementArrow = IBaseControl::CreateButtonControl(def.BottomRightArrowDef);
+	m_MinPos = pXMLNode->VGetChildValueAsInt("MinValue", 0.0f);
+	m_MaxPos = pXMLNode->VGetChildValueAsInt("MaxValue", 0.0f);
+	m_ThumbPos = pXMLNode->VGetChildValueAsInt("InitialThumbPosition", 0.0f) - m_MinPos;
+	m_NoOfIncrements = m_MaxPos - m_MinPos;
 
-	m_iMinPos = def.iMinPos;
-	m_iMaxPos = def.iMaxPos;
-	m_iNoOfIncrements = m_iMaxPos - m_iMinPos;
-	m_iThumbPos = def.iInitialThumbPosition - m_iMinPos;
+	shared_ptr<IXMLNode> pButtonControl = pXMLNode->VGetChild("ThumbButton");
+	if(pButtonControl != NULL)
+	{
+		m_pBtnThumb = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("buttoncontrol")));
+		m_pBtnThumb->VInitialize(pButtonControl);
+	}
+
+	pButtonControl.reset();
+	pButtonControl = pXMLNode->VGetChild("DecrementButton");
+	if(pButtonControl != NULL)
+	{
+		m_pBtnDecrementArrow = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("buttoncontrol")));
+		m_pBtnDecrementArrow->VInitialize(pButtonControl);
+	}
+
+	pButtonControl.reset();
+	pButtonControl = pXMLNode->VGetChild("IncrementButton");
+	if(pButtonControl != NULL)
+	{
+		m_pBtnIncrementArrow = shared_ptr<IBaseControl>(cUiControlFactory::Instance()->CreateUiControl(cHashedString("buttoncontrol")));
+		m_pBtnIncrementArrow->VInitialize(pButtonControl);
+	}
+
+	cBaseControl::VInitialize(pXMLNode);
 
 	m_callbackIncrementArrowPressed = bind(&cScrollBarControl::IncrementArrowPressed, this, _1);
 	m_pBtnIncrementArrow->VRegisterCallBack(UIET_BTNRELEASED, m_callbackIncrementArrowPressed);
@@ -64,12 +88,9 @@ void cScrollBarControl::Initialize(const cScrollBarControlDef & def)
 
 	m_callbackThumbReleased = bind(&cScrollBarControl::ThumbReleased, this, _1);
 	m_pBtnThumb->VRegisterCallBack(UIET_BTNRELEASED, m_callbackThumbReleased);
-
-	cBaseControl::Initialize(def);
 }
 
-
-// ****************************************************************************
+//  ********************************************************************************************************************************
 void cScrollBarControl::VRender(const ICamera * const pCamera)
 {
 	if(m_bVisible)
@@ -91,7 +112,7 @@ void cScrollBarControl::VRender(const ICamera * const pCamera)
 	}
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 bool cScrollBarControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	AppMsg msg;
@@ -113,7 +134,7 @@ bool cScrollBarControl::VOnLeftMouseButtonUp( const int X, const int Y )
 	return cBaseControl::VOnLeftMouseButtonUp(X, Y);
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 bool cScrollBarControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	AppMsg msg;
@@ -136,57 +157,58 @@ bool cScrollBarControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
 
-// ******************************************************************************************
+//  **********************************************************************************************************************************************
 void cScrollBarControl::VSetThumbPosition(const int iNewPosition)
 {
-	m_iThumbPos = iNewPosition;
-	if (m_iThumbPos < 0)
+	m_ThumbPos = iNewPosition;
+	if (m_ThumbPos < 0)
 	{
-		m_iThumbPos = 0;
+		m_ThumbPos = 0;
 	}
-	else if (m_iThumbPos > m_iNoOfIncrements)
+	else if (m_ThumbPos > m_NoOfIncrements)
 	{
-		m_iThumbPos = m_iNoOfIncrements;
+		m_ThumbPos = m_NoOfIncrements;
 	}
 	if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_SCBCHANGED))
 	{
 		stUIEventCallbackParam param;
-		param.iThumbPos = m_iThumbPos;
+		param.iThumbPos = m_ThumbPos;
 		(*pFn)(param);
 	}
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 void cScrollBarControl::VCleanup()
 {
 	cBaseControl::VCleanup();
 	
-	SafeDelete(&m_pBtnDecrementArrow);
-	SafeDelete(&m_pBtnIncrementArrow);
-	SafeDelete(&m_pBtnThumb);
+	m_pBtnDecrementArrow.reset();
+	m_pBtnIncrementArrow.reset();
+	m_pBtnThumb.reset();
 }
-// ****************************************************************************
+
+//  ********************************************************************************************************************************
 void cScrollBarControl::IncrementArrowPressed(const stUIEventCallbackParam & params)
 {
-	VSetThumbPosition(m_iThumbPos + 1);
+	VSetThumbPosition(m_ThumbPos + 1);
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 void cScrollBarControl::DecrementArrowPressed(const stUIEventCallbackParam & params)
 {
-	VSetThumbPosition(m_iThumbPos - 1);
+	VSetThumbPosition(m_ThumbPos - 1);
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 void cScrollBarControl::ThumbPressed(const stUIEventCallbackParam & params)
 {
 	Log_Write(ILogger::LT_ERROR, 3, "Drag Mode set");
-	m_bDragMode = true;
+	m_DragMode = true;
 }
 
-// ****************************************************************************
+//  ********************************************************************************************************************************
 void cScrollBarControl::ThumbReleased(const stUIEventCallbackParam & params)
 {
 	Log_Write(ILogger::LT_ERROR, 3, "Drag Mode unset");
-	m_bDragMode = false;
+	m_DragMode = false;
 }

@@ -73,44 +73,6 @@ void cButtonControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 	}
 }
 
-//  *******************************************************************************************************************
-void cButtonControl::Initialize(const cButtonControlDef & def)
-{
-	if (!def.strDefaultImage.IsEmpty())
-	{
-		if(m_pDefaultTexture == NULL)
-		{
-			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + def.strDefaultImage);
-		}
-	}
-
-	if (!def.strPressedImage.IsEmpty())
-	{
-		if(m_pPressedTexture == NULL)
-		{
-			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GetSpriteDirectory() + def.strPressedImage);
-		}
-	}
-
-	m_pBGSprite = ISprite::CreateSprite();
-	if (m_pDefaultTexture)
-	{
-		m_pBGSprite->VInitialize(m_pDefaultTexture);
-	}
-	if (!def.labelControlDef.strFont.IsEmpty() && !def.labelControlDef.strText.IsEmpty())
-	{
-		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def.labelControlDef));
-	}
-
-	cBaseControl::Initialize(def);
-
-	if(def.bAutoSize)
-	{
-		VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
-	}
-
-}
-
 //  *****************************************************************************************************************************
 void cButtonControl::VRender(const ICamera * const pCamera)
 {
@@ -182,12 +144,4 @@ void cButtonControl::VSetText(const Base::cString & strText)
 		m_pLabel->VSetText(strText);
 		VSetAbsolutePosition();
 	}
-}
-
-//  *******************************************************************************************************************
-IBaseControl * IBaseControl::CreateButtonControl(const cButtonControlDef & def)
-{
-	cButtonControl * pControl = DEBUG_NEW cButtonControl();
-	pControl->Initialize(def);
-	return pControl;
 }
