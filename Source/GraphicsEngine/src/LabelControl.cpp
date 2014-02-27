@@ -34,7 +34,9 @@ void cLabelControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 	{
 		return;
 	}
-	
+
+	cBaseControl::VInitialize(pXMLNode);
+
 	cString font = pXMLNode->VGetChildValue("Font");
 	if(!font.IsEmpty())
 	{
@@ -55,8 +57,6 @@ void cLabelControl::VInitialize(const shared_ptr<IXMLNode const> pXMLNode)
 		m_pSentence->VInitialize(font, text, textColor);
 		m_pSentence->VSetHeight(height);
 	}
-
-	cBaseControl::VInitialize(pXMLNode);
 
 	bool autoSize = pXMLNode->VGetChildValueAsBool("AutoSize", false);
 	
