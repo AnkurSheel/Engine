@@ -42,7 +42,7 @@ bool cResourceManager::VInitialize(const int SizeInMB, const Base::cString & Ass
 	{
 		if(UseDevelopmentDirectory)
 		{
-			m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, AssetsPath, UseDevelopmentDirectory);
+			m_pResourceCache = IResCache::CreateResourceCache(SizeInMB, AssetsPath + ResourceFileName, UseDevelopmentDirectory);
 		}
 		else
 		{
